@@ -125,6 +125,41 @@ body.theme-default {
 }
 
 // -----------------------------------------------------------------------------------------------------
+// @ Define the Fava theme
+// -----------------------------------------------------------------------------------------------------
+
+// Define the primary, accent and warn palettes
+$fava-primary-palette: mat-palette($fuse-navy);
+$fava-accent-palette: mat-palette($mat-red, 600, 400, 700);
+$fava-warn-palette: mat-palette($mat-red);
+
+// Create the Material theme object
+$theme: mat-light-theme($fava-primary-palette, $fava-accent-palette, $fava-warn-palette);
+
+// Add ".theme-fava-light" class to the body to activate this theme.
+// Class name must start with "theme-" !!!
+body.theme-fava-light {
+
+    // Create an Angular Material theme from the $theme map
+    @include angular-material-theme($theme);
+
+    // Apply the theme to the Fuse Core
+    @include fuse-core-theme($theme);
+
+    // Apply the theme to the user components
+    @include components-theme($theme);
+
+    // Generate Fuse color classes for primary, accent and warn colors
+    $palettes: (
+        primary: $fava-primary-palette,
+        accent: $fava-accent-palette,
+        warn: $fava-warn-palette
+    );
+
+    @include fuse-color-classes($palettes);
+}
+
+// -----------------------------------------------------------------------------------------------------
 // @ Define a yellow light theme
 // -----------------------------------------------------------------------------------------------------
 
