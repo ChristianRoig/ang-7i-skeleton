@@ -27,6 +27,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
     user: any;
     dataSource: FilesDataSource | null;
     displayedColumns = ['checkbox', 'avatar', 'name', 'email', 'phone', 'jobTitle', 'buttons'];
+   //displayedColumns = ['checkbox', 'avatar', 'name', 'email', 'phone', 'jobTitle'];
     selectedContacts: any[];
     checkboxes: {};
     dialogRef: any;
@@ -72,7 +73,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
                 });
             });
 
-        this._contactsService.onSelectedContactsChanged
+/*         this._contactsService.onSelectedContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedContacts => {
                 for ( const id in this.checkboxes )
@@ -97,7 +98,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(() => {
                 this._contactsService.deselectContacts();
-            });
+            }); */
     }
 
     /**

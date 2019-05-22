@@ -46,7 +46,7 @@ export class ContactsSelectedBarComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        this._contactsService.onSelectedContactsChanged
+    /*     this._contactsService.onSelectedContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedContacts => {
                 this.selectedContacts = selectedContacts;
@@ -54,7 +54,7 @@ export class ContactsSelectedBarComponent implements OnInit, OnDestroy
                     this.hasSelectedContacts = selectedContacts.length > 0;
                     this.isIndeterminate = (selectedContacts.length !== this._contactsService.contacts.length && selectedContacts.length > 0);
                 }, 0);
-            });
+            }); */
     }
 
     /**
