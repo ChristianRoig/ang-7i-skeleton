@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
+import { Router } from '@angular/router';
 
 @Component({
     selector     : 'login-2',
@@ -22,6 +23,7 @@ export class Login2Component implements OnInit
      * @param {FormBuilder} _formBuilder
      */
     constructor(
+        private router: Router,
         private _fuseConfigService: FuseConfigService,
         private _formBuilder: FormBuilder
     )
@@ -58,5 +60,9 @@ export class Login2Component implements OnInit
             email   : ['', [Validators.required, Validators.email]],
             password: ['', Validators.required]
         });
+    }
+
+    onSubmit(): void{
+        this.router.navigate(['/']); 
     }
 }
