@@ -12,6 +12,8 @@ import { PerfilInfoSegComponent } from './tabs/perfil-info-seg/perfil-info.compo
 import { PerfilPreferenciasComponent } from './tabs/perfil-preferencias/perfil-preferencias.component';
 import { PerfilImagenesComponent } from './tabs/perfil-imagenes/perfil-imagenes.component';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 @NgModule({
   declarations: [
     PerfilComponent,
@@ -24,13 +26,13 @@ import { PerfilImagenesComponent } from './tabs/perfil-imagenes/perfil-imagenes.
   imports: [
     CommonModule,
     PerfilRoutingModule,
-
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
     MatTabsModule,
 
-    FuseSharedModule    
+    FuseSharedModule,
+    TranslateModule    
   ]
 })
 export class PerfilModule { }
