@@ -83,6 +83,8 @@ $typography: mat-typography-config(
 @import "src/app/main/authentication/login-2/login-2.theme";
 @import "src/app/main/contactos/contactos.theme";
 
+@import "src/app/main/contacts/contacts.theme";
+
 // Define a mixin for easier access
 @mixin components-theme($theme) {
 
@@ -93,6 +95,8 @@ $typography: mat-typography-config(
     // Layout Pages
     @include login-2-theme($theme); //Login
     @include contactos-theme($theme);
+
+    @include contacts-theme($theme);
 }
 
 // -----------------------------------------------------------------------------------------------------
