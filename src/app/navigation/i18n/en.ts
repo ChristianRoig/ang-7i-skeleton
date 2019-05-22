@@ -4,11 +4,7 @@ export const locale = {
         'NAV': {
             'APPLICATIONS': 'Applications',
             'CUSTOMFUNCTIONS': 'Custom Functions',
-            'CUSTOMIZE': 'Customize',
-            'SAMPLE'        : {
-                'TITLE': 'Sample',
-                'BADGE': '25'
-            }
+            'CUSTOMIZE': 'Customize'          
         }
     }
 };
