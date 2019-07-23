@@ -66,8 +66,48 @@ export class LoginService implements Resolve<any>
                 .subscribe((info: any) => {
                     this.info = info;
 
+                    // let httpHeaders = new HttpHeaders({
+                    //     'Content-Type': 'application/json',
+                    //     'Authorization': info.token                        
+                    // }); 
+
+                    // let options = {
+                    //     headers: httpHeaders
+                    // }; 
+                    
+                    // let url = "http://10.100.58.83:8082/pymex/proveedores/obtenerProveedores"
+
+                    // let params = {
+                    //         "propietario":"7ideas",
+                    //         "modulo":"Proveedores",
+                    //         "categoria":"de Gastos",
+                    //         "etiqueta":"-Oficina-"
+                    //     };
+
+                    // this.http.post(url, params, options).subscribe(
+                    //     (response) => {
+                    //         console.log(response);
+                    //     },
+                    //     (err) => {
+                    //         console.log(err);
+                    //     }
+                    // );
+
+
+
+
+
+
+
                     if (info != null) { //se logueo 
-                        this.cookieService.set('tokenAuth', info.tokenAuth);
+
+                        this.cookieService.set('test', info.token);
+
+
+                        info.token =  'MyPrettyToken';
+                        info.legajo = 'FC0356';
+
+                        this.cookieService.set('tokenAuth', info.token);
                         this.cookieService.set('user', info.legajo);
 
                         this._router.navigate(['/perfil']);
@@ -88,8 +128,7 @@ export class LoginService implements Resolve<any>
         password = "admin";        
 
         // // let url = API_URL + 'loginPymex'
-        // let headers = new HttpHeaders();
-        // headers.append('Content-Type', 'application/json');
+
         // let requestLogin = {
         //     "username": username,
         //     "password": password
@@ -101,8 +140,18 @@ export class LoginService implements Resolve<any>
         });
 
 
-        return respuesta;
-        // return this.http.post(url, requestLogin, { headers });
+        // return respuesta;
+
+        let url = "http://10.100.58.83:8082/pymex/loginPymex";
+        let requestLogin = {
+            "username": "7Ideas",
+            "password": "pass"
+        }
+
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        
+
+        return this.http.post(url, requestLogin, { headers: headers });
 
 
     }
@@ -116,5 +165,12 @@ export class LoginService implements Resolve<any>
 
         return user;
     }
+
+    private llamarGastos(){
+
+    }
+
+
+
 
 }

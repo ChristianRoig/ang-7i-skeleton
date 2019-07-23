@@ -72,8 +72,8 @@ export class Login2Component implements OnInit, OnDestroy
     ngOnInit(): void
     {
         this.loginForm = this._formBuilder.group({
-            email: ['', [Validators.required]], // , Validators.email
-            password: ['', Validators.required]
+            email: ['7ideas', [Validators.required]], // , Validators.email
+            password: ['admin', Validators.required]
         });
 
         this._loginService.infoOnChanged

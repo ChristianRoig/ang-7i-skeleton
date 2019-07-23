@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ErrorService } from '../errors/error.service';
@@ -26,6 +26,7 @@ export class PerfilService implements Resolve<any>
         private _httpClient: HttpClient,
         private _errorService: ErrorService,
         private _loginService: LoginService,
+        private _cookieService: CookieService
     )
     {
         // Set the defaults
@@ -59,7 +60,8 @@ export class PerfilService implements Resolve<any>
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
     {
         return new Promise((resolve, reject) => {
-            Promise.all([
+            Promise.all([              
+                this.test(),  
                 this.getInfo(route.params.id),                
             ]).then(
                 () => {
@@ -145,4 +147,33 @@ export class PerfilService implements Resolve<any>
         return this._loginService.getLocalUser();
     }
 
+
+    test():void {
+        let httpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': this._cookieService.get('test')
+        });
+
+        let options = {
+            headers: httpHeaders
+        };
+
+        let url = "http://10.100.58.83:8082/pymex/proveedores/obtenerProveedores"
+
+        let params = {
+            "propietario": "7ideas",
+            "modulo": "Proveedores",
+            "categoria": "de Gastos",
+            "etiqueta": "-Oficina-"
+        };
+
+        this._httpClient.post(url, params, options).subscribe(
+            (response) => {
+                console.log(response);
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
+    }
 }
