@@ -8,6 +8,7 @@ import { PerfilService } from './perfil.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Perfil } from './perfil.model';
 
 @Component({
   selector: 'perfil',
@@ -41,7 +42,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
       this.param = params.id;
 
       if (this.param === "" || this.param === null || this.param === " ") {
-        this._router.navigate(['perfil/' + this._profileService.getLocalStorage()]);
+        this._router.navigate(['perfil/' + this._profileService.getUserLog()]); 
       }
 
     });    
@@ -49,6 +50,10 @@ export class PerfilComponent implements OnInit, OnDestroy {
     this._profileService.infoOnChanged
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(info => {
+        if (info == null){
+          info = new Perfil({});
+        }
+
         this.info = info;
       });
   }

@@ -1,9 +1,12 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
 import { Router } from '@angular/router';
+import { LoginService } from './login-2.service';
+import { takeUntil } from 'rxjs/internal/operators/takeUntil';
+import { Subject } from 'rxjs/internal/Subject';
 
 @Component({
     selector     : 'login-2',
@@ -12,22 +15,30 @@ import { Router } from '@angular/router';
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })
-export class Login2Component implements OnInit
+export class Login2Component implements OnInit, OnDestroy
 {
     loginForm: FormGroup;
 
+    info: any;
+
     error = false;
 
+
+    // Private
+    private _unsubscribeAll: Subject<any>;
+    
     /**
      * Constructor
      *
      * @param {FuseConfigService} _fuseConfigService
      * @param {FormBuilder} _formBuilder
+     * @param {LoginService} _logonService
      */
     constructor(
         private router: Router,
         private _fuseConfigService: FuseConfigService,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _loginService: LoginService
     )
     {
         // Configure the layout
@@ -47,6 +58,8 @@ export class Login2Component implements OnInit
                 }
             }
         };
+
+        this._unsubscribeAll = new Subject();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -62,6 +75,23 @@ export class Login2Component implements OnInit
             email: ['', [Validators.required]], // , Validators.email
             password: ['', Validators.required]
         });
+
+        this._loginService.infoOnChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(info => {
+                this.info = info;
+            });
+    }
+
+
+
+    /**
+    * On destroy
+    */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     onSubmit(): void{
@@ -69,59 +99,9 @@ export class Login2Component implements OnInit
         // console.log("email " + this.loginForm.get('email').value);
         // console.log("password " + this.loginForm.get('password').value);
 
-        this.error = this._checkIngreso();
 
-
-        if (!this.error){
-            this._saveLocalStorage();
-
-            this.router.navigate(['perfil']); 
-        }else{
-            // true
-
-
-        }
-
-        
-    }
-
-    private _checkIngreso(): boolean{
-        const usuarios = ['fq', 'sf', 'ce', 'fm'];
-
-        const mail: string = this.loginForm.get('email').value;
-        const pass: string = this.loginForm.get('password').value;
-        
-        if ((pass !== 'demo') || (usuarios.indexOf(mail) < 0)){
-            return true;
-        }
-
-        return false;
-
-    }
-
-    private _saveLocalStorage(): void {        
-        localStorage.removeItem('user');
-        localStorage.clear();
-
-        const mail: string = this.loginForm.get('email').value.toLowerCase();
-
-        switch (mail) {
-            case 'fq':
-                localStorage.setItem('user', 'FC0784');
-                break;
-            case 'sf':
-                localStorage.setItem('user', 'FC7871');
-                break;
-            case 'ce':
-                localStorage.setItem('user', 'FC4152');
-                break;
-            case 'fm':
-                localStorage.setItem('user', 'FC0356');
-                break;
-            default:
-                localStorage.setItem('user', 'FC0356');
-                break;
-        }
+        this._loginService.login(this.loginForm.get('email').value, this.loginForm.get('password').value); 
+ 
     }
 
 }

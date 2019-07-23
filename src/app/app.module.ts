@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { MatButtonModule, MatIconModule, MatToolbarModule, MatDatepickerModule, MatFormFieldModule } from '@angular/material';
+import { MatButtonModule, MatIconModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import 'hammerjs';
 
@@ -36,6 +36,8 @@ import { ConceptosFormModule } from './main/configurar/conc-form/conc-form.modul
 import { NovEquiposModule } from './main/contacts/novedades_equipos/nov-equipo.module';
 import { ErrorModule } from './main/errors/error.module';
 import { ErrorService } from './main/errors/error.service';
+import { LoginService } from './main/authentication/login-2/login-2.service';
+import { PerfilService } from './main/perfil/perfil.service';
 
 
 
@@ -100,7 +102,9 @@ const appRoutes: Routes = [
 
     ],
     providers: [
-        ErrorService,      
+        ErrorService,
+        LoginService,
+        PerfilService
     ],
     bootstrap   : [
         AppComponent

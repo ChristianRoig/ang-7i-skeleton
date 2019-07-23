@@ -3,12 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ErrorService } from '../errors/error.service';
+import { LoginService } from '../authentication/login-2/login-2.service';
+import { Perfil } from './perfil.model';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class PerfilService implements Resolve<any>
 {
-    info: any;
-    infoLog: any; 
+    info: Perfil;
+    infoLog: Perfil; 
 
     infoOnChangedLog: BehaviorSubject<any>;
     infoOnChanged: BehaviorSubject<any>;
@@ -21,12 +24,29 @@ export class PerfilService implements Resolve<any>
      */
     constructor(
         private _httpClient: HttpClient,
-        private _errorService: ErrorService
+        private _errorService: ErrorService,
+        private _loginService: LoginService,
     )
     {
         // Set the defaults
         this.infoOnChanged = new BehaviorSubject({});
         this.infoOnChangedLog = new BehaviorSubject({});
+
+
+    }
+
+    init(): void{
+        const leg = this._loginService.getLocalUser();
+
+        if (leg){
+            this.getInfo(null);
+        }else{
+            this.info = new Perfil({});
+            this.infoLog = new Perfil({});
+
+            this.infoOnChanged.next(this.info);
+            this.infoOnChangedLog.next(this.infoLog);
+        }        
     }
 
     /**
@@ -46,16 +66,12 @@ export class PerfilService implements Resolve<any>
                     resolve();
                 },
                 (error) => {
-                    this.info = null;
+                    this.info = new Perfil({});
                     this.infoOnChanged.next(this.info);
-                   
 
                     this._errorService.errorHandler(error, "No se encontro la página para el perfil de " + route.params.id);
 
-
-                    resolve(this.info);
-
-  
+                    resolve(this.info);  
                 }
             );
         });
@@ -74,68 +90,59 @@ export class PerfilService implements Resolve<any>
     }
 
     private llamadoHTTP(resolve, reject, user): void {
-        let local: boolean = false;
+        let local = false;
         
         if (!user){
-            user = 'api/perfil-' + this.getLocalStorage();
+            user = 'api/perfil-' + this.getUserLog(); 
             local = true;
         }else{
             user = 'api/perfil-' + user;
             local = false;
         }
-        this._httpClient.get(user)
-            .subscribe((info: any) => {
-                if (local){
+
+        if (user == 'api/perfil-null' || user == 'api/perfil-') {
+            const respuesta = new Observable((observer) => {
+
+                // observable execution
+                observer.next(
+                    new Perfil({})
+                );
+                observer.complete();
+            });
+
+            respuesta.subscribe(
+                (info: Perfil) => {
                     this.info = info;
                     this.infoOnChanged.next(this.info);
-                    this.infoLog = info;
-                    this.infoOnChangedLog.next(this.infoLog);
-                    resolve(this.infoLog);
+                    this.infoOnChangedLog.next(this.info);
+                   
                     resolve(this.info);
-                }else{
-                    this.info = info;
-                    this.infoOnChanged.next(this.info);
                     resolve(this.info);
-                }
-            }, reject);
+
+                }, reject);
+
+        }else {
+            this._httpClient.get(user)
+                .subscribe((info: any) => {
+                    if (local) {
+                        this.info = info;
+                        this.infoOnChanged.next(this.info);
+                        this.infoLog = info;
+                        this.infoOnChangedLog.next(this.infoLog);
+                        resolve(this.infoLog);
+                        resolve(this.info);
+                    } else {
+                        this.info = info;
+                        this.infoOnChanged.next(this.info);
+                        resolve(this.info);
+                    }
+                }, reject);
+        }
+  
     }
 
-    getLocalStorage(): string {
-        let usuario: string;
-
-        if (typeof (Storage) !== 'undefined') {
-            usuario = localStorage.getItem('user');           
-            
-            // FIX
-            // Eliminar en un futuro cuando se tenga autenticacion por token
-
-            if (usuario == null){
-                localStorage.clear();
-                localStorage.setItem('user', 'FC0356');
-            
-                return 'FC0356';
-            
-            }else { 
-                const users = ['FC0356', 'FC0784', 'FC7871', 'FC4152'];
-
-                if (!users.includes(usuario)){
-                    localStorage.clear();
-                    localStorage.setItem('user', 'FC0356');
-            
-                    return 'FC0356';
-            
-                }
-            }
-
-            //FIX
-
-            return usuario;            
-        } 
-        // else {
-            // LocalStorage no soportado en este navegador
-        // }
-
-        return 'FC0356'; //por defecto Florencia Macchiavello 
+    getUserLog(): string{
+        return this._loginService.getLocalUser();
     }
 
 }

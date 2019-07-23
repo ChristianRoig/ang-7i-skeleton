@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ErrorService } from '../errors/error.service';
+import { Novedad } from './novedades.model';
 
 @Injectable()
 export class NovedadesService implements Resolve<any>
@@ -43,7 +44,7 @@ export class NovedadesService implements Resolve<any>
                     resolve();
                 },
                 (error) => {
-                    this.info = [];
+                    this.info = new Novedad({});
                     this.infoOnChanged.next(this.info);
 
                     // this._errorService.errorHandler(error, "Las novedades no pudieron ser encontradas");
@@ -70,22 +71,43 @@ export class NovedadesService implements Resolve<any>
             user = 'api/novedades-' + user;
             local = false;
         }
-        this._httpClient.get(user)
-            .subscribe((info: any) => {
-                if (local) {
+
+        if (user == 'api/novedades-null' || user == 'api/novedades-'){
+            const respuesta = new Observable((observer) => {
+
+                // observable execution
+                observer.next(
+                    new Novedad({})
+                );
+                observer.complete();
+            });
+
+            respuesta.subscribe(
+                (info) => {
                     this.info = info;
                     this.infoOnChanged.next(this.info);
                     resolve(this.info);
-                } else {
-                    this.info = info;
-                    this.infoOnChanged.next(this.info);
-                    resolve(this.info);
-                }
-            }, reject);
+                    
+                }, reject);
+        }else {
+            this._httpClient.get(user)
+                .subscribe((info: any) => {
+                    if (local) {
+                        this.info = info;
+                        this.infoOnChanged.next(this.info);
+                        resolve(this.info);
+                    } else {
+                        this.info = info;
+                        this.infoOnChanged.next(this.info);
+                        resolve(this.info);
+                    }
+                }, reject);
+        }
+
     }
 
     private getLocalStorage(): string {
-        let usuario: string;
+        let usuario = '';
 
         if (typeof (Storage) !== 'undefined') {
             usuario = localStorage.getItem('user');
@@ -95,7 +117,8 @@ export class NovedadesService implements Resolve<any>
         // LocalStorage no soportado en este navegador
         // }
 
-        return 'FC0356'; //por defecto Florencia Macchiavello 
+        // return 'FC0356'; //por defecto Florencia Macchiavello 
+        return usuario;
     }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { delay, filter, take, takeUntil } from 'rxjs/operators';
@@ -8,6 +8,7 @@ import { FuseNavigationService } from '@fuse/components/navigation/navigation.se
 import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { PerfilService } from 'app/main/perfil/perfil.service';
+import { Perfil } from 'app/main/perfil/perfil.model';
 
 @Component({
     selector     : 'navbar-vertical-style-1',
@@ -38,9 +39,10 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
         private _fuseConfigService: FuseConfigService,
         private _fuseNavigationService: FuseNavigationService,
         private _fuseSidebarService: FuseSidebarService,
-        private _router: Router
+        private _router: Router,
+        private _profileService: PerfilService  
 
-        , private _profileService: PerfilService  
+        // , private _profileService: PerfilService  
     )
     {
         // Set the private defaults
@@ -104,11 +106,12 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        this._profileService.getInfo(null);
+
+        this._profileService.init();
 
         this._profileService.infoOnChangedLog
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(info => {
+            .subscribe((info) => {
                 this.user = info;
             });
 
