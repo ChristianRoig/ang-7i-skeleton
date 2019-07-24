@@ -16,11 +16,7 @@ const user: string = environment.Cookie_User;
 export class LoginService implements Resolve<any>
 {
     private info: any;
-    
-
-    
     infoOnChanged: BehaviorSubject<any>;
-    
 
     /**
      * Constructor
@@ -60,7 +56,9 @@ export class LoginService implements Resolve<any>
     }
 
     /**
-     * Get info
+     * Metodo para realizar el login
+     * @param {string} username
+     * @param {string} password
      */
     login(username: string, password: string): Promise<any[]> {
         return new Promise((resolve, reject) => {
@@ -95,8 +93,13 @@ export class LoginService implements Resolve<any>
 
         });
     }
-
-    createRequest(username: string, password: string): Observable<any> | any {
+    
+    /**
+     * Crea el llamado al servicio de login
+     * @param {string} username
+     * @param {string} password
+     */
+    private createRequest(username: string, password: string): Observable<any> | any {
         // Mock
         // const respuesta = new Observable((observer) => {      
         //     observer.next({'legajo': 'FN0051', 'tokenAuth' : 'MyPrettyToken'});
@@ -121,12 +124,31 @@ export class LoginService implements Resolve<any>
 
     }
 
+    /**
+    * Devuelve el usuario que esta logueado, en caso de que no pueda redirige al login
+    */
     getLocalUser(): string {
+        if (!(this.isSetLog())){
+            this._router.navigate(['/auth/login-2']);
+        }
+
+        return this._cookieService.get(user);
+    }
+
+    /**
+    * Determina si los datos de log estan disponibles
+    */
+    isSetLog(): boolean {
         const userLog = this._cookieService.get(user);
+        const tokenLog = this._cookieService.get(token);
 
-        if (!(userLog)){ this._router.navigate(['/auth/login-2']); }
-
-        return userLog;
+        if ((userLog) && (tokenLog)){
+            return true;
+        }
+        
+        this.infoOnChanged = new BehaviorSubject({});
+        this._cookieService.deleteAll();
+        return false;
     }
 
 }
