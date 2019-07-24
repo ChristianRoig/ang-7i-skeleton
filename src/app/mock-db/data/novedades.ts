@@ -1,7 +1,7 @@
 export class Novedades
 {
    
-    public static FC0356 = Novedades.crearNovedades();
+    public static FN0051 = Novedades.crearNovedades();
     public static FC0784 = Novedades.crearNovedades();
     public static FC7871 = Novedades.crearNovedades();
     public static FC4152 = Novedades.crearNovedades();

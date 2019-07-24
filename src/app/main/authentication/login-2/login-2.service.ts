@@ -8,32 +8,35 @@ import { Perfil } from 'app/mock-db/data/perfil';
 
 
 
-// const API_URL: string = environment.API;
+const API_URL: string = environment.API;
+const token: string = environment.Cookie_Token;
+const user: string = environment.Cookie_User;
 
 @Injectable()
 export class LoginService implements Resolve<any>
 {
+    private info: any;
+    
 
-    info: any;
-    perfil: Perfil;
-
+    
     infoOnChanged: BehaviorSubject<any>;
-    PerfilLogOnChanged: BehaviorSubject<any>;
-
+    
 
     /**
      * Constructor
      *
      * @param {HttpClient} _httpClient
+     * @param {CookieService} _cookieService
+     * @param {Router} _router
      */
     constructor(
-        private http: HttpClient,
-        private cookieService: CookieService,
-        private _router: Router,        
+        private _httpClient: HttpClient,
+        private _cookieService: CookieService,
+        private _router: Router,
     ) {
         // Set the defaults
         this.infoOnChanged = new BehaviorSubject({});
-        this.PerfilLogOnChanged = new BehaviorSubject({});
+        
     }
 
     /**
@@ -63,58 +66,82 @@ export class LoginService implements Resolve<any>
         return new Promise((resolve, reject) => {
 
             this.createRequest(username, password)
-                .subscribe((info: any) => {
-                    this.info = info;
+                .subscribe(
+                    (info: ResponseLogin) => {
+                                                
+                        if (info.token != null && info.colaborador != null) { //se logueo 
+                            this.info = info;
 
-                    if (info != null) { //se logueo 
-                        this.cookieService.set('tokenAuth', info.tokenAuth);
-                        this.cookieService.set('user', info.legajo);
+                            this._cookieService.set(token, info.token);
+                            this._cookieService.set(user, info.colaborador.legajo);
 
-                        this._router.navigate(['/perfil']);
+                            this._router.navigate(['/perfil']);                                                    
+                        }else {
+                            this.info = null;
+                        }
+
+                        this.infoOnChanged.next(this.info);
+    
+                        resolve(this.info);
+                    }, 
+                    (err) => {
+        
+                        this.info = 'error';
+                        this.infoOnChanged.next(this.info);                        
+                        // console.log(err);
+                        
                     }
-
-                    this.infoOnChanged.next(this.info);
-
-                    resolve(this.info);
-                }, reject);
+                );
 
         });
     }
 
     createRequest(username: string, password: string): Observable<any> | any {
+        // Mock
+        // const respuesta = new Observable((observer) => {      
+        //     observer.next({'legajo': 'FN0051', 'tokenAuth' : 'MyPrettyToken'});
+        //     observer.complete();
+        // });
+        // return respuesta;
 
-        // mock
-        username = "admin";
-        password = "admin";        
-
-        // // let url = API_URL + 'loginPymex'
-        // let headers = new HttpHeaders();
-        // headers.append('Content-Type', 'application/json');
-        // let requestLogin = {
-        //     "username": username,
-        //     "password": password
-        // };
-
-        const respuesta = new Observable((observer) => {      
-            observer.next({'legajo': 'FC0356', 'tokenAuth' : 'MyPrettyToken'});
-            observer.complete();
+        const httpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json'            
         });
 
+        const options = { headers: httpHeaders };
 
-        return respuesta;
-        // return this.http.post(url, requestLogin, { headers });
+        const url = API_URL + 'login';
 
+        const params = {
+            'username': username,
+            'password': password
+        };
+
+        return this._httpClient.post(url, params, options);
 
     }
 
     getLocalUser(): string {
-        const user = this.cookieService.get('user');
+        const userLog = this._cookieService.get(user);
 
-        if (!(user)){
-            this._router.navigate(['/auth/login-2']);
-        }
+        if (!(userLog)){ this._router.navigate(['/auth/login-2']); }
 
-        return user;
+        return userLog;
     }
 
+}
+
+
+export class ResponseLogin {
+    token: string;
+    colaborador: any; //cambiar por perfil a su debido tiempo
+
+    /**
+    * Constructor
+    * @param responseLogin
+    */
+    constructor( responseLogin: any ){
+        this.token = responseLogin.token || null;
+        this.colaborador = responseLogin.responseLogin || null;
+    }
 }

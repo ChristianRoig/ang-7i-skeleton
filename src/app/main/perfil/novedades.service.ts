@@ -117,7 +117,7 @@ export class NovedadesService implements Resolve<any>
         // LocalStorage no soportado en este navegador
         // }
 
-        // return 'FC0356'; //por defecto Florencia Macchiavello 
+        // return 'FN0051'; //por defecto Florencia Macchiavello 
         return usuario;
     }
 

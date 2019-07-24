@@ -43,6 +43,10 @@ login-2 {
             overflow: auto;
             -webkit-overflow-scrolling: touch;
 
+            mat-error {
+                text-align: center;
+            }
+
             @include mat-elevation(16);
 
             @include media-breakpoint('sm') {

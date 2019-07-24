@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
-import { Router } from '@angular/router';
 import { LoginService } from './login-2.service';
-import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { Subject } from 'rxjs/internal/Subject';
+
+import { takeUntil } from 'rxjs/internal/operators/takeUntil';
+import { Router } from '@angular/router';
+
 
 @Component({
     selector     : 'login-2',
@@ -21,6 +22,7 @@ export class Login2Component implements OnInit, OnDestroy
 
     info: any;
 
+    errorLog = false;
     error = false;
 
 
@@ -35,7 +37,7 @@ export class Login2Component implements OnInit, OnDestroy
      * @param {LoginService} _logonService
      */
     constructor(
-        private router: Router,
+        // private router: Router,
         private _fuseConfigService: FuseConfigService,
         private _formBuilder: FormBuilder,
         private _loginService: LoginService
@@ -72,14 +74,27 @@ export class Login2Component implements OnInit, OnDestroy
     ngOnInit(): void
     {
         this.loginForm = this._formBuilder.group({
-            email: ['', [Validators.required]], // , Validators.email
-            password: ['', Validators.required]
+            email: ['admin', [Validators.required]], // , Validators.email
+            password: ['admin', Validators.required]
         });
 
         this._loginService.infoOnChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(info => {
-                this.info = info;
+
+                if (info){
+                    this.errorLog = false;
+                    if (info == 'error'){
+                        this.error = true; // Error Sistema
+                    }else {
+                        this.error = false;
+                        this.info = info;
+                    }                                            
+                } else { // null
+                    this.error = false;
+                    this.errorLog = true;
+                }
+        
             });
     }
 
@@ -94,12 +109,8 @@ export class Login2Component implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
-    onSubmit(): void{
-        
-        // console.log("email " + this.loginForm.get('email').value);
-        // console.log("password " + this.loginForm.get('password').value);
-
-
+    onSubmit(): void{       
+        // console.log("usuario " + this.loginForm.get('email').value + " password " + this.loginForm.get('password').value);
         this._loginService.login(this.loginForm.get('email').value, this.loginForm.get('password').value); 
  
     }

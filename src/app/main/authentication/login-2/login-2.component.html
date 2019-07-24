@@ -53,8 +53,12 @@
                     </mat-error>
                 </mat-form-field>
 
-                <mat-error *ngIf="error">
+                <mat-error *ngIf="errorLog">
                     Los Datos Ingresados NO Son Correctos
+                </mat-error>
+
+                <mat-error *ngIf="error">
+                    No fue posible realizar el login, por favor intente nuevamente..
                 </mat-error>
 
                 <button mat-raised-button color="accent" class="submit-button" aria-label="LOGIN"                        
