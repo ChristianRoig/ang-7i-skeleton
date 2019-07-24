@@ -4,9 +4,7 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
 import { LoginService } from './login-2.service';
 import { Subject } from 'rxjs/internal/Subject';
-
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
-import { Router } from '@angular/router';
 
 
 @Component({
