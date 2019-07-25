@@ -66,8 +66,6 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(contacts => {
                 this.contacts = contacts;
-                console.log(this.contacts);
-
                 this.checkboxes = {};
                 contacts.map(contact => {
                     this.checkboxes[contact.id] = false;

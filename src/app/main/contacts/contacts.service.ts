@@ -11,22 +11,22 @@ import { text } from '@angular/core/src/render3';
 @Injectable()
 export class ContactsService implements Resolve<any>
 {
-     onContactsChanged: BehaviorSubject<any>;
-  /*  onSelectedContactsChanged: BehaviorSubject<any>;
+    onContactsChanged: BehaviorSubject<any>;
+    onSelectedContactsChanged: BehaviorSubject<any>;
     onUserDataChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
-    onFilterChanged: Subject<any>; */
+    onFilterChanged: Subject<any>;
 
     contacts: Contact[];
     public static readonly MODULO: string = "Proveedores";
     public static readonly CATEGORIA: string = "de Gastos";
     public static readonly ETIQUETA: string = "-Oficina-";
 
-  /*   user: any;
+    user: any;
     selectedContacts: string[] = [];
 
     searchText: string;
-    filterBy: string; */
+    filterBy: string; 
 
     /**
      * Constructor
@@ -38,11 +38,11 @@ export class ContactsService implements Resolve<any>
     )
     {
         // Set the defaults
-         this.onContactsChanged = new BehaviorSubject([]);
- /*       this.onSelectedContactsChanged = new BehaviorSubject([]);
+        this.onContactsChanged = new BehaviorSubject([]);
+        this.onSelectedContactsChanged = new BehaviorSubject([]);
         this.onUserDataChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
-        this.onFilterChanged = new Subject(); */
+        this.onFilterChanged = new Subject(); 
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -97,7 +97,6 @@ export class ContactsService implements Resolve<any>
 
                         this.contacts = response;
 
-
 /*                         if ( this.filterBy === 'starred' )
                         {git branxg
                             this.contacts = this.contacts.filter(_contact => {
@@ -126,7 +125,6 @@ export class ContactsService implements Resolve<any>
                     }, reject);
             }
         ); 
-     //   return null
     }
 
     initContacto(contact: Contact): void {
@@ -134,8 +132,19 @@ export class ContactsService implements Resolve<any>
         contact.categoria = ContactsService.CATEGORIA;
         contact.etiqueta = ContactsService.ETIQUETA;
         contact.activo = 1;
-    //    contact.propietario = this.cookieService.get('userName');
+        contact.propietario = "7ideas";
     }
+
+    addContact(contact): Promise<any> {
+        return new Promise((resolve, reject) => {
+
+            this.createRequestAddProveedor(contact)
+                .subscribe(response => {
+                    this.getContacts();
+                   // resolve(response);
+                });
+        });
+    } 
 
     /**
      * Get user data
@@ -326,14 +335,6 @@ export class ContactsService implements Resolve<any>
 
     crearRequestNewCodigoProveedor(propietario: string, modulo: string) {
 
-        /*         let httpHeaders = new HttpHeaders({
-                    'Content-Type': 'application/json',
-                });
-        
-                let options = {
-                    headers: httpHeaders
-                }; */
-
         let url = "http://10.100.58.25:8082/pymex/proveedores/siguienteCodigo2"
 
         let params = {
@@ -341,7 +342,20 @@ export class ContactsService implements Resolve<any>
             "modulo": modulo,
         };
 
-        return this._httpClient.get(url, { params: params });
+        return this._httpClient.get(url, { params: params, responseType: 'text' }); //retorna un string
+    }
+
+    createRequestAddProveedor(contact: Contact) {
+        let httpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        let options = {
+            headers: httpHeaders
+        };
+        let url = "http://10.100.58.25:8082/pymex/proveedores/agregarProveedor";
+        let body = JSON.stringify(contact);
+
+        return this._httpClient.post(url, body, options);
     }
 
 }

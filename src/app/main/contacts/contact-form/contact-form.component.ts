@@ -70,7 +70,7 @@ export class ContactsContactFormDialogComponent
             this.contactForm = this.createContactForm();
             this._contactsService.crearRequestNewCodigoProveedor("7ideas", "Proveedores")
                 .subscribe((response: any) => {
-                    this.contact.cod = response._body;
+                    this.contact.cod = response;
                     this.contactForm.controls['cod'].setValue(this.contact.cod); //setea el cod que 
                 });
             /*             this._contactsService.getGastosByName(this.proveedor.nombre_corto).then((value) => {
