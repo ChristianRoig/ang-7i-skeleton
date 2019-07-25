@@ -286,11 +286,22 @@ export class ContactsService implements Resolve<any>
      *
      * @param contact
      */
-    deleteContact(contact): void
-    {
-/*         const contactIndex = this.contacts.indexOf(contact);
+    deleteContactList(contact: Contact): void {
+        const contactIndex = this.contacts.indexOf(contact);
         this.contacts.splice(contactIndex, 1);
-        this.onContactsChanged.next(this.contacts); */
+        this.onContactsChanged.next(this.contacts);
+    }
+
+    deleteContact(contact: Contact): Promise<any> {
+        return new Promise((resolve, reject) => {
+
+            this.createRequestRemoveProveedor(contact)
+                .subscribe(response => {
+                    //    this.getContacts(); 
+                    this.deleteContactList(contact);
+                    resolve(response);
+                });
+        });
     }
 
     /**
@@ -367,7 +378,18 @@ export class ContactsService implements Resolve<any>
         let url = "http://10.100.58.25:8082/pymex/proveedores/actualizarProveedor";
         let body = JSON.stringify(contact);
 
-        return this._httpClient.post(url, body, options);
+        return this._httpClient.put(url, body, options);
+    }
+
+    createRequestRemoveProveedor(contact: Contact) {
+
+        let params = {
+            "idContacto": contact.id,
+        };
+        
+        let url = "http://10.100.58.25:8082/pymex/proveedores/eliminarProveedor2";
+
+        return this._httpClient.delete(url, {params : params})
     }
 
 }
