@@ -7,6 +7,10 @@ import { FuseUtils } from '@fuse/utils';
 
 import { Contact } from 'app/main/contacts/contact.model';
 import { text } from '@angular/core/src/render3';
+import { environment } from 'environments/environment';
+
+
+const API_URL = environment.API + 'proveedores/'
 
 @Injectable()
 export class ContactsService implements Resolve<any>
@@ -323,15 +327,9 @@ export class ContactsService implements Resolve<any>
 
     crearRequestObtenerProveedores() {
 
-/*         let httpHeaders = new HttpHeaders({
-            'Content-Type': 'application/json',
-        });
+        let method = 'obtenerProveedores'
 
-        let options = {
-            headers: httpHeaders
-        }; */
-
-        let url = "http://10.100.58.25:8082/pymex/proveedores/getProveedores"
+        let url = API_URL + method;
 
         let params = {
             "propietario": "7ideas",
@@ -345,7 +343,9 @@ export class ContactsService implements Resolve<any>
 
     crearRequestNewCodigoProveedor(propietario: string, modulo: string) {
 
-        let url = "http://10.100.58.25:8082/pymex/proveedores/siguienteCodigo2"
+        let method = 'siguienteCodigo'
+
+        let url = API_URL + method;
 
         let params = {
             "propietario": propietario,
@@ -362,7 +362,10 @@ export class ContactsService implements Resolve<any>
         let options = {
             headers: httpHeaders
         };
-        let url = "http://10.100.58.25:8082/pymex/proveedores/agregarProveedor";
+        let method = 'agregarProveedor';
+
+        let url = API_URL + method;
+
         let body = JSON.stringify(contact);
 
         return this._httpClient.post(url, body, options);
@@ -375,7 +378,8 @@ export class ContactsService implements Resolve<any>
         let options = {
             headers: httpHeaders
         };
-        let url = "http://10.100.58.25:8082/pymex/proveedores/actualizarProveedor";
+        let method = 'actualizarProveedor';
+        let url = API_URL + method;
         let body = JSON.stringify(contact);
 
         return this._httpClient.put(url, body, options);
@@ -387,7 +391,8 @@ export class ContactsService implements Resolve<any>
             "idContacto": contact.id,
         };
         
-        let url = "http://10.100.58.25:8082/pymex/proveedores/eliminarProveedor2";
+        let method = "eliminarProveedor";
+        let url = API_URL + method
 
         return this._httpClient.delete(url, {params : params})
     }
