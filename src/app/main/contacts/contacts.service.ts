@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { FuseUtils } from '@fuse/utils';
 
 import { Contact } from 'app/main/contacts/contact.model';
+import { text } from '@angular/core/src/render3';
 
 @Injectable()
 export class ContactsService implements Resolve<any>
@@ -87,14 +88,14 @@ export class ContactsService implements Resolve<any>
     getContacts(): Promise<any>
     {
          return new Promise((resolve, reject) => {
-                this._httpClient.get('api/contactos')
+                this.crearRequestObtenerProveedores()
                     .subscribe((response: any) => {
 
                         this.contacts = response;
 
 
 /*                         if ( this.filterBy === 'starred' )
-                        {
+                        {git branxg
                             this.contacts = this.contacts.filter(_contact => {
                                 return this.user.starred.includes(_contact.id);
                             });
@@ -110,11 +111,11 @@ export class ContactsService implements Resolve<any>
                         if ( this.searchText && this.searchText !== '' )
                         {
                             this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
-                        }
+                        }*/
 
                         this.contacts = this.contacts.map(contact => {
                             return new Contact(contact);
-                        });*/
+                        });
 
                         this.onContactsChanged.next(this.contacts); 
                         resolve(this.contacts);
@@ -287,6 +288,29 @@ export class ContactsService implements Resolve<any>
         }
         this.onContactsChanged.next(this.contacts);
         this.deselectContacts(); */
+    }
+
+    crearRequestObtenerProveedores() {
+
+        let httpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoiN0lkZWFzIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTU2NDA2MTU1NSwiZXhwIjoxNTY0MDY3NTU1fQ.dlvpBCE8dUbmK4fyAzDZP6N9t511EMLB1IL6t9dPeyJ2G92t7pm - B1SoNd_Xu2cKfRJrP2FJdB9j59R4ZKBWHw'
+        });
+
+        let options = {
+            headers: httpHeaders
+        };
+
+        let url = "http://10.100.58.25:8082/pymex/proveedores/getProveedores"
+
+        let params = {
+            "propietario": "7ideas",
+            "modulo": "Proveedores",
+            "categoria": "de Gastos",
+            "etiqueta": "-Oficina-"
+        };
+
+        return this._httpClient.get(url, {params :params});
     }
 
 }
