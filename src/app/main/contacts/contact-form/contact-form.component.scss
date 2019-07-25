@@ -16,7 +16,22 @@
         .mat-toolbar {
             flex: 1 0 auto;
             min-height: initial;
+
+/*              mat-toolbar-row {
+
+                img {
+
+                    &.avatar {
+                    //    background-color: white;
+
+                         -webkit-box-shadow: inset 0px 0px 109px -51px rgba(3,155,229,1);
+                        -moz-box-shadow: inset 0px 0px 109px -51px rgba(3,155,229,1);
+                        box-shadow: inset 0px 0px 109px -51px rgba(3,155,229,1); }
+                    }
+                } */
+            }
         }
+
 
         .toolbar-bottom {
             height: auto;
@@ -27,5 +42,26 @@
         max-height: 85vh;
         display: flex;
         flex-direction: column;
+
+        mat-toolbar-row {
+
+            &.toolbar-bottom.py-16.mat-toolbar-row {
+                position: relative;
+
+                button {
+
+                    &.edit-avatar {
+                        position: absolute;
+                        right: 145px;
+                        top: 80px;
+                        background-color: red;
+                        height: 34px;
+                        border-radius: 50%;
+                        min-width: 34px;
+                        padding: 0 0 0px 0;
+
+                    }
+                }
+            }
+        }
     }
-}

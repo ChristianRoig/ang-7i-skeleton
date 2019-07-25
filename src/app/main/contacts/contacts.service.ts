@@ -18,6 +18,10 @@ export class ContactsService implements Resolve<any>
     onFilterChanged: Subject<any>; */
 
     contacts: Contact[];
+    public static readonly MODULO: string = "Proveedores";
+    public static readonly CATEGORIA: string = "de Gastos";
+    public static readonly ETIQUETA: string = "-Oficina-";
+
   /*   user: any;
     selectedContacts: string[] = [];
 
@@ -88,7 +92,7 @@ export class ContactsService implements Resolve<any>
     getContacts(): Promise<any>
     {
          return new Promise((resolve, reject) => {
-                this.crearRequestObtenerProveedores()
+             this.crearRequestObtenerProveedores()
                     .subscribe((response: any) => {
 
                         this.contacts = response;
@@ -123,6 +127,14 @@ export class ContactsService implements Resolve<any>
             }
         ); 
      //   return null
+    }
+
+    initContacto(contact: Contact): void {
+        contact.modulo = ContactsService.MODULO;
+        contact.categoria = ContactsService.CATEGORIA;
+        contact.etiqueta = ContactsService.ETIQUETA;
+        contact.activo = 1;
+    //    contact.propietario = this.cookieService.get('userName');
     }
 
     /**
@@ -310,6 +322,26 @@ export class ContactsService implements Resolve<any>
         };
 
         return this._httpClient.get(url, {params :params});
+    }
+
+    crearRequestNewCodigoProveedor(propietario: string, modulo: string) {
+
+        /*         let httpHeaders = new HttpHeaders({
+                    'Content-Type': 'application/json',
+                });
+        
+                let options = {
+                    headers: httpHeaders
+                }; */
+
+        let url = "http://10.100.58.25:8082/pymex/proveedores/siguienteCodigo2"
+
+        let params = {
+            "propietario": propietario,
+            "modulo": modulo,
+        };
+
+        return this._httpClient.get(url, { params: params });
     }
 
 }
