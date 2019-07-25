@@ -132,10 +132,10 @@ export class ContactsService implements Resolve<any>
         contact.categoria = ContactsService.CATEGORIA;
         contact.etiqueta = ContactsService.ETIQUETA;
         contact.activo = 1;
-        contact.propietario = "7ideas";
+        contact.propietario = "7ideas"; //luego obtener de las cookies al loguearse username
     }
 
-    addContact(contact): Promise<any> {
+    addContact(contact: Contact): Promise<any> {
         return new Promise((resolve, reject) => {
 
             this.createRequestAddProveedor(contact)
@@ -240,15 +240,14 @@ export class ContactsService implements Resolve<any>
      * @param contact
      * @returns {Promise<any>}
      */
-    updateContact(contact): Promise<any>
-    {
+    updateContact(contact: Contact): Promise<any> {
         return new Promise((resolve, reject) => {
 
-            this._httpClient.post('api/contacts-contacts/' + contact.id, {...contact})
+            this.createRequestUpdateProveedor(contact)
                 .subscribe(response => {
                     this.getContacts();
                     resolve(response);
-                });
+                },reject);
         });
     }
 
@@ -353,6 +352,19 @@ export class ContactsService implements Resolve<any>
             headers: httpHeaders
         };
         let url = "http://10.100.58.25:8082/pymex/proveedores/agregarProveedor";
+        let body = JSON.stringify(contact);
+
+        return this._httpClient.post(url, body, options);
+    }
+
+    createRequestUpdateProveedor(contact: Contact) {
+        let httpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        let options = {
+            headers: httpHeaders
+        };
+        let url = "http://10.100.58.25:8082/pymex/proveedores/actualizarProveedor";
         let body = JSON.stringify(contact);
 
         return this._httpClient.post(url, body, options);
