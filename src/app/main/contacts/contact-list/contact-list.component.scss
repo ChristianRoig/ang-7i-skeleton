@@ -22,7 +22,6 @@ contacts-contact-list {
         .mat-column-buttons {
             flex: 0 1 80px;
         }
-
         .mat-row {
             position: relative;
             cursor: pointer;
@@ -37,6 +36,30 @@ contacts-contact-list {
 
                     @include media-breakpoint('gt-md') {
                         display: none;
+                    }
+                }
+            }
+        }
+    }
+
+    @include media-breakpoint('lt-md') {
+        .mat-table {
+ 
+            .mat-column-buttons {
+                padding-right: 0px;
+                flex: 0 1 50px;
+            }
+            .mat-row {
+
+                .mat-cell {
+                    min-width: 0;
+    
+                    &.mat-column-avatar {
+                        img {
+                            &.avatar {
+                                margin: 0 8px;
+                            }
+                        }
                     }
                 }
             }

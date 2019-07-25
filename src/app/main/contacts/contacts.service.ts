@@ -218,7 +218,7 @@ export class ContactsService implements Resolve<any>
      *
      * @param contact
      * @returns {Promise<any>}
-     * /
+     */
     updateContact(contact): Promise<any>
     {
         return new Promise((resolve, reject) => {
@@ -292,14 +292,13 @@ export class ContactsService implements Resolve<any>
 
     crearRequestObtenerProveedores() {
 
-        let httpHeaders = new HttpHeaders({
+/*         let httpHeaders = new HttpHeaders({
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoiN0lkZWFzIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTU2NDA2MTU1NSwiZXhwIjoxNTY0MDY3NTU1fQ.dlvpBCE8dUbmK4fyAzDZP6N9t511EMLB1IL6t9dPeyJ2G92t7pm - B1SoNd_Xu2cKfRJrP2FJdB9j59R4ZKBWHw'
         });
 
         let options = {
             headers: httpHeaders
-        };
+        }; */
 
         let url = "http://10.100.58.25:8082/pymex/proveedores/getProveedores"
 
