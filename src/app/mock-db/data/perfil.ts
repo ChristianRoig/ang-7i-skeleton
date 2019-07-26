@@ -1,25 +1,52 @@
 export class Perfil 
 {
     public static FN0051 = { //DEFAULT
-        'nombre'        : 'Florencia Macchiavello',
-        'nombre_corto'  : 'Florencia Macchiavello',
-        'telefono'      : '(0249)438-7687',
-        'correo'        : 'macchiavelloflorencia@gmail.com',
-        'img'           : 'assets/images/perfil/flor.jpg',
-        'address'       : 'Av. Colon 1266, Mar del Plata',
-        'infoLaboral'   : {
-            'legajo'        : '0051',
-            'puesto'        : 'Jefe de recursos humanos',
-            'LugarTrabajo'  : 'Mar del Plata',
-            'company'       : 'FN'
-        },
-        'datosSistema'  : {
-            'usuario'          : 'f.macchiavello',
-            'perfiles'         : 'Supervisor, RRHH',
-            'correoLaboral'    : 'f.macchiavello@favanet.com.ar',
-            'telefonoLaboral'  : '(0223) 444-4999 int. 438',
-        },
-    };
+        'idColaborador': '4486',
+        'idLegajo': '81',
+        'legajo': 'FN0051',
+        'nombre': 'MACCHIAVELLO, FLORENCIA',
+        'nombreCorto': 'FLORENCIA MACCHIAVELLO',
+        'codEmpresa': 'FN',
+        'empresa': 'FavaNet',
+        'departamento': 'Recursos Humanos',
+        'lugarTrabajo': 'MAR DEL PLATA',
+        'fechaIngreso': '2015-11-16',
+        'fechaEgreso': '',
+        'telefonos': '',
+        'fechaNacimiento': '1993-04-28',
+        'dni': '37028699',
+        'domicilio': '',
+        'localidad': 'SANTA CLARA DEL MAR',
+        'tarea': 'JEFE RRHH',
+        'cuil': '27-37028699-5',
+        'email': 'florenciamacchiavello@favanet.com.ar',
+        'sexo': 'Femenino',
+        'estadoCivil': 'Soltero',
+        'observaciones': 'CAMBIO A JEFE DE RRHH 01/2019\r\nTÉCNICO UNIVERSITARIO EN RRHH',
+        'img' : ''
+    }
+
+
+    // public static FN0051 = { //DEFAULT
+    //     'nombre'        : 'Florencia Macchiavello',
+    //     'nombre_corto'  : 'Florencia Macchiavello',
+    //     'telefono'      : '(0249)438-7687',
+    //     'correo'        : 'macchiavelloflorencia@gmail.com',
+    //     'img'           : 'assets/images/perfil/flor.jpg',
+    //     'address'       : 'Av. Colon 1266, Mar del Plata',
+    //     'infoLaboral'   : {
+    //         'legajo'        : '0051',
+    //         'puesto'        : 'Jefe de recursos humanos',
+    //         'LugarTrabajo'  : 'Mar del Plata',
+    //         'company'       : 'FN'
+    //     },
+    //     'datosSistema'  : {
+    //         'usuario'          : 'f.macchiavello',
+    //         'perfiles'         : 'Supervisor, RRHH',
+    //         'correoLaboral'    : 'f.macchiavello@favanet.com.ar',
+    //         'telefonoLaboral'  : '(0223) 444-4999 int. 438',
+    //     },
+    // };
 
     // public static FC0784 = {
     //     'nombre': 'Fabian Quinteros',

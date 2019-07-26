@@ -49,7 +49,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
 
     this._profileService.infoOnChanged
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe(info => {
+      .subscribe((info: Perfil) => {
         if (info == null){
           info = new Perfil({});
         }

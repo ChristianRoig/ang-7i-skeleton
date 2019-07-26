@@ -4,8 +4,7 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Router } from '@a
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'environments/environment';
-import { Perfil } from 'app/mock-db/data/perfil';
-
+import { Perfil } from 'app/main/perfil/perfil.model';
 
 
 const API_URL: string = environment.API;
@@ -16,7 +15,14 @@ const user: string = environment.Cookie_User;
 export class LoginService implements Resolve<any>
 {
     private info: any;
+    private perfilLog: Perfil;
+    private datos: any;
+
     infoOnChanged: BehaviorSubject<any>;
+
+    // revisar si es mejor tener solo el info y consultar o especificar
+    perfilLogOnChanged: BehaviorSubject<any>;
+    datosOnChanged: BehaviorSubject<any>;
 
     /**
      * Constructor
@@ -31,8 +37,25 @@ export class LoginService implements Resolve<any>
         private _router: Router,
     ) {
         // Set the defaults
+
         this.infoOnChanged = new BehaviorSubject({});
-        
+        this.perfilLogOnChanged = new BehaviorSubject({});
+        this.datosOnChanged = new BehaviorSubject({});
+
+        this.init();
+    }
+
+    init(): void {
+        const userLog = this._cookieService.get(user);
+        // const tokenLog = this._cookieService.get(token);
+        // const datos = this._cookieService.get('datos');
+
+        if (userLog){
+            this.perfilLog = new Perfil(JSON.parse(userLog));            
+        }else{
+            this.perfilLog = new Perfil({});        
+        }
+        this.perfilLogOnChanged.next(this.perfilLog);  
     }
 
     /**
@@ -66,19 +89,31 @@ export class LoginService implements Resolve<any>
             this.createRequest(username, password)
                 .subscribe(
                     (info: ResponseLogin) => {
+                        info = new ResponseLogin(info);
                                                 
+                        // los datos van a venir en un futuro
+
                         if (info.token != null && info.colaborador != null) { //se logueo 
                             this.info = info;
 
-                            this._cookieService.set(token, info.token);
-                            this._cookieService.set(user, info.colaborador.legajo);
+                            this.perfilLog = info.colaborador;
+                            this.datos = null; // Cuando traiga datos generales para las busquedas va ir aqui
+
+                            this._cookieService.set(token, info.token);                           
+
+                            // this._cookieService.set(user, this._encode(info.colaborador));
+                            this._cookieService.set(user, JSON.stringify(info.colaborador));
 
                             this._router.navigate(['/perfil']);                                                    
                         }else {
                             this.info = null;
+                            this.perfilLog = null;
+                            this.datos = null;
                         }
 
                         this.infoOnChanged.next(this.info);
+                        this.perfilLogOnChanged.next(this.perfilLog);
+                        this.datosOnChanged.next(this.datos);
     
                         resolve(this.info);
                     }, 
@@ -86,7 +121,6 @@ export class LoginService implements Resolve<any>
         
                         this.info = 'error';
                         this.infoOnChanged.next(this.info);                        
-                        // console.log(err);
                         
                     }
                 );
@@ -130,9 +164,14 @@ export class LoginService implements Resolve<any>
     getLocalUser(): string {
         if (!(this.isSetLog())){
             this._router.navigate(['/auth/login-2']);
+            return '';
         }
 
-        return this._cookieService.get(user);
+        const u = new Perfil(JSON.parse(
+                                this._cookieService.get(user)
+                            ));
+
+        return u.legajo; 
     }
 
     /**
@@ -146,9 +185,19 @@ export class LoginService implements Resolve<any>
             return true;
         }
         
-        this.infoOnChanged = new BehaviorSubject({});
-        this._cookieService.deleteAll();
+        this._reset();
+
         return false;
+    }
+
+    /**
+    * Borra las cookies del sitio y resetea los datos
+    */
+    private _reset(): void {
+        this.infoOnChanged = new BehaviorSubject({});
+        this.perfilLogOnChanged = new BehaviorSubject({});
+        this.datosOnChanged = new BehaviorSubject({});
+        this._cookieService.deleteAll();
     }
 
 }
@@ -156,14 +205,14 @@ export class LoginService implements Resolve<any>
 
 export class ResponseLogin {
     token: string;
-    colaborador: any; //cambiar por perfil a su debido tiempo
+    colaborador: Perfil;
 
     /**
     * Constructor
     * @param responseLogin
     */
-    constructor( responseLogin: any ){
+    constructor( responseLogin ){
         this.token = responseLogin.token || null;
-        this.colaborador = responseLogin.responseLogin || null;
+        this.colaborador = responseLogin.colaborador ? new Perfil(responseLogin.colaborador) : null;
     }
 }

@@ -5,7 +5,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ErrorService } from '../errors/error.service';
 import { LoginService } from '../authentication/login-2/login-2.service';
 import { Perfil } from './perfil.model';
-import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class PerfilService implements Resolve<any>
@@ -110,8 +109,9 @@ export class PerfilService implements Resolve<any>
                 observer.complete();
             });
 
-            respuesta.subscribe(
+            respuesta.subscribe(                
                 (info: Perfil) => {
+                    info = new Perfil(info);
                     this.info = info;
                     this.infoOnChanged.next(this.info);
                     this.infoOnChangedLog.next(this.info);
@@ -123,7 +123,8 @@ export class PerfilService implements Resolve<any>
 
         }else {
             this._httpClient.get(user)
-                .subscribe((info: any) => {
+                .subscribe((info: Perfil) => {
+                    info = new Perfil(info);
                     if (local) {
                         this.info = info;
                         this.infoOnChanged.next(this.info);
