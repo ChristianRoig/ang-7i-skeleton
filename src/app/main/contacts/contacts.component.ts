@@ -19,9 +19,11 @@ import { ContactsContactFormDialogComponent } from 'app/main/contacts/contact-fo
 })
 export class ContactsComponent implements OnInit, OnDestroy
 {
-     dialogRef: any;
+    dialogRef: any;
     hasSelectedContacts: boolean;
     searchInput: FormControl;
+    title : string;
+
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -44,6 +46,7 @@ export class ContactsComponent implements OnInit, OnDestroy
 
         // Set the private defaults
        this._unsubscribeAll = new Subject();
+       this.title = 'Proveedores';
     }
 
     // -----------------------------------------------------------------------------------------------------

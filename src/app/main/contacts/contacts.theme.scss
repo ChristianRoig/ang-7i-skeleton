@@ -8,6 +8,11 @@
 
         .header {
 
+            @include media-breakpoint('lt-md'){
+                min-height: 0px;
+                height: auto;
+            } 
+
             .search-wrapper {
                 background: map-get($background, card);
 
