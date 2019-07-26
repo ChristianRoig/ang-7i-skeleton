@@ -16,7 +16,6 @@ import { fuseConfig } from 'app/fuse-config';
 
 import { AppComponent } from 'app/app.component';
 import { LayoutModule } from 'app/layout/layout.module';
-import { SampleModule } from 'app/main/sample/sample.module';
 
 import { Login2Module } from './main/authentication/login-2/login-2.module';
 import { MockDbService } from './mock-db/mock-db.service';
@@ -27,7 +26,7 @@ import { ContactsModule } from './main/contacts/contacts.module';
 const appRoutes: Routes = [
     {
         path      : '**',
-        redirectTo: 'sample'
+        redirectTo: 'contactos'
     }
 ];
 
@@ -64,8 +63,8 @@ const appRoutes: Routes = [
 
         // App modules
         LayoutModule,
-        SampleModule,
-        Login2Module,
+/*         SampleModule,
+ */        Login2Module,
         PerfilModule,
         ContactsModule
     ],

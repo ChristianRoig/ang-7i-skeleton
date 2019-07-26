@@ -10,8 +10,6 @@ import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 import { ContactsComponent } from 'app/main/contacts/contacts.component';
 import { ContactsService } from 'app/main/contacts/contacts.service';
 import { ContactsContactListComponent } from 'app/main/contacts/contact-list/contact-list.component';
-import { ContactsSelectedBarComponent } from 'app/main/contacts/selected-bar/selected-bar.component';
-import { ContactsMainSidebarComponent } from 'app/main/contacts/sidebars/main/main.component';
 import { ContactsContactFormDialogComponent } from 'app/main/contacts/contact-form/contact-form.component';
 
 const routes: Routes = [
@@ -28,8 +26,8 @@ const routes: Routes = [
     declarations   : [
         ContactsComponent,
         ContactsContactListComponent,
-        ContactsSelectedBarComponent,
-        ContactsMainSidebarComponent,
+/*         ContactsSelectedBarComponent,
+        ContactsMainSidebarComponent, */
         ContactsContactFormDialogComponent
     ],
     imports        : [
