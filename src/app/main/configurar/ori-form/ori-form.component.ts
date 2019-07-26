@@ -1,10 +1,9 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-
-import { Contact } from 'app/main/contacts/contact.model';
 import { Origen } from '../origenes/origen.model';
-import { ContactsService } from 'app/main/contacts/contacts.service';
+import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
+import { Colaborador } from 'app/main/colaboradores/colaborador.model';
 
 
 @Component({
@@ -34,13 +33,13 @@ export class OrigenesFormDialogComponent
      * @param {MatDialogRef<OrigenesFormDialogComponent>} matDialogRef
      * @param _data
      * @param {FormBuilder} _formBuilder
-     * @param {ContactsService} _contactsService
+     * @param {ColaboradoresService} _colaboradoresService
      */
     constructor(
         public matDialogRef: MatDialogRef<OrigenesFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder,
-        protected _contactsService: ContactsService,
+        protected _colaboradoresService: ColaboradoresService,
     )
     {
 
@@ -70,8 +69,8 @@ export class OrigenesFormDialogComponent
      */
     createOrigenForm(): FormGroup
     {
-        let r = new Contact({});
-        let s = new Contact({});
+        let r = new Colaborador({});
+        let s = new Colaborador({});
 
         console.log(this.origen);
        
@@ -106,12 +105,12 @@ export class OrigenesFormDialogComponent
     }
 
     getContactos(): any[] {
-        return this._contactsService.getVanilaContact();
+        return this._colaboradoresService.getVanilaContact();
     }
 
-    getContacto(legajo: string): Contact{        
+    getContacto(legajo: string): Colaborador{        
         for (let index = 0; index < this.candidatos.length; index++) {
-            const element: Contact = this.candidatos[index];
+            const element: Colaborador = this.candidatos[index];
             if ((element.legajo)  === legajo){
             // if ((element.company + element.docket)  === legajo){
                 return element;

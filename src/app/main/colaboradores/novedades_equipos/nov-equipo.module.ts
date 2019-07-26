@@ -8,17 +8,20 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 
 import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
-import { OrigenesService } from 'app/main/colaboradores/origenes.service';
-import { OrigenesComponent } from './origenes.component';
-import { ConfigurarListModule } from '../lista/configurar-list.module';
-
+import { ColaboradorListModule } from '../colaboradores-list/colaborador-list.module';
+import { OrigenesService } from '../origenes.service';
+import { NovEquiposComponent } from './nov-equipo.component';
 
 
 const routes: Routes = [
     {
-        path     : 'origenes',
-        component: OrigenesComponent,
+        path: 'novedades/equipos', redirectTo: 'novedades/equipos/',
+    },
+    {
+        path     : 'novedades/equipos/:equipo',
+        component: NovEquiposComponent,
         resolve  : {            
+            contacts: ColaboradoresService,
             listOrigenes: OrigenesService
         }
     }
@@ -26,7 +29,7 @@ const routes: Routes = [
 
 @NgModule({
     declarations   : [
-        OrigenesComponent
+        NovEquiposComponent
     ],
     imports        : [
         RouterModule.forChild(routes),
@@ -48,7 +51,7 @@ const routes: Routes = [
         FuseConfirmDialogModule,
         FuseSidebarModule,
 
-        ConfigurarListModule
+        ColaboradorListModule
 
     ],
     providers      : [
@@ -56,6 +59,6 @@ const routes: Routes = [
         OrigenesService
     ]
 })
-export class OrigenesModule
+export class NovEquiposModule
 {
 }

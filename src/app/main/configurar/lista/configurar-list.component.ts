@@ -10,9 +10,9 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 
 import { Router } from '@angular/router';
 
-import { OrigenesService } from '../../contacts/origenes.service';
+import { OrigenesService } from '../../colaboradores/origenes.service';
 import { OrigenesFormDialogComponent } from '../ori-form/ori-form.component';
-import { ConceptosService } from 'app/main/contacts/conceptos.service';
+import { ConceptosService } from 'app/main/colaboradores/conceptos.service';
 import { ConceptosFormDialogComponent } from '../conc-form/conc-form.component';
 
 
@@ -45,7 +45,7 @@ export class ConfigurarListComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {ContactsService} _contactsService
+     * @param {ColaboradoresService} _colaboradoresService
      * @param {MatDialog} _matDialog
      */
     constructor(
@@ -69,7 +69,7 @@ export class ConfigurarListComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         
-        if (this.invocador === "origenes"){
+        if (this.invocador === 'origenes'){
             this.dataSource = new FilesDataSourceI(this._origenesService);
 
             this._origenesService.onOrigenesTablaChanged
@@ -79,7 +79,7 @@ export class ConfigurarListComponent implements OnInit, OnDestroy
                 });
         }
 
-        if (this.invocador === "conceptos") {
+        if (this.invocador === 'conceptos') {
             this.dataSource = new FilesDataSourceII(this._conceptosService);
 
             this._conceptosService.onConceptosTablaChanged
@@ -109,8 +109,8 @@ export class ConfigurarListComponent implements OnInit, OnDestroy
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    test(){
-        console.log("funciona");
+    test(): void{
+        console.log('funciona');
     }
 
     editResponsables(origen): void {
@@ -135,7 +135,7 @@ export class ConfigurarListComponent implements OnInit, OnDestroy
                      */
                     case 'save':
 
-                        //         this._contactsService.updateContact(formData.getRawValue());
+                        //         this._colaboradoresService.updateContact(formData.getRawValue());
 
                         break;
                     /**
@@ -172,7 +172,7 @@ export class ConfigurarListComponent implements OnInit, OnDestroy
                      */
                     case 'save':
 
-                        //         this._contactsService.updateContact(formData.getRawValue());
+                        //         this._colaboradoresService.updateContact(formData.getRawValue());
 
                         break;
                     /**

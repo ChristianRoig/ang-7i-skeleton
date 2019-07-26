@@ -15,22 +15,20 @@ export class Origen
     /**
      * Constructor
      *
-     * @param Origen
+     * @param origen
      */
-    constructor(Origen)
+    constructor(origen)
     {
-        {
 
-            this.id = Origen.id || '';
-            this.cod = Origen.cod || '';
-            this.nombre = Origen.nombre || '';
-            this.empresas = Origen.empresas || '';
-            this.tipo = Origen.tipo || '';
-            this.legajoR = Origen.legajoR || 'Ninguno';
-            this.responsableR = Origen.responsableR || 'Ninguno';
-            this.legajoS = Origen.legajoS || 'Ninguno';
-            this.responsableS = Origen.responsableS || 'Ninguno';
+        this.id = origen.id || '';
+        this.cod = origen.cod || '';
+        this.nombre = origen.nombre || '';
+        this.empresas = origen.empresas || '';
+        this.tipo = origen.tipo || '';
+        this.legajoR = origen.legajoR || 'Ninguno';
+        this.responsableR = origen.responsableR || 'Ninguno';
+        this.legajoS = origen.legajoS || 'Ninguno';
+        this.responsableS = origen.responsableS || 'Ninguno';
     
-        }
     }
 }

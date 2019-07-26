@@ -1,0 +1,122 @@
+<div class="dialog-content-wrapper"> 
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+
+        <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
+            <img [src]="colaborador.avatar" class="avatar contact-avatar huge m-0"
+                 [alt]="colaborador.name"/>
+            <div class="contact-name mt-8">{{colaborador.name}} {{colaborador.lastName}}</div>
+            <div class="contact-name mt-8">{{colaborador.company}}-{{colaborador.docket}}</div>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+        <form [formGroup]="colaboradorForm">
+
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Fecha</mat-label>
+
+                    <input matInput [matDatepicker]="DatePicker" placeholder="Month and Year" [formControl]="date">
+                    <mat-datepicker-toggle matSuffix [for]="DatePicker"></mat-datepicker-toggle>
+                
+                
+                    <mat-datepicker #DatePicker startView="multi-year" (yearSelected)="chosenYearHandler($event)" 
+                        (monthSelected)="chosenMonthHandler($event, DatePicker)" >      
+                    </mat-datepicker>
+
+                </mat-form-field>
+            </div>
+
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <div id="switch">
+                    <mat-slide-toggle name="slide" appearance="outline" fxFlex (change)="switchParam()">{{hideshow ? "Cuantitativa" : "Cualitativa" }}</mat-slide-toggle>
+                </div>                
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start"*ngIf="hideshow">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Concepto</mat-label>                                   
+                    <mat-select formControlName="concepto_cuantitativos" name="concepto" required (selectionChange)="changeUnidad($event)"> 
+                        <mat-option *ngFor="let c of cuantitativos" [value]="c.value">
+                            {{c.viewValue | titlecase }}
+                        </mat-option>
+                    </mat-select>                                    
+                </mat-form-field>
+            </div>
+
+
+            <div fxLayout="row" fxLayoutAlign="start start" *ngIf="!hideshow">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Concepto</mat-label>
+                    <mat-select formControlName="concepto_cualitativos" name="concepto" required >
+                        <mat-option *ngFor="let c of cualitativos" [value]="c.value">
+                            {{c.viewValue | titlecase }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+
+            <div fxLayout="row" fxLayoutAlign="start start" *ngIf="hideshow">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Cantidad ({{unidad}})</mat-label>                    
+                    <input name="cantidad" matInput formControlName="cantidad"  required>
+                </mat-form-field>
+            </div>          
+
+        </form>
+
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+        <button *ngIf="action === 'edit'"
+                mat-button
+                color="accent"
+                class="mr-8"
+                (click)="matDialogRef.close(['delete',colaboradorForm])"
+                aria-label="Delete"
+                matTooltip="Delete">
+            Eliminar
+        </button>
+
+        <button *ngIf="action !== 'edit'"
+                mat-button
+                color="accent"
+                class="save-button"
+                type="submit"
+                (click)="onSubmit()"
+                [disabled]="colaboradorForm.invalid"
+                aria-label="SAVE">
+            Agregar
+        </button>
+       
+
+        <!-- debug -->
+        <button  mat-button color="accent" class="mr-8" 
+            *ngIf="false"
+            (click)="verForm(colaboradorForm)"  aria-label="jojo">
+            ver
+        </button>
+
+        <button *ngIf="action === 'edit'"
+                mat-button
+                color="accent"
+                class="save-button"
+                (click)="matDialogRef.close(['save',colaboradorForm])"
+                [disabled]="colaboradorForm.invalid"
+                aria-label="SAVE">
+            Guardar
+        </button>
+
+    </div>
+</div>

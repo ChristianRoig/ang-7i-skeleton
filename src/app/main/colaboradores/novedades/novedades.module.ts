@@ -7,26 +7,29 @@ import { MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldMo
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 
+import { NovedadesComponent } from 'app/main/colaboradores/novedades/novedades.component';
 import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
-import { OrigenesService } from 'app/main/colaboradores/origenes.service';
-import { OrigenesComponent } from './origenes.component';
-import { ConfigurarListModule } from '../lista/configurar-list.module';
-
+import { ColaboradorListModule } from '../colaboradores-list/colaborador-list.module';
+import { ConceptosService } from '../conceptos.service';
 
 
 const routes: Routes = [
     {
-        path     : 'origenes',
-        component: OrigenesComponent,
-        resolve  : {            
-            listOrigenes: OrigenesService
+        path: 'novedades/sectores', redirectTo: 'novedades/sectores/',
+    },
+    {
+        path: 'novedades/sectores/:filtro',
+        component: NovedadesComponent,
+        resolve  : {
+            contacts: ColaboradoresService,
+            conceptos: ConceptosService
         }
     }
 ];
 
 @NgModule({
     declarations   : [
-        OrigenesComponent
+        NovedadesComponent
     ],
     imports        : [
         RouterModule.forChild(routes),
@@ -44,18 +47,19 @@ const routes: Routes = [
         MatSelectModule,
         MatOptionModule,
 
+
         FuseSharedModule,
         FuseConfirmDialogModule,
         FuseSidebarModule,
 
-        ConfigurarListModule
+        ColaboradorListModule
 
     ],
     providers      : [
         ColaboradoresService,
-        OrigenesService
+        ConceptosService
     ]
 })
-export class OrigenesModule
+export class NovedadesModule
 {
 }

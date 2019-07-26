@@ -21,23 +21,26 @@ import { Login2Module } from './main/authentication/login-2/login-2.module';
 import { MockDbService } from './mock-db/mock-db.service';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { PerfilModule } from './main/perfil/perfil.module';
-import { ContactsModule } from './main/contacts/equipo/contacts.module';
-import { NominaModule } from './main/contacts/nomina/nomina.module';
 
-import { ContacFormModule } from './main/contacts/contact-form/contact-form.module';
-import { NovedadesModule } from './main/contacts/novedades/novedades.module';
-import { ImportarFormModule } from './main/contacts/importar-form/importar-form.module';
-import { NovedadesFormModule } from './main/contacts/novedades-form/novedad-form.module';
-import { ControlNovedadesModule } from './main/contacts/control-novedades/control-novedades.module';
+import { ColaboradoresModule } from './main/colaboradores/equipo/equipo.module';
+import { ColaboradorFormModule } from './main/colaboradores/colaborador-form/colaborador-form.module';
+import { NominaModule } from './main/colaboradores/nomina/nomina.module';
+import { NovedadesModule } from './main/colaboradores/novedades/novedades.module';
+import { ImportarFormModule } from './main/colaboradores/importar-form/importar-form.module';
+import { NovedadesFormModule } from './main/colaboradores/novedades-form/novedad-form.module';
+import { ControlNovedadesModule } from './main/colaboradores/control-novedades/control-novedades.module';
+import { NovEquiposModule } from './main/colaboradores/novedades_equipos/nov-equipo.module';
+
 import { OrigenesModule } from './main/configurar/origenes/origenes.module';
 import { OrigenesFormModule } from './main/configurar/ori-form/ori-form.module';
 import { ConceptosModule } from './main/configurar/conceptos/conceptos.module';
 import { ConceptosFormModule } from './main/configurar/conc-form/conc-form.module';
-import { NovEquiposModule } from './main/contacts/novedades_equipos/nov-equipo.module';
+
 import { ErrorModule } from './main/errors/error.module';
 import { ErrorService } from './main/errors/error.service';
 import { LoginService } from './main/authentication/login-2/login-2.service';
 import { PerfilService } from './main/perfil/perfil.service';
+
 
 
 
@@ -83,7 +86,7 @@ const appRoutes: Routes = [
         LayoutModule,
         Login2Module,
         PerfilModule,
-        ContactsModule,
+        ColaboradoresModule,
         NominaModule,
         NovedadesModule,
         ControlNovedadesModule,
@@ -92,7 +95,7 @@ const appRoutes: Routes = [
         ConceptosModule,
         NovEquiposModule,
 
-        ContacFormModule,
+        ColaboradorFormModule,
         ConceptosFormModule,
         ImportarFormModule,
         NovedadesFormModule,

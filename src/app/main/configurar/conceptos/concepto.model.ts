@@ -11,16 +11,16 @@ export class Concepto
     /**
      * Constructor
      *
-     * @param Concepto
+     * @param concepto
      */
-    constructor(Concepto)
+    constructor(concepto)
     {
         {
-            this.nombre = Concepto.nombre || '';
-            this.cod = Concepto.cod || '';
-            this.tipo = Concepto.tipo || '';
-            this.origenCod = Concepto.origenCod || '';
-            this.origenNombre = Concepto.origenNombre || '';
+            this.nombre = concepto.nombre || '';
+            this.cod = concepto.cod || '';
+            this.tipo = concepto.tipo || '';
+            this.origenCod = concepto.origenCod || '';
+            this.origenNombre = concepto.origenNombre || '';
     
         }
     }

@@ -1,11 +1,7 @@
 import { Component, Inject, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-
-import { Contact } from 'app/main/contacts/contact.model';
-import { Origen } from '../origenes/origen.model';
-import { ContactsService } from 'app/main/contacts/contacts.service';
-import { ConceptosService } from 'app/main/contacts/conceptos.service';
+import { ConceptosService } from 'app/main/colaboradores/conceptos.service';
 import { Concepto } from '../conceptos/concepto.model';
 
 
@@ -20,9 +16,7 @@ import { Concepto } from '../conceptos/concepto.model';
 }) 
 export class ConceptosFormDialogComponent implements OnInit
 {
-    action: string;
-
-    // origen: Origen;
+    action: string;    
 
     tipos = ['Externo', 'Recursos Humanos'];
 
@@ -47,13 +41,12 @@ export class ConceptosFormDialogComponent implements OnInit
      * @param {MatDialogRef<ConceptosFormDialogComponent>} matDialogRef
      * @param _data
      * @param {FormBuilder} _formBuilder
-     * @param {ContactsService} _contactsService
+     * @param {ColaboradoresService} _colaboradoresService
      */
     constructor(
         public matDialogRef: MatDialogRef<ConceptosFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder,
-        // protected _contactsService: ContactsService,
         protected _conceptosService: ConceptosService
     )
     {

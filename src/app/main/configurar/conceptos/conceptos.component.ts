@@ -1,23 +1,19 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
+import { ConceptosService } from 'app/main/colaboradores/conceptos.service';
 
-import { ContactsService } from 'app/main/contacts/contacts.service';
-// import { ContactsContactFormDialogComponent } from 'app/main/contacts/contact-form/contact-form.component';
-import { ConceptosService } from 'app/main/contacts/conceptos.service';
-// import { ConceptosService } from '../conceptos.service';
 
 
 
 @Component({
     selector     : 'conceptos',
-    templateUrl: './conceptos.component.html',
-    styleUrls: ['../../contacts/contacts.component.scss'],
+    templateUrl  : './conceptos.component.html',
+    styleUrls    : ['../../colaboradores/colaboradores.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })
@@ -29,14 +25,11 @@ export class ConceptosComponent implements OnInit, OnDestroy
     searchInput: FormControl;
 
     columnas = ['cod', 'nombre', 'tipo', 'origenNombre', 'buttons'];
-    
-    // listConceptos = [];
 
     componente = 'conceptos';
 
     titulo = 'Conceptos';
 
-    // Protected
     protected _unsubscribeAll: Subject<any>;
 
     /**
@@ -84,7 +77,7 @@ export class ConceptosComponent implements OnInit, OnDestroy
         //         distinctUntilChanged()
         //     )
         //     .subscribe(searchText => {
-        //         this._contactsService.onSearchTextChanged.next(searchText);
+        //         this._colaboradoresService.onSearchTextChanged.next(searchText);
         //     });
     }
 
@@ -97,10 +90,5 @@ export class ConceptosComponent implements OnInit, OnDestroy
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
 
 }
