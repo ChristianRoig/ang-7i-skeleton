@@ -86,7 +86,7 @@ export class LoginService implements Resolve<any>
     login(username: string, password: string): Promise<any[]> {
         return new Promise((resolve, reject) => {
 
-            this.createRequest(username, password)
+            this._createRequest(username, password)
                 .subscribe(
                     (info: ResponseLogin) => {
                         info = new ResponseLogin(info);
@@ -129,11 +129,11 @@ export class LoginService implements Resolve<any>
     }
     
     /**
-     * Crea el llamado al servicio de login
+     * Crea el llamado al servicio back de login
      * @param {string} username
      * @param {string} password
      */
-    private createRequest(username: string, password: string): Observable<any> | any {
+    private _createRequest(username: string, password: string): Observable<any> | any {
         // Mock
         // const respuesta = new Observable((observer) => {      
         //     observer.next({'legajo': 'FN0051', 'tokenAuth' : 'MyPrettyToken'});
@@ -160,6 +160,7 @@ export class LoginService implements Resolve<any>
 
     /**
     * Devuelve el usuario que esta logueado, en caso de que no pueda redirige al login
+    * @return {string} perfil.legajo
     */
     getLocalUser(): string {
         if (!(this.isSetLog())){
@@ -167,11 +168,26 @@ export class LoginService implements Resolve<any>
             return '';
         }
 
-        const u = new Perfil(JSON.parse(
-                                this._cookieService.get(user)
-                            ));
+        const perfil = new Perfil(JSON.parse(
+                                    this._cookieService.get(user)
+                                ));
 
-        return u.legajo; 
+        return perfil.legajo; 
+    }
+
+    /**
+    * Devuelve el token que esta guardado en cache, en caso de que no pueda redirige al login
+    * @return {string} Token
+    */
+    getLocalToken(): string {
+        if (!(this.isSetLog())) {
+            this._router.navigate(['/auth/login-2']);
+            return '';
+        }
+
+        const Token = this._cookieService.get(token);
+
+        return Token;
     }
 
     /**
