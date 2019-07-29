@@ -85,22 +85,19 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
                 this._router.navigate(['equipo/' + 'cajas']);
             }
 
-        });    
-        
+        });
+
+        // Combo de Origenes
         this._origenesService.onOrigenesChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(data => {
                 this.listOrigenes = data;
             });
 
+        // Filtro para determinar la API que se consume
         this._colaboradoresService.onFilterChanged.next('all');
 
-        this._colaboradoresService.onSelectedContactsChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(selectedContacts => {
-                this.hasSelectedContacts = selectedContacts.length > 0;
-            });
-
+        // Filtro x search
         this.searchInput.valueChanges
             .pipe(
                 takeUntil(this._unsubscribeAll),
