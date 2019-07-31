@@ -30,11 +30,8 @@ export class Perfil { // de Colaborador
     cantNovedades: number;
     estado: string;
 
-
     // Para el Filtro de Responsable NOV 
     sector: string;
-
-
 
     /**
      * Constructor
@@ -73,7 +70,7 @@ export class Perfil { // de Colaborador
 
         this.cantNovedades = Math.floor(Math.random() * 6);
         this.estado = perfil.estado || this._getEstadoRandom();        
-        this.sector = '';
+        this.sector = perfil.sector || '';
         
     }
 
