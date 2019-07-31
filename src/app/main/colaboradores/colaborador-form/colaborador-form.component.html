@@ -8,10 +8,10 @@
         </mat-toolbar-row>
 
         <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
-            <img [src]="colaborador.avatar" class="avatar contact-avatar huge m-0"
-                 [alt]="colaborador.name"/>
-            <div class="contact-name mt-8">{{colaborador.name}} {{colaborador.lastName}}</div>
-            <div class="contact-name mt-8">{{colaborador.company}}-{{colaborador.docket}}</div>
+            <img [src]="colaborador.img" class="avatar contact-avatar huge m-0" 
+                 [alt]="colaborador.nombre"/>
+            <div class="contact-name mt-8">{{colaborador.nombre}}</div>
+            <div class="contact-name mt-8">{{colaborador.legajo}}</div>
         </mat-toolbar-row>
     </mat-toolbar>
 

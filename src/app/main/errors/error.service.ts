@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
 // ...
 
 const errorDefault = 404;
-const mensajeDefault = "Lo sentimos, no podemos encontrar la página que estás buscando.";
+const mensajeDefault = 'Lo sentimos, no podemos encontrar la página que estás buscando.';
 
 @Injectable({
   providedIn: 'root'

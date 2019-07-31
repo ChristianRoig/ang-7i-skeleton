@@ -12,6 +12,8 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import * as _moment from 'moment';
 
 import { Moment } from 'moment';
+import { Perfil } from 'app/main/perfil/perfil.model';
+
 
 const moment = _moment;
 
@@ -47,7 +49,7 @@ export class ColaboradoresContactFormDialogComponent
     date = new FormControl(moment());
     
     action: string;
-    colaborador: Colaborador;
+    colaborador: Perfil;
     colaboradorForm: FormGroup;
     dialogTitle: string;
 
@@ -201,7 +203,7 @@ export class ColaboradoresContactFormDialogComponent
         else
         {
             this.dialogTitle = 'Nueva Novedad';
-            this.colaborador = _data.colaborador || new Colaborador({});
+            this.colaborador = _data.colaborador || new Perfil({});
             
         }
 
@@ -268,12 +270,11 @@ export class ColaboradoresContactFormDialogComponent
     createContactForm(): FormGroup
     {
         return this._formBuilder.group({
-            id                       : [this.colaborador.id],
-            name                     : [this.colaborador.name],
-            lastName                 : [this.colaborador.lastName],
-            avatar                   : [this.colaborador.avatar],
-            nickname                 : [this.colaborador.nickname],
-            company                  : [this.colaborador.company],
+            id                       : [this.colaborador.idColaborador],
+            legajo                   : [this.colaborador.legajo],
+            name                     : [this.colaborador.nombre],            
+            avatar                   : [this.colaborador.img],            
+            company                  : [this.colaborador.empresa],
             date                     : '',
             cantidad                 : '',
             concepto_cuantitativos   : '',
