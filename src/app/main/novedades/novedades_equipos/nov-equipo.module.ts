@@ -7,24 +7,22 @@ import { MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldMo
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 
-import { OrigenesService } from '../origenes.service';
-import { ColaboradoresComponent } from './equipo.component';
+import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
 
-import { DataListColaboradorModule } from '../data-list-col/data-list-col.module';
-import { EquipoService } from './equipo.service';
-
-
+import { OrigenesService } from '../../colaboradores/origenes.service';
+import { NovEquiposComponent } from './nov-equipo.component';
+// import { DataListModule } from 'app/main/common/data-list/data-list.module';
 
 
 const routes: Routes = [
     {
-        path: 'equipo', redirectTo: 'equipo/',
+        path: 'novedades/equipos', redirectTo: 'novedades/equipos/',
     },
     {
-        path     : 'equipo/:equipo',
-        component: ColaboradoresComponent,
+        path     : 'novedades/equipos/:equipo',
+        component: NovEquiposComponent,
         resolve  : {            
-            contacts: EquipoService,
+            contacts: ColaboradoresService,
             listOrigenes: OrigenesService
         }
     }
@@ -32,7 +30,7 @@ const routes: Routes = [
 
 @NgModule({
     declarations   : [
-        ColaboradoresComponent
+        NovEquiposComponent
     ],
     imports        : [
         RouterModule.forChild(routes),
@@ -54,14 +52,14 @@ const routes: Routes = [
         FuseConfirmDialogModule,
         FuseSidebarModule,
 
-        DataListColaboradorModule
+        // DataListModule
 
     ],
     providers      : [
-        EquipoService,
+        ColaboradoresService,
         OrigenesService
     ]
 })
-export class ColaboradoresModule
+export class NovEquiposModule
 {
 }

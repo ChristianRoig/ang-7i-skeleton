@@ -1,0 +1,67 @@
+<div class="dialog-content-wrapper" id="form-novedad"> 
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>       
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+        <form [formGroup]="NovedadForm">
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Personas</mat-label>
+                                        
+                    <mat-select >
+                        <mat-option *ngFor="let p of listaContactos" [value]="p">
+                            <img class="img-list avatar" [src]=p.avatar  />
+                    
+                            <p class="p-list">{{p.lastName}}, {{p.name}} ({{p.company}}-{{p.docket}})</p>
+                            
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+
+            <div fxLayout="row" fxLayoutAlign="start start" >
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Concepto</mat-label>
+                    <mat-select formControlName="concepto" name="concepto" required>
+                        <mat-option *ngFor="let c of conceptos" [value]="c">
+                            {{c | titlecase }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            
+            <div fxLayout="row" fxLayoutAlign="start start">
+            <mat-form-field appearance="outline" fxFlex>
+                <mat-label>Monto</mat-label>
+                <mat-icon matSuffix class="secondary-text">attach_money</mat-icon>
+                <input name="monto" matInput formControlName="monto" type="number" required>
+            </mat-form-field>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+        <button 
+                mat-button
+                color="accent"
+                class="save-button"
+                type="submit"
+                (click)="onSubmit()"
+                [disabled]="NovedadForm.invalid"
+                aria-label="SAVE">
+            Agregar
+        </button>
+    </div>
+</div>

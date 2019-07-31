@@ -1,29 +1,24 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { Subject, Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
-
-import { OrigenesService } from '../origenes.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { EquipoService } from './equipo.service';
-import { DataSource } from '@angular/cdk/table';
-import { Perfil } from 'app/main/perfil/perfil.model';
-
+import { ConceptosService } from '../../colaboradores/conceptos.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-    selector     : 'equipo',
-    templateUrl  : './equipo.component.html',
-    styleUrls    : ['../../common/colaboradores.component.scss'],
+    selector     : 'sector',
+    templateUrl  : './novedades.component.html',
+    styleUrls: ['../../common/colaboradores.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })
-export class ColaboradoresComponent implements OnInit, OnDestroy
+export class NovedadesComponent implements OnInit, OnDestroy
 {
     dialogRef: any;
     hasSelectedContacts: boolean;
@@ -31,19 +26,16 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
 
     @Input() hasCheck = true;
 
-    columnas = ['avatar', 'name', 'docket', 'departament', 'email', 'novedades', 'buttons'];
+    columnas = ['avatar', 'name', 'docket', 'sector', 'concepto', 'monto', 'buttons'];
 
-    listOrigenes = [];
+    componente = 'sector';
+    sectores = '';
 
-    seleccionado = 'Tesoreria Cajas';
+    seleccionado = 'Premios Ventas';
 
-    componente = 'equipo';
-
-    titulo = 'Equipo de Colaboradores';
+    titulo = 'Novedades por Sector';
 
     param: any;
-
-    dataSource: FilesDataSource | null;    
 
     // Protected
     protected _unsubscribeAll: Subject<any>;
@@ -51,16 +43,16 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {EquipoService} _equipoService
+     * @param {ColaboradoresService} _colaboradoresService
      * @param {FuseSidebarService} _fuseSidebarService
      * @param {MatDialog} _matDialog
-     * @param {OrigenesService} _origenesService
+     * @param {ConceptosService} _conceptosService
      */
     constructor(
-        protected _equipoService: EquipoService,
+        protected _colaboradoresService: ColaboradoresService,
         protected _fuseSidebarService: FuseSidebarService,
         protected _matDialog: MatDialog,
-        protected _origenesService: OrigenesService,
+        protected _conceptosService: ConceptosService,
         private _activeRouter: ActivatedRoute,
         private _router: Router
     )
@@ -70,8 +62,6 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
-
-     
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -83,34 +73,26 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+
         this._activeRouter.params.subscribe(params => {
 
             this.param = params.id;
 
             if (this.param === '' || this.param == null || this.param === ' ') {
-                this._router.navigate(['equipo/' + 'cajas']);
+                this._router.navigate(['novedades/sectores/' + 'cajas']);
             }
 
-        });
-
-        // Combo de Origenes
-        this._origenesService.onOrigenesChanged
+        });    
+        
+        this._conceptosService.onConceptosChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(data => {
-                this.listOrigenes = data;
-            });
+                console.log(data);
+                this.sectores = data;
+        });
 
-        this.dataSource = new FilesDataSource(this._equipoService);
+        this._colaboradoresService.onFilterChanged.next('NOV');    
 
-        // this._equipoService.onColaboradoresChanged
-        //     .pipe(takeUntil(this._unsubscribeAll))
-        //     .subscribe(data => {
-        //         this.colaboradores = data;
-        //     });
-
-        // Filtro para determinar la API que se consume
-
-        // Filtro x search
         this.searchInput.valueChanges
             .pipe(
                 takeUntil(this._unsubscribeAll),
@@ -118,7 +100,7 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
                 distinctUntilChanged()
             )
             .subscribe(searchText => {
-                this._equipoService.onSearchTextChanged.next(searchText);
+                this._colaboradoresService.onSearchTextChanged.next(searchText);
             });
     }
 
@@ -132,33 +114,5 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
-}
 
-
-export class FilesDataSource extends DataSource<any>
-{
-    /**
-     * Constructor
-     *
-     * @param {EquipoService} _equipoService
-     */
-    constructor(
-        private _equipoService: EquipoService
-    ) {
-        super();
-    }
-
-    /**
-     * Connect function called by the table to retrieve one stream containing the data to render.
-     * @returns {Observable<any[]>}
-     */
-    connect(): Observable<any[]> {
-        return this._equipoService.onColaboradoresChanged;
-    }
-
-    /**
-     * Disconnect
-     */
-    disconnect(): void {
-    }
 }

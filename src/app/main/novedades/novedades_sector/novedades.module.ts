@@ -7,32 +7,30 @@ import { MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldMo
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 
-import { OrigenesService } from '../origenes.service';
-import { ColaboradoresComponent } from './equipo.component';
+import { NovedadesComponent } from 'app/main/novedades/novedades_sector/novedades.component';
+import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
 
-import { DataListColaboradorModule } from '../data-list-col/data-list-col.module';
-import { EquipoService } from './equipo.service';
-
-
+import { ConceptosService } from '../../colaboradores/conceptos.service';
+// import { DataListModule } from 'app/main/common/data-list/data-list.module';
 
 
 const routes: Routes = [
     {
-        path: 'equipo', redirectTo: 'equipo/',
+        path: 'novedades/sectores', redirectTo: 'novedades/sectores/',
     },
     {
-        path     : 'equipo/:equipo',
-        component: ColaboradoresComponent,
-        resolve  : {            
-            contacts: EquipoService,
-            listOrigenes: OrigenesService
+        path: 'novedades/sectores/:filtro',
+        component: NovedadesComponent,
+        resolve  : {
+            contacts: ColaboradoresService,
+            conceptos: ConceptosService
         }
     }
 ];
 
 @NgModule({
     declarations   : [
-        ColaboradoresComponent
+        NovedadesComponent
     ],
     imports        : [
         RouterModule.forChild(routes),
@@ -50,18 +48,19 @@ const routes: Routes = [
         MatSelectModule,
         MatOptionModule,
 
+
         FuseSharedModule,
         FuseConfirmDialogModule,
         FuseSidebarModule,
 
-        DataListColaboradorModule
+        // DataListModule
 
     ],
     providers      : [
-        EquipoService,
-        OrigenesService
+        ColaboradoresService,
+        ConceptosService
     ]
 })
-export class ColaboradoresModule
+export class NovedadesModule
 {
 }

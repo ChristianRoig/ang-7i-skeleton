@@ -13,7 +13,7 @@ import { ConceptosService } from 'app/main/colaboradores/conceptos.service';
 @Component({
     selector     : 'conceptos',
     templateUrl  : './conceptos.component.html',
-    styleUrls    : ['../../colaboradores/colaboradores.component.scss'],
+    styleUrls    : ['../../common/colaboradores.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })

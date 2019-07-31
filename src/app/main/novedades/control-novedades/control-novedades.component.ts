@@ -1,38 +1,36 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { Subject, Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NominaService } from './nomina.service';
-import { DataSource } from '@angular/cdk/table';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
-    selector     : 'nomina',
-    templateUrl  : './nomina.component.html',
+    selector     : 'control-novedades',
+    templateUrl  : './control-novedades.component.html',
     styleUrls: ['../../common/colaboradores.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })
-export class NominaComponent implements OnInit, OnDestroy 
-{    
+export class ControlNovedadesComponent implements OnInit, OnDestroy 
+{
+    
     columnas = ['avatar', 'docket', 'name', 'departament', 'buttons'];
 
     hasCheckNomina = false;
 
-    componente = 'nomina';
-    titulo = 'Nomina del GrupoFava';
+    componente = 'ControlNovedades';
 
-    param: any;
+    titulo = 'Control de Novedades';
 
     searchInput: FormControl;
 
-    dataSource: FilesDataSource | null;    
+    param: any;
+
 
     // Protected
     protected _unsubscribeAll: Subject<any>;
@@ -45,15 +43,13 @@ export class NominaComponent implements OnInit, OnDestroy
      * @param { MatDialog } _matDialog
      */
     constructor(
-        // protected _colaboradoresService: ColaboradoresService,
+        protected _colaboradoresService: ColaboradoresService,
         protected _fuseSidebarService: FuseSidebarService,
         protected _matDialog: MatDialog,
         private _activeRouter: ActivatedRoute,
-        private _router: Router,
-        private _nominaService: NominaService
-    )
+        private _router: Router
+     )
     {
-
 
         // Set the defaults
         this.searchInput = new FormControl('');
@@ -61,12 +57,27 @@ export class NominaComponent implements OnInit, OnDestroy
         // Set the private defaults
         this._unsubscribeAll = new Subject();
 
+        
     }
 
-
     ngOnInit(): void {
-        
-        this.dataSource = new FilesDataSource(this._nominaService);
+        this._activeRouter.params.subscribe(params => {
+
+            this.param = params.id;
+
+            if (this.param === '' || this.param == null || this.param === ' ') {
+                this._router.navigate(['novedades/control/' + 'all']);
+            }
+
+        });    
+
+        this._colaboradoresService.onFilterChanged.next('all');
+
+        // this._colaboradoresService.onSelectedContactsChanged
+        //     .pipe(takeUntil(this._unsubscribeAll))
+        //     .subscribe(selectedContacts => {
+        //         this.hasSelectedContacts = selectedContacts.length > 0;
+        //     });
 
         // this.searchInput.valueChanges
         //     .pipe(
@@ -78,13 +89,14 @@ export class NominaComponent implements OnInit, OnDestroy
         //         this._colaboradoresService.onSearchTextChanged.next(searchText);
         //     });
     }
-   
+
 
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
+
 
     /**
      * Toggle the sidebar
@@ -100,7 +112,7 @@ export class NominaComponent implements OnInit, OnDestroy
         this.hasCheckNomina = c;
         // console.log("cambio " + this.hasCheckNomina);
 
-        const col = 'status';
+        const col = 'statusNovedades';
 
         const pos = this.columnas.indexOf(col);
         if ( pos >= 0){
@@ -111,62 +123,25 @@ export class NominaComponent implements OnInit, OnDestroy
         }
     }
 
-    changeColumns(value: string): void {
-        let posSuc, posDep, posSec;
-
-        posSuc = this.columnas.indexOf('sucursal');
-        posDep = this.columnas.indexOf('departament');
-        posSec = this.columnas.indexOf('sector');
-
-        switch (value) {
-            case 'DTO':
-                this.columnas = ['avatar', 'docket', 'name', 'departament', 'buttons'];
-                break;
-                
-            case 'SUC':
-                this.columnas = ['avatar', 'docket', 'name', 'sucursal', 'buttons'];
-                break;
-
-            case 'NOV':
-                this.columnas = ['avatar', 'docket', 'name', 'sector', 'buttons'];
-                break;
+    changeColumns(b: boolean): void {
+        let pos = -1;
         
-            default:
-                this.columnas = ['avatar', 'docket', 'name', 'departament', 'buttons'];
-                break;
-        }
+        if (b){            
+            pos = this.columnas.indexOf('departament');
 
+            if (pos !== -1){
+                this.columnas[pos] = 'concepto';
+            }
+
+        }else{
+            pos = this.columnas.indexOf('concepto');
+
+            if (pos !== -1) {
+                this.columnas[pos] = 'departament';
+            }
+        }
     }
 
     
 
-}
-
-
-export class FilesDataSource extends DataSource<any>
-{
-    /**
-     * Constructor
-     *
-     * @param {NominaService} _nominaService
-     */
-    constructor(
-        private _nominaService: NominaService
-    ) {
-        super();
-    }
-
-    /**
-     * Connect function called by the table to retrieve one stream containing the data to render.
-     * @returns {Observable<any[]>}
-     */
-    connect(): Observable<any[]> {
-        return this._nominaService.onColaboradoresChanged;
-    }
-
-    /**
-     * Disconnect
-     */
-    disconnect(): void {
-    }
 }

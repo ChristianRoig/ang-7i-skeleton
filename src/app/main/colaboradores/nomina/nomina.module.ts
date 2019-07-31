@@ -9,21 +9,38 @@ import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 
 import { NominaComponent } from 'app/main/colaboradores/nomina/nomina.component';
 import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
-import { ColaboradorListModule } from '../colaboradores-list/colaborador-list.module';
-import { SidebarsMainModule } from '../sidebars/main/sidebars-main.module';
-import { SelectedBarModule } from '../selected-bar/selected-bar.module';
+import { DataListColaboradorModule } from '../data-list-col/data-list-col.module';
+import { SidebarsMainModule } from 'app/main/common/sidebars/main/sidebars-main.module';
+import { NominaService } from './nomina.service';
+
+// const routes: Routes = [
+//     {
+//         path     : 'nomina', redirectTo: 'nomina/',       
+//     },
+//     {
+//         path     : 'nomina/:filtro', component: NominaComponent,
+//         resolve  : {
+//             contacts: ColaboradoresService
+//         }
+//     }
+// ];
 
 const routes: Routes = [
+    {   path: 'nomina', redirectTo: 'nomina/GrupoFava'    },
     {
-        path     : 'nomina', redirectTo: 'nomina/',       
-    },
-    {
-        path     : 'nomina/:filtro', component: NominaComponent,
-        resolve  : {
-            contacts: ColaboradoresService
-        }
+        path: 'nomina',        
+        children: [
+            {    path: 'GrupoFava', component: NominaComponent, resolve: { colaboradores: NominaService }    },
+            {    path: 'FavaCard',  component: NominaComponent, resolve: { colaboradores: NominaService }    },
+            {    path: 'FavaNet',   component: NominaComponent, resolve: { colaboradores: NominaService }    },
+            {    path: 'FavaHnos',  component: NominaComponent, resolve: { colaboradores: NominaService }    },
+            // {    path: 'departamentos',       component: NominaComponent, resolve: { colaboradores: NominaService }    },
+            // {    path: 'sucursales',       component: NominaComponent, resolve: { colaboradores: NominaService }    },
+            // {    path: 'externos',       component: NominaComponent, resolve: { colaboradores: NominaService }    },
+        ]        
     }
 ];
+
 
 @NgModule({
     declarations   : [
@@ -48,14 +65,14 @@ const routes: Routes = [
         FuseSidebarModule
         
         
-        , ColaboradorListModule
+        , DataListColaboradorModule
         , SidebarsMainModule
-        , SelectedBarModule
+        
  
    
     ],
     providers      : [
-        ColaboradoresService
+        NominaService,
     ],
     exports:   [RouterModule],
 })

@@ -1,0 +1,96 @@
+<div class="sidebar-content">
+    <div class="card">
+        <!-- SIDEBAR CONTENT -->
+        <div class="content py-16" > <!-- fusePerfectScrollbar -->
+            <div class="nav material2">
+
+
+                <div class="nav-item" aria-label="inbox">
+                    <a  class="nav-link" matRipple (click)="changeFilter('GrupoFava')"
+                        routerLink="nomina/GrupoFava"
+                        [ngClass]="{'active accent':filterBy ==='GrupoFava'}">
+
+                       <span class="title">Toda la <strong>Nomina de GrupoFava</strong></span>
+                    </a>
+                </div>
+
+                <mat-divider class="first"></mat-divider>
+
+                <div class="nav-item" aria-label="FavaCard contacted" (click)="changeFilter('FavaCard')">
+                    <a  class="nav-link" matRipple                     
+                        routerLink="nomina/FavaCard"
+                        [ngClass]="{'active accent':filterBy ==='FavaCard'}">
+                                        
+                        <div class="title">Fava<strong>CARD</strong></div>
+                    </a>
+                </div>
+
+                <div class="nav-item" aria-label="FavaNet" (click)="changeFilter('FavaNet')">                    
+                    <a  class="nav-link" matRipple 
+                        routerLink="nomina/FavaNet"
+                        [ngClass]="{'active accent':filterBy ==='FavaNet'}">
+
+                        <div class="title">Fava<strong>NET</strong></div>
+                    </a>
+                </div>
+
+                <div class="nav-item" aria-label="FavaHnos" (click)="changeFilter('FavaHnos')">                    
+                    <a  class="nav-link" matRipple 
+                        routerLink="nomina/FavaHnos"                        
+                        [ngClass]="{'active accent':filterBy ==='FavaHnos'}">
+                                        
+                        <div class="title">Fava<strong>HNOS</strong></div>
+                    </a>
+                </div>
+
+                <mat-divider *ngIf="invocador !== 'ControlNovedades'"></mat-divider>
+
+                <div class="nav-item" aria-label="departamentos" (click)="changeFilter('departamentos')" *ngIf="invocador !== 'ControlNovedades'">
+                    <a  class="nav-link" matRipple 
+                        routerLink="nomina/departamentos"
+                        [ngClass]="{'active accent':filterBy ==='departamentos'}">
+                    
+                        <div class="title">Responsables <strong>DTO</strong></div>
+                    </a>
+                </div>
+
+                <div class="nav-item" aria-label="sucursales" (click)="changeFilter('sucursales')" *ngIf="invocador !== 'ControlNovedades'">
+                    <a  class="nav-link" matRipple
+                        routerLink="nomina/sucursales"
+                        [ngClass]="{'active accent':filterBy ==='sucursales'}">
+                    
+                    
+                        <div class="title">Responsables <strong>SUC</strong></div>
+                    </a>
+                </div>
+
+                <div class="nav-item" aria-label="externos" (click)="changeFilter('externos')" *ngIf="invocador !== 'ControlNovedades'">
+                    <a  class="nav-link" matRipple 
+                        routerLink="nomina/externos"
+                        [ngClass]="{'active accent':filterBy ==='externos'}">
+                    
+                    
+                        <div class="title">Responsables <strong>NOV</strong></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="sincronizar" aria-label="isCheck" *ngIf="invocador !== 'ControlNovedades'">
+    <mat-checkbox [(ngModel)]="isCheck" (ngModelChange)="changeCheck()">
+        <div class="title">Sincronizar</div>
+    </mat-checkbox>
+</div>
+
+<div class="sincronizar" aria-label="isCheck" *ngIf="invocador === 'ControlNovedades'">
+    <mat-checkbox [(ngModel)]="isCheck" (ngModelChange)="changeCheck()">
+        <div class="title">Controlar</div>
+    </mat-checkbox>
+</div>
+
+
+
+<!-- / SIDEBAR CONTENT -->

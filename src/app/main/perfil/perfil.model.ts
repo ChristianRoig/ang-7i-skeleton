@@ -24,7 +24,15 @@ export class Perfil { // de Colaborador
     sexo: string;
     estadoCivil: string;
     observaciones: string;
+    
+    // No vienen en el response por el momento
     img: string;
+    cantNovedades: number;
+    estado: string;
+
+
+    // Para el Filtro de Responsable NOV 
+    sector: string;
 
 
 
@@ -62,5 +70,22 @@ export class Perfil { // de Colaborador
         }else {
             this.img = perfil.img || 'assets/images/avatars/avatarM.png';
         }  
+
+        this.cantNovedades = Math.floor(Math.random() * 6);
+        this.estado = perfil.estado || this._getEstadoRandom();        
+        this.sector = '';
+        
     }
-}    
+
+    private _getEstadoRandom(): string{        
+        const status = [
+            'nuevo',
+            'eliminado',
+            'modificado',
+        ];
+
+        return status[Math.floor(Math.random() * 3)];
+    }
+    
+}
+

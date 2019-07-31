@@ -14,7 +14,7 @@
 
             <div class="logo" fxLayout="row" fxLayoutAlign="start center">
                 <mat-icon class="logo-icon mr-16"
-                          [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">group
+                          [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">supervisor_account
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
                     {{titulo}}
@@ -42,10 +42,6 @@
     </div>
     <!-- / HEADER -->
 
-    <!-- SELECTED BAR -->
-    <!-- <selected-bar class="accent-600" *ngIf="hasSelectedContacts" [@slideInTop]></selected-bar> -->
-    <!-- / SELECTED BAR -->
-
     <!-- CONTENT -->
     <div class="content">
 
@@ -55,7 +51,7 @@
             <!-- SIDEBAR CONTENT -->
             
             <div class="content" ><!-- fusePerfectScrollbar -->
-                <contacts-main-sidebar [@animate]="{value:'*'}" (isCheckSideBar)="updateCheck($event)" (isFilter)="changeColumns($event)"></contacts-main-sidebar>
+                <!-- <contacts-main-sidebar [@animate]="{value:'*'}" [invocador]="componente" (isCheckSideBar)="updateCheck($event)" (isFilterNov)="changeColumns($event)"></contacts-main-sidebar> -->
             </div>
             <!--/ SIDEBAR CONTENT -->
 
@@ -67,7 +63,7 @@
 
             <!-- CONTENT -->
             <div class="content">
-                 <data-list-colaboradores [displayedColumns]="columnas" [invocador]="componente" [dataSource]="dataSource"></data-list-colaboradores> 
+                 <data-list-colaboradores [displayedColumns]="columnas" [invocador]="componente"></data-list-colaboradores>
             </div>
             <!-- / CONTENT -->
 

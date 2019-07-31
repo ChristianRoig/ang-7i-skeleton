@@ -9,7 +9,7 @@ import { OrigenesService } from 'app/main/colaboradores/origenes.service';
 @Component({
     selector     : 'origenes',
     templateUrl: './origenes.component.html',
-    styleUrls: ['../../colaboradores/colaboradores.component.scss'],
+    styleUrls: ['../../common/colaboradores.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })

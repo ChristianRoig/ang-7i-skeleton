@@ -25,11 +25,11 @@ import { PerfilModule } from './main/perfil/perfil.module';
 import { ColaboradoresModule } from './main/colaboradores/equipo/equipo.module';
 import { ColaboradorFormModule } from './main/colaboradores/colaborador-form/colaborador-form.module';
 import { NominaModule } from './main/colaboradores/nomina/nomina.module';
-import { NovedadesModule } from './main/colaboradores/novedades/novedades.module';
+
 import { ImportarFormModule } from './main/colaboradores/importar-form/importar-form.module';
-import { NovedadesFormModule } from './main/colaboradores/novedades-form/novedad-form.module';
-import { ControlNovedadesModule } from './main/colaboradores/control-novedades/control-novedades.module';
-import { NovEquiposModule } from './main/colaboradores/novedades_equipos/nov-equipo.module';
+import { NovedadesFormModule } from './main/novedades/novedades-form/novedad-form.module';
+import { ControlNovedadesModule } from './main/novedades/control-novedades/control-novedades.module';
+import { NovEquiposModule } from './main/novedades/novedades_equipos/nov-equipo.module';
 
 import { OrigenesModule } from './main/configurar/origenes/origenes.module';
 import { OrigenesFormModule } from './main/configurar/ori-form/ori-form.module';
@@ -40,6 +40,7 @@ import { ErrorModule } from './main/errors/error.module';
 import { ErrorService } from './main/errors/error.service';
 import { LoginService } from './main/authentication/login-2/login-2.service';
 import { PerfilService } from './main/perfil/perfil.service';
+import { NovedadesModule } from './main/novedades/novedades_sector/novedades.module';
 
 
 
@@ -47,7 +48,7 @@ import { PerfilService } from './main/perfil/perfil.service';
 const appRoutes: Routes = [
     {
         path      : '**',
-        redirectTo: 'perfil/'
+        redirectTo: 'error'
     }
 ];
 
@@ -88,17 +89,21 @@ const appRoutes: Routes = [
         PerfilModule,
         ColaboradoresModule,
         NominaModule,
-        NovedadesModule,
-        ControlNovedadesModule,
+        
+        
         OrigenesModule,
         OrigenesFormModule,
         ConceptosModule,
-        NovEquiposModule,
+        
 
         ColaboradorFormModule,
         ConceptosFormModule,
         ImportarFormModule,
-        NovedadesFormModule,
+        
+        // NovedadesModule,
+        // ControlNovedadesModule,
+        // NovEquiposModule,
+        // NovedadesFormModule,        
 
         ErrorModule
 
