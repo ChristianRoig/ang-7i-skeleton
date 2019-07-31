@@ -8,22 +8,9 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 
 import { NominaComponent } from 'app/main/colaboradores/nomina/nomina.component';
-import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
 import { DataListColaboradorModule } from '../data-list-col/data-list-col.module';
 import { SidebarsMainModule } from 'app/main/common/sidebars/main/sidebars-main.module';
 import { NominaService } from './nomina.service';
-
-// const routes: Routes = [
-//     {
-//         path     : 'nomina', redirectTo: 'nomina/',       
-//     },
-//     {
-//         path     : 'nomina/:filtro', component: NominaComponent,
-//         resolve  : {
-//             contacts: ColaboradoresService
-//         }
-//     }
-// ];
 
 const routes: Routes = [
     {   path: 'nomina', redirectTo: 'nomina/GrupoFava'    },
@@ -59,17 +46,12 @@ const routes: Routes = [
         MatRippleModule,
         MatTableModule,
         MatToolbarModule,
-
         FuseSharedModule,
         FuseConfirmDialogModule,
-        FuseSidebarModule
+        FuseSidebarModule,                
+        DataListColaboradorModule,
+        SidebarsMainModule,
         
-        
-        , DataListColaboradorModule
-        , SidebarsMainModule
-        
- 
-   
     ],
     providers      : [
         NominaService,

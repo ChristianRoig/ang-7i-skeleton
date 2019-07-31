@@ -10,7 +10,7 @@ import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.servi
 import { ActivatedRoute, Router } from '@angular/router';
 import { NominaService } from './nomina.service';
 import { DataSource } from '@angular/cdk/table';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
     selector     : 'nomina',
@@ -68,15 +68,15 @@ export class NominaComponent implements OnInit, OnDestroy
         
         this.dataSource = new FilesDataSource(this._nominaService);
 
-        // this.searchInput.valueChanges
-        //     .pipe(
-        //         takeUntil(this._unsubscribeAll),
-        //         debounceTime(300),
-        //         distinctUntilChanged()
-        //     )
-        //     .subscribe(searchText => {
-        //         this._colaboradoresService.onSearchTextChanged.next(searchText);
-        //     });
+        this.searchInput.valueChanges
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                debounceTime(300),
+                distinctUntilChanged()
+            )
+            .subscribe(searchText => {
+                this._nominaService.onSearchTextChanged.next(searchText);
+            });
     }
    
 
@@ -97,8 +97,7 @@ export class NominaComponent implements OnInit, OnDestroy
     }
 
     updateCheck(c: boolean): void {
-        this.hasCheckNomina = c;
-        // console.log("cambio " + this.hasCheckNomina);
+        this.hasCheckNomina = c;        
 
         const col = 'status';
 
@@ -111,23 +110,17 @@ export class NominaComponent implements OnInit, OnDestroy
         }
     }
 
-    changeColumns(value: string): void {
-        let posSuc, posDep, posSec;
-
-        posSuc = this.columnas.indexOf('sucursal');
-        posDep = this.columnas.indexOf('departament');
-        posSec = this.columnas.indexOf('sector');
-
+    changeColumns(value: string): void {                
         switch (value) {
-            case 'DTO':
+            case 'departamentos':
                 this.columnas = ['avatar', 'docket', 'name', 'departament', 'buttons'];
                 break;
                 
-            case 'SUC':
+            case 'sucursales':
                 this.columnas = ['avatar', 'docket', 'name', 'sucursal', 'buttons'];
                 break;
 
-            case 'NOV':
+            case 'externos':
                 this.columnas = ['avatar', 'docket', 'name', 'sector', 'buttons'];
                 break;
         
@@ -137,8 +130,6 @@ export class NominaComponent implements OnInit, OnDestroy
         }
 
     }
-
-    
 
 }
 

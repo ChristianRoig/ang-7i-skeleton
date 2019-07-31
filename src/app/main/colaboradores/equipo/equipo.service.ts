@@ -158,24 +158,4 @@ export class EquipoService implements Resolve<any>
         return this._httpClient.post(url, params, options);
     }
 
-    getVanilaContact(): Perfil[]{
-        const api = 'api/contactos';
-
-        let contactos = null;
-
-        this._httpClient.get(api).subscribe(data => {
-            contactos = data;
-
-            contactos = contactos.map(contact => {
-                return new Perfil(contact);
-            },
-                (error) => {
-                    this._errorService.errorHandler(error);
-                }
-            );
-        });        
-        
-        return contactos;
-    }
-
 }

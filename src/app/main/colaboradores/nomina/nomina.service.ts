@@ -69,15 +69,11 @@ export class NominaService implements Resolve<any>
                      * Filtros de busqueda
                      */
 
-                    //  this.onSearchTextChanged.subscribe(searchText => {
-                    //     this.searchText = searchText;
-                    //     this.getContacts();
-                    // });                   
-
-                    // this.onFilterChanged.subscribe(filter => {
-                    //     this.filterBy = filter;
-                    //     this.getColaboradores();
-                    // });
+                    // Filtro por texto                     
+                    this.onSearchTextChanged.subscribe(searchText => {
+                        this.searchText = searchText;
+                        this._filterColaboradores();
+                    });;
 
                 
 
@@ -88,7 +84,7 @@ export class NominaService implements Resolve<any>
                     this.colaboradores = [];
                     this.onColaboradoresChanged.next(this.colaboradores);
 
-                    this.filterBy = 'All';
+                    this.filterBy = 'GrupoFava';
                     this.onFilterChanged.next(this.filterBy);
 
                     this._errorService.errorHandler(error);
@@ -99,12 +95,36 @@ export class NominaService implements Resolve<any>
             );
         });
     }
+    
+    
+    /**
+     * _filterColaboradores()
+     * Dependiendo del texto ingresado filtra el contenido del objeto colaboradores
+     */
+    private _filterColaboradores(): void {
+        let aux = this.colaboradores;
+        if (this.searchText && this.searchText !== '') {
+            aux = FuseUtils.filterArrayByString(this.colaboradores, this.searchText);
+        }
 
+        this.onColaboradoresChanged.next(aux);
+    }
+
+    /**
+     * _defineFilter()
+     * Define el filtro segun la url del componente que invoco al servicio
+     * @param {ActivatedRouteSnapshot} _r
+     */
     private _defineFilter(_r: ActivatedRouteSnapshot): void {      
         this.filterBy = _r.routeConfig.path;
         this.onFilterChanged.next(this.filterBy);        
     }
 
+    /**
+     * getColaboradores()
+     * Conecta con el Backend para traer un conjunto de colaboradores segun los filtros
+     * @returns {Promise<any>}
+     */
     getColaboradores(): Promise<any> {
         let url = API_URL;
         let params = {};
@@ -128,9 +148,6 @@ export class NominaService implements Resolve<any>
             this._createRequest(url, verbo, params)
                 .subscribe((response: Perfil[]) => {
                     this.colaboradores = response;
-                    // if ( this.searchText && this.searchText !== '' ){
-                    //     this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
-                    // }
 
                     this.colaboradores = this.colaboradores.map(contact => {
                         return new Perfil(contact);
@@ -143,13 +160,13 @@ export class NominaService implements Resolve<any>
                 }, reject);
         });
         
-
     }
 
 
     /**
      * Crea el llamado a los servicios de back
      * @param {string} url
+     * @param {string} verbo ('get' o 'post')
      * @param {{}} params
      */
     private _createRequest(url: string, verbo: string, params?: {}): Observable<any> | any {
@@ -164,28 +181,6 @@ export class NominaService implements Resolve<any>
         }
 
         return this._httpClient.get(url, options);
-    }
-
-
-
-    getVanilaContact(): Perfil[] {
-        let api = 'api/contactos';
-
-        let contactos = null;
-
-        this._httpClient.get(api).subscribe(data => {
-            contactos = data;
-
-            contactos = contactos.map(contact => {
-                return new Perfil(contact);
-            },
-                (error) => {
-                    this._errorService.errorHandler(error);
-                }
-            );
-        });
-
-        return contactos;
     }
 
 }
