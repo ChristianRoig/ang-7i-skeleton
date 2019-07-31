@@ -17,7 +17,7 @@ export class EquipoService implements Resolve<any>
     filterBy = ''; 
     
     private searchText = '';
-    private colaboradores: Perfil[] = [];
+    private colaboradores: Perfil[] = [];    
 
     onColaboradoresChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
@@ -68,15 +68,17 @@ export class EquipoService implements Resolve<any>
                      * Filtros de busqueda
                      */
                     
-                    //  this.onSearchTextChanged.subscribe(searchText => {
-                    //     this.searchText = searchText;
-                    //     this.getContacts();
-                    // });                   
-
+                    // Filtro por parametro 
                     this.onFilterChanged.subscribe(filter => {
                         this.filterBy = filter;
                         this.getColaboradores();
                     });
+
+                    // Filtro por texto                     
+                    this.onSearchTextChanged.subscribe(searchText => {
+                        this.searchText = searchText;
+                        this._filterColaboradores();
+                    });    
 
                     resolve();
 
@@ -93,6 +95,24 @@ export class EquipoService implements Resolve<any>
         }); 
     }
 
+    /**
+     * _filterColaboradores()
+     * Dependiendo del texto ingresado filtra el contenido del objeto colaboradores
+     */
+    private _filterColaboradores(): void{        
+        let aux = this.colaboradores;
+        if (this.searchText && this.searchText !== '') {
+            aux = FuseUtils.filterArrayByString(this.colaboradores, this.searchText);        
+        }
+
+        this.onColaboradoresChanged.next(aux);
+    }
+
+    /**
+     * getColaboradores()
+     * Conecta con el Backend para traer un conjunto de colaboradores segun los filtros
+     * @returns {Promise<any>}
+     */
     getColaboradores(): Promise<any>{
         let url = API_URL;
         let params = {};
@@ -100,7 +120,7 @@ export class EquipoService implements Resolve<any>
         url = API_URL + 'obtenerColaboradoresByDepartamento';
         
         params = {
-            'departamento': 'Tesoreria cajas'
+            'departamento': 'Tesoreria cajas' // cambiar por el filtro que se pase como parametro
         };
 
         return new Promise((resolve, reject) => {
@@ -108,12 +128,6 @@ export class EquipoService implements Resolve<any>
                     .subscribe((response: Perfil[]) => {
     
                     this.colaboradores = response;
-    
-    
-                    // if ( this.searchText && this.searchText !== '' )
-                    // {
-                    //     this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
-                    // }
     
                     this.colaboradores = this.colaboradores.map(contact => {
                         return new Perfil(contact);
@@ -145,7 +159,7 @@ export class EquipoService implements Resolve<any>
     }
 
     getVanilaContact(): Perfil[]{
-        let api = 'api/contactos';
+        const api = 'api/contactos';
 
         let contactos = null;
 
