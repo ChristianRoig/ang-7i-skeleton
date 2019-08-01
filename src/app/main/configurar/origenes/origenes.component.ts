@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material';
 import { Subject } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
-import { OrigenesService } from 'app/main/colaboradores/origenes.service';
+import { OrigenesService } from 'app/main/configurar/origenes.service';
 
 @Component({
     selector     : 'origenes',

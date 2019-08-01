@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
-import { ConceptosService } from 'app/main/colaboradores/conceptos.service';
+import { ConceptosService } from 'app/main/configurar/conceptos.service';
 
 
 

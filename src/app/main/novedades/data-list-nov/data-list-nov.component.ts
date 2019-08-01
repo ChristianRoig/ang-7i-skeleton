@@ -11,8 +11,9 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
 import { ColaboradoresContactFormDialogComponent } from 'app/main/colaboradores/colaborador-form/colaborador-form.component';
 import { Router } from '@angular/router';
-import { ImportarFormDialogComponent } from 'app/main/colaboradores/importar-form/importar-form.component';
+
 import { NovedadesFormDialogComponent } from '../../novedades/novedades-form/novedad-form.component';
+import { ImportarFormDialogComponent } from '../importar-form/importar-form.component';
 
 
 @Component({

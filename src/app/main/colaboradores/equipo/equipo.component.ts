@@ -7,13 +7,11 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
-import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
-
-import { OrigenesService } from '../origenes.service';
+import { OrigenesService } from '../../configurar/origenes.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EquipoService } from './equipo.service';
 import { DataSource } from '@angular/cdk/table';
-import { Perfil } from 'app/main/perfil/perfil.model';
+
 
 
 @Component({
@@ -45,22 +43,19 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
 
     dataSource: FilesDataSource | null;    
 
-    // Protected
-    protected _unsubscribeAll: Subject<any>;
+    private _unsubscribeAll: Subject<any>;
 
     /**
      * Constructor
      *
      * @param {EquipoService} _equipoService
      * @param {FuseSidebarService} _fuseSidebarService
-     * @param {MatDialog} _matDialog
      * @param {OrigenesService} _origenesService
      */
     constructor(
-        protected _equipoService: EquipoService,
-        protected _fuseSidebarService: FuseSidebarService,
-        protected _matDialog: MatDialog,
-        protected _origenesService: OrigenesService,
+        private _equipoService: EquipoService,
+        private _fuseSidebarService: FuseSidebarService,        
+        private _origenesService: OrigenesService,
         private _activeRouter: ActivatedRoute,
         private _router: Router
     )
@@ -71,7 +66,6 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
         // Set the private defaults
         this._unsubscribeAll = new Subject();
 
-     
     }
 
     // -----------------------------------------------------------------------------------------------------

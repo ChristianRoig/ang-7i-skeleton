@@ -9,7 +9,7 @@ import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 
 import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
 
-import { OrigenesService } from '../../colaboradores/origenes.service';
+import { OrigenesService } from '../../configurar/origenes.service';
 import { NovEquiposComponent } from './nov-equipo.component';
 // import { DataListModule } from 'app/main/common/data-list/data-list.module';
 

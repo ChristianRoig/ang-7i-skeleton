@@ -2,27 +2,29 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { Concepto } from '../configurar/conceptos/concepto.model';
+
+import { FuseUtils } from '@fuse/utils';
+import { Origen } from './origenes/origen.model';
 import { ErrorService } from '../errors/error.service';
 
+
 @Injectable()
-export class ConceptosService implements Resolve<any>
+export class OrigenesService implements Resolve<any>
 {
-    onConceptosChanged: BehaviorSubject<any>;
-    onConceptosTablaChanged: BehaviorSubject<any>;
+    onOrigenesChanged: BehaviorSubject<any>;
+    origenes = [];   
 
-    conceptos = [];   
-    TablaConceptos = [];   
+    onOrigenesTablaChanged: BehaviorSubject<any>;
+    origenesTabla = [];   
 
-    // api = 'api/conceptos';
-    api = 'api/sectores';
-    api2 = 'api/tablaConceptos';
+    api = 'api/origenes';
+    api2 = 'api/tabla';
 
     /**
      * Constructor
      *
      * @param {HttpClient} _httpClient
-     * @param {ErrorService} _errorService
+     * @param { ErrorService } _errorService
      */
     constructor(
         private _httpClient: HttpClient,
@@ -30,8 +32,8 @@ export class ConceptosService implements Resolve<any>
     )
     {
         // Set the defaults
-        this.onConceptosChanged = new BehaviorSubject([]);
-        this.onConceptosTablaChanged = new BehaviorSubject([]);
+        this.onOrigenesChanged = new BehaviorSubject([]);
+        this.onOrigenesTablaChanged = new BehaviorSubject([]);
               
     }
 
@@ -51,8 +53,8 @@ export class ConceptosService implements Resolve<any>
          return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getConceptos(),
-                this.getConceptosTabla(),
+                this.getOrigenes(),
+                this.getOrigenesTabla()
             ]).then(
                 ([files]) => {
 
@@ -74,67 +76,52 @@ export class ConceptosService implements Resolve<any>
 
                 },
                 (error) => {
-                    this.conceptos = [];
-                    this.TablaConceptos = [];
-
-                    this.onConceptosTablaChanged.next(this.TablaConceptos);
-                    this.onConceptosChanged.next(this.conceptos);
+                    this.origenes = [];
+                    this.origenesTabla = [];
+                    this.onOrigenesChanged.next(this.origenes);
+                    this.onOrigenesTablaChanged.next(this.origenesTabla);
 
                     this._errorService.errorHandler(error);
+                    
+                    resolve(this.origenes);
+                    resolve(this.origenesTabla);
 
-                    resolve(this.conceptos);
-                    resolve(this.TablaConceptos);                    
                 }
             );
         }); 
     }
 
-    getOrigenes(tipo: string): string[] {
-        let data = null;
-
-        if (!(tipo !== 'rrhh' && tipo !== 'externo')){
-            this._httpClient.get('api/' + tipo).subscribe(d => {
-                data = d;
-            },
-                (error) => { 
-                    this._errorService.errorHandler(error);
-                }
-            );    
-        }
-
-        return data;
-    }
-
-    getConceptos(): Promise<any>
+    getOrigenes(): Promise<any>
     {        
         return new Promise((resolve, reject) => {
                 this._httpClient.get(this.api)
                     .subscribe((response: []) => {
 
-                        this.conceptos = response;
+                        this.origenes = response;
 
-                        this.onConceptosChanged.next(this.conceptos); 
-                        resolve(this.conceptos);
+                        this.onOrigenesChanged.next(this.origenes); 
+                        resolve(this.origenes);
                     }, reject);
             }
         ); 
-    }    
+    }
 
-    getConceptosTabla(): Promise<any> {
+    getOrigenesTabla(): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient.get(this.api2)
                 .subscribe((response: []) => {
 
-                    this.TablaConceptos = response;
+                    this.origenesTabla = response;
 
-                    this.TablaConceptos = this.TablaConceptos.map(c => {
-                        return new Concepto(c);
+                    this.origenesTabla = this.origenesTabla.map(d => {
+                        return new Origen(d);
                     });  
+               
 
-                    this.onConceptosTablaChanged.next(this.TablaConceptos);
-                    resolve(this.TablaConceptos);
+                    this.onOrigenesTablaChanged.next(this.origenesTabla);
+                    resolve(this.origenesTabla);
                 }, reject);
-            }
-        );
+        });
     }
+
 }

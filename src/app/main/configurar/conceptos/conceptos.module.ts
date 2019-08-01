@@ -9,7 +9,7 @@ import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 
 import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
 import { ConfigurarListModule } from '../lista/configurar-list.module';
-import { ConceptosService } from 'app/main/colaboradores/conceptos.service';
+import { ConceptosService } from 'app/main/configurar/conceptos.service';
 import { ConceptosComponent } from './conceptos.component';
 
 

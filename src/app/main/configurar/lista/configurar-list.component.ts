@@ -10,9 +10,9 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 
 import { Router } from '@angular/router';
 
-import { OrigenesService } from '../../colaboradores/origenes.service';
+import { OrigenesService } from '../origenes.service';
 import { OrigenesFormDialogComponent } from '../ori-form/ori-form.component';
-import { ConceptosService } from 'app/main/colaboradores/conceptos.service';
+import { ConceptosService } from 'app/main/configurar/conceptos.service';
 import { ConceptosFormDialogComponent } from '../conc-form/conc-form.component';
 
 

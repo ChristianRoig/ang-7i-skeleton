@@ -10,7 +10,7 @@ import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 import { NovedadesComponent } from 'app/main/novedades/novedades_sector/novedades.component';
 import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
 
-import { ConceptosService } from '../../colaboradores/conceptos.service';
+import { ConceptosService } from '../../configurar/conceptos.service';
 // import { DataListModule } from 'app/main/common/data-list/data-list.module';
 
 

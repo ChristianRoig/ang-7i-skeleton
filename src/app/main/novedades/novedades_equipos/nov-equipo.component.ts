@@ -8,7 +8,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
-import { OrigenesService } from '../../colaboradores/origenes.service';
+import { OrigenesService } from '../../configurar/origenes.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({

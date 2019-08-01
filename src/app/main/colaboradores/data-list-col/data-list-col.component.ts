@@ -8,11 +8,8 @@ import { takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 
-import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
 import { ColaboradoresContactFormDialogComponent } from 'app/main/colaboradores/colaborador-form/colaborador-form.component';
 import { Router } from '@angular/router';
-import { ImportarFormDialogComponent } from 'app/main/colaboradores/importar-form/importar-form.component';
-import { NovedadesFormDialogComponent } from '../../novedades/novedades-form/novedad-form.component';
 import { Perfil } from 'app/main/perfil/perfil.model';
 
 

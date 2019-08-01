@@ -7,7 +7,7 @@ import { MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldMo
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 
-import { OrigenesService } from '../origenes.service';
+import { OrigenesService } from '../../configurar/origenes.service';
 import { ColaboradoresComponent } from './equipo.component';
 
 import { DataListColaboradorModule } from '../data-list-col/data-list-col.module';
@@ -24,8 +24,8 @@ const routes: Routes = [
         path     : 'equipo/:equipo',
         component: ColaboradoresComponent,
         resolve  : {            
-            contacts: EquipoService,
-            listOrigenes: OrigenesService
+            listOrigenes  : OrigenesService,
+            colaboradores : EquipoService,            
         }
     }
 ];

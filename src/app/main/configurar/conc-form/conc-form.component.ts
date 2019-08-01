@@ -1,7 +1,7 @@
 import { Component, Inject, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { ConceptosService } from 'app/main/colaboradores/conceptos.service';
+import { ConceptosService } from 'app/main/configurar/conceptos.service';
 import { Concepto } from '../conceptos/concepto.model';
 
 
