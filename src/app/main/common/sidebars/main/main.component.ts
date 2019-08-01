@@ -6,7 +6,7 @@ import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.servi
 import { NominaService } from '../../../colaboradores/nomina/nomina.service';
 
 @Component({
-    selector   : 'contacts-main-sidebar',
+    selector   : 'general-main-sidebar',
     templateUrl: './main.component.html',
     styleUrls  : ['./main.component.scss']
 })
@@ -16,13 +16,9 @@ export class ContactsMainSidebarComponent implements OnInit, OnDestroy
     filterBy: string;
     isCheck = false;
 
-
     @Output() isCheckSideBar: EventEmitter<boolean>;
     @Output() isFilter: EventEmitter<string>;
-
     @Input() invocador: string;
-
-    // @Input() filterBy: string;
 
     // Private
     private _unsubscribeAll: Subject<any>;

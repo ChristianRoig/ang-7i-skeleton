@@ -13,6 +13,7 @@ import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.servi
 
 import { ControlNovedadesComponent } from './control-novedades.component';
 import { SidebarsMainModule } from 'app/main/common/sidebars/main/sidebars-main.module';
+import { DataListNovedadModule } from '../data-list-nov/data-list-nov.module';
 
 
 const routes: Routes = [
@@ -51,7 +52,7 @@ const routes: Routes = [
         FuseSidebarModule
         
         
-        // , DataListNovedadesModule
+        , DataListNovedadModule
         , SidebarsMainModule
         
  

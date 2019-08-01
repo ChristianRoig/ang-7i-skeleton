@@ -8,7 +8,7 @@
         <div fxLayout="row" fxLayoutAlign="start center">
 
             <button mat-icon-button class="sidebar-toggle mr-12" fxHide.gt-sm
-                    (click)="toggleSidebar('contacts-main-sidebar')">
+                    (click)="toggleSidebar('general-main-sidebar')">
                 <mat-icon>menu</mat-icon>
             </button>
 
@@ -50,12 +50,12 @@
     <div class="content">
 
         <!-- SIDEBAR -->
-         <fuse-sidebar class="sidebar" name="contacts-main-sidebar" position="left" lockedOpen="gt-sm">
+         <fuse-sidebar class="sidebar" name="general-main-sidebar" position="left" lockedOpen="gt-sm">
 
             <!-- SIDEBAR CONTENT -->
             
             <div class="content" ><!-- fusePerfectScrollbar -->
-                <contacts-main-sidebar [@animate]="{value:'*'}" (isCheckSideBar)="updateCheck($event)" (isFilter)="changeColumns($event)"></contacts-main-sidebar>
+                <general-main-sidebar [@animate]="{value:'*'}" (isCheckSideBar)="updateCheck($event)" (isFilter)="changeColumns($event)"></general-main-sidebar>
             </div>
             <!--/ SIDEBAR CONTENT -->
 
