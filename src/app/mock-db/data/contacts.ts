@@ -742,6 +742,82 @@ export class Contactos
         }
     ];
 
+    public static novSector = [
+        {
+            'nombre': 'GARCIA, MARIA GIMENA',
+            'sexo': 'Femenino',
+            'img': 'assets/images/avatars/Barrera.jpg',
+            'origen': 'Premio Ventas',
+            'legajo': 'FC0045',
+            'monto': '454',
+            'concepto': 'LIC.POR FLIAR ENFERMO',
+        },
+        {
+            'nombre': 'GARCIA, MARIA GIMENA',
+            'sexo': 'Femenino',
+            'img': 'assets/images/avatars/Barrera.jpg',
+            'origen': 'Premio Ventas',
+            'legajo': 'FC0045',
+            'monto': '124',
+            'concepto': 'LICENCIAS ESPECIALES',
+        },
+        {
+            'nombre': 'GARCIA, CARLOS EDUARDO',
+            'sexo': 'Masculino',
+            'img': 'assets/images/avatars/Abbott.jpg',
+            'origen': 'Premio Ventas',
+            'legajo': 'FC0063',
+            'monto': '235',
+            'concepto': 'LIC.POR ENFERMEDAD',
+        },
+        {
+            'nombre': 'CARBONI, NÉSTOR RUBÉN',
+            'sexo': 'Masculino',
+            'img': 'assets/images/avatars/Arnold.jpg',
+            'origen': 'Premio Ventas',
+            'legajo': 'FN0078',
+            'monto': '78',
+            'concepto': 'VACACIONES(DÍAS)',
+        },
+        {
+            'nombre': 'LARRECHE, HUGO HORACIO',
+            'sexo': 'Masculino',
+            'img': 'assets/images/avatars/Copeland.jpg',
+            'origen': 'Premio Ventas',
+            'legajo': 'FN0098',
+            'monto': '863',
+            'concepto': 'VACACIONES(DÍAS)',
+        },
+    
+        {
+            'nombre': 'CREPARULA, PAOLA',
+            'sexo': 'Femenino',
+            'img': 'assets/images/avatars/Christy.jpg',
+            'origen': 'Premio Ventas',
+            'legajo': 'FH0124',
+            'monto': '145',
+            'concepto': 'VACACIONES(DÍAS)',
+        },
+        {
+            'nombre': 'ESTRADA, CRISTINA',
+            'sexo': 'Femenino',
+            'img': 'assets/images/avatars/Shauna.jpg',
+            'origen': 'Premio Ventas',
+            'legajo': 'FH0456',
+            'monto': '345',
+            'concepto': 'LIC.POR ENFERMEDAD',
+        },
+        {
+            'nombre': 'ROMANO, ARIEL',
+            'sexo': 'Masculino',
+            'img': 'assets/images/avatars/Henderson.jpg',
+            'origen': 'Premio Ventas',
+            'legajo': 'FH0045',
+            'monto': '912',
+            'concepto': 'DÍAS DE ESTUDIO',
+        },
+    ];
+
     public static novEquipo = [
         {
             'nombre': 'GARCIA, MARIA GIMENA',

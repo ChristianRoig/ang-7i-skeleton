@@ -42,6 +42,8 @@ export class MockDbService implements InMemoryDbService
             'contactos-FH': Contactos.FH,
             'contacts-user': Contactos.user,
             'contactos-novEquipo': Contactos.novEquipo,
+            'contactos-novSector': Contactos.novSector,
+            
 
             'novedades-FN0051': Novedades.FN0051, //default
             'novedades-FC0784': Novedades.FC0784,

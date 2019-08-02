@@ -156,7 +156,7 @@ export class NovedadService implements Resolve<any>
 
         if (this.invocador === 'sectores') { // componente
             // Mock
-                const mock = 'api/contactos-novEquipo';
+                const mock = 'api/contactos-novSector';
                 verbo = 'get';
     
                 url = mock;

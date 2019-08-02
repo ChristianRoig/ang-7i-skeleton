@@ -100,7 +100,7 @@ const appRoutes: Routes = [
         ConceptosFormModule,
 
         // ImportarFormModule,        
-        // NovedadesModule,
+        NovedadesModule,
         // ControlNovedadesModule,
         NovEquiposModule,
         // NovedadesFormModule,        

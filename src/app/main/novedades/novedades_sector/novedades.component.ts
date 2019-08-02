@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
@@ -11,6 +11,8 @@ import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.servi
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConceptosService } from 'app/main/configurar/conceptos.service';
+import { NovedadService } from '../novedad.service';
+import { DataSource } from '@angular/cdk/table';
 
 @Component({
     selector     : 'sector',
@@ -38,24 +40,28 @@ export class NovedadesComponent implements OnInit, OnDestroy
 
     param: any;
 
-    // Protected
-    protected _unsubscribeAll: Subject<any>;
+    dataSource: FilesDataSource | null;
+    
+    private _unsubscribeAll: Subject<any>;
 
     /**
      * Constructor
      *
-     * @param {ColaboradoresService} _colaboradoresService
+     * @param {NovedadService} _novedadService
      * @param {FuseSidebarService} _fuseSidebarService
      * @param {MatDialog} _matDialog
      * @param {ConceptosService} _conceptosService
+     * @param {ActivatedRoute} _activeRouter
+     * @param {Router} _router
      */
     constructor(
-        protected _colaboradoresService: ColaboradoresService,
-        protected _fuseSidebarService: FuseSidebarService,
-        protected _matDialog: MatDialog,
-        protected _conceptosService: ConceptosService,
+        private _novedadService: NovedadService,
+        private _fuseSidebarService: FuseSidebarService,
+        private _matDialog: MatDialog,
         private _activeRouter: ActivatedRoute,
-        private _router: Router
+        private _router: Router,
+        private _conceptosService: ConceptosService,
+
     )
     {
         // Set the defaults
@@ -87,12 +93,13 @@ export class NovedadesComponent implements OnInit, OnDestroy
         
         this._conceptosService.onConceptosChanged
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(data => {
-                console.log(data);
+            .subscribe(data => {                
                 this.sectores = data;
         });
 
-        this._colaboradoresService.onFilterChanged.next('NOV');    
+        this._novedadService.onFilterChanged.next(this.seleccionado);
+        
+        this.dataSource = new FilesDataSource(this._novedadService);
 
         this.searchInput.valueChanges
             .pipe(
@@ -101,7 +108,7 @@ export class NovedadesComponent implements OnInit, OnDestroy
                 distinctUntilChanged()
             )
             .subscribe(searchText => {
-                this._colaboradoresService.onSearchTextChanged.next(searchText);
+                this._novedadService.onSearchTextChanged.next(searchText);
             });
     }
 
@@ -116,4 +123,33 @@ export class NovedadesComponent implements OnInit, OnDestroy
     }
 
 
+}
+
+
+export class FilesDataSource extends DataSource<any>
+{
+    /**
+     * Constructor
+     *
+     * @param {NovedadService} _novedadService
+     */
+    constructor(
+        private _novedadService: NovedadService
+    ) {
+        super();
+    }
+
+    /**
+     * Connect function called by the table to retrieve one stream containing the data to render.
+     * @returns {Observable<any[]>}
+     */
+    connect(): Observable<any[]> {
+        return this._novedadService.onNovedadesChanged;
+    }
+
+    /**
+     * Disconnect
+     */
+    disconnect(): void {
+    }
 }

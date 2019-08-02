@@ -46,10 +46,12 @@ export class NovEquiposComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {ColaboradoresService} _colaboradoresService
+     * @param {NovedadService} _novedadService
      * @param {FuseSidebarService} _fuseSidebarService
      * @param {MatDialog} _matDialog
      * @param {OrigenesService} _origenesService
+     * @param {ActivatedRoute} _activeRouter
+     * @param {Router} _router
      */
     constructor(
         private _novedadService: NovedadService,

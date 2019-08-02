@@ -8,11 +8,10 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 
 import { NovedadesComponent } from 'app/main/novedades/novedades_sector/novedades.component';
-// import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
-
 import { ConceptosService } from '../../configurar/conceptos.service';
 import { NovedadService } from '../novedad.service';
-// import { DataListModule } from 'app/main/common/data-list/data-list.module';
+import { DataListNovedadModule } from '../data-list-nov/data-list-nov.module';
+
 
 
 const routes: Routes = [
@@ -54,7 +53,7 @@ const routes: Routes = [
         FuseConfirmDialogModule,
         FuseSidebarModule,
 
-        // DataListModule
+        DataListNovedadModule,
 
     ],
     providers      : [
