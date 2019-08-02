@@ -7,11 +7,10 @@ import { MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldMo
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 
-import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
-
 import { OrigenesService } from '../../configurar/origenes.service';
 import { NovEquiposComponent } from './nov-equipo.component';
-// import { DataListModule } from 'app/main/common/data-list/data-list.module';
+import { DataListNovedadModule } from '../data-list-nov/data-list-nov.module';
+import { NovedadService } from '../novedad.service';
 
 
 const routes: Routes = [
@@ -19,11 +18,11 @@ const routes: Routes = [
         path: 'novedades/equipos', redirectTo: 'novedades/equipos/',
     },
     {
-        path     : 'novedades/equipos/:equipo',
+        path     : 'novedades/equipos/:filtro',
         component: NovEquiposComponent,
         resolve  : {            
-            contacts: ColaboradoresService,
-            listOrigenes: OrigenesService
+            listOrigenes: OrigenesService,
+            novedades: NovedadService,            
         }
     }
 ];
@@ -52,11 +51,10 @@ const routes: Routes = [
         FuseConfirmDialogModule,
         FuseSidebarModule,
 
-        // DataListModule
-
+        DataListNovedadModule,
     ],
     providers      : [
-        ColaboradoresService,
+        NovedadService,
         OrigenesService
     ]
 })

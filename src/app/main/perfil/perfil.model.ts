@@ -58,7 +58,7 @@ export class Perfil { // de Colaborador
         this.tarea = perfil.tarea || '-';
         this.cuil = perfil.cuil || '-';
         this.email = perfil.email || '-';
-        this.sexo = perfil.sexo || '-';
+        this.sexo = perfil.sexo || 'Masculino';
         this.estadoCivil = perfil.estadoCivil || '-';
         this.observaciones = perfil.observaciones || '-';
 

@@ -1,6 +1,6 @@
 import { FuseUtils } from '@fuse/utils';
 
-export class Novedad {
+export class NovedadPerfil {
     Eq: [];
     Ex: [];
 

@@ -1,15 +1,16 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
-import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
 import { OrigenesService } from '../../configurar/origenes.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DataSource } from '@angular/cdk/table';
+import { NovedadService } from '../novedad.service';
 
 @Component({
     selector     : 'novequipos',
@@ -38,8 +39,9 @@ export class NovEquiposComponent implements OnInit, OnDestroy
 
     param: any;
 
-    // Protected
-    protected _unsubscribeAll: Subject<any>;
+    dataSource: FilesDataSource | null;
+    
+    private _unsubscribeAll: Subject<any>;
 
     /**
      * Constructor
@@ -50,10 +52,10 @@ export class NovEquiposComponent implements OnInit, OnDestroy
      * @param {OrigenesService} _origenesService
      */
     constructor(
-        protected _colaboradoresService: ColaboradoresService,
-        protected _fuseSidebarService: FuseSidebarService,
-        protected _matDialog: MatDialog,
-        protected _origenesService: OrigenesService,
+        private _novedadService: NovedadService,
+        private _fuseSidebarService: FuseSidebarService,
+        private _matDialog: MatDialog,
+        private _origenesService: OrigenesService,
         private _activeRouter: ActivatedRoute,
         private _router: Router
     )
@@ -86,13 +88,17 @@ export class NovEquiposComponent implements OnInit, OnDestroy
 
         });    
         
+        // Combo de Origenes
         this._origenesService.onOrigenesChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(data => {
                 this.listOrigenes = data;
             });
 
-        this._colaboradoresService.onFilterChanged.next('novEquipo');
+     
+        this._novedadService.onFilterChanged.next(this.seleccionado);
+
+        this.dataSource = new FilesDataSource(this._novedadService);
      
         this.searchInput.valueChanges
             .pipe(
@@ -101,7 +107,7 @@ export class NovEquiposComponent implements OnInit, OnDestroy
                 distinctUntilChanged()
             )
             .subscribe(searchText => {
-                this._colaboradoresService.onSearchTextChanged.next(searchText);
+                this._novedadService.onSearchTextChanged.next(searchText);
             });
     }
 
@@ -115,4 +121,33 @@ export class NovEquiposComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
+}
+
+
+export class FilesDataSource extends DataSource<any>
+{
+    /**
+     * Constructor
+     *
+     * @param {NovedadService} _novedadService
+     */
+    constructor(
+        private _novedadService: NovedadService 
+    ) {
+        super();
+    }
+
+    /**
+     * Connect function called by the table to retrieve one stream containing the data to render.
+     * @returns {Observable<any[]>}
+     */
+    connect(): Observable<any[]> {
+        return this._novedadService.onNovedadesChanged;
+    }
+
+    /**
+     * Disconnect
+     */
+    disconnect(): void {
+    }
 }

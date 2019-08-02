@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ErrorService } from '../errors/error.service';
-import { Novedad } from './novedades.model';
+import { NovedadPerfil } from './novedades.model';
 
 @Injectable()
 export class NovedadesService implements Resolve<any>
@@ -44,7 +44,7 @@ export class NovedadesService implements Resolve<any>
                     resolve();
                 },
                 (error) => {
-                    this.info = new Novedad({});
+                    this.info = new NovedadPerfil({});
                     this.infoOnChanged.next(this.info);
 
                     // this._errorService.errorHandler(error, "Las novedades no pudieron ser encontradas");
@@ -77,7 +77,7 @@ export class NovedadesService implements Resolve<any>
 
                 // observable execution
                 observer.next(
-                    new Novedad({})
+                    new NovedadPerfil({})
                 );
                 observer.complete();
             });

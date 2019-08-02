@@ -8,9 +8,10 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 
 import { NovedadesComponent } from 'app/main/novedades/novedades_sector/novedades.component';
-import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
+// import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
 
 import { ConceptosService } from '../../configurar/conceptos.service';
+import { NovedadService } from '../novedad.service';
 // import { DataListModule } from 'app/main/common/data-list/data-list.module';
 
 
@@ -22,7 +23,7 @@ const routes: Routes = [
         path: 'novedades/sectores/:filtro',
         component: NovedadesComponent,
         resolve  : {
-            contacts: ColaboradoresService,
+            novedades: NovedadService,
             conceptos: ConceptosService
         }
     }
@@ -57,7 +58,7 @@ const routes: Routes = [
 
     ],
     providers      : [
-        ColaboradoresService,
+        NovedadService,
         ConceptosService
     ]
 })

@@ -16,7 +16,7 @@
         <ng-container matColumnDef="avatar">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let data">
-                <img class="avatar" *ngIf="data.avatar" [alt]="data.name" [src]="data.avatar" />
+                <img class="avatar" *ngIf="data.img" [alt]="data.nombre" [src]="data.img" />
             </mat-cell>
         </ng-container>
 
@@ -24,16 +24,16 @@
         <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
             <mat-cell *matCellDef="let data">
-                <p class="text-truncate font-weight-600">{{data.name}} {{data.lastName}}</p>
+                <p class="text-truncate font-weight-600">{{data.nombre}}</p>
             </mat-cell>
         </ng-container>
 
-        <!-- Workplace Column -->
-        <ng-container matColumnDef="workplace">
-            <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Lugar de Trabajo</mat-header-cell>
-            <mat-cell *matCellDef="let data" fxHide fxShow.gt-md>
-                <p class="Workplace text-truncate">
-                    {{data.workplace}}
+        <!-- Docket Column -->
+        <ng-container matColumnDef="docket">
+            <mat-header-cell *matHeaderCellDef>Legajo</mat-header-cell>
+            <mat-cell *matCellDef="let data">
+                <p class="Docket text-truncate">
+                    {{data.legajo}}
                 </p>
             </mat-cell>
         </ng-container>
@@ -43,100 +43,30 @@
             <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Departamento</mat-header-cell>
             <mat-cell *matCellDef="let data" fxHide fxShow.gt-sm>
                 <p class="Departament text-truncate">
-                    {{data.departament}}
-                </p>
-            </mat-cell>
-        </ng-container>
-
-        <!-- Sucursal Column -->
-        <ng-container matColumnDef="sucursal">
-            <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Sucursal</mat-header-cell>
-            <mat-cell *matCellDef="let data" fxHide fxShow.gt-sm>
-                <p class="Departament text-truncate">
-                    {{data.departament}}
-                </p>
-            </mat-cell>
-        </ng-container>
-
-        <!-- Company Column -->
-        <ng-container matColumnDef="company">
-            <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Compañia</mat-header-cell>
-            <mat-cell *matCellDef="let data" fxHide fxShow.gt-sm>
-                <p class="company text-truncate">
-                    {{data.company}}
-                </p>
-            </mat-cell>
-        </ng-container>
-
-        <!-- Email Column-->
-        <ng-container matColumnDef="email">
-            <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
-            <mat-cell *matCellDef="let data">
-                <p class="email text-truncate">
-                    {{data.email}}
-                </p>
-            </mat-cell>
-        </ng-container>
-
-        <!-- Docket Column -->
-        <ng-container matColumnDef="docket">
-            <mat-header-cell *matHeaderCellDef>Legajo</mat-header-cell>
-            <mat-cell *matCellDef="let data">
-                <p class="Docket text-truncate">
-                    {{data.company}}-{{data.docket}}
-                </p>
-            </mat-cell>
-        </ng-container>
-
-        <!-- Novedades Column -->
-        <ng-container matColumnDef="novedades">
-            <mat-header-cell *matHeaderCellDef>Novedades</mat-header-cell>
-            <mat-cell *matCellDef="let data">
-                <p class="novedades text-truncate" *ngIf="data.novedades">
-                    {{data.novedades}}
+                    {{data.origen}}
                 </p>
             </mat-cell>
         </ng-container>
 
         <!-- Sector Column -->
-        <ng-container matColumnDef="sector" *ngIf="invocador !== 'sector'">
+        <ng-container matColumnDef="sector">
             <mat-header-cell *matHeaderCellDef>Sector</mat-header-cell>
             <mat-cell *matCellDef="let data">
-                <p class="text-truncate" *ngIf="data.novedad">
-                    {{data.novedad}}
+                <p class="text-truncate" >
+                    {{data.origen}}
                 </p>
             </mat-cell>
         </ng-container>
 
-        <!-- Sector Column (este es harcodeado)-->
-        <ng-container matColumnDef="sector" *ngIf="invocador === 'sector'">
-            <mat-header-cell *matHeaderCellDef>Sector</mat-header-cell>
-            <mat-cell *matCellDef="let data">
-                <p class="text-truncate">
-                    Premio Ventas
-                </p>
-            </mat-cell>
-        </ng-container>
-
-        <!-- Sector Column (este es harcodeado)-->
-        <ng-container matColumnDef="concepto" *ngIf="invocador === 'sector'">
+        <!-- Concepto Column -->
+        <ng-container matColumnDef="concepto">
             <mat-header-cell *matHeaderCellDef>Concepto</mat-header-cell>
             <mat-cell *matCellDef="let data">
                 <p class="text-truncate">
-                    Premio Cobranzas
+                    {{data.concepto}}
                 </p>
             </mat-cell>
         </ng-container>
-
-        <ng-container matColumnDef="concepto" *ngIf="invocador === 'nov-equipos'">
-            <mat-header-cell *matHeaderCellDef>Concepto</mat-header-cell>
-            <mat-cell *matCellDef="let data">
-                <p class="text-truncate">
-                    {{data.novedad}}
-                </p>
-            </mat-cell>
-        </ng-container>
-
 
         
         <!-- Monto Column -->
@@ -144,30 +74,13 @@
             <mat-header-cell *matHeaderCellDef>Monto</mat-header-cell>
             <mat-cell *matCellDef="let data">
                 <p class="monto text-truncate" *ngIf="data.monto">
-                    {{ data.monto }}
+                    {{data.monto}}
                 </p>
             </mat-cell>
         </ng-container>
 
-        <!-- Status Column -->
-        <ng-container matColumnDef="status">
-            <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
-            <mat-cell *matCellDef="let data">
-                <p class="status text-truncate {{data.status}}">
-                    {{data.status}}
-                </p>
-            </mat-cell>
-        </ng-container>      
+        
 
-        <!-- StatusNovedades Column -->
-        <ng-container matColumnDef="statusNovedades" *ngIf="invocador === 'ControlNovedades'">
-            <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
-            <mat-cell *matCellDef="let data">
-                <p class="status text-truncate {{data.statusNovedades}}">
-                    {{data.statusNovedades}}
-                </p>
-            </mat-cell>
-        </ng-container>
 
         <!-- Buttons Column -->
         <ng-container matColumnDef="buttons">
@@ -179,18 +92,7 @@
                         <mat-icon class="secondary-text">more_vert</mat-icon>
                     </button>
 
-                    <mat-menu #moreMenu="matMenu">
-                        <button mat-menu-item aria-label="Ver Perfil" (click)="goPerfil(data)"
-                            *ngIf="invocador === 'equipo'">
-                            <mat-icon>account_circle</mat-icon>
-                            <span>Ver Perfil</span>
-                        </button>
-                        <button mat-menu-item aria-label="add-novedades" (click)="addNovedad(data)"
-                            *ngIf="invocador === 'equipo'">
-                            <mat-icon>add_circle_outline</mat-icon>
-                            <span>Novedades</span>
-                        </button>                   
-
+                    <mat-menu #moreMenu="matMenu">                        
                         <button mat-menu-item aria-label="add-novedades" (click)="test()" *ngIf="false">
                             <mat-icon>add_circle_outline</mat-icon>
                             <span>TEST</span>
@@ -202,10 +104,9 @@
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let data; columns: displayedColumns;" class="contact"
-            [ngClass]="{'accent-50':checkboxes[data.id]}" matRipple [@animate]="{value:'*',params:{y:'100%'}}">
+            matRipple [@animate]="{value:'*',params:{y:'100%'}}">
         </mat-row>
 
-        <!-- (click)="editContact(contact)" -->
     </mat-table>
 </div>
 

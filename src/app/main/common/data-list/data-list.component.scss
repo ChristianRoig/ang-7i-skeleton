@@ -1,6 +1,6 @@
 @import "src/@fuse/scss/fuse";
 
-data-list-colaboradores {
+data-list-colaboradores, data-list-novedades {
 
     .botones {
         margin: 5px 0 25px 5px;
@@ -124,16 +124,16 @@ data-list-colaboradores {
     
 }
 
-#add-contact-button {
-    position: absolute;
-    bottom: 12px;
-    right: 12px;
-    padding: 0;
-    z-index: 99;
+// #add-contact-button {
+//     position: absolute;
+//     bottom: 12px;
+//     right: 12px;
+//     padding: 0;
+//     z-index: 99;
 
-    @include media-breakpoint('xs') {
-        position: sticky;
-        top: calc(100vh - 120px);
-        bottom: auto;
-    }
-}
+//     @include media-breakpoint('xs') {
+//         position: sticky;
+//         top: calc(100vh - 120px);
+//         bottom: auto;
+//     }
+// }

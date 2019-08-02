@@ -30,13 +30,15 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
 
     colaboradores: any;
     user: any;
-    dataSource: FilesDataSource | null;
+    // dataSource: FilesDataSource | null;
 
     @Input() displayedColumns;
 
     @Input() hasCheck: boolean;
 
     @Input() invocador: string;
+
+    @Input() dataSource;
 
     selectedContacts: any[];
     checkboxes: {};
@@ -80,18 +82,18 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
     {
         // console.log('ngOnInit list: ' + this.hasCheck);
 
-        this.dataSource = new FilesDataSource(this._colaboradoresService);
+        // this.dataSource = new FilesDataSource(this._colaboradoresService);
 
-        this._colaboradoresService.onColaboradoresChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(colaboradores => {
-                this.colaboradores = colaboradores;
+        // this._colaboradoresService.onColaboradoresChanged
+        //     .pipe(takeUntil(this._unsubscribeAll))
+        //     .subscribe(colaboradores => {
+        //         this.colaboradores = colaboradores;
 
-                this.checkboxes = {};
-                colaboradores.map(colaborador => {
-                    this.checkboxes[colaborador.id] = false;
-                });
-            });
+        //         this.checkboxes = {};
+        //         colaboradores.map(colaborador => {
+        //             this.checkboxes[colaborador.id] = false;
+        //         });
+        //     });
 
         /*         
         this._colaboradoresService.onFilterChanged
