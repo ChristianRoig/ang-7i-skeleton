@@ -47,6 +47,9 @@ import { ImportarFormModule } from './main/novedades/importar-form/importar-form
 
 const appRoutes: Routes = [
     {
+        path: '', redirectTo: 'perfil/', pathMatch: 'full'
+    },
+    {
         path      : '**',
         redirectTo: 'error'
     }
