@@ -66,17 +66,14 @@ export class NominaService implements Resolve<any>
                 ([files]) => {
 
                     /**
-                     * Filtros de busqueda
+                     * Filtros de busqueda por texto
                      */
-
-                    // Filtro por texto                     
+            
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
                         this._filterColaboradores();
-                    });;
-
-                
-
+                    });
+         
                     resolve();
 
                 },

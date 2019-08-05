@@ -15,14 +15,15 @@ export class EquipoService implements Resolve<any>
 {   
     
     filterBy = ''; 
+    ComboOrigenes = [];
     
     private searchText = '';
     private colaboradores: Perfil[] = [];    
-
+    
     onColaboradoresChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
-    
+    onComboOrigenesChanged: Subject<any>;
 
     /**
      * Constructor
@@ -41,6 +42,7 @@ export class EquipoService implements Resolve<any>
         this.onColaboradoresChanged = new BehaviorSubject([]);        
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();         
+        this.onComboOrigenesChanged = new Subject();         
                
     }
 
@@ -57,24 +59,19 @@ export class EquipoService implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
     {
-         return new Promise((resolve, reject) => {
+        
+        return new Promise((resolve, reject) => {
 
-            Promise.all([                
+            Promise.all([
+                this.getComboOrigenes(),
+                this._defineFilter(route),
                 this.getColaboradores()
             ]).then(
                 ([files]) => {
 
                     /**
-                     * Filtros de busqueda
+                     * Filtro de busqueda por texto
                      */
-                    
-                    // Filtro por parametro 
-                    this.onFilterChanged.subscribe(filter => {
-                        this.filterBy = filter;
-                        this.getColaboradores();
-                    });
-
-                    // Filtro por texto                     
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
                         this._filterColaboradores();
@@ -96,6 +93,27 @@ export class EquipoService implements Resolve<any>
     }
 
     /**
+     * _defineFilter()
+     * Define el filtro segun la url del componente que invoco al servicio
+     * @param {ActivatedRouteSnapshot} _r
+     */
+    private _defineFilter(_r: ActivatedRouteSnapshot): void {
+        if (this.ComboOrigenes.length === 0) { return; }
+        
+        const aux = _r.params.equipo;
+
+        let valor = '';
+        this.ComboOrigenes.forEach(function(elemento): void {
+            if (elemento.cod === aux){
+                valor = elemento.valor;
+            }
+        });
+
+        this.filterBy = valor; // Filtro por parametro 
+        this.onFilterChanged.next(this.filterBy);
+    }
+
+    /**
      * _filterColaboradores()
      * Dependiendo del texto ingresado filtra el contenido del objeto colaboradores
      */
@@ -109,18 +127,39 @@ export class EquipoService implements Resolve<any>
     }
 
     /**
+     * getComboOrigenes()
+     * Encargado de traer del backend los Origenes de Sucursales y Departamentos
+     */
+    getComboOrigenes(): Promise<any> {
+        if (this.ComboOrigenes.length !== 0) { return; }
+                
+        const url = API_URL + 'alguna url de back';
+        const params = {};
+
+        return new Promise((resolve, reject) => {
+                // this._createRequest(url, params) ¡¡revisar si es llamado post o get, implementar verbo si es necesario!!
+            this._httpClient.get('api/origenes') // Mock
+                .subscribe((response: []) => {
+
+                    this.ComboOrigenes = response;
+
+                    this.onComboOrigenesChanged.next(this.ComboOrigenes);
+                    resolve(this.ComboOrigenes);
+                }, reject);
+        });
+    }
+
+    /**
      * getColaboradores()
      * Conecta con el Backend para traer un conjunto de colaboradores segun los filtros
      * @returns {Promise<any>}
      */
     getColaboradores(): Promise<any>{
-        let url = API_URL;
-        let params = {};
+        if (this.ComboOrigenes.length === 0) { return; }
 
-        url = API_URL + 'obtenerColaboradoresByDepartamento';
-        
-        params = {
-            'departamento': 'Tesoreria cajas' // cambiar por el filtro que se pase como parametro
+        const url = API_URL + 'obtenerColaboradoresByDepartamento';                    
+        const params = {
+            'departamento': this.filterBy
         };
 
         return new Promise((resolve, reject) => {

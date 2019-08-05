@@ -17,7 +17,6 @@ export class OrigenesService implements Resolve<any>
     onOrigenesTablaChanged: BehaviorSubject<any>;
     origenesTabla = [];   
 
-    api = 'api/origenes';
     api2 = 'api/tabla';
 
     /**
@@ -53,7 +52,7 @@ export class OrigenesService implements Resolve<any>
          return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getOrigenes(),
+                // this.getOrigenes(), // Es el combo de equipo lo paso a equipo.service
                 this.getOrigenesTabla()
             ]).then(
                 ([files]) => {
@@ -91,20 +90,20 @@ export class OrigenesService implements Resolve<any>
         }); 
     }
 
-    getOrigenes(): Promise<any>
-    {        
-        return new Promise((resolve, reject) => {
-                this._httpClient.get(this.api)
-                    .subscribe((response: []) => {
+    // getOrigenes(): Promise<any>
+    // {        
+    //     return new Promise((resolve, reject) => {
+    //             this._httpClient.get('api/origenes')
+    //                 .subscribe((response: []) => {
 
-                        this.origenes = response;
+    //                     this.origenes = response;
 
-                        this.onOrigenesChanged.next(this.origenes); 
-                        resolve(this.origenes);
-                    }, reject);
-            }
-        ); 
-    }
+    //                     this.onOrigenesChanged.next(this.origenes); 
+    //                     resolve(this.origenes);
+    //                 }, reject);
+    //         }
+    //     ); 
+    // }
 
     getOrigenesTabla(): Promise<any> {
         return new Promise((resolve, reject) => {
