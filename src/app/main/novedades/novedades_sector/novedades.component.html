@@ -23,9 +23,9 @@
             <div class="selector" fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Sectores</mat-label>
-                    <mat-select name="sectores" [(ngModel)]="seleccionado" [@slideInTop]>
-                        <mat-option *ngFor="let sector of sectores" [value]="sector">
-                            {{sector | titlecase}}
+                    <mat-select name="sectores" [(ngModel)]="seleccionado" [@slideInTop] (selectionChange)="buscarXFiltro($event)">
+                        <mat-option *ngFor="let sector of sectores" [value]="sector.cod">
+                            {{sector.valor | titlecase}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>

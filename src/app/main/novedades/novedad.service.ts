@@ -21,6 +21,7 @@ export class NovedadService implements Resolve<any>
     private invocador = '';
 
     ComboDepSuc = [];
+    ComboExterno = [];
     
     onNovedadesChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
@@ -28,6 +29,7 @@ export class NovedadService implements Resolve<any>
     OnInvocadorChanged: Subject<any>;
 
     onComboDepSucChanged: Subject<any>;
+    onComboExternoChanged: Subject<any>;
     
     /**
      * Constructor
@@ -48,6 +50,8 @@ export class NovedadService implements Resolve<any>
         this.OnInvocadorChanged = new Subject();
         
         this.onComboDepSucChanged = new Subject();
+        this.onComboExternoChanged = new Subject();
+
 
     }
 
@@ -70,6 +74,7 @@ export class NovedadService implements Resolve<any>
 
             Promise.all([
                 this.getComboDepSuc(),
+                this.getComboExterno(),
                 this._defineFilter(route),
                 this.getNovedades()
             ]).then(
@@ -128,6 +133,30 @@ export class NovedadService implements Resolve<any>
                 }, reject);
         });
     }
+
+    /**
+     * getComboExterno()
+     * Encargado de traer del backend los Origenes Externos
+     */
+    getComboExterno(): Promise<any> {
+        if (this.ComboExterno.length !== 0) { return; }
+
+        const url = API_URL + 'alguna url de back';
+        const params = {};
+
+        return new Promise((resolve, reject) => {
+            // this._createRequest(url, params) ¡¡revisar si es llamado post o get, implementar verbo si es necesario!!
+            this._httpClient.get('api/sectores')
+                .subscribe((response: []) => {
+
+                    this.ComboExterno = response;
+
+                    this.onComboExternoChanged.next(this.ComboExterno);
+                    resolve(this.ComboExterno);
+                }, reject);
+        }
+        );
+    }    
 
     /**
      * _filterNovedades()

@@ -11,19 +11,29 @@ export class Origenes {
     //     'Suc Villa Gesell',
     // ];
 
+    // public static sectorCombo = [
+    //     'Adelantos',
+    //     'Comisiones',
+    //     'Generales RRHH',
+    //     'Licencias',
+    //     'Premios Productividad',
+    //     'Retroactivos',
+        
+    //     'Corporativos',
+    //     'Diferencia de Caja',
+    //     'Entrega En Mano, Incentivos',
+    //     'Premios Ventas',
+        
+    // ];
+
     public static sectorCombo = [
-        'Adelantos',
-        'Comisiones',
-        'Generales RRHH',
-        'Licencias',
-        'Premios Productividad',
-        'Retroactivos',
-        
-        'Corporativos',
-        'Diferencia de Caja',
-        'Entrega En Mano, Incentivos',
-        'Premios Ventas',
-        
+        {'cod': 'Difer',      'valor': 'Diferencia de Caja'},
+        {'cod': 'Prem-Vta',   'valor': 'Premios Ventas'},
+        {'cod': 'EntMan-Inc', 'valor': 'Entrega En Mano'},
+        {'cod': 'Prem-Cob',   'valor': 'Premios Cobranzas'},
+        {'cod': 'Gesti-Dom',  'valor': 'Gestion Domic'},
+        {'cod': 'Equip',      'valor': 'Equipos Ventas'},
+        {'cod': 'Corpo',      'valor': 'Corporativos'},
     ];
 
     public static origenes = [

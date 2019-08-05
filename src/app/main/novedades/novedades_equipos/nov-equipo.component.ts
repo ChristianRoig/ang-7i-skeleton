@@ -31,7 +31,7 @@ export class NovEquiposComponent implements OnInit, OnDestroy
 
     listOrigenes = [];
 
-    seleccionado = 'Tesoreria Cajas';
+    seleccionado = '';
 
     componente = 'nov-equipos';
 

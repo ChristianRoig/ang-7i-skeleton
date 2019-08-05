@@ -32,13 +32,11 @@ export class NovedadesComponent implements OnInit, OnDestroy
     columnas = ['avatar', 'name', 'docket', 'sector', 'concepto', 'monto', 'buttons'];
 
     componente = 'sector';
-    sectores = '';
+    sectores = [];
 
-    seleccionado = 'Premios Ventas';
+    seleccionado = '';
 
-    titulo = 'Novedades por Sector';
-
-    param: any;
+    titulo = 'Novedades por Sector';    
 
     dataSource: FilesDataSource | null;
     
@@ -83,19 +81,23 @@ export class NovedadesComponent implements OnInit, OnDestroy
 
         this._activeRouter.params.subscribe(params => {
 
-            this.param = params.id;
+            this.seleccionado = params.filtro;
 
-            if (this.param === '' || this.param == null || this.param === ' ') {
-                this._router.navigate(['novedades/sectores/' + 'cajas']);
+            if (this.seleccionado === '' || this.seleccionado == null || this.seleccionado === ' ') {
+                this.seleccionado = 'Prem-Vta';
+                this._router.navigate(['novedades/sectores/' + this.seleccionado]);
             }
 
         });    
         
-        this._conceptosService.onConceptosChanged
+        
+
+        this.sectores = this._novedadService.ComboExterno;
+        this._novedadService.onComboExternoChanged
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(data => {                
+            .subscribe(data => {
                 this.sectores = data;
-        });
+            });
 
         this._novedadService.onFilterChanged.next(this.seleccionado);
         
@@ -122,7 +124,10 @@ export class NovedadesComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
-
+    buscarXFiltro(dato): void {
+        console.log(dato.value);
+        this._router.navigate(['novedades/sectores/' + dato.value]);
+    }
 }
 
 

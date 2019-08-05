@@ -8,15 +8,12 @@ import { ErrorService } from '../errors/error.service';
 
 @Injectable()
 export class ConceptosService implements Resolve<any>
-{
-    onConceptosChanged: BehaviorSubject<any>;
+{    
     onConceptosTablaChanged: BehaviorSubject<any>;
-
-    conceptos = [];   
+    
     TablaConceptos = [];   
 
     // api = 'api/conceptos';
-    api = 'api/sectores';
     api2 = 'api/tablaConceptos';
 
     /**
@@ -30,8 +27,7 @@ export class ConceptosService implements Resolve<any>
         private _errorService: ErrorService
     )
     {
-        // Set the defaults
-        this.onConceptosChanged = new BehaviorSubject([]);
+        // Set the defaults        
         this.onConceptosTablaChanged = new BehaviorSubject([]);
               
     }
@@ -51,8 +47,7 @@ export class ConceptosService implements Resolve<any>
     {
          return new Promise((resolve, reject) => {
 
-            Promise.all([
-                this.getConceptos(),
+            Promise.all([                
                 this.getConceptosTabla(),
             ]).then(
                 ([files]) => {
@@ -74,16 +69,13 @@ export class ConceptosService implements Resolve<any>
                     resolve();
 
                 },
-                (error) => {
-                    this.conceptos = [];
+                (error) => {                    
                     this.TablaConceptos = [];
 
-                    this.onConceptosTablaChanged.next(this.TablaConceptos);
-                    this.onConceptosChanged.next(this.conceptos);
+                    this.onConceptosTablaChanged.next(this.TablaConceptos);                    
 
                     this._errorService.errorHandler(error);
-
-                    resolve(this.conceptos);
+                    
                     resolve(this.TablaConceptos);                    
                 }
             );
@@ -105,21 +97,6 @@ export class ConceptosService implements Resolve<any>
 
         return data;
     }
-
-    getConceptos(): Promise<any>
-    {        
-        return new Promise((resolve, reject) => {
-                this._httpClient.get(this.api)
-                    .subscribe((response: []) => {
-
-                        this.conceptos = response;
-
-                        this.onConceptosChanged.next(this.conceptos); 
-                        resolve(this.conceptos);
-                    }, reject);
-            }
-        ); 
-    }    
 
     getConceptosTabla(): Promise<any> {
         return new Promise((resolve, reject) => {
