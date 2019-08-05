@@ -20,11 +20,15 @@ export class NovedadService implements Resolve<any>
     private novedades: Novedad[] = [];
     private invocador = '';
 
+    ComboDepSuc = [];
+    
     onNovedadesChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
     OnInvocadorChanged: Subject<any>;
 
+    onComboDepSucChanged: Subject<any>;
+    
     /**
      * Constructor
      *
@@ -42,6 +46,9 @@ export class NovedadService implements Resolve<any>
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
         this.OnInvocadorChanged = new Subject();
+        
+        this.onComboDepSucChanged = new Subject();
+
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -57,12 +64,13 @@ export class NovedadService implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
 
-        this._defineFilter(route);
+        // this._defineFilter(route);
 
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                // this._defineFilter(route),
+                this.getComboDepSuc(),
+                this._defineFilter(route),
                 this.getNovedades()
             ]).then(
                 ([files]) => {
@@ -98,6 +106,28 @@ export class NovedadService implements Resolve<any>
         });
     }
 
+    /**
+     * getComboDepSuc()
+     * Encargado de traer del backend los Origenes de Sucursales y Departamentos
+     */
+    getComboDepSuc(): Promise<any> {
+        if (this.ComboDepSuc.length !== 0) { return; }
+
+        const url = API_URL + 'alguna url de back';
+        const params = {};
+
+        return new Promise((resolve, reject) => {
+            // this._createRequest(url, params) ¡¡revisar si es llamado post o get, implementar verbo si es necesario!!
+            this._httpClient.get('api/origenes') // Mock
+                .subscribe((response: []) => {
+
+                    this.ComboDepSuc = response;
+
+                    this.onComboDepSucChanged.next(this.ComboDepSuc);
+                    resolve(this.ComboDepSuc);
+                }, reject);
+        });
+    }
 
     /**
      * _filterNovedades()

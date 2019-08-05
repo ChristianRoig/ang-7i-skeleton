@@ -23,9 +23,9 @@
             <div class="selector equipo" fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Departamento / Sucursal</mat-label>
-                    <mat-select name="listOrigenes" [(ngModel)]="seleccionado" [@slideInTop]>
-                        <mat-option *ngFor="let lD of listOrigenes" [value]="lD" >
-                            {{lD | titlecase }}
+                    <mat-select name="listOrigenes" [(ngModel)]="seleccionado" [@slideInTop] (selectionChange)="buscarXFiltro($event)">
+                        <mat-option *ngFor="let lD of listOrigenes" [value]="lD.cod" >
+                            {{lD.valor | titlecase }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>

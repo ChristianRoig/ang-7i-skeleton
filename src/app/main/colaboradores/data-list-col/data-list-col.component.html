@@ -13,7 +13,9 @@
         <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
             <mat-cell *matCellDef="let data">
-                <p class="text-truncate font-weight-600">{{data.nombre}}</p>
+                <p class="text-truncate font-weight-600">
+                    {{data.nombre | titlecase}}
+                </p>
             </mat-cell>
         </ng-container>
 

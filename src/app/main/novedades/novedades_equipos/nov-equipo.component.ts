@@ -35,9 +35,7 @@ export class NovEquiposComponent implements OnInit, OnDestroy
 
     componente = 'nov-equipos';
 
-    titulo = 'Novedades de Equipos';
-
-    param: any;
+    titulo = 'Novedades de Equipos';    
 
     dataSource: FilesDataSource | null;
     
@@ -81,22 +79,23 @@ export class NovEquiposComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         this._activeRouter.params.subscribe(params => {
+            
+            this.seleccionado = params.filtro;
 
-            this.param = params.id;
-
-            if (this.param === '' || this.param == null || this.param === ' ') {
-                this._router.navigate(['novedades/equipos/' + 'cajas']);
+            if (this.seleccionado === '' || this.seleccionado == null || this.seleccionado === ' ') {
+                this.seleccionado = 'Cajas';
+                this._router.navigate(['novedades/equipos/' + this.seleccionado]);
             }
 
         });    
         
         // Combo de Origenes
-        this._origenesService.onOrigenesChanged
+        this.listOrigenes = this._novedadService.ComboDepSuc;
+        this._novedadService.onComboDepSucChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(data => {
                 this.listOrigenes = data;
             });
-
      
         this._novedadService.onFilterChanged.next(this.seleccionado);
 
@@ -121,6 +120,10 @@ export class NovEquiposComponent implements OnInit, OnDestroy
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+    }
+
+    buscarXFiltro(dato): void {
+        this._router.navigate(['novedades/equipos/' + dato.value]);
     }
 
 }
