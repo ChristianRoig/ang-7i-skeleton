@@ -13,6 +13,7 @@ import { GastosService } from '../gastos.service';
 //import { GastoFormDialogComponent } from '../gastos-form/gastos-form.component';
 import { Gasto } from '../gasto.model';
 import { ContactsService } from 'app/main/contacts/contacts.service';
+import { GastoFormDialogComponent } from '../gastos-form/gastos-form.component';
 
 export class Group {
     level: number = 0;
@@ -218,7 +219,7 @@ export class GastoListComponent implements OnInit, OnDestroy
      *
      * @param contact
      */
-   /*  editContact(gasto: Gasto): void
+     editContact(gasto: Gasto): void
     {
         let contacto = this._contactsService.getContactoByName(gasto.contacto_id);
         this.dialogRef = this._matDialog.open(GastoFormDialogComponent, {
@@ -242,7 +243,7 @@ export class GastoListComponent implements OnInit, OnDestroy
                 {
                     /**
                      * Save
-                     * /
+                     */
                     case 'save':
 
                       //  this._gastosService.updateContact(formData.getRawValue());
@@ -250,7 +251,7 @@ export class GastoListComponent implements OnInit, OnDestroy
                         break;
                     /**
                      * Delete
-                     * /
+                     */
                     case 'delete':
 
                         this.deleteGasto(gasto);
@@ -258,7 +259,7 @@ export class GastoListComponent implements OnInit, OnDestroy
                         break;
                 }
             });
-    } */
+    } 
 
     /**
      * Delete Contact

@@ -19,6 +19,7 @@ import { GastosService } from './gastos.service';
 //import { GastoInfoComponent } from './gasto-view/tabs/gasto-info/gasto-info.component';
 import { ContactsService } from '../contacts/contacts.service';
 import { GastoListComponent } from './gasto-list/gasto-list.component';
+import { GastoFormDialogComponent } from './gastos-form/gastos-form.component';
 
 const routes: Routes = [
     {
@@ -41,9 +42,9 @@ const routes: Routes = [
 @NgModule({
     declarations   : [
         GastosComponent,
-        GastoListComponent
-    /*    GastoFormDialogComponent,
-        GastoViewComponent,
+        GastoListComponent,
+        GastoFormDialogComponent
+    /*    GastoViewComponent,
         GastoInfoComponent */
     ],
     imports        : [
@@ -71,7 +72,7 @@ const routes: Routes = [
         GastosService
     ],
     entryComponents: [
-    //    GastoFormDialogComponent
+        GastoFormDialogComponent
     ]
 })
 export class GastosModule
