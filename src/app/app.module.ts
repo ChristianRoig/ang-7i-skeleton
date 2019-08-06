@@ -22,11 +22,12 @@ import { MockDbService } from './mock-db/mock-db.service';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { PerfilModule } from './main/perfil/perfil.module';
 import { ContactsModule } from './main/contacts/contacts.module';
+import { GastosModule } from './main/gastos/gastos.module';
 
 const appRoutes: Routes = [
     {
         path      : '**',
-        redirectTo: 'contactos'
+        redirectTo: 'gastos'
     }
 ];
 
@@ -63,10 +64,10 @@ const appRoutes: Routes = [
 
         // App modules
         LayoutModule,
-/*         SampleModule,
- */        Login2Module,
+        Login2Module,
         PerfilModule,
-        ContactsModule
+        ContactsModule,
+        GastosModule
     ],
     bootstrap   : [
         AppComponent
