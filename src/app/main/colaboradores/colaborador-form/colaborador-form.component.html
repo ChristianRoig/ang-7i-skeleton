@@ -24,8 +24,8 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Fecha</mat-label>
 
-                    <input matInput [matDatepicker]="DatePicker" placeholder="Month and Year" [formControl]="date">
-                    <mat-datepicker-toggle matSuffix [for]="DatePicker"></mat-datepicker-toggle>
+                    <input matInput [matDatepicker]="DatePicker" placeholder="Month and Year" [formControl]="date" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="DatePicker" disabled></mat-datepicker-toggle>
                 
                 
                     <mat-datepicker #DatePicker startView="multi-year" (yearSelected)="chosenYearHandler($event)" 
