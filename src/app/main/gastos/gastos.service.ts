@@ -169,7 +169,7 @@ export class GastosService implements Resolve<any>
             this.createRequestGastosByProveedor(proveedor)
                 .subscribe((response: any) => {
                     gastos = response;
-
+     
                     gastos = gastos.map(gasto => {
                         return new Gasto(gasto);
                     });
