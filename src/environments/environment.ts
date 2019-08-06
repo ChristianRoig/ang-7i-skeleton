@@ -4,7 +4,8 @@
 
 export const environment = {
     production: false,
-    hmr       : false
+    hmr       : false,
+    API: 'http://10.100.58.25:8082/'
 };
 
 /*
