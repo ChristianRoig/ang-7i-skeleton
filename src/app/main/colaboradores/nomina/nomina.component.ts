@@ -6,7 +6,6 @@ import { Subject, Observable } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
-import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NominaService } from './nomina.service';
 import { DataSource } from '@angular/cdk/table';
@@ -39,13 +38,11 @@ export class NominaComponent implements OnInit, OnDestroy
 
     /**
      * Constructor
-     *
-     * @param { ColaboradoresService } _colaboradoresService
+     *     
      * @param { FuseSidebarService } _fuseSidebarService
      * @param { MatDialog } _matDialog
      */
     constructor(
-        // protected _colaboradoresService: ColaboradoresService,
         protected _fuseSidebarService: FuseSidebarService,
         protected _matDialog: MatDialog,
         private _activeRouter: ActivatedRoute,

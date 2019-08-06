@@ -44,8 +44,7 @@ export class ConfigurarListComponent implements OnInit, OnDestroy
 
     /**
      * Constructor
-     *
-     * @param {ColaboradoresService} _colaboradoresService
+     *     
      * @param {MatDialog} _matDialog
      */
     constructor(

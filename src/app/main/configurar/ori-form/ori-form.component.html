@@ -17,31 +17,21 @@
     <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
 
         <form [formGroup]="OrigenForm">
-
-            <div fxLayout="row" fxLayoutAlign="start start" >
+            <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Responsable</mat-label>
-                    <mat-select formControlName="responsableR" name="responsableR" required>                   
-                        <mat-option *ngFor="let p of candidatos" [value]="p">
-                            <img class="img-list avatar" [src]=p.avatar />
-                            <p class="p-list">{{p.lastName}}, {{p.name}} ({{p.company}}-{{p.docket}})</p>
-                        </mat-option>
-                    </mat-select>
+                    <mat-icon matSuffix class="secondary-text">perm_identity</mat-icon>
+                    <input name="responsableR" matInput formControlName="responsableR" type="text" placeholder="ejemplo. FC1645" required>
                 </mat-form-field>
             </div>
 
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Responsable Suplente</mat-label>
-                    <mat-select formControlName="responsableS" name="responsableS" >
-                        <mat-option *ngFor="let p of candidatos" [value]="p">
-                            <img class="img-list avatar" [src]=p.avatar />
-                            <p class="p-list">{{p.lastName}}, {{p.name}} ({{p.company}}-{{p.docket}})</p>
-                        </mat-option>
-                    </mat-select>
+                    <mat-icon matSuffix class="secondary-text">perm_identity</mat-icon>
+                    <input name="responsableS" matInput formControlName="responsableS" type="text" placeholder="ejemplo. FH0751" required>
                 </mat-form-field>
             </div>
-
         </form> 
 
     </div>

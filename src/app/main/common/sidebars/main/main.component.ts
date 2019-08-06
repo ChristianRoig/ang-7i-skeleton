@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
-import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
 import { NominaService } from '../../../colaboradores/nomina/nomina.service';
 
 @Component({
@@ -25,11 +23,9 @@ export class ContactsMainSidebarComponent implements OnInit, OnDestroy
 
     /**
      * Constructor
-     *
-     * @param {ColaboradoresService} _colaboradoresService
+     *     
      */
-    constructor(
-        // private _colaboradoresService: ColaboradoresService
+    constructor(        
         private _nominaService: NominaService
     )
     {

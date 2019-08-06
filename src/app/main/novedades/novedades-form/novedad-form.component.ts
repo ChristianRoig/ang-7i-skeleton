@@ -1,7 +1,6 @@
 import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
-import { ColaboradoresService } from '../../colaboradores/colaboradores.service';
 
 @Component({
     selector     : 'novedad-form-dialog',
@@ -40,8 +39,7 @@ export class NovedadesFormDialogComponent implements OnInit, OnDestroy
     constructor(
         public matDialogRef: MatDialogRef<NovedadesFormDialogComponent>,
         // @Inject(MAT_DIALOG_DATA) private _data: any,
-        private _formBuilder: FormBuilder,
-        protected _colaboradoresService: ColaboradoresService,
+        private _formBuilder: FormBuilder,        
     )
     {
         // Set the defaults
@@ -101,7 +99,8 @@ export class NovedadesFormDialogComponent implements OnInit, OnDestroy
     }
 
     getContactos(): any[]{
-        return this._colaboradoresService.getVanilaContact();         
+        return [];
+        // return this._colaboradoresService.getVanilaContact();         
     }
    
 

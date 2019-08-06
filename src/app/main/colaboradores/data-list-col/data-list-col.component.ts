@@ -187,33 +187,3 @@ export class DataListColaboradorComponent implements OnInit, OnDestroy
 
 }
 
-// export class FilesDataSource extends DataSource<any>
-// {
-//     /**
-//      * Constructor
-//      *
-//      * @param {ColaboradoresService} _colaboradoresService
-//      */
-//     constructor(
-//         private _colaboradoresService: ColaboradoresService
-//     )
-//     {
-//         super();
-//     }
-
-//     /**
-//      * Connect function called by the table to retrieve one stream containing the data to render.
-//      * @returns {Observable<any[]>}
-//      */
-//     connect(): Observable<any[]>
-//     {
-//         return this._colaboradoresService.onColaboradoresChanged;
-//     }
-
-//     /**
-//      * Disconnect
-//      */
-//     disconnect(): void
-//     {
-//     }
-// }

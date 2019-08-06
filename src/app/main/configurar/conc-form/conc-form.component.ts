@@ -40,8 +40,7 @@ export class ConceptosFormDialogComponent implements OnInit
      *
      * @param {MatDialogRef<ConceptosFormDialogComponent>} matDialogRef
      * @param _data
-     * @param {FormBuilder} _formBuilder
-     * @param {ColaboradoresService} _colaboradoresService
+     * @param {FormBuilder} _formBuilder     
      */
     constructor(
         public matDialogRef: MatDialogRef<ConceptosFormDialogComponent>,

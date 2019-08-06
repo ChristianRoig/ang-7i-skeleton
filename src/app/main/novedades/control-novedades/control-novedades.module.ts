@@ -7,7 +7,7 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 
-import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
+
 
 
 
@@ -24,7 +24,7 @@ const routes: Routes = [
         path     : 'novedades/control/:filtro',
         component: ControlNovedadesComponent,
         resolve  : {
-            contacts: ColaboradoresService
+            // contacts: ControlNovedadesService
         }
     }
 ];
@@ -59,7 +59,7 @@ const routes: Routes = [
    
     ],
     providers      : [
-        ColaboradoresService
+        // ControlNovedadesService
     ]
 })
 export class ControlNovedadesModule

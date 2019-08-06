@@ -8,12 +8,12 @@ import { takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 
-import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
 import { ColaboradoresContactFormDialogComponent } from 'app/main/colaboradores/colaborador-form/colaborador-form.component';
 import { Router } from '@angular/router';
 
 import { NovedadesFormDialogComponent } from '../../novedades/novedades-form/novedad-form.component';
 import { ImportarFormDialogComponent } from '../importar-form/importar-form.component';
+import { Perfil } from 'app/main/perfil/perfil.model';
 
 
 @Component({
@@ -29,8 +29,7 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
     dialogContent: TemplateRef<any>;
 
     colaboradores: any;
-    user: any;
-    // dataSource: FilesDataSource | null;
+    user: any;    
 
     @Input() displayedColumns;
 
@@ -57,12 +56,10 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
 
     /**
      * Constructor
-     *
-     * @param {ColaboradoresService} _colaboradoresService
+     *     
      * @param {MatDialog} _matDialog
      */
-    constructor(
-        private _colaboradoresService: ColaboradoresService,
+    constructor(        
         public _matDialog: MatDialog,
         private router: Router
     )
@@ -80,27 +77,7 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        // console.log('ngOnInit list: ' + this.hasCheck);
-
-        // this.dataSource = new FilesDataSource(this._colaboradoresService);
-
-        // this._colaboradoresService.onColaboradoresChanged
-        //     .pipe(takeUntil(this._unsubscribeAll))
-        //     .subscribe(colaboradores => {
-        //         this.colaboradores = colaboradores;
-
-        //         this.checkboxes = {};
-        //         colaboradores.map(colaborador => {
-        //             this.checkboxes[colaborador.id] = false;
-        //         });
-        //     });
-
-        /*         
-        this._colaboradoresService.onFilterChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(() => {
-                this._colaboradoresService.deselectContacts();
-            }); */
+        
     }
 
     /**
@@ -147,7 +124,7 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
                      */
                     case 'save':
 
-               //         this._colaboradoresService.updateContact(formData.getRawValue());
+               //         this..updateContact(formData.getRawValue());
 
                         break;
                     /**
@@ -186,7 +163,7 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
                      */
                     case 'save':
 
-                        //         this._colaboradoresService.updateContact(formData.getRawValue());
+                        //         this..updateContact(formData.getRawValue());
 
                         break;
                     /**
@@ -201,9 +178,11 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
             });
     }
   
-    goPerfil(colaborador): void {
+    goPerfil(data): void {
+        // console.log(data);
+
         this.router.navigate([
-            'perfil/' + colaborador.company + colaborador.docket                     
+            'perfil/' + data.legajo                     
         ]); 
     }
 
@@ -212,35 +191,4 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
     }
 
 
-}
-
-export class FilesDataSource extends DataSource<any>
-{
-    /**
-     * Constructor
-     *
-     * @param {ColaboradoresService} _colaboradoresService
-     */
-    constructor(
-        private _colaboradoresService: ColaboradoresService
-    )
-    {
-        super();
-    }
-
-    /**
-     * Connect function called by the table to retrieve one stream containing the data to render.
-     * @returns {Observable<any[]>}
-     */
-    connect(): Observable<any[]>
-    {
-        return this._colaboradoresService.onColaboradoresChanged;
-    }
-
-    /**
-     * Disconnect
-     */
-    disconnect(): void
-    {
-    }
 }

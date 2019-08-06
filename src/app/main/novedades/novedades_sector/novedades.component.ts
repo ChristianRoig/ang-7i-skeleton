@@ -7,8 +7,6 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
-import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
-
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConceptosService } from 'app/main/configurar/conceptos.service';
 import { NovedadService } from '../novedad.service';

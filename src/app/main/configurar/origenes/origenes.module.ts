@@ -7,7 +7,6 @@ import { MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldMo
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 
-import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
 import { OrigenesComponent } from './origenes.component';
 import { ConfigurarListModule } from '../lista/configurar-list.module';
 import { OrigenesService } from '../origenes.service';
@@ -51,8 +50,7 @@ const routes: Routes = [
         ConfigurarListModule
 
     ],
-    providers      : [
-        ColaboradoresService,
+    providers      : [        
         OrigenesService
     ]
 })

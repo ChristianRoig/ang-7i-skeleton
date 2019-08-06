@@ -6,7 +6,6 @@ import { Subject } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
-import { ColaboradoresService } from 'app/main/colaboradores/colaboradores.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -38,12 +37,10 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param { ColaboradoresService } _colaboradoresService
      * @param { FuseSidebarService } _fuseSidebarService
      * @param { MatDialog } _matDialog
      */
     constructor(
-        protected _colaboradoresService: ColaboradoresService,
         protected _fuseSidebarService: FuseSidebarService,
         protected _matDialog: MatDialog,
         private _activeRouter: ActivatedRoute,
@@ -71,9 +68,9 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
 
         });    
 
-        this._colaboradoresService.onFilterChanged.next('all');
+        // this._controlNovedadesService.onFilterChanged.next('all');
 
-        // this._colaboradoresService.onSelectedContactsChanged
+        // this._controlNovedadesService.onSelectedContactsChanged
         //     .pipe(takeUntil(this._unsubscribeAll))
         //     .subscribe(selectedContacts => {
         //         this.hasSelectedContacts = selectedContacts.length > 0;
@@ -86,7 +83,7 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
         //         distinctUntilChanged()
         //     )
         //     .subscribe(searchText => {
-        //         this._colaboradoresService.onSearchTextChanged.next(searchText);
+        //         this._controlNovedadesService.onSearchTextChanged.next(searchText);
         //     });
     }
 
