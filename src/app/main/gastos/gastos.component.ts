@@ -8,6 +8,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { GastosService } from 'app/main/gastos/gastos.service';
+import { GastoFormDialogComponent } from './gastos-form/gastos-form.component';
 /* import { GastoFormDialogComponent } from './gastos-form/gastos-form.component';
  */
 @Component({
@@ -90,7 +91,7 @@ export class GastosComponent implements OnInit, OnDestroy
     /**
      * New contact
      */
-   /*  newGasto(): void
+     newGasto(): void
     {
          this.dialogRef = this._matDialog.open(GastoFormDialogComponent, {
             panelClass: 'gasto-form-dialog',
@@ -108,7 +109,7 @@ export class GastosComponent implements OnInit, OnDestroy
 
                 this._gastosService.addGasto(response.getRawValue());
             }); 
-    } */
+    }
 
     /**
      * Toggle the sidebar

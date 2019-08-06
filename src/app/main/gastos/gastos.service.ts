@@ -12,7 +12,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 
-const API_URL : string = environment.API + 'compras';
+const API_URL : string = environment.API;
 
 @Injectable()
 export class GastosService implements Resolve<any>
@@ -57,8 +57,7 @@ export class GastosService implements Resolve<any>
 
         this.httpOptions = {
             headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': this.cookieService.get('tokenAuth')
+                'Content-Type': 'application/json'
             })
         }
     }
@@ -134,7 +133,7 @@ export class GastosService implements Resolve<any>
         gasto.propietario = this.cookieService.get('userName');
     }
 
-    addGasto(gasto): Promise<any> {
+    addGasto(gasto : Gasto): Promise<any> {
         return new Promise((resolve, reject) => {
 
             this.createRequestAddGasto(gasto)
@@ -145,7 +144,7 @@ export class GastosService implements Resolve<any>
         });
     } 
 
-    deleteGasto(gasto): Promise<any> {
+    deleteGasto(gasto : Gasto): Promise<any> {
         return new Promise((resolve, reject) => {
 
             this.createRequestRemoveGasto(gasto)
@@ -157,7 +156,7 @@ export class GastosService implements Resolve<any>
         });
     }
     
-    deleteContactList(gasto): void {
+    deleteContactList(gasto : Gasto): void {
         const contactIndex = this.gastos.indexOf(gasto);
         this.gastos.splice(contactIndex, 1);
         this.onGastosChanged.next(this.gastos);
@@ -178,15 +177,15 @@ export class GastosService implements Resolve<any>
         });
     }
 
-    createRequestAddGasto(gasto: Gasto): any {
+    createRequestAddGasto(gasto : Gasto): any {
 
-        let url = API_URL + 'agregarGasto';
+        let url = API_URL + 'compra';
         let request = JSON.stringify(gasto); //agrego un nuevo gasto. 
 
         return this.http.post(url, request, this.httpOptions);
     }
 
-    createRequestRemoveGasto(gasto: Gasto): any {
+    createRequestRemoveGasto(gasto : Gasto): any {
 
         let url = API_URL + 'eliminarGasto';
         let request = JSON.stringify(gasto); //remove contacto. 
@@ -202,7 +201,8 @@ export class GastosService implements Resolve<any>
         let options = {
             headers: httpHeaders
         }; */
-        return this.http.get(API_URL); // post debido a que la cant de parametros para filtrar es mayor a 2.
+        let url = API_URL + 'compras';
+        return this.http.get(url); // post debido a que la cant de parametros para filtrar es mayor a 2.
     }
 
      createRequestGastosByProveedor( idProveedor: string): any {
@@ -215,13 +215,14 @@ export class GastosService implements Resolve<any>
              "proveedor": idProveedor
          };
 
-
          let options = {
              headers: httpHeaders,
              params : params
          };
 
-         return this.http.get(API_URL, options);
+         let url = API_URL + 'compras';
+
+         return this.http.get(url, options);
     } 
     
     getGasto(id: string) : Gasto {
