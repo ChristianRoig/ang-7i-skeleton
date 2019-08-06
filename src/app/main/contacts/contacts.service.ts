@@ -10,7 +10,7 @@ import { text } from '@angular/core/src/render3';
 import { environment } from 'environments/environment';
 
 
-const API_URL = environment.API + 'proveedores/'
+const API_URL = environment.API + 'proveedores'
 
 @Injectable()
 export class ContactsService implements Resolve<any>
@@ -135,8 +135,17 @@ export class ContactsService implements Resolve<any>
         contact.modulo = ContactsService.MODULO;
         contact.categoria = ContactsService.CATEGORIA;
         contact.etiqueta = ContactsService.ETIQUETA;
-        contact.activo = 1;
         contact.propietario = "7ideas"; //luego obtener de las cookies al loguearse username
+    }
+
+    getContactoByName(id: string): Contact {
+        let contact: Contact;
+        if (this.contacts.length == 0) {
+            this.getContacts();
+        }
+        contact = this.contacts.find(contact => contact.id == id);
+
+        return contact;
     }
 
     addContact(contact: Contact): Promise<any> {
@@ -327,18 +336,8 @@ export class ContactsService implements Resolve<any>
 
     crearRequestObtenerProveedores() {
 
-        let method = 'obtenerProveedores'
 
-        let url = API_URL + method;
-
-        let params = {
-            "propietario": "7ideas",
-            "modulo": "Proveedores",
-            "categoria": "de Gastos",
-            "etiqueta": "-Oficina-"
-        };
-
-        return this._httpClient.get(url, {params :params});
+        return this._httpClient.get(API_URL);
     }
 
     crearRequestNewCodigoProveedor(propietario: string, modulo: string) {
