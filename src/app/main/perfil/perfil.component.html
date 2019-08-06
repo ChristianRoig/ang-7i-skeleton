@@ -9,7 +9,7 @@
           <img class="profile-image avatar huge" src="{{ info.img }}"
                [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
           <div class="name" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-            {{ info.nombreCorto }}
+            {{ info.nombreCorto | titlecase}}
           </div>
       </div>
 
