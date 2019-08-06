@@ -60,18 +60,26 @@ export class ContactsContactFormDialogComponent
     createContactForm(): FormGroup
     {
         return this._formBuilder.group({
-            id      : [this.contact.id],
-            name    : [this.contact.name],
-            lastName: [this.contact.lastName],
-            avatar  : [this.contact.avatar],
-            nickname: [this.contact.nickname],
-            company : [this.contact.company],
-            jobTitle: [this.contact.jobTitle],
-            email   : [this.contact.email],
-            phone   : [this.contact.phone],
-            address : [this.contact.address],
-            birthday: [this.contact.birthday],
-            notes   : [this.contact.notes]
+            id: [this.contact.id],
+            cod: [this.contact.cod],
+            propietario: [this.contact.propietario],
+            modulo: [this.contact.modulo],
+            categoria: [this.contact.categoria],
+            etiqueta: [this.contact.etiqueta],
+            nombre_corto: [this.contact.nombre_corto],
+            nombre: [this.contact.nombre],
+            correo: [this.contact.correo],
+            telefono: [this.contact.telefono],
+            domicilio: [this.contact.domicilio],
+            localidad: [this.contact.localidad],
+            cond_iva: [this.contact.cond_iva],
+            cuit: [this.contact.doc_nro],
+            genero: [this.contact.genero],
+            notas: [this.contact.notas],
+            file_link: [this.contact.file_link],
+/*             activo: [this.contact.activo],
+ */            predefinido: [this.contact.predefinido],
+            estado: [this.contact.estado]
         });
     }
 }

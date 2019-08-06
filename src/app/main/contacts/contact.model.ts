@@ -3,17 +3,25 @@ import { FuseUtils } from '@fuse/utils';
 export class Contact
 {
     id: string;
-    name: string;
-    lastName: string;
-    avatar: string;
-    nickname: string;
-    company: string;
-    jobTitle: string;
-    email: string;
-    phone: string;
-    address: string;
-    birthday: string;
-    notes: string;
+    cod: string;
+    propietario: string;
+    modulo: String;
+    categoria: string;
+    etiqueta: String;
+    nombre_corto: string;
+    file_link: string;
+    nombre: string;
+    correo: string;
+    telefono: string;
+    domicilio: string;
+    localidad: string;
+    cond_iva: string
+    genero: string;
+    notas: string;
+    doc_nro: string;
+/*     activo: number;
+ */    predefinido: number;
+    estado: string;
 
     /**
      * Constructor
@@ -24,17 +32,25 @@ export class Contact
     {
         {
             this.id = contact.id || FuseUtils.generateGUID();
-            this.name = contact.name || '';
-            this.lastName = contact.lastName || '';
-            this.avatar = contact.avatar || 'assets/images/avatars/profile.jpg';
-            this.nickname = contact.nickname || '';
-            this.company = contact.company || '';
-            this.jobTitle = contact.jobTitle || '';
-            this.email = contact.email || '';
-            this.phone = contact.phone || '';
-            this.address = contact.address || '';
-            this.birthday = contact.birthday || '';
-            this.notes = contact.notes || '';
+            this.cod = contact.cod || '';
+            this.propietario = contact.propietario;
+            this.modulo = contact.modulo || '';
+            this.categoria = contact.categoria || '';
+            this.etiqueta = contact.etiqueta || '';
+            this.nombre_corto = contact.nombre_corto || '';
+            this.file_link = contact.file_link || 'assets/images/avatars/profile.jpg';
+            this.nombre = contact.nombre || '';
+            this.correo = contact.correo || '';
+            this.telefono = contact.telefono || '';
+            this.domicilio = contact.domicilio || '';
+            this.localidad = contact.localidad || '';
+            this.cond_iva = contact.cond_iva;
+            this.genero = contact.genero || '';
+            this.notas = contact.notas || '';
+            this.doc_nro = contact.doc_nro;
+/*             this.activo = contact.activo || 1;
+ */            this.predefinido = contact.predefinido || 0;
+            this.estado = contact.estado || 'activo';
         }
     }
 }
