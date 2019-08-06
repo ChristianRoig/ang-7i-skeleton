@@ -177,8 +177,9 @@ export class NovedadService implements Resolve<any>
      * @param {ActivatedRouteSnapshot} _r
      */
     private _defineFilter(_r: ActivatedRouteSnapshot): void {
+        
         this.invocador = _r.routeConfig.path.split('/')[1];
-        this.filterBy = _r.params.filtro;
+        this.filterBy = (_r.params.filtro) ? _r.params.filtro : _r.routeConfig.path.split('/')[2];
 
         this.OnInvocadorChanged.next(this.invocador);
         this.onFilterChanged.next(this.filterBy);
@@ -204,7 +205,7 @@ export class NovedadService implements Resolve<any>
         }
 
         
-        if (this.invocador === 'equipos'){ // componente
+        if (this.invocador === 'equipos'){
             // Mock
                 const mock = 'api/contactos-novEquipo';
                 verbo = 'get';
@@ -213,9 +214,18 @@ export class NovedadService implements Resolve<any>
             // Fin Mock
         }
 
-        if (this.invocador === 'sectores') { // componente
+        if (this.invocador === 'sectores') {
             // Mock
                 const mock = 'api/contactos-novSector';
+                verbo = 'get';
+    
+                url = mock;
+            // Fin Mock
+        }
+
+        if (this.invocador === 'control') {
+            // Mock
+                const mock = 'api/contactos-novSector'; // Mando cualquier mock en el model se completa el estatus
                 verbo = 'get';
     
                 url = mock;

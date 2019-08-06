@@ -81,7 +81,15 @@
             </mat-cell>
         </ng-container>
 
-        
+        <!-- statusNovedades Column -->
+        <ng-container matColumnDef="statusNovedades">
+            <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
+            <mat-cell *matCellDef="let data">                        
+                <p class="status {{data.estatus}} text-truncate">
+                    {{data.estatus}}
+                </p>
+            </mat-cell>
+        </ng-container>
 
 
         <!-- Buttons Column -->

@@ -1,12 +1,15 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { ActivatedRoute, Router } from '@angular/router';
+import { NovedadService } from '../novedad.service';
+import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { DataSource } from '@angular/cdk/table';
 
 @Component({
     selector     : 'control-novedades',
@@ -28,7 +31,7 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
 
     searchInput: FormControl;
 
-    param: any;
+    dataSource: FilesDataSource | null; 
 
 
     // Protected
@@ -44,7 +47,8 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
         protected _fuseSidebarService: FuseSidebarService,
         protected _matDialog: MatDialog,
         private _activeRouter: ActivatedRoute,
-        private _router: Router
+        private _router: Router,
+        private _novedadService: NovedadService
      )
     {
 
@@ -58,15 +62,29 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
     }
 
     ngOnInit(): void {
-        this._activeRouter.params.subscribe(params => {
+        this.dataSource = new FilesDataSource(this._novedadService);
+        
+        this.searchInput.valueChanges
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                debounceTime(300),
+                distinctUntilChanged()
+            )
+            .subscribe(searchText => {
+                this._novedadService.onSearchTextChanged.next(searchText);
+            });
 
-            this.param = params.id;
 
-            if (this.param === '' || this.param == null || this.param === ' ') {
-                this._router.navigate(['novedades/control/' + 'all']);
-            }
+        // this._activeRouter.params.subscribe(params => {
 
-        });    
+        //     this.param = params.id;
+
+        //     if (this.param === '' || this.param == null || this.param === ' ') {
+        //         this.param = 'all';
+        //         this._router.navigate(['novedades/control/' + this.param]);
+        //     }
+
+        // });    
 
         // this._controlNovedadesService.onFilterChanged.next('all');
 
@@ -118,27 +136,80 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
             const anteultimo = this.columnas.length - 1; 
             this.columnas.splice(anteultimo, 0, col);
         }
+
+
+
     }
 
-    changeColumns(b: boolean): void {
-        let pos = -1;
-        
-        if (b){            
-            pos = this.columnas.indexOf('departament');
+    changeColumns(value: string): void {
+        switch (value) {
+            case 'departamentos':
+                this.columnas = ['avatar', 'docket', 'name', 'departament', 'buttons'];
+                break;
 
-            if (pos !== -1){
-                this.columnas[pos] = 'concepto';
-            }
+            case 'sucursales':
+                this.columnas = ['avatar', 'docket', 'name', 'sucursal', 'buttons'];
+                break;
 
-        }else{
-            pos = this.columnas.indexOf('concepto');
+            case 'externos':
+                this.columnas = ['avatar', 'docket', 'name', 'sector', 'buttons'];
+                break;
 
-            if (pos !== -1) {
-                this.columnas[pos] = 'departament';
-            }
+            default:
+                this.columnas = ['avatar', 'docket', 'name', 'departament', 'buttons'];
+                break;
         }
+
+
+
+
+        // let pos = -1;
+        
+        // if (b){            
+        //     pos = this.columnas.indexOf('departament');
+
+        //     if (pos !== -1){
+        //         this.columnas[pos] = 'concepto';
+        //     }
+
+        // }else{
+        //     pos = this.columnas.indexOf('concepto');
+
+        //     if (pos !== -1) {
+        //         this.columnas[pos] = 'departament';
+        //     }
+        // }
     }
 
     
 
+}
+
+
+export class FilesDataSource extends DataSource<any>
+{
+    /**
+     * Constructor
+     *
+     * @param {NovedadService} _novedadService
+     */
+    constructor(
+        private _novedadService: NovedadService
+    ) {
+        super();
+    }
+
+    /**
+     * Connect function called by the table to retrieve one stream containing the data to render.
+     * @returns {Observable<any[]>}
+     */
+    connect(): Observable<any[]> {
+        return this._novedadService.onNovedadesChanged;
+    }
+
+    /**
+     * Disconnect
+     */
+    disconnect(): void {
+    }
 }

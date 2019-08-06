@@ -102,10 +102,10 @@ const appRoutes: Routes = [
         ColaboradorFormModule,
         ConceptosFormModule,
 
-        // ImportarFormModule,        
         NovedadesModule,
-        // ControlNovedadesModule,
         NovEquiposModule,
+        ControlNovedadesModule,
+        // ImportarFormModule,        
         // NovedadesFormModule,        
 
         ErrorModule

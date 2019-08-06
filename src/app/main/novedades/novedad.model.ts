@@ -9,6 +9,7 @@ export class Novedad {
     origen: string;
     concepto: string;
     monto: string;
+    estatus: string;
 
     /**
      * Constructor
@@ -20,15 +21,24 @@ export class Novedad {
         this.nombre = novedad.nombre || '';
         this.concepto = novedad.concepto || '';
         this.origen = novedad.origen || '';
-        this.monto = novedad.monto || Math.floor(Math.random() * 800);
         this.sexo = novedad.sexo || 'Masculino';
-
+        
         if (this.sexo === 'Femenino') {
             this.img = novedad.img || 'assets/images/avatars/avatarF.png';
         } else {
             this.img = novedad.img || 'assets/images/avatars/avatarM.png';
         }
-    
+
+        this.monto = novedad.monto || Math.floor(Math.random() * 800);        
+        this.estatus = novedad.estatus || this._randomEstatus();
+
+    }
+
+
+    private _randomEstatus(): string {
+        const arr = ['Pendiente', 'Verificado'];
+        
+        return arr[Math.floor(Math.random() * 2)];
     }
 
 }

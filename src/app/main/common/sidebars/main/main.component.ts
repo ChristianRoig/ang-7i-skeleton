@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, Output, EventEmitter, Input } from '@angu
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { NominaService } from '../../../colaboradores/nomina/nomina.service';
+import { NovedadService } from '../../../novedades/novedad.service';
 
 @Component({
     selector   : 'general-main-sidebar',
@@ -13,6 +14,7 @@ export class ContactsMainSidebarComponent implements OnInit, OnDestroy
     user: any;
     filterBy: string;
     isCheck = false;
+    url = '';
 
     @Output() isCheckSideBar: EventEmitter<boolean>;
     @Output() isFilter: EventEmitter<string>;
@@ -26,7 +28,8 @@ export class ContactsMainSidebarComponent implements OnInit, OnDestroy
      *     
      */
     constructor(        
-        private _nominaService: NominaService
+        private _nominaService: NominaService,
+        private _novedadService: NovedadService
     )
     {
         this.isCheckSideBar = new EventEmitter<any>();
@@ -47,8 +50,16 @@ export class ContactsMainSidebarComponent implements OnInit, OnDestroy
     {
         // console.log('sidebars');
         // console.log(this.isCheck);
-        this.filterBy = this._nominaService.filterBy || 'GrupoFava';      
         
+        if (this.invocador === 'nomina') {
+            this.filterBy = this._nominaService.filterBy || 'GrupoFava';      
+            this.url = 'nomina';
+        }
+
+        if (this.invocador === 'ControlNovedades') {
+            this.filterBy = this._novedadService.filterBy || 'GrupoFava';      
+            this.url = 'novedades/control';
+        }
     }
 
     /**

@@ -51,7 +51,7 @@
             <!-- SIDEBAR CONTENT -->
             
             <div class="content" ><!-- fusePerfectScrollbar -->
-                <!-- <general-main-sidebar [@animate]="{value:'*'}" [invocador]="componente" (isCheckSideBar)="updateCheck($event)" (isFilterNov)="changeColumns($event)"></general-main-sidebar> -->
+                <general-main-sidebar [@animate]="{value:'*'}" [invocador]="componente" (isCheckSideBar)="updateCheck($event)" (isFilterNov)="changeColumns($event)"></general-main-sidebar>
             </div>
             <!--/ SIDEBAR CONTENT -->
 
@@ -63,7 +63,7 @@
 
             <!-- CONTENT -->
             <div class="content">
-                 <data-list-novedades [displayedColumns]="columnas" [invocador]="componente"></data-list-novedades> 
+                <data-list-novedades [displayedColumns]="columnas" [invocador]="componente" [dataSource]="dataSource"></data-list-novedades> 
             </div>
             <!-- / CONTENT -->
 

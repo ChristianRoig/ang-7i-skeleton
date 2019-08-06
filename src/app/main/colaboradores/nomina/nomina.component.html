@@ -55,7 +55,7 @@
             <!-- SIDEBAR CONTENT -->
             
             <div class="content" ><!-- fusePerfectScrollbar -->
-                <general-main-sidebar [@animate]="{value:'*'}" (isCheckSideBar)="updateCheck($event)" (isFilter)="changeColumns($event)"></general-main-sidebar>
+                <general-main-sidebar [@animate]="{value:'*'}" [invocador]="componente" (isCheckSideBar)="updateCheck($event)" (isFilter)="changeColumns($event)"></general-main-sidebar>
             </div>
             <!--/ SIDEBAR CONTENT -->
 
