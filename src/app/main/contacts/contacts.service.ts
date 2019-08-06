@@ -132,6 +132,10 @@ export class ContactsService implements Resolve<any>
      //   return null
     }
 
+    getContactos(): Contact[] {
+        return this.contacts;
+    }
+
     initContacto(contact: Contact): void {
         contact.modulo = ContactsService.MODULO;
         contact.categoria = ContactsService.CATEGORIA;
@@ -326,7 +330,6 @@ export class ContactsService implements Resolve<any>
     }
 
     crearRequestObtenerProveedores() {
-
 
         return this._httpClient.get(API_URL);
     }
