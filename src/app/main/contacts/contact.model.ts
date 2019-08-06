@@ -19,8 +19,8 @@ export class Contact {
     genero: string;
     notas: string;
     doc_nro: string;
-    activo: number;
-    predefinido: number;
+/*     activo: number;
+ */    predefinido: number;
     estado: string;
 
     /**
@@ -47,8 +47,8 @@ export class Contact {
             this.genero = contact.genero || '';
             this.notas = contact.notas || '';
             this.doc_nro = contact.doc_nro;
-            this.activo = contact.activo || 1;
-            this.predefinido = contact.predefinido || 0;
+/*             this.activo = contact.activo || 1;
+ */            this.predefinido = contact.predefinido || 0;
             this.estado = contact.estado || 'activo';
         }
     }

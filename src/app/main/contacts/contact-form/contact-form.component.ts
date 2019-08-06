@@ -130,8 +130,8 @@ export class ContactsContactFormDialogComponent
             genero: [this.contact.genero],
             notas: [this.contact.notas],
             file_link: [this.contact.file_link],
-            activo: [this.contact.activo],
-            predefinido: [this.contact.predefinido],
+/*             activo: [this.contact.activo],
+ */            predefinido: [this.contact.predefinido],
             estado: [this.contact.estado]
         });
     }
