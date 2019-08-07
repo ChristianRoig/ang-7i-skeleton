@@ -247,7 +247,7 @@ export class GastoListComponent implements OnInit, OnDestroy
                      */
                     case 'save':
 
-                      //  this._gastosService.updateContact(formData.getRawValue());
+                        this._gastosService.updateContact(formData.getRawValue());
 
                         break;
                     /**

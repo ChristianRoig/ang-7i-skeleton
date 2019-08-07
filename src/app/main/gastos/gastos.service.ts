@@ -180,15 +180,23 @@ export class GastosService implements Resolve<any>
 
     createRequestAddGasto(gasto : Gasto): any {
 
-        let url = API_URL + 'compra';
+        let url = API_URL + 'comprobante';
         let request = JSON.stringify(gasto); //agrego un nuevo gasto. 
 
         return this.http.post(url, request, this.httpOptions);
     }
 
+    createRequestUpdateGasto(gasto: Gasto): any {
+
+        let url = API_URL + 'comprobante';
+        let request = JSON.stringify(gasto); //agrego un nuevo gasto. 
+
+        return this.http.put(url, request, this.httpOptions);
+    }
+
     createRequestRemoveGasto(gasto : Gasto): any {
 
-        let url = API_URL + 'compras';
+        let url = API_URL + 'comprobante';
         let params = new HttpParams();
         params = params.set("id", gasto.id );
 
@@ -338,17 +346,16 @@ export class GastosService implements Resolve<any>
      * @param contact
      * @returns {Promise<any>}
      */
-/*     updateContact(contact): Promise<any>
+     updateContact(gasto : Gasto): Promise<any>
     {
         return new Promise((resolve, reject) => {
-
-            this._httpClient.post('api/contacts-contacts/' + contact.id, {...contact})
+                this.createRequestUpdateGasto(gasto)
                 .subscribe(response => {
                     this.getGastos();
-                    resolve(response);
+               //     resolve(response);
                 });
         });
-    } */
+    } 
 
     /**
      * Update user data
