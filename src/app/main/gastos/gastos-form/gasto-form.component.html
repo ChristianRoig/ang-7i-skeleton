@@ -38,7 +38,8 @@
                         <mat-label>Proveedor</mat-label>
                         <mat-select formControlName="proveedor" name="proveedor" (selectionChange)="selectionContactoChange($event)" required>  
                                 <mat-option *ngFor="let contact of contactos" [value]="contact">
-                                        {{contact.nombre_corto}}
+                                       <img [src]="contact.file_link" class="avatar contact-avatar"/>
+                                       {{contact.nombre_corto}}
                                     </mat-option>
                         </mat-select>
                     </mat-form-field>
