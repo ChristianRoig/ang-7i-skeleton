@@ -71,9 +71,9 @@
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Fecha</mat-label>
-                    <input matInput [matDatepicker]="fechaDatePicker" name="fecha" formControlName="fecha">
+                    <input matInput [matDatepicker]="fechaDatePicker" name="fecha" formControlName="fecha" >
                     <mat-datepicker-toggle matSuffix [for]="fechaDatePicker"></mat-datepicker-toggle>
-                    <mat-datepicker #fechaDatePicker></mat-datepicker>
+                    <mat-datepicker #fechaDatePicker [startAt]="date"></mat-datepicker>
                 </mat-form-field>
             </div>
 

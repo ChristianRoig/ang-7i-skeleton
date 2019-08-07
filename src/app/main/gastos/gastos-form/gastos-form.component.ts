@@ -35,6 +35,8 @@ export class GastoFormDialogComponent
     gastos_contact : any[];
     selected_gasto: Gasto;
     contactos: Contact[];
+    date: Date;
+
 
     /**
      * Constructor
@@ -65,6 +67,7 @@ export class GastoFormDialogComponent
         else
         {
             this.dialogTitle = 'Nuevo Gasto';
+            this.date = new Date();
             this.gasto = new Gasto({});
             gastosService.initGasto(this.gasto);
             this.contacto = _data.contact
