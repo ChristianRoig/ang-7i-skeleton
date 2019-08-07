@@ -104,9 +104,9 @@ export class GastosService implements Resolve<any>
     {
          return new Promise((resolve, reject) => {
                 this.createRequestObtenerGastos()
-                    .subscribe((response: Gasto[]) => {
+                    .subscribe((response: any) => {
                         this.gastos = response;
-                        if ( this.filterBy === 'frequent' ) //comentar este if
+/*                         if ( this.filterBy === 'frequent' ) //comentar este if
                         {
                             this.gastos = this.gastos.filter(_contact => {
                                 return this.user.frequentContacts.includes(_contact.id);
@@ -115,7 +115,7 @@ export class GastosService implements Resolve<any>
                         if ( this.searchText && this.searchText !== '' )
                         {
                             this.gastos = FuseUtils.filterArrayByString(this.gastos, this.searchText);
-                        }
+                        } */
                          this.gastos = this.gastos.map(gasto => {                            
                             return new Gasto(gasto);
                         });   
@@ -137,9 +137,8 @@ export class GastosService implements Resolve<any>
         return new Promise((resolve, reject) => {
 
             this.createRequestAddGasto(gasto)
-                .subscribe(response => {
+                .subscribe((response : any) => {
                     this.getGastos();
-                    resolve(response);
                 });
         });
     } 
@@ -150,7 +149,7 @@ export class GastosService implements Resolve<any>
             this.createRequestRemoveGasto(gasto)
                 .subscribe(response => {
                     this.deleteContactList(gasto);
-                    this.getGastos(); 
+                 //   this.getGastos(); 
                     resolve(response);
                 });
         });
@@ -158,8 +157,10 @@ export class GastosService implements Resolve<any>
     
     deleteContactList(gasto : Gasto): void {
         const contactIndex = this.gastos.indexOf(gasto);
-        this.gastos.splice(contactIndex, 1);
-        this.onGastosChanged.next(this.gastos);
+        if(contactIndex != -1) {
+            this.gastos.splice(contactIndex, 1);
+            this.onGastosChanged.next(this.gastos);
+        }
     }
 
     getGastosByName(proveedor: string): Promise<any> {
@@ -187,10 +188,11 @@ export class GastosService implements Resolve<any>
 
     createRequestRemoveGasto(gasto : Gasto): any {
 
-        let url = API_URL + 'eliminarGasto';
-        let request = JSON.stringify(gasto); //remove contacto. 
+        let url = API_URL + 'compras';
+        let params = new HttpParams();
+        params = params.set("id", gasto.id );
 
-        return this.http.post(url, request, this.httpOptions);
+        return this.http.delete(url, { params : params });
     }
 
     createRequestObtenerGastos(): any {

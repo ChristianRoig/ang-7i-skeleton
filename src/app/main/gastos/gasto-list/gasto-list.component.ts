@@ -158,7 +158,8 @@ export class GastoListComponent implements OnInit, OnDestroy
         this._gastosService.onGastosChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(gastos => {
-                this.gastos = this.gastos.concat(gastos);
+              //  this.gastos = this.gastos.concat(gastos);
+              this.gastos = gastos;
                 this.checkboxes = {};
                  gastos.map(gasto => {
                     this.checkboxes[gasto.id] = false;
