@@ -93,16 +93,20 @@ export class LoginService implements Resolve<any>
                                                 
                         // los datos van a venir en un futuro
 
-                        if (info.token != null && info.colaborador != null) { //se logueo 
+                        if (info.token != null && info.colaborador != null) { // se logueo 
                             this.info = info;
 
                             this.perfilLog = info.colaborador;
                             this.datos = null; // Cuando traiga datos generales para las busquedas va ir aqui
 
-                            this._cookieService.set(token, info.token);                           
+                            let expirar = new Date();
 
-                            // this._cookieService.set(user, this._encode(info.colaborador));
-                            this._cookieService.set(user, JSON.stringify(info.colaborador));
+                            expirar.setHours(expirar.getHours() + 16);
+                            // expirar.setMinutes(expirar.getMinutes() + 2);
+
+                            this._cookieService.set(token, info.token, expirar);   
+                                                                               
+                            this._cookieService.set(user, JSON.stringify(info.colaborador), expirar);
 
                             this._router.navigate(['/perfil']);                                                    
                         }else {
