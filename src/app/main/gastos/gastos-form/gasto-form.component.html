@@ -27,7 +27,9 @@
                             <mat-label>Facturas</mat-label>
                             <mat-select [(value)]="selected_gasto" (selectionChange)="selectionChange()" name="proveedores" required> 
                                     <mat-option *ngFor="let gasto of gastos_contact.slice(0,5)" [(value)]= "gasto">
-                                            {{gasto.nombre}} - {{gasto.nro| slice:((gasto.nro.length) - 4)}}  {{gasto.importe  | currency }}
+                                            <p class="text-truncate">
+                                                {{gasto.nombre}} - {{gasto.nro| slice:((gasto.nro.length) - 4)}} {{gasto.importe  | currency }}
+                                            </p>
                                         </mat-option>
                             </mat-select>
                         </mat-form-field>
