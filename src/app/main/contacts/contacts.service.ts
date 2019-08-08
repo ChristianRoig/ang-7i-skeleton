@@ -6,11 +6,10 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FuseUtils } from '@fuse/utils';
 
 import { Contact } from 'app/main/contacts/contact.model';
-import { text } from '@angular/core/src/render3';
 import { environment } from 'environments/environment';
 
 
-const API_URL = environment.API + 'proveedores'
+const API_URL = environment.API;
 
 @Injectable()
 export class ContactsService implements Resolve<any>
@@ -25,6 +24,7 @@ export class ContactsService implements Resolve<any>
     public static readonly MODULO: string = "Proveedores";
     public static readonly CATEGORIA: string = "de Gastos";
     public static readonly ETIQUETA: string = "-Oficina-";
+    httpOptions : any;
 
     user: any;
     selectedContacts: string[] = [];
@@ -47,6 +47,10 @@ export class ContactsService implements Resolve<any>
         this.onUserDataChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject(); 
+        this.httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })}
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -339,8 +343,9 @@ export class ContactsService implements Resolve<any>
     }
 
     crearRequestObtenerProveedores() {
+        let url = API_URL + 'proveedores';
 
-        return this._httpClient.get(API_URL);
+        return this._httpClient.get(url);
     }
 
     crearRequestNewCodigoProveedor(propietario: string, modulo: string) {
@@ -358,33 +363,20 @@ export class ContactsService implements Resolve<any>
     }
 
     createRequestAddProveedor(contact: Contact) {
-        let httpHeaders = new HttpHeaders({
-            'Content-Type': 'application/json',
-        });
-        let options = {
-            headers: httpHeaders
-        };
-        let method = 'agregarProveedor';
 
-        let url = API_URL + method;
+        let url = API_URL + 'proveedor'
 
         let body = JSON.stringify(contact);
 
-        return this._httpClient.post(url, body, options);
+        return this._httpClient.post(url, body, this.httpOptions);
     }
 
     createRequestUpdateProveedor(contact: Contact) {
-        let httpHeaders = new HttpHeaders({
-            'Content-Type': 'application/json',
-        });
-        let options = {
-            headers: httpHeaders
-        };
-        let method = 'actualizarProveedor';
-        let url = API_URL + method;
+
+        let url = API_URL + 'proveedor';
         let body = JSON.stringify(contact);
 
-        return this._httpClient.put(url, body, options);
+        return this._httpClient.put(url, body, this.httpOptions);
     }
 
     createRequestRemoveProveedor(contact: Contact) {
@@ -393,8 +385,7 @@ export class ContactsService implements Resolve<any>
             "idContacto": contact.id,
         };
         
-        let method = "eliminarProveedor";
-        let url = API_URL + method
+        let url = API_URL + 'proveedor'
 
         return this._httpClient.delete(url, {params : params})
     }
