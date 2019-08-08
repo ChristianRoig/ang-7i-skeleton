@@ -189,7 +189,7 @@ export class GastosService implements Resolve<any>
     createRequestUpdateGasto(gasto: Gasto): any {
 
         let url = API_URL + 'comprobante';
-        let request = JSON.stringify(gasto); //agrego un nuevo gasto. 
+        let request = JSON.stringify(gasto);
 
         return this.http.put(url, request, this.httpOptions);
     }
