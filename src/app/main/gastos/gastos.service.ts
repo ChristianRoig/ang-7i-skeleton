@@ -57,7 +57,8 @@ export class GastosService implements Resolve<any>
 
         this.httpOptions = {
             headers: new HttpHeaders({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': cookieService.get('tokenAuth')
             })
         }
     }
@@ -197,8 +198,15 @@ export class GastosService implements Resolve<any>
     createRequestRemoveGasto(gasto : Gasto): any {
 
         let url = API_URL + 'comprobante';
+        let options; 
         let params = new HttpParams();
         params = params.set("id", gasto.id );
+        options = {
+            headers: new HttpHeaders({
+                'Authorization': this.cookieService.get('tokenAuth')
+            }),
+            params : params,
+        }
 
         return this.http.delete(url, { params : params });
     }
@@ -212,13 +220,13 @@ export class GastosService implements Resolve<any>
             headers: httpHeaders
         }; */
         let url = API_URL + 'compras';
-        return this.http.get(url); // post debido a que la cant de parametros para filtrar es mayor a 2.
+        return this.http.get(url, this.httpOptions); // post debido a que la cant de parametros para filtrar es mayor a 2.
     }
 
      createRequestGastosByProveedor( idProveedor: string): any {
 
          let httpHeaders = new HttpHeaders({
-             'Content-Type': 'application/json',
+             'Authorization': this.cookieService.get('tokenAuth')
          });
 
          let params = {

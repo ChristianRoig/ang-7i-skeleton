@@ -7,6 +7,8 @@ import { FuseUtils } from '@fuse/utils';
 
 import { Contact } from 'app/main/contacts/contact.model';
 import { environment } from 'environments/environment';
+import { CookieService } from 'ngx-cookie-service';
+import { headersToString } from 'selenium-webdriver/http';
 
 
 const API_URL = environment.API;
@@ -38,21 +40,18 @@ export class ContactsService implements Resolve<any>
      * @param {HttpClient} _httpClient
      */
     constructor(
-        private _httpClient: HttpClient
+        private _httpClient: HttpClient,
+        private cookieService: CookieService
+
     )
     {
         // Set the defaults
          this.onContactsChanged = new BehaviorSubject([]);
         this.httpOptions = {
             headers: new HttpHeaders({
-                'Content-Type': 'application/json'
-            })
-        }
- /*       this.onSelectedContactsChanged = new BehaviorSubject([]);
-        this.onUserDataChanged = new BehaviorSubject([]);
-        this.onSearchTextChanged = new Subject();
-        this.onFilterChanged = new Subject(); 
-*/
+                'Content-Type': 'application/json',
+                'Authorization': cookieService.get('tokenAuth')
+            })}
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -339,7 +338,7 @@ export class ContactsService implements Resolve<any>
     crearRequestObtenerProveedores() {
         let url = API_URL + 'proveedores';
 
-        return this._httpClient.get(url);
+        return this._httpClient.get(url, this.httpOptions);
     }
 
     crearRequestNewCodigoProveedor(propietario: string, modulo: string) {
@@ -348,12 +347,21 @@ export class ContactsService implements Resolve<any>
 
         let url = API_URL + method;
 
+        let httpHeaders = new HttpHeaders({
+            'Authorization': this.cookieService.get('tokenAuth')
+        });
+
         let params = {
             "propietario": propietario,
             "modulo": modulo,
         };
 
-        return this._httpClient.get(url, { params: params, responseType: 'text' }); //retorna un string
+        let options = {
+            headers : httpHeaders,
+            params  : params
+        }
+
+        return this._httpClient.get(url, options); //retorna un string
     }
 
     createRequestAddProveedor(contact: Contact) {
@@ -375,13 +383,21 @@ export class ContactsService implements Resolve<any>
 
     createRequestRemoveProveedor(contact: Contact) {
 
+        let options;
+
+
         let params = {
             "idContacto": contact.id,
         };
+        options = {
+            headers: new HttpHeaders({
+                'Authorization': this.cookieService.get('tokenAuth') }),
+            params : params
+        }
         
         let url = API_URL + 'proveedor'
 
-        return this._httpClient.delete(url, {params : params})
+        return this._httpClient.delete(url, options)
     }
 
 }

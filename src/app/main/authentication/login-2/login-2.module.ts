@@ -3,8 +3,9 @@ import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatIconModule, 
 
 import { FuseSharedModule } from '@fuse/shared.module';
 
-import { Login2Component } from 'app/main/authentication/login-2/login-2.component';
 import { Login2RoutingModule } from './login-2.routing.module';
+import { Login2Component } from './login-2.component';
+import { LoginService } from './login.service';
 
 @NgModule({
     declarations: [Login2Component],
@@ -18,6 +19,9 @@ import { Login2RoutingModule } from './login-2.routing.module';
         MatInputModule,
 
         FuseSharedModule
+    ],
+    providers: [
+        LoginService
     ]
 })
 export class Login2Module {}
