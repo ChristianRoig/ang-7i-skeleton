@@ -1,12 +1,16 @@
 @import "src/@fuse/scss/fuse";
 
- .general, #contacts {
+ .general, #contacts, #control-novedades {
 
     .header {
         flex-flow: row wrap;
 
-        .equipoFilter, .sectoresFilter, .novequipoFilter {
+        .equipoFilter, .sectoresFilter, .novequipoFilter, .periodo {
             margin: 18.5px 0 -18.5px 0;
+        }
+
+        .periodo {
+            margin-left: 10px;
         }
 
         .selected-filter {
@@ -114,6 +118,14 @@
             &:not(.locked-open) {
                 background: white;
             }
+        }
+    }
+}
+
+#control-novedades {
+    .header {
+        .periodo {
+            margin-left: 0;
         }
     }
 }

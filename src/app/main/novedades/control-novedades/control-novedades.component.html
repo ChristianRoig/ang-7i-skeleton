@@ -1,11 +1,11 @@
-<div id="contacts" class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+<div id="control-novedades" class="page-layout simple left-sidebar inner-sidebar inner-scroll">
 
     <!-- HEADER -->
     <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start"
          fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
 
         <!-- APP TITLE -->
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div fxLayout="row" fxLayoutAlign="start center" class="titulo">
 
             <button mat-icon-button class="sidebar-toggle mr-12" fxHide.gt-sm
                     (click)="toggleSidebar('general-main-sidebar')">
@@ -19,6 +19,22 @@
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
                     {{titulo}}
                 </span>
+            </div>
+
+            <div fxLayout="row" class="periodo">
+            
+                <div class="selected-filter">{{periodoSelect}}</div>
+            
+                <button mat-icon-button class="project-selector" [matMenuTriggerFor]="projectsMenuPeriodo"
+                    aria-label="selector periodo">
+                    <mat-icon>more_horiz</mat-icon>
+                </button>
+            
+                <mat-menu #projectsMenuPeriodo="matMenu">
+                    <button mat-menu-item *ngFor="let elemento of periodos" (click)="periodoSelect = elemento">
+                        <span>{{elemento}}</span>
+                    </button>
+                </mat-menu>
             </div>
 
         </div>

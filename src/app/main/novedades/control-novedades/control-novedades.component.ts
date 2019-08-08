@@ -34,6 +34,9 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
     dataSource: FilesDataSource | null; 
 
 
+    periodos: any[];
+    periodoSelect: any;
+    
     // Protected
     protected _unsubscribeAll: Subject<any>;
 
@@ -63,6 +66,9 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
 
     ngOnInit(): void {
         this.dataSource = new FilesDataSource(this._novedadService);
+            
+        this.periodos = this._novedadService.harcodeadoPeriodos;
+        this.periodoSelect = (this.periodos.length !== 0) ? this.periodos[Math.floor(Math.random() * 12)] : '';
         
         this.searchInput.valueChanges
             .pipe(
@@ -73,7 +79,6 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
             .subscribe(searchText => {
                 this._novedadService.onSearchTextChanged.next(searchText);
             });
-
 
         // this._activeRouter.params.subscribe(params => {
 

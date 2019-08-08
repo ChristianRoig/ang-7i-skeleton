@@ -41,6 +41,9 @@ export class NovedadesComponent implements OnInit, OnDestroy
 
     dataSource: FilesDataSource | null;
     
+    periodos: any[];
+    periodoSelect: any;
+    
     private _unsubscribeAll: Subject<any>;
 
     /**
@@ -105,6 +108,9 @@ export class NovedadesComponent implements OnInit, OnDestroy
         const aux: any[] = FuseUtils.filterArrayByString(this.sectores, this.seleccionado);
 
         this.filtroAMostrar = (aux.length) ? aux[0].valor : '';
+        
+        this.periodos = this._novedadService.harcodeadoPeriodos;
+        this.periodoSelect = (this.periodos.length !== 0) ? this.periodos[Math.floor(Math.random() * 12)] : '';
 
         this.dataSource = new FilesDataSource(this._novedadService);
 

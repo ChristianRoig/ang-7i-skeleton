@@ -30,6 +30,21 @@ export class NovedadService implements Resolve<any>
 
     onComboDepSucChanged: Subject<any>;
     onComboExternoChanged: Subject<any>;
+
+    harcodeadoPeriodos = [
+        'Enero 2019',
+        'Febrero 2019',
+        'Marzo 2019',
+        'Abril 2019',
+        'Mayo 2019',
+        'Junio 2019',
+        'Julio 2019',
+        'Agosto 2019',
+        'Septiembre 2019',
+        'Octubre 2019',
+        'Noviembre 2019',
+        'Diciembre 2019'
+    ];
     
     /**
      * Constructor

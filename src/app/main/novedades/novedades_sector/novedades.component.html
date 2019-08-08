@@ -47,6 +47,22 @@
                 </mat-menu>
             </div>
 
+            <div fxLayout="row" class="periodo">
+            
+                <div class="selected-filter">{{periodoSelect}}</div>
+            
+                <button mat-icon-button class="project-selector" [matMenuTriggerFor]="projectsMenuPeriodo"
+                    aria-label="selector periodo">
+                    <mat-icon>more_horiz</mat-icon>
+                </button>
+            
+                <mat-menu #projectsMenuPeriodo="matMenu">
+                    <button mat-menu-item *ngFor="let elemento of periodos" (click)="periodoSelect = elemento">
+                        <span>{{elemento}}</span>
+                    </button>
+                </mat-menu>
+            </div>
+            
             <!-- | titlecase -->
         </div>
         <!-- / APP TITLE -->
