@@ -11,6 +11,7 @@ import { OrigenesService } from '../../configurar/origenes.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataSource } from '@angular/cdk/table';
 import { NovedadService } from '../novedad.service';
+import { FuseUtils } from '@fuse/utils';
 
 @Component({
     selector     : 'novequipos',
@@ -31,7 +32,9 @@ export class NovEquiposComponent implements OnInit, OnDestroy
 
     listOrigenes = [];
 
-    seleccionado = '';
+    seleccionado: any;
+
+    filtroAMostrar: any;
 
     componente = 'nov-equipos';
 
@@ -99,6 +102,10 @@ export class NovEquiposComponent implements OnInit, OnDestroy
      
         this._novedadService.onFilterChanged.next(this.seleccionado);
 
+        const aux: any[] = FuseUtils.filterArrayByString(this.listOrigenes, this.seleccionado);
+
+        this.filtroAMostrar = (aux.length) ? aux[0].valor : '';
+
         this.dataSource = new FilesDataSource(this._novedadService);
      
         this.searchInput.valueChanges
@@ -122,10 +129,16 @@ export class NovEquiposComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
-    buscarXFiltro(dato): void {
-        this._router.navigate(['novedades/equipos/' + dato.value]);
-    }
+    // buscarXFiltro(dato): void {
+    //     this._router.navigate(['novedades/equipos/' + dato.value]);
+    // }
 
+    buscarXFiltro(elemento): void {
+        this.seleccionado = elemento.cod;
+        this.filtroAMostrar = elemento.valor;
+
+        this._router.navigate(['novedades/equipos/' + elemento.cod]);
+    }
 }
 
 

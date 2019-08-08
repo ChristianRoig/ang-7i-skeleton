@@ -5,6 +5,30 @@
     .header {
         flex-flow: row wrap;
 
+        .equipoFilter, .sectoresFilter, .novequipoFilter {
+            margin: 18.5px 0 -18.5px 0;
+        }
+
+        .selected-filter {
+            background: rgba(0, 0, 0, 0.12);
+            color: #FFFFFF;
+            padding: 8px 16px;
+            height: 40px;
+            line-height: 24px;
+            font-size: 16px;
+            border-radius: 8px 0 0 0;
+        }
+
+        .project-selector {
+            margin-left: 1px;
+            background: rgba(0, 0, 0, 0.12);
+            border-radius: 0 8px 0 0;
+
+            mat-icon {
+                color: #FFFFFF;
+            }
+        }
+
         .search-wrapper {
             width: 100%;
             max-width: 480px;
@@ -39,45 +63,45 @@
                 margin-top: 10px;
             }
 
-            .selector {
-                width: 150px;    
-                margin-top: 10px;
-                color: white;
+            // .selector {
+            //     width: 150px;    
+            //     margin-top: 10px;
+            //     color: white;
                 
-                &.equipo {
-                    width: 240px;
-                }
+            //     &.equipo {
+            //         width: 240px;
+            //     }
 
-                .mat-form-field-wrapper {
-                    padding: 0;
-                }
+            //     .mat-form-field-wrapper {
+            //         padding: 0;
+            //     }
 
-                .mat-form-field-appearance-outline .mat-form-field-outline {
-                    color: white;
-                }
+            //     .mat-form-field-appearance-outline .mat-form-field-outline {
+            //         color: white;
+            //     }
 
-                .mat-form-field-flex {
-                    .mat-form-field-infix {
-                        padding: 0.6em 0 0.9em 0;
+            //     .mat-form-field-flex {
+            //         .mat-form-field-infix {
+            //             padding: 0.6em 0 0.9em 0;
 
-                        .mat-select-trigger {
-                            .mat-select-arrow-wrapper{ 
-                                .mat-select-arrow{
-                                    color: white;
-                                }
-                            }
-                        }
+            //             .mat-select-trigger {
+            //                 .mat-select-arrow-wrapper{ 
+            //                     .mat-select-arrow{
+            //                         color: white;
+            //                     }
+            //                 }
+            //             }
 
-                        .mat-form-field-label-wrapper{
-                            label {
-                                color: white;
-                            }
-                        }
-                    }
-                }
+            //             .mat-form-field-label-wrapper{
+            //                 label {
+            //                     color: white;
+            //                 }
+            //             }
+            //         }
+            //     }
                 
                 
-            }
+            // }
         }
         
     }
@@ -92,4 +116,8 @@
             }
         }
     }
+}
+
+.mat-menu-content {
+    max-height: 400px;
 }

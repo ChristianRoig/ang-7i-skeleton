@@ -9,6 +9,7 @@ import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EquipoService } from './equipo.service';
 import { DataSource } from '@angular/cdk/table';
+import { FuseUtils } from '@fuse/utils';
 
 
 @Component({
@@ -31,6 +32,8 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
     listOrigenes = [];
 
     seleccionado: any;
+
+    filtroAMostrar: any;
 
     componente = 'equipo';
 
@@ -91,6 +94,10 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
                 this.listOrigenes = data;                
             });
 
+        const aux: any[] = FuseUtils.filterArrayByString(this.listOrigenes, this.seleccionado);
+
+        this.filtroAMostrar = (aux.length) ? aux[0].valor : '';
+
         this.dataSource = new FilesDataSource(this._equipoService);   
 
         // Filtro x search
@@ -115,8 +122,11 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
-    buscarXFiltro(dato): void{        
-        this._router.navigate(['equipo/' + dato.value]);
+    buscarXFiltro(elemento): void{        
+        this.seleccionado = elemento.cod;
+        this.filtroAMostrar = elemento.valor; 
+
+        this._router.navigate(['equipo/' + elemento.cod]);
     }
 
 }

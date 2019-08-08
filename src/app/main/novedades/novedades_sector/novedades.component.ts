@@ -11,6 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ConceptosService } from 'app/main/configurar/conceptos.service';
 import { NovedadService } from '../novedad.service';
 import { DataSource } from '@angular/cdk/table';
+import { FuseUtils } from '@fuse/utils';
 
 @Component({
     selector     : 'sector',
@@ -33,6 +34,8 @@ export class NovedadesComponent implements OnInit, OnDestroy
     sectores = [];
 
     seleccionado = '';
+
+    filtroAMostrar: any;
 
     titulo = 'Novedades por Sector';    
 
@@ -99,6 +102,10 @@ export class NovedadesComponent implements OnInit, OnDestroy
 
         this._novedadService.onFilterChanged.next(this.seleccionado);
         
+        const aux: any[] = FuseUtils.filterArrayByString(this.sectores, this.seleccionado);
+
+        this.filtroAMostrar = (aux.length) ? aux[0].valor : '';
+
         this.dataSource = new FilesDataSource(this._novedadService);
 
         this.searchInput.valueChanges
@@ -122,9 +129,16 @@ export class NovedadesComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
-    buscarXFiltro(dato): void {
-        console.log(dato.value);
-        this._router.navigate(['novedades/sectores/' + dato.value]);
+    // buscarXFiltro(dato): void {
+    //     console.log(dato.value);
+    //     this._router.navigate(['novedades/sectores/' + dato.value]);
+    // }
+
+    buscarXFiltro(elemento): void {
+        this.seleccionado = elemento.cod;
+        this.filtroAMostrar = elemento.valor;
+
+        this._router.navigate(['novedades/sectores/' + elemento.cod]);
     }
 }
 

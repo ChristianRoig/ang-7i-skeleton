@@ -20,7 +20,7 @@
                     {{titulo}}
                 </span>
             </div>
-            <div class="selector" fxLayout="row" fxLayoutAlign="start start">
+            <!-- <div class="selector" fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Sectores</mat-label>
                     <mat-select name="sectores" [(ngModel)]="seleccionado" [@slideInTop] (selectionChange)="buscarXFiltro($event)">
@@ -29,6 +29,22 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+            </div> -->
+
+            <div fxLayout="row" class="sectoresFilter">
+            
+                <div class="selected-filter">{{filtroAMostrar}}</div>
+            
+                <button mat-icon-button class="project-selector" [matMenuTriggerFor]="projectsMenu"
+                    aria-label="selector sectores">
+                    <mat-icon>more_horiz</mat-icon>
+                </button>
+            
+                <mat-menu #projectsMenu="matMenu">
+                    <button mat-menu-item *ngFor="let elemento of sectores" (click)="buscarXFiltro(elemento)">
+                        <span>{{elemento.valor}}</span>
+                    </button>
+                </mat-menu>
             </div>
 
             <!-- | titlecase -->
