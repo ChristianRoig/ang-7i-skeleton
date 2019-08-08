@@ -4,6 +4,7 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Concepto } from './conceptos/concepto.model';
 import { ErrorService } from '../errors/error.service';
+import { FuseUtils } from '@fuse/utils';
 
 
 @Injectable()
@@ -16,6 +17,9 @@ export class ConceptosService implements Resolve<any>
     // api = 'api/conceptos';
     api2 = 'api/tablaConceptos';
 
+    private searchText = '';
+    onSearchTextChanged: Subject<any>;
+    
     /**
      * Constructor
      *
@@ -30,6 +34,7 @@ export class ConceptosService implements Resolve<any>
         // Set the defaults        
         this.onConceptosTablaChanged = new BehaviorSubject([]);
               
+        this.onSearchTextChanged = new Subject();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -56,10 +61,10 @@ export class ConceptosService implements Resolve<any>
                      * Filtros de busqueda
                      */
                     
-                    //  this.onSearchTextChanged.subscribe(searchText => {
-                    //     this.searchText = searchText;
-                    //     this.getContacts();
-                    // });
+                    this.onSearchTextChanged.subscribe(searchText => {
+                        this.searchText = searchText;
+                        this._filterConceptos();
+                    });
 
                     // this.onFilterChanged.subscribe(filter => {
                     //     this.filterBy = filter;
@@ -82,7 +87,21 @@ export class ConceptosService implements Resolve<any>
         }); 
     }
 
-    getOrigenes(tipo: string): string[] {
+    /**
+     * _filterConceptos()
+     * Dependiendo del texto ingresado filtra el contenido del objeto origenes
+     */
+    private _filterConceptos(): void {
+        let aux = this.TablaConceptos;
+        if (this.searchText && this.searchText !== '') {
+            aux = FuseUtils.filterArrayByString(this.TablaConceptos, this.searchText);
+        }
+
+        this.onConceptosTablaChanged.next(aux);
+    }
+
+    // REVISAR
+    getOrigenes(tipo: string): string[] { // Revisar en un futuro si va aca o en el otro servicio.
         let data = null;
 
         if (!(tipo !== 'rrhh' && tipo !== 'externo')){
@@ -97,10 +116,11 @@ export class ConceptosService implements Resolve<any>
 
         return data;
     }
+    // REVISAR
 
     getConceptosTabla(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(this.api2)
+            this._httpClient.get('api/tablaConceptos')
                 .subscribe((response: []) => {
 
                     this.TablaConceptos = response;

@@ -44,6 +44,8 @@ export class NovEquiposComponent implements OnInit, OnDestroy
 
     periodos: any[];
     periodoSelect: any;
+
+    placeholder = 'Buscar por nombre legajo departamento concepto o monto';
     
     private _unsubscribeAll: Subject<any>;
 

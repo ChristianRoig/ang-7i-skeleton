@@ -102,7 +102,7 @@ export class NovedadService implements Resolve<any>
                     // Filtro por texto                     
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
-                        // this._filterNovedades();
+                        this._filterNovedades();
                     });
 
 

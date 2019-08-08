@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { OrigenesService } from 'app/main/configurar/origenes.service';
+import { debounceTime, takeUntil, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
     selector     : 'origenes',
@@ -20,6 +21,8 @@ export class OrigenesComponent implements OnInit, OnDestroy
     searchInput: FormControl;
 
     columnas = ['cod', 'nombre', 'tipo', 'responsableR', 'responsableS', 'buttons'];
+    
+    placeholder = 'Buscar por codigo, nombre, tipo o responsable';
 
     componente = 'origenes';
 
@@ -56,23 +59,21 @@ export class OrigenesComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        // this._origenesService.onOrigenesTablaChanged
+        // this._origenesService.onOrigenesChanged
         //     .pipe(takeUntil(this._unsubscribeAll))
         //     .subscribe(data => {           
         //         this.listOrigenes = data;
         //     });
 
-
-
-        // this.searchInput.valueChanges
-        //     .pipe(
-        //         takeUntil(this._unsubscribeAll),
-        //         debounceTime(300),
-        //         distinctUntilChanged()
-        //     )
-        //     .subscribe(searchText => {
-        //         this._colaboradoresService.onSearchTextChanged.next(searchText);
-        //     });
+        this.searchInput.valueChanges
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                debounceTime(300),
+                distinctUntilChanged()
+            )
+            .subscribe(searchText => {
+                this._origenesService.onSearchTextChanged.next(searchText);
+            });
     }
 
     /**

@@ -29,6 +29,8 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
 
     columnas = ['avatar', 'name', 'docket', 'departament', 'email', 'novedades', 'buttons'];
 
+    placeholder = 'Buscar por nombre legajo departamento email o novedades';
+
     listOrigenes = [];
 
     seleccionado: any;

@@ -33,6 +33,7 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
 
     dataSource: FilesDataSource | null; 
 
+    placeholder = 'Buscar por legajo, nombre o departamento';
 
     periodos: any[];
     periodoSelect: any;

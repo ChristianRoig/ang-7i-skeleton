@@ -29,6 +29,8 @@ export class NovedadesComponent implements OnInit, OnDestroy
     @Input() hasCheck = true;
 
     columnas = ['avatar', 'name', 'docket', 'sector', 'concepto', 'monto', 'buttons'];
+    
+    placeholder = 'Buscar por nombre legajo sector concepto o monto';
 
     componente = 'sector';
     sectores = [];

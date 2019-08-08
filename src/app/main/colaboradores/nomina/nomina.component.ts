@@ -31,7 +31,9 @@ export class NominaComponent implements OnInit, OnDestroy
 
     searchInput: FormControl;
 
-    dataSource: FilesDataSource | null;    
+    dataSource: FilesDataSource | null;
+    
+    placeholder = 'Buscar por legajo, nombre o departamento';
 
     // Protected
     protected _unsubscribeAll: Subject<any>;

@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { ConceptosService } from 'app/main/configurar/conceptos.service';
+import { takeUntil, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
 
 
@@ -25,6 +26,8 @@ export class ConceptosComponent implements OnInit, OnDestroy
     searchInput: FormControl;
 
     columnas = ['cod', 'nombre', 'tipo', 'origenNombre', 'buttons'];
+
+    placeholder = 'Buscar por codigo, nombre, origen o tipo';
 
     componente = 'conceptos';
 
@@ -70,15 +73,15 @@ export class ConceptosComponent implements OnInit, OnDestroy
 
 
 
-        // this.searchInput.valueChanges
-        //     .pipe(
-        //         takeUntil(this._unsubscribeAll),
-        //         debounceTime(300),
-        //         distinctUntilChanged()
-        //     )
-        //     .subscribe(searchText => {
-        //         this._colaboradoresService.onSearchTextChanged.next(searchText);
-        //     });
+        this.searchInput.valueChanges
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                debounceTime(300),
+                distinctUntilChanged()
+            )
+            .subscribe(searchText => {
+                this._conceptosService.onSearchTextChanged.next(searchText);
+            });
     }
 
     /**

@@ -71,7 +71,7 @@ export class ConfigurarListComponent implements OnInit, OnDestroy
         if (this.invocador === 'origenes'){
             this.dataSource = new FilesDataSourceI(this._origenesService);
 
-            this._origenesService.onOrigenesTablaChanged
+            this._origenesService.onOrigenesChanged
                 .pipe(takeUntil(this._unsubscribeAll))
                 .subscribe(data => {
                     this.colection = data;
@@ -208,7 +208,7 @@ export class FilesDataSourceI extends DataSource<any>
      * @returns {Observable<any[]>}
      */
     connect(): Observable<any[]> {
-        return this._origenesService.onOrigenesTablaChanged;
+        return this._origenesService.onOrigenesChanged;
     }
 
     /**

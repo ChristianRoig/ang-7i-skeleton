@@ -14,10 +14,8 @@ export class OrigenesService implements Resolve<any>
     onOrigenesChanged: BehaviorSubject<any>;
     origenes = [];   
 
-    onOrigenesTablaChanged: BehaviorSubject<any>;
-    origenesTabla = [];   
-
-    api2 = 'api/tabla';
+    private searchText = '';
+    onSearchTextChanged: Subject<any>;
 
     /**
      * Constructor
@@ -32,7 +30,8 @@ export class OrigenesService implements Resolve<any>
     {
         // Set the defaults
         this.onOrigenesChanged = new BehaviorSubject([]);
-        this.onOrigenesTablaChanged = new BehaviorSubject([]);
+
+        this.onSearchTextChanged = new Subject();
               
     }
 
@@ -51,9 +50,8 @@ export class OrigenesService implements Resolve<any>
     {
          return new Promise((resolve, reject) => {
 
-            Promise.all([
-                // this.getOrigenes(), // Es el combo de equipo lo paso a equipo.service
-                this.getOrigenesTabla()
+            Promise.all([                
+                this.getOrigenes()
             ]).then(
                 ([files]) => {
 
@@ -61,10 +59,10 @@ export class OrigenesService implements Resolve<any>
                      * Filtros de busqueda
                      */
                     
-                    //  this.onSearchTextChanged.subscribe(searchText => {
-                    //     this.searchText = searchText;
-                    //     this.getContacts();
-                    // });
+                    this.onSearchTextChanged.subscribe(searchText => {
+                        this.searchText = searchText;
+                        this._filterOrigenes();
+                    });
 
                     // this.onFilterChanged.subscribe(filter => {
                     //     this.filterBy = filter;
@@ -75,50 +73,43 @@ export class OrigenesService implements Resolve<any>
 
                 },
                 (error) => {
-                    this.origenes = [];
-                    this.origenesTabla = [];
-                    this.onOrigenesChanged.next(this.origenes);
-                    this.onOrigenesTablaChanged.next(this.origenesTabla);
-
+                    this.origenes = [];                    
+                    this.onOrigenesChanged.next(this.origenes);       
                     this._errorService.errorHandler(error);
                     
-                    resolve(this.origenes);
-                    resolve(this.origenesTabla);
-
+                    resolve(this.origenes);       
                 }
             );
         }); 
     }
+    
+    /**
+     * _filterOrigenes()
+     * Dependiendo del texto ingresado filtra el contenido del objeto origenes
+     */
+    private _filterOrigenes(): void {
+        let aux = this.origenes;
+        if (this.searchText && this.searchText !== '') {
+            aux = FuseUtils.filterArrayByString(this.origenes, this.searchText);
+        }
 
-    // getOrigenes(): Promise<any>
-    // {        
-    //     return new Promise((resolve, reject) => {
-    //             this._httpClient.get('api/origenes')
-    //                 .subscribe((response: []) => {
+        this.onOrigenesChanged.next(aux);
+    }
 
-    //                     this.origenes = response;
-
-    //                     this.onOrigenesChanged.next(this.origenes); 
-    //                     resolve(this.origenes);
-    //                 }, reject);
-    //         }
-    //     ); 
-    // }
-
-    getOrigenesTabla(): Promise<any> {
+    getOrigenes(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(this.api2)
+            this._httpClient.get('api/tabla')
                 .subscribe((response: []) => {
 
-                    this.origenesTabla = response;
+                    this.origenes = response;
 
-                    this.origenesTabla = this.origenesTabla.map(d => {
+                    this.origenes = this.origenes.map(d => {
                         return new Origen(d);
                     });  
                
 
-                    this.onOrigenesTablaChanged.next(this.origenesTabla);
-                    resolve(this.origenesTabla);
+                    this.onOrigenesChanged.next(this.origenes);
+                    resolve(this.origenes);
                 }, reject);
         });
     }
