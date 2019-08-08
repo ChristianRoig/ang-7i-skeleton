@@ -27,7 +27,7 @@ import { GastosModule } from './main/gastos/gastos.module';
 const appRoutes: Routes = [
     {
         path      : '**',
-        redirectTo: 'gastos'
+        redirectTo: 'auth/login-2'
     }
 ];
 

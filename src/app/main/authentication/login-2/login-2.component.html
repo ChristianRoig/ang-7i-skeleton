@@ -31,21 +31,21 @@
             <form name="loginForm" [formGroup]="loginForm" novalidate>
 
                 <mat-form-field appearance="outline">
-                    <mat-label>Email</mat-label>
+                    <mat-label>Usuario</mat-label>
                     <input matInput formControlName="email">
-                    <mat-icon matSuffix class="secondary-text">mail</mat-icon>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
                     <mat-error *ngIf="loginForm.get('email').hasError('required')">
-                        Email es requerido
+                        Usuario es requerido
                     </mat-error>
                     <mat-error
                         *ngIf="!loginForm.get('email').hasError('required') &&
                                 loginForm.get('email').hasError('email')">
-                        Por favor ingrese un email valido
+                        Por favor ingrese un usuario valido
                     </mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
-                    <mat-label>Password</mat-label>
+                    <mat-label>Contraseña</mat-label>
                     <input matInput type="password" formControlName="password">
                     <mat-icon matSuffix class="secondary-text">vpn_key</mat-icon>
                     <mat-error>
@@ -54,7 +54,7 @@
                 </mat-form-field>
 
                 <button mat-raised-button color="accent" class="submit-button" aria-label="LOGIN"
-                        [routerLink]="'/'"
+                        (click)= "login()"
                         [disabled]="loginForm.invalid">
                     LOGIN
                 </button>
