@@ -12,9 +12,7 @@ import { ColaboradoresComponent } from './equipo.component';
 
 import { DataListColaboradorModule } from '../data-list-col/data-list-col.module';
 import { EquipoService } from './equipo.service';
-
-
-
+import { AuthGuard } from 'app/main/authentication/auth.guard';
 
 const routes: Routes = [
     {
@@ -22,6 +20,7 @@ const routes: Routes = [
     },
     {
         path     : 'equipo/:equipo',
+        canActivate: [AuthGuard],
         component: ColaboradoresComponent,
         resolve  : {            
             listOrigenes  : OrigenesService,

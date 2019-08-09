@@ -12,15 +12,16 @@ import { ControlNovedadesComponent } from './control-novedades.component';
 import { SidebarsMainModule } from 'app/main/common/sidebars/main/sidebars-main.module';
 import { DataListNovedadModule } from '../data-list-nov/data-list-nov.module';
 import { NovedadService } from '../novedad.service';
+import { AuthGuard } from 'app/main/authentication/auth.guard';
 
 
 const routes: Routes = [
     { path: 'novedades/control', redirectTo: 'novedades/control/GrupoFava' },
 
-    { path: 'novedades/control/GrupoFava', component: ControlNovedadesComponent, resolve: { novedades: NovedadService } },
-    { path: 'novedades/control/FavaCard', component: ControlNovedadesComponent, resolve: { novedades: NovedadService } },
-    { path: 'novedades/control/FavaNet', component: ControlNovedadesComponent, resolve: { novedades: NovedadService } },
-    { path: 'novedades/control/FavaHnos', component: ControlNovedadesComponent, resolve: { novedades: NovedadService } },            
+    { path: 'novedades/control/GrupoFava', canActivate: [AuthGuard], component: ControlNovedadesComponent, resolve: { novedades: NovedadService } },
+    { path: 'novedades/control/FavaCard',  canActivate: [AuthGuard], component: ControlNovedadesComponent, resolve: { novedades: NovedadService } },
+    { path: 'novedades/control/FavaNet',   canActivate: [AuthGuard], component: ControlNovedadesComponent, resolve: { novedades: NovedadService } },
+    { path: 'novedades/control/FavaHnos',  canActivate: [AuthGuard], component: ControlNovedadesComponent, resolve: { novedades: NovedadService } },            
         
 ];
 

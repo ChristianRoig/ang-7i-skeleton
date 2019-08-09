@@ -10,12 +10,14 @@ import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 import { ConfigurarListModule } from '../lista/configurar-list.module';
 import { ConceptosService } from 'app/main/configurar/conceptos.service';
 import { ConceptosComponent } from './conceptos.component';
+import { AuthGuard } from 'app/main/authentication/auth.guard';
 
 
 
 const routes: Routes = [
     {
         path     : 'conceptos',
+        canActivate: [AuthGuard],
         component: ConceptosComponent,
         resolve  : {            
             listConceptos: ConceptosService

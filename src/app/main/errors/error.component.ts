@@ -30,9 +30,9 @@ export class ErrorComponent implements OnInit, OnDestroy
 
     ngOnInit(): void {
 
-        if (!(this._loginService.isSetLog())){
-            this._router.navigate(['/auth/login-2']);
-        }
+        // if (!(this._loginService.isSetLog())){
+        //     this._router.navigate(['/auth/login-2']);
+        // }
 
 
         this._errorService.updateErrorCodeSubject

@@ -11,6 +11,7 @@ import { NovedadesComponent } from 'app/main/novedades/novedades_sector/novedade
 import { ConceptosService } from '../../configurar/conceptos.service';
 import { NovedadService } from '../novedad.service';
 import { DataListNovedadModule } from '../data-list-nov/data-list-nov.module';
+import { AuthGuard } from 'app/main/authentication/auth.guard';
 
 
 
@@ -20,6 +21,7 @@ const routes: Routes = [
     },
     {
         path: 'novedades/sectores/:filtro',
+        canActivate: [AuthGuard],
         component: NovedadesComponent,
         resolve  : {
             novedades: NovedadService,

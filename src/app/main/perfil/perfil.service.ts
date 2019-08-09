@@ -73,6 +73,10 @@ export class PerfilService implements Resolve<any>
         });
     }
 
+
+    getTrue(): boolean {
+        return true;
+    }
     /**
      * llamadoHTTP realiza una corroboracion del usuario que se envia y hace el llamado correspondiente
      * @param resolve

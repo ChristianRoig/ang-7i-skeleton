@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'environments/environment';
 import { Perfil } from 'app/main/perfil/perfil.model';
+import { FuseNavigationService } from '../../../../@fuse/components/navigation/navigation.service';
 
 
 const API_URL: string = environment.API;
@@ -35,6 +36,9 @@ export class LoginService implements Resolve<any>
         private _httpClient: HttpClient,
         private _cookieService: CookieService,
         private _router: Router,
+
+        private _fuseNavigationService: FuseNavigationService
+
     ) {
         // Set the defaults
 
@@ -46,6 +50,13 @@ export class LoginService implements Resolve<any>
     }
 
     init(): void {
+
+        // para mostrar o ocultar un componente del navbar
+        // this._fuseNavigationService.updateNavigationItem('sector', {
+        //     hidden: true
+        // });
+    
+
         const userLog = this._cookieService.get(user);
         // const tokenLog = this._cookieService.get(token);
         // const datos = this._cookieService.get('datos');
@@ -168,7 +179,7 @@ export class LoginService implements Resolve<any>
     */
     getLocalUser(): string {
         if (!(this.isSetLog())){
-            this._router.navigate(['/auth/login-2']);
+            // this._router.navigate(['/auth/login-2']);
             return '';
         }
 
@@ -185,7 +196,7 @@ export class LoginService implements Resolve<any>
     */
     getLocalToken(): string {
         if (!(this.isSetLog())) {
-            this._router.navigate(['/auth/login-2']);
+            // this._router.navigate(['/auth/login-2']);
             return '';
         }
 
@@ -203,11 +214,11 @@ export class LoginService implements Resolve<any>
 
         if ((userLog) && (tokenLog)){
             return true;
+        }else{
+            this._reset();
+            return false;
         }
         
-        this._reset();
-
-        return false;
     }
 
     /**

@@ -4,13 +4,15 @@ import { MatIconModule } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ErrorComponent } from './error.component';
+import { AuthGuard } from '../authentication/auth.guard';
 
 
 
 const routes = [
     {
         path     : 'error',
-        component: ErrorComponent
+        canActivate: [AuthGuard],
+        component: ErrorComponent,
     }
 ];
 

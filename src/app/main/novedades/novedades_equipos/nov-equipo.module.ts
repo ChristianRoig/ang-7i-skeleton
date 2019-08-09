@@ -11,6 +11,7 @@ import { OrigenesService } from '../../configurar/origenes.service';
 import { NovEquiposComponent } from './nov-equipo.component';
 import { DataListNovedadModule } from '../data-list-nov/data-list-nov.module';
 import { NovedadService } from '../novedad.service';
+import { AuthGuard } from 'app/main/authentication/auth.guard';
 
 
 const routes: Routes = [
@@ -19,7 +20,8 @@ const routes: Routes = [
     },
     {
         path     : 'novedades/equipos/:filtro',
-        component: NovEquiposComponent,
+        canActivate: [AuthGuard],
+        component: NovEquiposComponent,        
         resolve  : {            
             listOrigenes: OrigenesService,
             novedades: NovedadService,            

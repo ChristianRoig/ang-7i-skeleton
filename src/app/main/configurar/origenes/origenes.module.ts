@@ -10,12 +10,14 @@ import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 import { OrigenesComponent } from './origenes.component';
 import { ConfigurarListModule } from '../lista/configurar-list.module';
 import { OrigenesService } from '../origenes.service';
+import { AuthGuard } from 'app/main/authentication/auth.guard';
 
 
 
 const routes: Routes = [
     {
         path     : 'origenes',
+        canActivate: [AuthGuard],
         component: OrigenesComponent,
         resolve  : {            
             listOrigenes: OrigenesService
