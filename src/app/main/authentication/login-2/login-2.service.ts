@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'environments/environment';
@@ -13,17 +13,17 @@ const token: string = environment.Cookie_Token;
 const user: string = environment.Cookie_User;
 
 @Injectable()
-export class LoginService implements Resolve<any>
+export class LoginService 
 {
     private info: any;
     private perfilLog: Perfil;
-    private datos: any;
+    // private datos: any;
 
     infoOnChanged: BehaviorSubject<any>;
 
     // revisar si es mejor tener solo el info y consultar o especificar
     perfilLogOnChanged: BehaviorSubject<any>;
-    datosOnChanged: BehaviorSubject<any>;
+    // datosOnChanged: BehaviorSubject<any>;
 
     /**
      * Constructor
@@ -44,7 +44,7 @@ export class LoginService implements Resolve<any>
 
         this.infoOnChanged = new BehaviorSubject({});
         this.perfilLogOnChanged = new BehaviorSubject({});
-        this.datosOnChanged = new BehaviorSubject({});
+        // this.datosOnChanged = new BehaviorSubject({});
 
         this.init();
     }
@@ -56,9 +56,7 @@ export class LoginService implements Resolve<any>
         //     hidden: true
         // });
     
-
-        const userLog = this._cookieService.get(user);
-        // const tokenLog = this._cookieService.get(token);
+        const userLog = this._cookieService.get(user);       
         // const datos = this._cookieService.get('datos');
 
         if (userLog){
@@ -66,36 +64,18 @@ export class LoginService implements Resolve<any>
         }else{
             this.perfilLog = new Perfil({});        
         }
+
         this.perfilLogOnChanged.next(this.perfilLog);  
     }
 
-    /**
-     * Resolver
-     *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<any> | Promise<any> | any}
-     */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-        return new Promise((resolve, reject) => {
-            Promise.all([
-                // this.login()
-            ]).then(
-                () => {
-                    resolve();
-                },
-                reject
-            );
-        });
-    }
-
+  
     /**
      * Metodo para realizar el login
      * @param {string} username
      * @param {string} password
      */
     login(username: string, password: string): Promise<any[]> {
-        return new Promise((resolve, reject) => {
+        return new Promise(() => {
 
             this._createRequest(username, password)
                 .subscribe(
@@ -108,8 +88,8 @@ export class LoginService implements Resolve<any>
                             this.info = info;
 
                             this.perfilLog = info.colaborador;
-                            this.datos = null; // Cuando traiga datos generales para las busquedas va ir aqui
-
+                            // this.datos = null; // Cuando traiga datos generales para las busquedas va ir aqui
+                            
                             let expirar = new Date();
 
                             expirar.setHours(expirar.getHours() + 16);
@@ -123,20 +103,18 @@ export class LoginService implements Resolve<any>
                         }else {
                             this.info = null;
                             this.perfilLog = null;
-                            this.datos = null;
+                            // this.datos = null;
                         }
 
                         this.infoOnChanged.next(this.info);
                         this.perfilLogOnChanged.next(this.perfilLog);
-                        this.datosOnChanged.next(this.datos);
+                        // this.datosOnChanged.next(this.datos);
     
-                        resolve(this.info);
-                    }, 
-                    (err) => {
-        
-                        this.info = 'error';
-                        this.infoOnChanged.next(this.info);                        
                         
+                    }, 
+                    (err) => {        
+                        this.info = 'error';
+                        this.infoOnChanged.next(this.info);
                     }
                 );
 
@@ -178,8 +156,7 @@ export class LoginService implements Resolve<any>
     * @return {string} perfil.legajo
     */
     getLocalUser(): string {
-        if (!(this.isSetLog())){
-            // this._router.navigate(['/auth/login-2']);
+        if (!(this.isSetLog())){            
             return '';
         }
 
@@ -196,7 +173,6 @@ export class LoginService implements Resolve<any>
     */
     getLocalToken(): string {
         if (!(this.isSetLog())) {
-            // this._router.navigate(['/auth/login-2']);
             return '';
         }
 
@@ -227,7 +203,7 @@ export class LoginService implements Resolve<any>
     private _reset(): void {
         this.infoOnChanged = new BehaviorSubject({});
         this.perfilLogOnChanged = new BehaviorSubject({});
-        this.datosOnChanged = new BehaviorSubject({});
+        // this.datosOnChanged = new BehaviorSubject({});
         this._cookieService.deleteAll();
     }
 
