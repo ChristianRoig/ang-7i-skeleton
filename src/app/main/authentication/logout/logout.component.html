@@ -1,0 +1,47 @@
+<div id="logout" fxLayout="column">
+    
+    <div id="logout-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
+        
+        
+        <div id="logout-form" [@animate]="{value:'*',params:{duration:'300ms',y:'100px'}}">
+            <div class="titulo">
+                <p>Cerrar Sesion</p>
+                <hr>
+            </div>
+            
+            <div class="logout-form-header" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+                fxLayoutAlign.gt-xs="start center">
+                <div class="avatar-container">
+                    <img class="avatar big" [src]="perfil.img">
+                    <mat-icon class="s-32">meeting_room</mat-icon>
+                </div>
+
+                <div>
+                    <div class="title">¿Esta seguro que desea Cerrar su Sesion?</div>
+                    <!-- <div class="subtitle">
+                        Due to inactivity, your session is locked. Enter your password to continue.
+                    </div> -->
+                </div>
+
+            </div>
+
+            <div id="botones">
+
+                <button mat-raised-button color="warn" class="submit-button" aria-label="cancelar" id="cancelar"
+                routerLink="/">
+                    Cancelar
+                </button>
+
+                <button mat-raised-button color="primary" class="submit-button" aria-label="Logout" id="aceptar"
+                (click)="logout()"
+                routerLink="/auth/login-2">
+                    Aceptar
+                </button>
+
+            </div>
+        </div>
+
+        
+    </div>
+
+</div>

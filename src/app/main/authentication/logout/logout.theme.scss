@@ -1,0 +1,38 @@
+@mixin logout-theme($theme) {
+
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $is-dark: map-get($theme, is-dark);
+
+    logout {
+
+        #logout {
+
+            #logout-form-wrapper {
+
+                #logout-form {
+                    // @if ($is-dark) {
+                    //     background: mat-color($fuse-navy, 600);
+                    // } @else {
+                    //     background: map-get($background, card);
+                    // }
+                   background: mat-color($fuse-navy, 50);
+                    
+                    .logout-form-header {
+
+                        .avatar-container {
+
+                            mat-icon {
+                                color: mat-color($mat-red, 500);
+                            }
+                        }
+
+                        .subtitle {
+                            color: map-get($foreground, secondary-text);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

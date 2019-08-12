@@ -41,6 +41,7 @@ import { LoginService } from './main/authentication/login-2/login-2.service';
 import { PerfilService } from './main/perfil/perfil.service';
 import { NovedadesModule } from './main/novedades/novedades_sector/novedades.module';
 import { ImportarFormModule } from './main/novedades/importar-form/importar-form.module';
+import { LogoutModule } from './main/authentication/logout/logout.module';
 
 
 
@@ -92,7 +93,7 @@ const appRoutes: Routes = [
         PerfilModule,
         ColaboradoresModule,
         NominaModule,
-        
+        LogoutModule,
         
         OrigenesModule,
         OrigenesFormModule,

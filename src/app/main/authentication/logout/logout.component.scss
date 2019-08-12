@@ -1,0 +1,120 @@
+@import "src/@fuse/scss/fuse";
+
+logout {
+
+    #logout {
+        width: 100%;
+        background: url('/assets/images/backgrounds/dark-material-bg.jpg') no-repeat;
+        background-size: cover;
+
+        #logout-form-wrapper {
+            flex: 1 0 auto;
+            padding: 32px;
+
+            @include media-breakpoint('xs') {
+                padding: 16px;
+            }
+
+            #logout-form {
+                display: flex;
+                flex-direction: column;
+                width: 420px;
+                max-width: 420px;
+                padding: 32px 32px;
+                @include mat-elevation(16);
+
+                @include media-breakpoint('xs') {
+                    padding: 24px;
+                    width: 100%;
+                }
+
+                .titulo{
+                    p {
+                        margin: 0;
+                    }
+                }
+
+                .logout-form-header {
+                    display: flex;
+                    flex: 1 0 auto;
+
+                    .avatar-container {
+                        position: relative;
+                        margin-right: 6px;
+
+                        .avatar {
+                            margin: 0;                            
+                        }
+
+                        @include media-breakpoint('xs') {
+                            margin-right: 0;
+                        }
+
+                        mat-icon {
+                            position: absolute;
+                            bottom: -2px;
+                            right: -6px;
+                            background-color: white;
+                            border-radius: 50%;
+                            font-size: 27px !important;
+                            line-height: 34px !important;
+                            text-align: center;
+                        }
+                    }
+
+                    .title {
+                        font-size: 20px;
+                        margin-bottom: 8px;
+                        text-align: center;
+
+                        @include media-breakpoint('xs') {
+                            margin-top: 16px;
+                        }
+                    }
+
+                    .subtitle {
+
+                        @include media-breakpoint('xs') {
+                            text-align: center;
+                        }
+                    }
+                }
+
+                form {
+                    width: 100%;
+                    margin: 32px 0 0 0;
+
+                    mat-form-field {
+                        width: 100%;
+                    }
+
+                    .submit-button {
+                        width: 220px;
+                        margin: 16px auto;
+                        display: block;
+
+                        @include media-breakpoint('xs') {
+                            width: 90%;
+                        }
+                    }
+                }
+
+                .message {
+                    font-weight: 600;
+                    text-align: center;
+                }
+            }
+
+            #botones {
+                display: flex;
+                justify-content: space-between;
+                margin: 30px 5% 0;
+            
+                #aceptar {
+                    background-color: green;
+                }
+
+            }
+        }
+    }
+}

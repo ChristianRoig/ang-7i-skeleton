@@ -54,8 +54,8 @@ export class LoginService
         // para mostrar o ocultar un componente del navbar
         // this._fuseNavigationService.updateNavigationItem('sector', {
         //     hidden: true
-        // });
-    
+        // });  
+
         const userLog = this._cookieService.get(user);       
         // const datos = this._cookieService.get('datos');
 
@@ -68,7 +68,17 @@ export class LoginService
         this.perfilLogOnChanged.next(this.perfilLog);  
     }
 
-  
+    /**
+     * Metodo para cerra la sesion
+     */
+    logout(): void{
+        this.infoOnChanged = new BehaviorSubject({});
+        this.perfilLogOnChanged = new BehaviorSubject({});
+        // this.datosOnChanged = new BehaviorSubject({});
+
+        this._cookieService.deleteAll();
+    }
+    
     /**
      * Metodo para realizar el login
      * @param {string} username
@@ -191,20 +201,10 @@ export class LoginService
         if ((userLog) && (tokenLog)){
             return true;
         }else{
-            this._reset();
+            this.logout();
             return false;
         }
         
-    }
-
-    /**
-    * Borra las cookies del sitio y resetea los datos
-    */
-    private _reset(): void {
-        this.infoOnChanged = new BehaviorSubject({});
-        this.perfilLogOnChanged = new BehaviorSubject({});
-        // this.datosOnChanged = new BehaviorSubject({});
-        this._cookieService.deleteAll();
     }
 
 }

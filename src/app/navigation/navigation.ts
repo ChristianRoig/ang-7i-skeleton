@@ -16,6 +16,13 @@ export const navigation: FuseNavigation[] = [
                 url: '/auth/login-2'
             },
             {
+                id: 'logout',
+                title: 'Logout',
+                type: 'item',
+                icon: 'meeting_room',
+                // url: '/auth/logout'                      
+            },            
+            {
                 id       : 'perfil',
                 title    : 'Perfil',
                 type     : 'item',
