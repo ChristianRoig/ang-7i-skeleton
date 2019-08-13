@@ -1,58 +1,57 @@
-import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef, MatTableDataSource } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
-import { fuseAnimations } from '@fuse/animations';
-import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
-
-import { ContactsService } from 'app/main/contacts/contacts.service';
-import { ContactsContactFormDialogComponent } from 'app/main/contacts/contact-form/contact-form.component';
-import { Contact } from '../contact.model';
 import { Router } from '@angular/router';
+import { Gasto } from 'app/main/gastos/gasto.model';
+import { fuseAnimations } from '@fuse/animations';
 
+ /* import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
+ */
+/* import { GastosService } from '../gastos.service';
+ *//* import { GastoFormDialogComponent } from '../gastos-form/gastos-form.component';
+ */
 @Component({
-    selector     : 'contacts-contact-list',
-    templateUrl  : './contact-list.component.html',
-    styleUrls    : ['./contact-list.component.scss'],
+    selector     : 'contact-gastos',
+    templateUrl  : './contact-gastos.component.html',
+    styleUrls    : ['./contact-gastos.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })
-export class ContactsContactListComponent implements OnInit, OnDestroy
+export class ContactGastosComponent implements OnInit, OnDestroy
 {
-    @ViewChild('dialogContent')
-    dialogContent: TemplateRef<any>;
+    @Input() gastos: any;
+   // dataSource: FilesDataSource | null;
+  // dataSource = new MatTableDataSource<Gasto>([]);
+    displayedColumns = ['avatar', 'descripcion', 'fecha', 'comprobante', 'estado', 'importe', 'buttons'];
 
-    contacts: any;
-    user: any;
-    dataSource: FilesDataSource | null;
-    displayedColumns = ['checkbox', 'avatar', 'name', 'email', 'phone', 'jobTitle', 'buttons'];
-   //displayedColumns = ['checkbox', 'avatar', 'name', 'email', 'phone', 'jobTitle'];
-    selectedContacts: any[];
-    checkboxes: {};
-    dialogRef: any;
-    confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+   // displayedColumns = ['checkbox', 'avatar', 'name', 'email', 'phone', 'jobTitle'];
+  //  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
 
     // Private
-    private _unsubscribeAll: Subject<any>;
 
     /**
      * Constructor
      *
-     * @param {ContactsService} _contactsService
+     * @param {GastosService} _gastosService
      * @param {MatDialog} _matDialog
      */
     constructor(
-        private _contactsService: ContactsService,
-        private router: Router,
-        public _matDialog: MatDialog
+     //   private _gastosService: GastosService,
+        public _matDialog: MatDialog,
+        private router: Router
     )
     {
         // Set the private defaults
-        this._unsubscribeAll = new Subject();
+/*         this.dataSource.data = this.addGroups(Gastos.gastos, this.groupByColumn);
+        this.dataSource.filterPredicate = this.customFilterPredicate.bind(this); */
     }
+
+
+
+     
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -63,18 +62,19 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        this.dataSource = new FilesDataSource(this._contactsService);
-
-        this._contactsService.onContactsChanged
+/*         this._gastosService.onContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(contacts => {
-                this.contacts = contacts;
-
+            .subscribe(gastos => {
+                this.gastos = gastos;
                 this.checkboxes = {};
-                contacts.map(contact => {
-                    this.checkboxes[contact.id] = false;
-                });
-            });
+                 gastos.map(gasto => {
+                    this.checkboxes[gasto.id] = false;
+                }); 
+            }); */
+    //        this.dataSource.data = this.gastos
+     //       console.log(this.dataSource.data);
+     //       this.dataSource.filterPredicate = this.customFilterPredicate.bind(this);
+    }
 
 /*         this._contactsService.onSelectedContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
@@ -102,7 +102,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
             .subscribe(() => {
                 this._contactsService.deselectContacts();
             }); */
-    }
+    
 
     /**
      * On destroy
@@ -110,13 +110,8 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
     ngOnDestroy(): void
     {
         // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
-        this._unsubscribeAll.complete();
     }
 
-    viewContact(contact: Contact) {
-        this.router.navigate(['/proveedores', contact.id]);
-    }
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -126,12 +121,12 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
      *
      * @param contact
      */
-    editContact(contact): void
+    editContact(gasto): void
     {
-        this.dialogRef = this._matDialog.open(ContactsContactFormDialogComponent, {
-            panelClass: 'contact-form-dialog',
+/*         this.dialogRef = this._matDialog.open(GastoFormDialogComponent, {
+            panelClass: 'gasto-form-dialog',
             data      : {
-                contact: contact,
+                gasto: gasto,
                 action : 'edit'
             }
         });
@@ -148,7 +143,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
                 {
                     /**
                      * Save
-                     */
+                     * /
                     case 'save':
 
                //         this._contactsService.updateContact(formData.getRawValue());
@@ -156,22 +151,22 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
                         break;
                     /**
                      * Delete
-                     */
+                     * /
                     case 'delete':
 
-                        this.deleteContact(contact);
+                        this.deleteGasto(gasto);
 
                         break;
                 }
-            });
+            }); */
     }
 
     /**
      * Delete Contact
      */
-    deleteContact(contact): void
+    deleteGasto(gasto): void
     {
-        this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
+ /*        this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
             disableClose: false
         });
 
@@ -180,12 +175,17 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if ( result )
             {
-                this._contactsService.deleteContact(contact);
+                this._gastosService.deleteContact(gasto);
             }
             this.confirmDialogRef = null;
         });
-
+ */
     }
+
+     verGasto(gasto: Gasto): void
+    {
+      this.router.navigate(['/gastos', gasto.id]);
+    } 
 
     /**
      * On selected change
@@ -194,8 +194,8 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
      */
     onSelectedChange(contactId): void
     {
-        this._contactsService.toggleSelectedContact(contactId);
-    }
+/*         this._gastosService.toggleSelectedContact(contactId);
+ */    }
 
     /**
      * Toggle star
@@ -204,7 +204,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
      */
     toggleStar(contactId): void
     {
-        if ( this.user.starred.includes(contactId) )
+/*        if ( this.user.starred.includes(contactId) )
         {
             this.user.starred.splice(this.user.starred.indexOf(contactId), 1);
         }
@@ -213,19 +213,24 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
             this.user.starred.push(contactId);
         }
 
-        this._contactsService.updateUserData(this.user);
+         this._gastosService.updateUserData(this.user); */    
     }
+
+/*     isGroup(index, item): boolean{
+        return item.level;
+      } */
+
 }
 
-export class FilesDataSource extends DataSource<any>
+/* export class FilesDataSource extends DataSource<any>
 {
     /**
      * Constructor
      *
      * @param {ContactsService} _contactsService
-     */
+     * /
     constructor(
-        private _contactsService: ContactsService
+        private _gastosService: GastosService
     )
     {
         super();
@@ -234,16 +239,16 @@ export class FilesDataSource extends DataSource<any>
     /**
      * Connect function called by the table to retrieve one stream containing the data to render.
      * @returns {Observable<any[]>}
-     */
+     * /
     connect(): Observable<any[]>
     {
-        return this._contactsService.onContactsChanged;
+        return this._gastosService.onContactsChanged;
     }
 
     /**
      * Disconnect
-     */
+     * /
     disconnect(): void
     {
     }
-}
+} */

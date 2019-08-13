@@ -1,0 +1,50 @@
+<div id="profile" class="page-layout simple tabbed">
+
+  <!-- HEADER -->
+  <div class="header p-24" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+       fxLayoutAlign.gt-sm="space-between end">
+
+      <div class="user-info" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+           fxLayoutAlign.gt-sm="start center">
+          <img class="profile-image avatar huge" [src]= "proveedor.file_link"
+               [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+          <div class="name" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+              {{proveedor.nombre | titlecase}}
+          </div>
+      </div>
+      <div class="actions" fxLayout="row" fxLayoutAlign="end center" [@animate]="{value:'*',params:{delay:'200ms'}}">
+          <button mat-raised-button color="accent" (click)="editContact(proveedor)" aria-label="Editar">Editar</button>
+          <button mat-raised-button color="error" aria-label="Eliminar">Eliminar</button>
+      </div> 
+
+  </div>
+  <!-- / HEADER -->
+
+  <!-- CONTENT -->
+  <div class="content">
+
+      <mat-tab-group dynamicHeight="true"> 
+
+          <mat-tab label="Datos Básicos">
+            <contact-info [proveedor]="proveedor"></contact-info>
+           </mat-tab>
+
+          <mat-tab label="Gastos">
+            <contact-gastos [gastos]="gastos"></contact-gastos>
+          </mat-tab>
+
+          <mat-tab label="File Upload">
+            <file-upload></file-upload> 
+          </mat-tab>
+
+ <!--          <mat-tab label="Seguridad y Acceso">
+            <perfil-info-seg></perfil-info-seg>
+            perfil-imagenes></perfil-imagenes
+          </mat-tab> -->
+
+      </mat-tab-group>
+
+  </div>
+  <!-- / CONTENT -->
+
+</div>
