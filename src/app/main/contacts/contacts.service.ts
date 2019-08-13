@@ -269,12 +269,12 @@ export class ContactsService implements Resolve<any>
      *
      * @param contact
      * @returns {Promise<any>}
-     * /
-    updateContact(contact): Promise<any>
+     */
+     updateContact(contact): Promise<any>
     {
         return new Promise((resolve, reject) => {
 
-            this._httpClient.post('api/contacts-contacts/' + contact.id, {...contact})
+            this.createRequestUpdateProveedor(contact)
                 .subscribe(response => {
                     this.getContacts();
                     resolve(response);
