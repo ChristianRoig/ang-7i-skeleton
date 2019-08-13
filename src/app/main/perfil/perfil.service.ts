@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from 'environments/environment';
+import { CookieService } from 'ngx-cookie-service';
+
+const API_URL = environment.API;
+
 
 @Injectable()
 export class PerfilService implements Resolve<any>
 {
     info: any;
 
-    infoOnChanged: BehaviorSubject<any>;
+    public infoOnChanged: BehaviorSubject<any>;
 
     /**
      * Constructor
@@ -16,6 +21,7 @@ export class PerfilService implements Resolve<any>
      * @param {HttpClient} _httpClient
      */
     constructor(
+        private cookieService: CookieService,
         private _httpClient: HttpClient
     )
     {
@@ -51,7 +57,7 @@ export class PerfilService implements Resolve<any>
     {
         return new Promise((resolve, reject) => {
 
-            this._httpClient.get('api/perfil-info')
+            this.createRequestGetPerfil()
                 .subscribe((info: any) => {
                     this.info = info;
                     this.infoOnChanged.next(this.info);
@@ -60,4 +66,9 @@ export class PerfilService implements Resolve<any>
         });
     }
 
+    createRequestGetPerfil() {
+        let headers = new HttpHeaders();
+        headers = headers.set('Authorization' , this.cookieService.get('tokenAuth'));
+        return this._httpClient.get(API_URL + 'perfil');
+    }
 }
