@@ -97,6 +97,12 @@ export class ContactsService implements Resolve<any>
         }); 
     }
 
+    getProveedor(id: string): Contact {
+        let proveedor: Contact;
+        proveedor = this.contacts.find(p => id === p.id);
+        return proveedor;
+    }
+
     /**
      * Get contacts
      *
@@ -355,7 +361,7 @@ export class ContactsService implements Resolve<any>
 
     crearRequestNewCodigoProveedor(propietario: string, modulo: string) {
 
-        let method = 'siguienteCodigo'
+        let method = 'siguientecodigo';
 
         let url = API_URL + method;
 
@@ -363,17 +369,14 @@ export class ContactsService implements Resolve<any>
             'Authorization': this.cookieService.get('tokenAuth')
         });
 
-        let params = {
-            "propietario": propietario,
-            "modulo": modulo,
-        };
-
-        let options = {
-            headers : httpHeaders,
-            params  : params
-        }
-
-        return this._httpClient.get(url, options); //retorna un string
+        let params = new HttpParams();
+        params = params.set("propietario", propietario);
+        params = params.set("modulo", modulo)
+        
+        return this._httpClient.get(url, { headers : httpHeaders, 
+                                           params : params,
+                                           responseType : 'text' }
+        ); //retorna un string
     }
 
     createRequestAddProveedor(contact: Contact) {

@@ -110,7 +110,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
     }
 
     viewContact(contact: Contact) {
-        this.router.navigate(['/proveedores', contact.nombre_corto]);
+        this.router.navigate(['/proveedores', contact.id]);
     }
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
