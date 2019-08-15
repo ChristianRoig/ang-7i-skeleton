@@ -157,13 +157,10 @@ export class EquipoService implements Resolve<any>
     getColaboradores(): Promise<any>{
         if (this.ComboOrigenes.length === 0) { return; }
 
-        const url = API_URL + 'obtenerColaboradoresByDepartamento';                    
-        const params = {
-            'departamento': this.filterBy
-        };
+        const url = API_URL + 'colaboradores?departamento=' + this.filterBy;
 
         return new Promise((resolve, reject) => {
-                this._createRequest(url, params)
+                this._createRequest(url)
                     .subscribe((response: Perfil[]) => {
     
                     this.colaboradores = response;
@@ -187,14 +184,14 @@ export class EquipoService implements Resolve<any>
      * Crea el llamado a los servicios de back
      * @param {string} user 
      */
-    private _createRequest(url: string, params: {}): Observable<any> | any {       
+    private _createRequest(url: string): Observable<any> | any {       
         const httpHeaders = new HttpHeaders({            
             'Authorization': this._loginService.getLocalToken()
         });
 
         const options = { headers: httpHeaders };
 
-        return this._httpClient.post(url, params, options);
+        return this._httpClient.get(url, options);
     }
 
 }
