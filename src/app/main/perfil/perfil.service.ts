@@ -85,9 +85,9 @@ export class PerfilService implements Resolve<any>
      */
     private _llamadoHTTP(resolve, reject, user): void {
 
-        if (!user){
-            user = this.getUserLog();             
-        }
+        // if (!user){
+        //     user = this.getUserLog();             
+        // }
 
         if (user === 'null' || user === '' || user === ' ') { // Fix en para inicio de sistema
             this.info = new Perfil({});
@@ -99,19 +99,11 @@ export class PerfilService implements Resolve<any>
 
                     this.info = new Perfil(info);
                     this.infoOnChanged.next(this.info);
-                    
+
                     resolve(this.info);
 
                 }, reject);
         }  
-    }
-
-    /**
-     * realiza el llamado al _loginService para traer el usuario que esta logueado
-     * @returns {string}
-     */
-    getUserLog(): string{
-        return this._loginService.getLocalUser();
     }
 
     /**
@@ -124,15 +116,11 @@ export class PerfilService implements Resolve<any>
             'Authorization': this._loginService.getLocalToken()
         });
 
-        const options = { headers: httpHeaders };
+        const url = API_URL + 'colaborador?legajo=' + user;
 
-        const url = API_URL + 'obtenerColaboradorByLegajo';
-
-        const params = {
-            'legajo': user
-        };
-
-        return this._httpClient.post(url, params, options);
+        return this._httpClient.get(url, {
+            headers: httpHeaders            
+        });
 
     }
 

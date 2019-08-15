@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Perfil } from './perfil.model';
+import { LoginService } from '../authentication/login-2/login-2.service';
 
 @Component({
   selector: 'perfil',
@@ -27,7 +28,8 @@ export class PerfilComponent implements OnInit, OnDestroy {
 
   constructor(
     private _fuseTranslationLoaderService: FuseTranslationLoaderService,
-    private _profileService: PerfilService,    
+    private _profileService: PerfilService,
+    private _loginService: LoginService,    
     private _activeRouter: ActivatedRoute,
     private _router: Router
   ) {
@@ -42,7 +44,9 @@ export class PerfilComponent implements OnInit, OnDestroy {
       this.param = params.id;
 
       if (this.param === '' || this.param === null || this.param === ' ') {
-        this._router.navigate(['perfil/' + this._profileService.getUserLog()]); 
+        console.log(this._loginService.getLocalUser());
+
+        this._router.navigate(['perfil/' + this._loginService.getLocalUser()]); 
       }
 
     });    
