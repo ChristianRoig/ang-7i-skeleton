@@ -157,6 +157,12 @@ export class EquipoService implements Resolve<any>
     getColaboradores(): Promise<any>{
         if (this.ComboOrigenes.length === 0) { return; }
 
+        if (this.filterBy === '' || this.filterBy === ' '){ // Fix para no hacer una consulta sin sentido
+            this.colaboradores = [];
+            this.onColaboradoresChanged.next(this.colaboradores);
+            return;
+        }
+
         const url = API_URL + 'colaboradores?departamento=' + this.filterBy;
 
         return new Promise((resolve, reject) => {
