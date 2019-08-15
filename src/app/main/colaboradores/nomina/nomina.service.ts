@@ -123,26 +123,22 @@ export class NominaService implements Resolve<any>
      * @returns {Promise<any>}
      */
     getColaboradores(): Promise<any> {
-        let url = API_URL;
-        let params = {};
-        let verbo = 'post';
+        let url = API_URL;        
 
         if (!(this.filterBy)){
             return;
         }
 
-        if (this.filterBy === 'GrupoFava'){
-            verbo = 'get';
-            url = API_URL + 'obtenerColaboradores';
+        if (this.filterBy === 'GrupoFava'){            
+            url = API_URL + 'colaboradores';
         }
 
         if (this.filterBy === 'FavaCard' || this.filterBy === 'FavaNet' || this.filterBy === 'FavaHnos'){
-            url = API_URL + 'obtenerColaboradoresByEmpresa';
-            params = { 'empresa': this.filterBy };
+            url = API_URL + 'colaboradores?empresa=' + this.filterBy;            
         }
 
         return new Promise((resolve, reject) => {
-            this._createRequest(url, verbo, params)
+            this._createRequest(url)
                 .subscribe((response: Perfil[]) => {
                     this.colaboradores = response;
 
@@ -166,16 +162,12 @@ export class NominaService implements Resolve<any>
      * @param {string} verbo ('get' o 'post')
      * @param {{}} params
      */
-    private _createRequest(url: string, verbo: string, params?: {}): Observable<any> | any {
+    private _createRequest(url: string): Observable<any> | any {
         const httpHeaders = new HttpHeaders({
             'Authorization': this._loginService.getLocalToken()
         });
 
-        const options = { headers: httpHeaders };
-        
-        if (verbo === 'post'){        
-            return this._httpClient.post(url, params, options);
-        }
+        const options = { headers: httpHeaders };        
 
         return this._httpClient.get(url, options);
     }
