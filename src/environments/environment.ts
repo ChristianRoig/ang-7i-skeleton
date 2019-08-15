@@ -5,7 +5,7 @@
 export const environment = {
     production: false,
     hmr       : false,
-    API: 'http://10.100.58.25:8082/'
+    API: 'http://server.sieteideas.com.ar:8080/mosaic-svc/'
 };
 
 /*
