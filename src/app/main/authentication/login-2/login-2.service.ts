@@ -8,7 +8,10 @@ import { Perfil } from 'app/main/perfil/perfil.model';
 import { FuseNavigationService } from '../../../../@fuse/components/navigation/navigation.service';
 
 
-const API_URL: string = environment.API;
+const API_LOG: string = environment.API_LOG;
+const API: string = environment.API;
+
+
 const token: string = environment.Cookie_Token;
 const user: string = environment.Cookie_User;
 
@@ -21,7 +24,6 @@ export class LoginService
 
     infoOnChanged: BehaviorSubject<any>;
 
-    // revisar si es mejor tener solo el info y consultar o especificar
     perfilLogOnChanged: BehaviorSubject<any>;
     // datosOnChanged: BehaviorSubject<any>;
 
@@ -91,46 +93,63 @@ export class LoginService
                 .subscribe(
                     (info: ResponseLogin) => {
                         info = new ResponseLogin(info);
-                                                
-                        // los datos van a venir en un futuro
-
-                        if (info.token != null && info.colaborador != null) { // se logueo 
-                            this.info = info;
-
-                            this.perfilLog = info.colaborador;
-                            // this.datos = null; // Cuando traiga datos generales para las busquedas va ir aqui
-                            
+                                 
+                        if (info.token != null){
                             let expirar = new Date();
 
                             expirar.setHours(expirar.getHours() + 16);
                             // expirar.setMinutes(expirar.getMinutes() + 2);
 
-                            this._cookieService.set(token, info.token, expirar);   
-                                                                               
-                            this._cookieService.set(user, JSON.stringify(info.colaborador), expirar);
+                            this._cookieService.set(token, info.token, expirar);
 
-                            this._router.navigate(['/perfil']);                                                    
-                        }else {
-                            this.info = null;
-                            this.perfilLog = null;
-                            // this.datos = null;
-                        }
+                            this._obtenerLegajo(info.token)
+                                .subscribe(
+                                    (res) => {
 
-                        this.infoOnChanged.next(this.info);
-                        this.perfilLogOnChanged.next(this.perfilLog);
-                        // this.datosOnChanged.next(this.datos);
-    
-                        
+                                        this._obtenerPerfilLog(res, info.token)
+                                            .subscribe(
+                                                (perf) => {
+                                                    perf = new Perfil(perf);
+                                                    this.perfilLog = perf;
+
+                                                    this._cookieService.set(user, JSON.stringify(perf), expirar);
+                                                    
+                                                    this.infoOnChanged.next(this.info);
+                                                    this.perfilLogOnChanged.next(this.perfilLog);
+
+                                                    this._router.navigate(['/perfil']);  
+
+                                                },
+                                                (err) => {
+                                                    this._defineError();
+                                                }
+                                            );
+                                    },
+                                    (err) => {
+                                        this._defineError();
+                                    }
+                                );
+                                                        
+                        }else{
+                            this._defineError();
+                        }   
+                                               
                     }, 
-                    (err) => {        
-                        this.info = 'error';
-                        this.infoOnChanged.next(this.info);
+                    (err) => {                                
+                        this._defineError();
                     }
                 );
-
         });
     }
     
+    private _defineError(): void {
+        this.info = 'error';
+        this.perfilLog = new Perfil({});
+        this.infoOnChanged.next(this.info);
+        this.perfilLogOnChanged.next(this.perfilLog);
+    }
+
+
     /**
      * Crea el llamado al servicio back de login
      * @param {string} username
@@ -150,16 +169,42 @@ export class LoginService
 
         const options = { headers: httpHeaders };
 
-        const url = API_URL + 'login';
-
         const params = {
             'username': username,
             'password': password
         };
 
-        return this._httpClient.post(url, params, options);
+        return this._httpClient.post(API_LOG, params, options);
 
     }
+
+    private _obtenerLegajo(t: string): Observable<any> | any {
+        const httpHeaders = new HttpHeaders({
+            'Authorization': t
+        });
+        
+        const url = API + 'legajo';
+
+        return this._httpClient.get(url, {
+            headers: httpHeaders,
+            responseType: 'text'
+        });
+    }
+
+    private _obtenerPerfilLog(legajo: string, t: string): Observable<any> | any {
+        const httpHeaders = new HttpHeaders({
+            'Content-Type' : 'application/json',
+            'Authorization': t
+        });
+
+        const options = { headers: httpHeaders };
+        
+        const url = API + 'colaborador?legajo=' + legajo;
+
+        return this._httpClient.get(url, options);
+    }
+
+
 
     /**
     * Devuelve el usuario que esta logueado, en caso de que no pueda redirige al login
@@ -186,9 +231,7 @@ export class LoginService
             return '';
         }
 
-        const Token = this._cookieService.get(token);
-
-        return Token;
+        return this._cookieService.get(token);
     }
 
     /**
@@ -211,8 +254,10 @@ export class LoginService
 
 
 export class ResponseLogin {
+    username: string;        
     token: string;
-    colaborador: Perfil;
+
+    // colaborador: Perfil;
 
     /**
     * Constructor
@@ -220,6 +265,7 @@ export class ResponseLogin {
     */
     constructor( responseLogin ){
         this.token = responseLogin.token || null;
-        this.colaborador = responseLogin.colaborador ? new Perfil(responseLogin.colaborador) : null;
+        // this.colaborador = responseLogin.colaborador ? new Perfil(responseLogin.colaborador) : null;
+        this.username = responseLogin.username || null;
     }
 }

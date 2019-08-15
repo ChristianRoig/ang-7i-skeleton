@@ -20,7 +20,7 @@ export const navigation: FuseNavigation[] = [
                 title: 'Logout',
                 type: 'item',
                 icon: 'meeting_room',
-                // url: '/auth/logout'                      
+                url: '/auth/logout'                      
             },            
             {
                 id       : 'perfil',
