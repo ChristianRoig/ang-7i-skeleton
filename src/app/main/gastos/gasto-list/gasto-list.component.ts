@@ -72,6 +72,20 @@ export class GastoListComponent implements OnInit, OnDestroy
         this.dataSource.filterPredicate = this.customFilterPredicate.bind(this); */
     }
 
+    ngOnInit(): void {
+      this._gastosService.onGastosChanged
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe(gastos => {
+          this.gastos = gastos;
+          this.checkboxes = {};
+          gastos.map(gasto => {
+            this.checkboxes[gasto.id] = false;
+          });
+          this.dataSource.data = this.addGroups(this.gastos, this.groupByColumn);
+          this.dataSource.filterPredicate = this.customFilterPredicate.bind(this);
+        });
+    }
+
     customFilterPredicate(data: Gasto | Group, filter: string): boolean {
         return (data instanceof Group) ? data.visible : this.getDataRowVisible(data);
       }
@@ -146,60 +160,10 @@ export class GastoListComponent implements OnInit, OnDestroy
         })
       }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void
-    {
-        this._gastosService.onGastosChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(gastos => {
-              //  this.gastos = this.gastos.concat(gastos);
-              this.gastos = gastos;
-                this.checkboxes = {};
-                 gastos.map(gasto => {
-                    this.checkboxes[gasto.id] = false;
-                }); 
-                this.dataSource.data = this.addGroups(this.gastos, this.groupByColumn);
-                this.dataSource.filterPredicate = this.customFilterPredicate.bind(this);
-            });
-    }
 
     seeMore() : void {
       this._gastosService.obtenerMasComprobantes();
     }
-
-/*         this._contactsService.onSelectedContactsChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(selectedContacts => {
-                for ( const id in this.checkboxes )
-                {
-                    if ( !this.checkboxes.hasOwnProperty(id) )
-                    {
-                        continue;
-                    }
-
-                    this.checkboxes[id] = selectedContacts.includes(id);
-                }
-                this.selectedContacts = selectedContacts;
-            });
-
-        this._contactsService.onUserDataChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(user => {
-                this.user = user;
-            });
-
-        this._contactsService.onFilterChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(() => {
-                this._contactsService.deselectContacts();
-            }); */
-    
 
     /**
      * On destroy
