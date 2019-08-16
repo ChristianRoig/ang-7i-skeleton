@@ -9,7 +9,6 @@ import { CookieService } from 'ngx-cookie-service';
 
 import { environment } from 'environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 
 
 const API_URL : string = environment.API;
@@ -53,7 +52,7 @@ export class GastosService implements Resolve<any>
 /*      this.onUserDataChanged = new BehaviorSubject([]);*/        
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
-        this.index = 0;
+        this.index = 1;
 
         this.httpOptions = {
             headers: new HttpHeaders({
@@ -83,15 +82,10 @@ export class GastosService implements Resolve<any>
             ]).then(
                 ([files]) => {
 
-                     this.onSearchTextChanged.subscribe(searchText => {
+                    this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
-                        this.getGastos();
-                    });
-
-                    this.onFilterChanged.subscribe(filter => {
-                        this.filterBy = filter;
-                        this.getGastos();
-                    });
+                        this.filterGastos(searchText);
+                    })
  
                     resolve();
 
@@ -104,19 +98,14 @@ export class GastosService implements Resolve<any>
     getGastos(): Promise<any>
     {
          return new Promise((resolve, reject) => {
-                this.createRequestObtenerGastos()
+             this.createRequestObtenerGastosConFiltro()
                     .subscribe((response: any) => {
                         this.gastos = response;
-/*                         if ( this.filterBy === 'frequent' ) //comentar este if
-                        {
-                            this.gastos = this.gastos.filter(_contact => {
-                                return this.user.frequentContacts.includes(_contact.id);
-                            });
-                        }  
-                        if ( this.searchText && this.searchText !== '' )
+ 
+/*                         if ( this.searchText && this.searchText !== '' )
                         {
                             this.gastos = FuseUtils.filterArrayByString(this.gastos, this.searchText);
-                        } */
+                        }  */
                          this.gastos = this.gastos.map(gasto => {                            
                             return new Gasto(gasto);
                         });   
@@ -125,6 +114,14 @@ export class GastosService implements Resolve<any>
 
                     }, reject);
             }); 
+    }
+
+    filterGastos(text : string) {
+        let filtered: Gasto[] = [];
+        if (this.searchText && this.searchText !== '') {
+            filtered = FuseUtils.filterArrayByString(this.gastos, this.searchText);
+            this.onGastosChanged.next(filtered);  
+        } 
     }
     
     initGasto(gasto: Gasto): void {
@@ -150,7 +147,6 @@ export class GastosService implements Resolve<any>
             this.createRequestRemoveGasto(gasto)
                 .subscribe(response => {
                     this.deleteContactList(gasto);
-                 //   this.getGastos(); 
                     resolve(response);
                 });
         });
@@ -170,7 +166,6 @@ export class GastosService implements Resolve<any>
             this.createRequestGastosByProveedor(proveedor)
                 .subscribe((response: any) => {
                     gastos = response;
-     
                     gastos = gastos.map(gasto => {
                         return new Gasto(gasto);
                     });
@@ -180,7 +175,6 @@ export class GastosService implements Resolve<any>
     }
 
     createRequestAddGasto(gasto : Gasto): any {
-
         let url = API_URL + 'comprobante';
         let request = JSON.stringify(gasto); //agrego un nuevo gasto. 
 
@@ -188,7 +182,6 @@ export class GastosService implements Resolve<any>
     }
 
     createRequestUpdateGasto(gasto: Gasto): any {
-
         let url = API_URL + 'comprobante';
         let request = JSON.stringify(gasto);
 
@@ -196,7 +189,6 @@ export class GastosService implements Resolve<any>
     }
 
     createRequestRemoveGasto(gasto : Gasto): any {
-
         let url = API_URL + 'comprobante';
         let options; 
         let params = new HttpParams();
@@ -212,15 +204,21 @@ export class GastosService implements Resolve<any>
     }
 
     createRequestObtenerGastos(): any {
-/*         let httpHeaders = new HttpHeaders({
-            'Content-Type': 'application/json',
-        });
-
-        let options = {
-            headers: httpHeaders
-        }; */
         let url = API_URL + 'compras';
         return this.http.get(url, this.httpOptions); // post debido a que la cant de parametros para filtrar es mayor a 2.
+    }
+
+    createRequestObtenerGastosConFiltro(): any {
+
+        let body = {
+            "propietario" : "7ideas",
+            "modulo"      : "Compras",
+            "categoria"   : "Facturas",
+            "etiqueta"    : "-Oficina-",
+            "pagina"      : this.index,
+        }
+        let url = API_URL + 'compras';
+        return this.http.post(url, body, this.httpOptions); // post debido a que la cant de parametros para filtrar es mayor a 2.
     }
 
      createRequestGastosByProveedor( idProveedor: string): any {
@@ -249,35 +247,23 @@ export class GastosService implements Resolve<any>
         return gasto;    
     }
 
-    obtenerMasComprobantes() {
+    obtenerMasComprobantes() : any {
         this.index = this.index + 1;
-        this.getGastos();
+        //let gastos : any = [];
+        return new Promise((resolve, reject) => {
+            this.createRequestObtenerGastosConFiltro()
+                .subscribe((response: any) => {
+                    //gastos = response;
+                    let gastos = response.map(gasto => {
+                        return new Gasto(gasto);
+                    });
+                    this.gastos = this.gastos.concat(gastos);
+                    this.onGastosChanged.next(this.gastos);
+                    resolve(this.gastos)
+
+                }, reject);
+        });
     }
-
-    getInfo(id:number): Promise<any> {
- 
-
-    return null;
-    }
-
-    /**
-     * Get user data
-     *
-     * @returns {Promise<any>}
-     */
-/*      getUserData(): Promise<any>
-    {
-         return new Promise((resolve, reject) => {
-                this._httpClient.get('api/contacts-user/5725a6802d10e277a0f35724')
-                    .subscribe((response: any) => {
-                        this.user = response;
-                        this.onUserDataChanged.next(this.user);
-                        resolve(this.user);
-                    }, reject);
-            }
-        );
-        return null;
-    } */
 
     /**
      * Toggle selected contact by id
@@ -365,24 +351,6 @@ export class GastosService implements Resolve<any>
         });
     } 
 
-    /**
-     * Update user data
-     *
-     * @param userData
-     * @returns {Promise<any>}
-     */
-/*      updateUserData(userData): Promise<any>
-    {
-         return new Promise((resolve, reject) => {
-            this._httpClient.post('api/contacts-user/' + this.user.id, {...userData})
-                .subscribe(response => {
-                    this.getUserData();
-                    this.getGastos();
-                    resolve(response);
-                });
-        }); 
-        return null;
-    }  */
 
     /**
      * Deselect contacts
