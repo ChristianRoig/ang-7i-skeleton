@@ -23,7 +23,7 @@ export class GastoViewComponent implements OnInit {
     private activatedRoute: ActivatedRoute) {
       this.activatedRoute.params.subscribe(params => {
         this.gasto = this._gastosService.getGasto(params['id'])
-        this.contacto = _contactService.getContactos().find(element => element.id == this.gasto.contacto_id);
+        this.contacto = this._contactService.getContactos().find(element => element.id == this.gasto.contacto_id);
       })
    }
 

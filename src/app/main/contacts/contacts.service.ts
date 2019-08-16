@@ -8,8 +8,6 @@ import { FuseUtils } from '@fuse/utils';
 import { Contact } from 'app/main/contacts/contact.model';
 import { environment } from 'environments/environment';
 import { CookieService } from 'ngx-cookie-service';
-import { headersToString } from 'selenium-webdriver/http';
-
 
 const API_URL = environment.API;
 

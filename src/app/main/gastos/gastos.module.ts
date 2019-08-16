@@ -33,7 +33,8 @@ const routes: Routes = [
         path :'gastos/:id',
         component : GastoViewComponent,
         resolve : {
-            gastos: GastosService
+            gastos: GastosService,
+            contacts: ContactsService
         }
     } 
 ];
