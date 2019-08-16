@@ -18,22 +18,25 @@
     <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
 
         <form [formGroup]="gastoForm">
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-checkbox *ngIf="contacto && gastos_contact" [(ngModel)]="copy" [ngModelOptions]="{standalone: true}" >Copiar Factura</mat-checkbox>
-            </div>
-
-                <div *ngIf="copy" fxLayout="row" fxLayoutAlign="start start">
-                        <mat-form-field appearance="outline" fxFlex>
-                            <mat-label>Facturas</mat-label>
-                            <mat-select [(value)]="selected_gasto" (selectionChange)="selectionChange()" name="proveedores" required> 
-                                    <mat-option *ngFor="let gasto of gastos_contact.slice(0,5)" [(value)]= "gasto">
-                                            <p class="text-truncate">
-                                                {{gasto.nombre}} - {{gasto.nro| slice:((gasto.nro.length) - 4)}} {{gasto.importe  | currency }}
-                                            </p>
-                                        </mat-option>
-                            </mat-select>
-                        </mat-form-field>
+            
+            <div class="copy">
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <mat-checkbox *ngIf="contacto && gastos_contact" [(ngModel)]="copy" [ngModelOptions]="{standalone: true}" >Copiar Factura</mat-checkbox>
                 </div>
+
+                    <div *ngIf="copy" fxLayout="row" fxLayoutAlign="start start">
+                            <mat-form-field appearance="outline" fxFlex>
+                                <mat-label>Facturas</mat-label>
+                                <mat-select [(value)]="selected_gasto" (selectionChange)="selectionChange()" name="proveedores" required> 
+                                        <mat-option *ngFor="let gasto of gastos_contact.slice(0,5)" [(value)]= "gasto">
+                                                <p class="text-truncate">
+                                                    {{gasto.nombre}} - {{gasto.nro| slice:((gasto.nro.length) - 4)}} {{gasto.importe  | currency }}
+                                                </p>
+                                            </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                    </div>
+            </div>
 
                  <div fxLayout="row" fxLayoutAlign="start start">
                     <mat-form-field appearance="outline" fxFlex>
