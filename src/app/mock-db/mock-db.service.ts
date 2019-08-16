@@ -5,6 +5,7 @@ import { Contactos } from './data/contacts';
 import { Novedades } from './data/novedades';
 import { Origenes } from './data/origenes';
 import { Conceptos } from './data/conceptos';
+import { Combos } from './data/combos';
 
 export class MockDbService implements InMemoryDbService
 {
@@ -73,7 +74,18 @@ export class MockDbService implements InMemoryDbService
             'sectores'        : Origenes.sectorCombo,
             'tablaConceptos'  : Conceptos.tablaConceptos,
             'rrhh'            : Conceptos.rrhh,
-            'externo'         : Conceptos.externo,            
+            'externo'         : Conceptos.externo,    
+            
+            
+
+            // Combos
+            'combo_dep_suc'   : Combos.dep_suc,
+            'combo_ext_rrhh'  : Combos.ext_rrhh,
+            'combo_ext'       : Combos.ext,
+            'combo_rrhh'      : Combos.rrhh,
+            'combo_periodo'   : Combos.periodos,
+
+
         };
     }
 }
