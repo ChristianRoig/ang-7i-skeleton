@@ -121,6 +121,9 @@ export class GastosService implements Resolve<any>
         if (this.searchText && this.searchText !== '') {
             filtered = FuseUtils.filterArrayByString(this.gastos, this.searchText);
             this.onGastosChanged.next(filtered);  
+        }
+        else{
+            this.onGastosChanged.next(this.gastos);
         } 
     }
     

@@ -79,22 +79,28 @@ export class ContactsService implements Resolve<any>
             ]).then(
                 ([files]) => {
 
-/*                     this.onSearchTextChanged.subscribe(searchText => {
+                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
-                        this.getContacts();
+                        this.filterContactos();
                     });
 
-                    this.onFilterChanged.subscribe(filter => {
-                        this.filterBy = filter;
-                        this.getContacts();
-                    });
- */
+
                     resolve();
 
                 },
                 reject
             );
         }); 
+    }
+    filterContactos() {
+        let filtered : Contact[] = [];
+        if (this.searchText && this.searchText !== '') {
+            filtered = FuseUtils.filterArrayByString(this.contacts, this.searchText);
+            this.onContactsChanged.next(filtered);
+        }
+        else{
+            this.onContactsChanged.next(this.contacts);
+        }
     }
 
     getProveedor(id: string): Contact {
@@ -115,30 +121,9 @@ export class ContactsService implements Resolve<any>
                     .subscribe((response: any) => {
 
                         this.contacts = response;
-
-/*                         if ( this.filterBy === 'starred' )
-                        {git branxg
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.starred.includes(_contact.id);
-                            });
-                        }
-
-                        if ( this.filterBy === 'frequent' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.frequentContacts.includes(_contact.id);
-                            });
-                        }
-
-                        if ( this.searchText && this.searchText !== '' )
-                        {
-                            this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
-                        }*/
-
                         this.contacts = this.contacts.map(contact => {
                             return new Contact(contact);
                         });
-
                         this.onContactsChanged.next(this.contacts); 
                         resolve(this.contacts);
                     }, reject);
