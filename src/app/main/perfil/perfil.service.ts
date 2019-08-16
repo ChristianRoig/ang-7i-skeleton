@@ -69,6 +69,6 @@ export class PerfilService implements Resolve<any>
     createRequestGetPerfil() {
         let headers = new HttpHeaders();
         headers = headers.set('Authorization' , this.cookieService.get('tokenAuth'));
-        return this._httpClient.get(API_URL + 'perfil');
+        return this._httpClient.get(API_URL + 'perfil', { headers : headers });
     }
 }
