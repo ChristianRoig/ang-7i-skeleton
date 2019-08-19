@@ -159,8 +159,6 @@ export class NominaService implements Resolve<any>
     /**
      * Crea el llamado a los servicios de back
      * @param {string} url
-     * @param {string} verbo ('get' o 'post')
-     * @param {{}} params
      */
     private _createRequest(url: string): Observable<any> | any {
         const httpHeaders = new HttpHeaders({

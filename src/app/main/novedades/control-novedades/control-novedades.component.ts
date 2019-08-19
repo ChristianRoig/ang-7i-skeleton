@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NovedadService } from '../novedad.service';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DataSource } from '@angular/cdk/table';
+import { FuseUtils } from '@fuse/utils';
 
 @Component({
     selector     : 'control-novedades',
@@ -68,8 +69,20 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
     ngOnInit(): void {
         this.dataSource = new FilesDataSource(this._novedadService);
             
-        this.periodos = this._novedadService.harcodeadoPeriodos;
-        this.periodoSelect = (this.periodos.length !== 0) ? this.periodos[Math.floor(Math.random() * 12)] : '';
+
+        this.periodos = this._novedadService.ComboPeriodo;
+        this._novedadService.onComboPeriodoChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(data => {
+                this.periodos = data;
+            });
+
+        const auxP = new Date();
+        const actual = '1/' + (auxP.getMonth() + 1) + '/' + auxP.getFullYear();
+        const pSelect = FuseUtils.filterArrayByString(this.periodos, actual);
+        this.periodoSelect = (this.periodos.length !== 0) ? pSelect[0].valor : '';
+
+
         
         this.searchInput.valueChanges
             .pipe(

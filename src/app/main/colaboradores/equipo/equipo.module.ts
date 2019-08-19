@@ -23,7 +23,7 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         component: ColaboradoresComponent,
         resolve  : {            
-            listOrigenes  : OrigenesService,
+            // listOrigenes  : OrigenesService,
             colaboradores : EquipoService,            
         }
     }

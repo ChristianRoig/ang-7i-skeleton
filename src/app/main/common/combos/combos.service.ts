@@ -124,7 +124,7 @@ export class CombosService
                        
                     },
                     (err) => {
-                        this._errorService.errorHandler(err);
+                        this._errorService.errorHandler(err, 'Lo sentimos, algo salio mal reintente nuevamente', 403);
                     });
         });
     }

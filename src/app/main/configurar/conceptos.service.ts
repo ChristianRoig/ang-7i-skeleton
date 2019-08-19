@@ -100,23 +100,6 @@ export class ConceptosService implements Resolve<any>
         this.onConceptosTablaChanged.next(aux);
     }
 
-    // REVISAR
-    getOrigenes(tipo: string): string[] { // Revisar en un futuro si va aca o en el otro servicio.
-        let data = null;
-
-        if (!(tipo !== 'rrhh' && tipo !== 'externo')){
-            this._httpClient.get('api/' + tipo).subscribe(d => {
-                data = d;
-            },
-                (error) => { 
-                    this._errorService.errorHandler(error);
-                }
-            );    
-        }
-
-        return data;
-    }
-    // REVISAR
 
     getConceptosTabla(): Promise<any> {
         return new Promise((resolve, reject) => {

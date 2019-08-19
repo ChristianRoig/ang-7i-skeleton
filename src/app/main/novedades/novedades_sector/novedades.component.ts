@@ -96,24 +96,34 @@ export class NovedadesComponent implements OnInit, OnDestroy
 
         });    
         
-        
+        this._novedadService.onFilterChanged.next(this.seleccionado);        
 
-        this.sectores = this._novedadService.ComboExterno;
-        this._novedadService.onComboExternoChanged
+        this.sectores = this._novedadService.ComboExtRRHH;
+        this._novedadService.onComboExtRRHHChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(data => {
                 this.sectores = data;
             });
 
-        this._novedadService.onFilterChanged.next(this.seleccionado);
         
         const aux: any[] = FuseUtils.filterArrayByString(this.sectores, this.seleccionado);
 
         this.filtroAMostrar = (aux.length) ? aux[0].valor : '';
         
-        this.periodos = this._novedadService.harcodeadoPeriodos;
-        this.periodoSelect = (this.periodos.length !== 0) ? this.periodos[Math.floor(Math.random() * 12)] : '';
 
+        this.periodos = this._novedadService.ComboPeriodo;
+        this._novedadService.onComboPeriodoChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(data => {
+                this.periodos = data;
+            });
+
+        const auxP = new Date();
+        const actual = '1/' + (auxP.getMonth() + 1) + '/' + auxP.getFullYear();
+        const pSelect = FuseUtils.filterArrayByString(this.periodos, actual);
+        this.periodoSelect = (this.periodos.length !== 0) ? pSelect[0].valor : '';
+
+        
         this.dataSource = new FilesDataSource(this._novedadService);
 
         this.searchInput.valueChanges

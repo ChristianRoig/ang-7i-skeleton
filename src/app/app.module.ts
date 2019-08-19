@@ -42,6 +42,7 @@ import { PerfilService } from './main/perfil/perfil.service';
 import { NovedadesModule } from './main/novedades/novedades_sector/novedades.module';
 import { ImportarFormModule } from './main/novedades/importar-form/importar-form.module';
 import { LogoutModule } from './main/authentication/logout/logout.module';
+import { CombosService } from './main/common/combos/combos.service';
 
 
 
@@ -116,7 +117,8 @@ const appRoutes: Routes = [
     providers: [
         ErrorService,
         LoginService,
-        PerfilService
+        PerfilService,
+        CombosService,
     ],
     bootstrap   : [
         AppComponent

@@ -7,6 +7,7 @@ import { environment } from 'environments/environment';
 import { ErrorService } from 'app/main/errors/error.service';
 import { LoginService } from 'app/main/authentication/login-2/login-2.service';
 import { Novedad } from './novedad.model';
+import { CombosService } from '../common/combos/combos.service';
 
 const API_URL: string = environment.API;
 
@@ -21,7 +22,8 @@ export class NovedadService implements Resolve<any>
     private invocador = '';
 
     ComboDepSuc = [];
-    ComboExterno = [];
+    ComboExtRRHH = [];
+    ComboPeriodo = [];
     
     onNovedadesChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
@@ -29,22 +31,8 @@ export class NovedadService implements Resolve<any>
     OnInvocadorChanged: Subject<any>;
 
     onComboDepSucChanged: Subject<any>;
-    onComboExternoChanged: Subject<any>;
-
-    harcodeadoPeriodos = [
-        'Enero 2019',
-        'Febrero 2019',
-        'Marzo 2019',
-        'Abril 2019',
-        'Mayo 2019',
-        'Junio 2019',
-        'Julio 2019',
-        'Agosto 2019',
-        'Septiembre 2019',
-        'Octubre 2019',
-        'Noviembre 2019',
-        'Diciembre 2019'
-    ];
+    onComboExtRRHHChanged: Subject<any>;
+    onComboPeriodoChanged: Subject<any>;
     
     /**
      * Constructor
@@ -56,7 +44,8 @@ export class NovedadService implements Resolve<any>
     constructor(
         private _httpClient: HttpClient,
         private _errorService: ErrorService,
-        private _loginService: LoginService
+        private _loginService: LoginService,
+        private _combosService: CombosService
     ) {
         // Set the defaults
         this.onNovedadesChanged = new BehaviorSubject([]);
@@ -65,7 +54,8 @@ export class NovedadService implements Resolve<any>
         this.OnInvocadorChanged = new Subject();
         
         this.onComboDepSucChanged = new Subject();
-        this.onComboExternoChanged = new Subject();
+        this.onComboExtRRHHChanged = new Subject();
+        this.onComboPeriodoChanged = new Subject();
 
 
     }
@@ -88,8 +78,7 @@ export class NovedadService implements Resolve<any>
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getComboDepSuc(),
-                this.getComboExterno(),
+                this._getCombos(),                
                 this._defineFilter(route),
                 this.getNovedades()
             ]).then(
@@ -104,8 +93,6 @@ export class NovedadService implements Resolve<any>
                         this.searchText = searchText;
                         this._filterNovedades();
                     });
-
-
 
                     resolve();
 
@@ -126,52 +113,40 @@ export class NovedadService implements Resolve<any>
         });
     }
 
+    private _getCombos(): void {
+        this.ComboDepSuc = this._combosService.getCombo('dep-suc');
+        this.onComboDepSucChanged.next(this.ComboDepSuc);
+
+        this.ComboExtRRHH = this._combosService.getCombo('ext-rrhh');
+        this.onComboExtRRHHChanged.next(this.ComboExtRRHH);
+
+        this.ComboPeriodo = this._combosService.getCombo('periodos');
+        this.onComboPeriodoChanged.next(this.ComboPeriodo);
+    }
+
+
+
     /**
      * getComboDepSuc()
      * Encargado de traer del backend los Origenes de Sucursales y Departamentos
      */
-    getComboDepSuc(): Promise<any> {
-        if (this.ComboDepSuc.length !== 0) { return; }
+    // getComboDepSuc(): Promise<any> {
+    //     if (this.ComboDepSuc.length !== 0) { return; }
 
-        const url = API_URL + 'alguna url de back';
-        const params = {};
-
-        return new Promise((resolve, reject) => {
-            // this._createRequest(url, params) ¡¡revisar si es llamado post o get, implementar verbo si es necesario!!
-            this._httpClient.get('api/origenes') // Mock
-                .subscribe((response: []) => {
-
-                    this.ComboDepSuc = response;
-
-                    this.onComboDepSucChanged.next(this.ComboDepSuc);
-                    resolve(this.ComboDepSuc);
-                }, reject);
-        });
-    }
+    //     this.ComboDepSuc = this._combosService.getCombo('dep-suc');
+    //     this.onComboDepSucChanged.next(this.ComboDepSuc);
+    // }
 
     /**
-     * getComboExterno()
+     * getComboExtRRHH()
      * Encargado de traer del backend los Origenes Externos
      */
-    getComboExterno(): Promise<any> {
-        if (this.ComboExterno.length !== 0) { return; }
+    // getComboExtRRHH(): Promise<any> {
+    //     if (this.ComboExtRRHH.length !== 0) { return; }
 
-        const url = API_URL + 'alguna url de back';
-        const params = {};
-
-        return new Promise((resolve, reject) => {
-            // this._createRequest(url, params) ¡¡revisar si es llamado post o get, implementar verbo si es necesario!!
-            this._httpClient.get('api/sectores')
-                .subscribe((response: []) => {
-
-                    this.ComboExterno = response;
-
-                    this.onComboExternoChanged.next(this.ComboExterno);
-                    resolve(this.ComboExterno);
-                }, reject);
-        }
-        );
-    }    
+    //     this.ComboExtRRHH = this._combosService.getCombo('ext-rrhh');
+    //     this.onComboExtRRHHChanged.next(this.ComboExtRRHH);
+    // }    
 
     /**
      * _filterNovedades()

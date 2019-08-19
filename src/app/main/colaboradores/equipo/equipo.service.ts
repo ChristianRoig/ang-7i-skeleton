@@ -7,6 +7,7 @@ import { environment } from 'environments/environment';
 import { Perfil } from 'app/main/perfil/perfil.model';
 import { ErrorService } from 'app/main/errors/error.service';
 import { LoginService } from 'app/main/authentication/login-2/login-2.service';
+import { CombosService } from '../../common/combos/combos.service';
 
 const API_URL: string = environment.API;
 
@@ -35,7 +36,8 @@ export class EquipoService implements Resolve<any>
     constructor(
         private _httpClient: HttpClient,
         private _errorService: ErrorService,
-        private _loginService: LoginService
+        private _loginService: LoginService,
+        private _combosService: CombosService,
     )
     {
         // Set the defaults
@@ -130,23 +132,10 @@ export class EquipoService implements Resolve<any>
      * getComboOrigenes()
      * Encargado de traer del backend los Origenes de Sucursales y Departamentos
      */
-    getComboOrigenes(): Promise<any> {
+    getComboOrigenes(): void {
         if (this.ComboOrigenes.length !== 0) { return; }
-                
-        const url = API_URL + 'alguna url de back';
-        const params = {};
-
-        return new Promise((resolve, reject) => {
-                // this._createRequest(url, params) ¡¡revisar si es llamado post o get, implementar verbo si es necesario!!
-            this._httpClient.get('api/origenes') // Mock
-                .subscribe((response: []) => {
-
-                    this.ComboOrigenes = response;
-
-                    this.onComboOrigenesChanged.next(this.ComboOrigenes);
-                    resolve(this.ComboOrigenes);
-                }, reject);
-        });
+        this.ComboOrigenes = this._combosService.getCombo('dep-suc');
+        this.onComboOrigenesChanged.next(this.ComboOrigenes);
     }
 
     /**

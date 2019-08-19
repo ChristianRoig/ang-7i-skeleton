@@ -35,8 +35,8 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Origen</mat-label>
                     <mat-select formControlName="origenNombre" name="origenNombre" required (selectionChange)="updateCod($event)">
-                        <mat-option *ngFor="let o of origenesRRHH" [value]="o.nombre">
-                            <p class="">{{o.nombre}}</p>
+                        <mat-option *ngFor="let o of origenesRRHH" [value]="o.valor">
+                            <p class="">{{o.valor}}</p>
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -46,8 +46,8 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Origen</mat-label>
                     <mat-select formControlName="origenNombre" name="origenNombre" required (selectionChange)="updateCod($event)"> 
-                        <mat-option *ngFor="let o of origenesExterno" [value]="o.nombre">
-                            <p class="">{{o.nombre}}</p>
+                        <mat-option *ngFor="let o of origenesExterno" [value]="o.valor">
+                            <p class="">{{o.valor}}</p>
                         </mat-option>
                     </mat-select>
                 </mat-form-field>

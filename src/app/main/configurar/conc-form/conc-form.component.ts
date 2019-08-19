@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ConceptosService } from 'app/main/configurar/conceptos.service';
 import { Concepto } from '../conceptos/concepto.model';
+import { CombosService } from '../../common/combos/combos.service';
 
 
 @Component({
@@ -46,7 +47,8 @@ export class ConceptosFormDialogComponent implements OnInit
         public matDialogRef: MatDialogRef<ConceptosFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder,
-        protected _conceptosService: ConceptosService
+        protected _conceptosService: ConceptosService,
+        private _combosService: CombosService,
     )
     {
 
@@ -67,11 +69,10 @@ export class ConceptosFormDialogComponent implements OnInit
 
 
     ngOnInit(): void {
-        this.origenesRRHH = this._conceptosService.getOrigenes('rrhh');
+        this.origenesRRHH = this._combosService.getCombo('rrhh');
         // console.log('origenesRRHH ' + this.origenesRRHH);
 
-
-        this.origenesExterno = this._conceptosService.getOrigenes('externo');
+        this.origenesExterno = this._combosService.getCombo('ext');
         // console.log('origenesExterno ' + this.origenesExterno);
 
         this.validateGuardar();
@@ -89,7 +90,9 @@ export class ConceptosFormDialogComponent implements OnInit
         }
     }
 
-    private getCodByNombre(nombre: string): string {
+    // FuseUtils.filterArrayByString
+
+    private getCodByValue(valor: string): string {
         let arr = this.origenesExterno;
 
         if (this.isRRHH){
@@ -98,7 +101,7 @@ export class ConceptosFormDialogComponent implements OnInit
 
         for (let index = 0; index < arr.length; index++) {
             const element = arr[index];
-            if ((element.nombre) === nombre) {
+            if ((element.valor) === valor) {
                 return element.cod;
             }
         }
@@ -138,7 +141,7 @@ export class ConceptosFormDialogComponent implements OnInit
 
     updateCod(e): void {
         // console.log(e.value);
-        const cod = this.getCodByNombre(e.value);
+        const cod = this.getCodByValue(e.value);
 
         this.ConceptoForm.controls['origenCod'].setValue(cod);
 
