@@ -5,7 +5,7 @@ import { MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule } fr
 import { FuseSharedModule } from '@fuse/shared.module';
 
 import { AuthGuard } from '../auth.guard';
-import { LogoutComponent } from './Logout.component';
+import { LogoutComponent } from './logout.component';
 
 
 
