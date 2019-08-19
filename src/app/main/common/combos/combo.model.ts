@@ -3,11 +3,11 @@ export class Combo {
     valor: string;
 
     /**
-     * 
+     * Constructor
      * @param combo 
      */
     constructor(combo) {
-        this.cod = combo.cod || '';
-        this.valor = combo.valor || '';
+        this.cod = combo.cod || combo.codigo || '';
+        this.valor = combo.valor || combo.nombre || '';
     }
 }

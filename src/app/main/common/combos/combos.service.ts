@@ -1,7 +1,7 @@
 import { FuseUtils } from '@fuse/utils';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'environments/environment';
 import { ErrorService } from 'app/main/errors/error.service';
 import { LoginService } from 'app/main/authentication/login-2/login-2.service';
@@ -89,15 +89,21 @@ export class CombosService
      * @param {string} combo
      */
     initCombo(combo: string): any{
-        let url = API_URL + 'alguna url de back';      
+        let url = API_URL;      
 
         switch (combo) {
-            case 'dep-suc' : url = 'api/combo_dep_suc';  break;
-            case 'ext-rrhh': url = 'api/combo_ext_rrhh'; break;
-            case 'ext'     : url = 'api/combo_ext';      break;
-            case 'rrhh'    : url = 'api/combo_rrhh';     break;
-            case 'periodos': url = 'api/combo_periodo';  break;
-            default        : url = '';                   break;
+            // case 'ext-rrhh': url = 'api/combo_ext_rrhh'; break;
+            // case 'ext': url = 'api/combo_ext'; break;
+            // case 'rrhh': url = 'api/combo_rrhh'; break;
+            
+            case 'dep-suc' : url = 'api/combo_dep_suc';       break;            
+            
+            case 'ext-rrhh': url = url + 'sectores';          break;
+            case 'ext'     : url = url + 'sectores-externos'; break;            
+            case 'rrhh'    : url = url + 'sectores-rrhh';     break;
+
+            case 'periodos': url = 'api/combo_periodo';       break;
+            default        : url = '';                        break;
         }
 
         if (url === ''){ // Si no es valida la url no hago nada
@@ -110,8 +116,7 @@ export class CombosService
         }
 
         return new Promise(() => {        
-            // this._createRequest(url)
-            this._httpClient.get(url) // Mock
+            this._createRequest(url)            
                 .subscribe(
                     (response: Combo[]) => {
                         
@@ -230,7 +235,7 @@ export class CombosService
 
     /**
      * Realiza el llamado al backend mediante la url y token
-     * @param url 
+     * @param {string} url 
      */
     private _createRequest(url: string): Observable<any> | any {
         const httpHeaders = new HttpHeaders({
