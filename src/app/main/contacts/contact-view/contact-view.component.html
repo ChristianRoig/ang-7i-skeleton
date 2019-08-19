@@ -9,7 +9,7 @@
           <img class="profile-image avatar huge" [src]= "proveedor.file_link"
                [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
           <div class="name" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-              {{proveedor.nombre | titlecase}}
+              {{proveedor.nombre_corto | titlecase}}
           </div>
       </div>
       <div class="actions" fxLayout="row" fxLayoutAlign="end center" [@animate]="{value:'*',params:{delay:'200ms'}}">

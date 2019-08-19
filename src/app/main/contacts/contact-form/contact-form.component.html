@@ -124,17 +124,17 @@
 
         <button *ngIf="action === 'edit'" mat-button class="mr-8" (click)="matDialogRef.close(['delete',contactForm])"
             aria-label="Delete" matTooltip="Delete">
-            DELETE
+            Eliminar
         </button>
 
         <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(contactForm)"
             [disabled]="contactForm.invalid" aria-label="SAVE">
-            ADD
+            Agregar
         </button>
 
         <button *ngIf="action === 'edit'" mat-button class="save-button"
             (click)="matDialogRef.close(['save',contactForm])" [disabled]="contactForm.invalid" aria-label="SAVE">
-            SAVE
+            Guardar
         </button>
 
     </div>

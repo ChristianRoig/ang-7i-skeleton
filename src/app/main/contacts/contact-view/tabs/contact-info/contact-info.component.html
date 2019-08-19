@@ -11,7 +11,7 @@
           <div class="content">
               <div class="info-line">
                   <div class="title">Nombre</div>
-                   <div class="info">{{proveedor.nombre | titlecase}}</div>
+                   <div class="info">{{ proveedor.nombre_corto |titlecase }} ({{ proveedor.nombre | titlecase }})</div>
                </div>
 
               <div class="info-line">
@@ -31,8 +31,13 @@
 
               <div class="info-line">
                 <div class="title">Cuit</div>
-                 <div class="info">{{proveedor.doc_nro}}</div>
+                 <div class="info">{{proveedor.doc_nro}} ({{proveedor.cond_iva}})</div>
                </div>
+
+              <div class="info-line">
+                <div class="title">Etiqueta</div>
+                <div class="info">{{proveedor.etiqueta}}</div>
+              </div>
 
 <!--               <div class="info-line">
                 <div class="title">Domicilio</div>

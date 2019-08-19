@@ -21,6 +21,7 @@ export class Gasto
     etiqueta: string;
     orden : number;
     comprobante: any;
+    condiciones : string;
 
      /**
      * Constructor
@@ -47,5 +48,6 @@ export class Gasto
       this.etiqueta = gasto.etiqueta || '';
       this.orden = gasto.orden || 0;
       this.comprobante = gasto.comprobante || '';
+      this.condiciones = gasto.condiciones || '';
     }
   }

@@ -11,7 +11,7 @@
           <div class="content">
               <div class="info-line">
                   <div class="title">Nombre</div>
-                  <div class="info">{{gasto.nombre}}-{{gasto.nro}}</div>
+                  <div class="info">{{gasto.comprobante}} - {{gasto.nro}}</div>
               </div>
 
               <div class="info-line">
@@ -26,27 +26,18 @@
 
               <div class="info-line">
                 <div class="title">Estado</div>
-                <div class="info">{{gasto.pago_estado}}</div>
+                <div class="info">{{gasto.pago_estado}} ({{gasto.condiciones}})</div>
+              </div>
+
+              <div class="info-line">
+                <div class="title">etiqueta</div>
+                <div class="info">{{gasto.etiqueta}}</div>
               </div>
 
               <div class="info-line">
                 <div class="title">Importe</div>
                 <div class="info">{{gasto.importe}}</div>
               </div>
-
-<!--               <div class="info-line">
-                <div class="title">Domicilio</div>
-                <div class="info">Av. Colon 1266, Mar del Plata</div>
-              </div> -->
-
-              <!--div class="info-line"> 
-                  <div class="title">Etiquetas*</div>
-                  <div class="info location" fxLayout="row" fxLayoutAlign="start center"
-                       *ngFor="let location of about.general.locations">
-                      <span>Clientes</span>
-                      <mat-icon class="s-16 ml-4">location_on</mat-icon>
-                  </div>
-              </div-->
 
           </div>
 

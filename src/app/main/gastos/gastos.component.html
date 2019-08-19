@@ -1,20 +1,18 @@
 <div id="gastos" class="page-layout simple left-sidebar inner-sidebar inner-scroll">
 
     <!-- HEADER -->
-    <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start"
-         fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+    <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-xs="row" 
+        fxLayoutAlign.gt-xs="space-between center">
 
         <!-- APP TITLE -->
         <div fxLayout="row" fxLayoutAlign="start center">
 
-            <button mat-icon-button class="sidebar-toggle mr-12" fxHide.gt-sm
-                    (click)="toggleSidebar('navbar')">
+            <button mat-icon-button class="sidebar-toggle mr-12" fxHide.gt-sm (click)="toggleSidebar('navbar')">
                 <mat-icon>menu</mat-icon>
             </button>
 
             <div class="logo" fxLayout="row" fxLayoutAlign="start center">
-                <mat-icon class="logo-icon mr-16" fxHide fxShow.gt-sm
-                          [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">assignment
+                <mat-icon class="logo-icon mr-16" fxHide fxShow.gt-sm [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">assignment
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
                     {{title}}
@@ -42,24 +40,8 @@
     </div>
     <!-- / HEADER -->
 
-    <!-- SELECTED BAR -->
-    <!--<selected-bar class="accent-600" *ngIf="hasSelectedContacts" [@slideInTop]></selected-bar>-->
-    <!-- / SELECTED BAR -->
-
     <!-- CONTENT -->
     <div class="content">
-
-        <!-- SIDEBAR -->
-<!--         <fuse-sidebar class="sidebar" name="contacts-main-sidebar" position="left" lockedOpen="gt-sm">
-
-            <!- - SIDEBAR CONTENT - ->
-            <div class="content" fusePerfectScrollbar>
-                <contacts-main-sidebar [@animate]="{value:'*'}"></contacts-main-sidebar>
-            </div>
-            <!- -/ SIDEBAR CONTENT - ->
-
-        </fuse-sidebar> -->
-        <!-- / SIDEBAR -->
 
         <!-- CENTER -->
         <div class="center p-24 pb-56 pr-sm-92" fusePerfectScrollbar>
@@ -67,7 +49,6 @@
             <!-- CONTENT -->
             <div class="content">
                  <gasto-list></gasto-list>
-
             </div>
             <!-- / CONTENT -->
 
@@ -79,9 +60,9 @@
 
 </div>
 
-<!-- ADD CONTACT BUTTON -->
-<button mat-fab class="accent" id="add-contact-button" (click)="newGasto()" aria-label="add gasto"
+<!-- ADD GASTO BUTTON -->
+<button mat-fab class="accent" id="add-gasto-button" (click)="newGasto()" aria-label="add gasto"
         [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
     <mat-icon>add</mat-icon>
 </button>
-<!-- / ADD CONTACT BUTTON -->
+<!-- / ADD GASTO BUTTON -->
