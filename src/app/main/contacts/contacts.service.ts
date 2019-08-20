@@ -137,7 +137,6 @@ export class ContactsService implements Resolve<any>
         contact.modulo = ContactsService.MODULO;
         contact.categoria = ContactsService.CATEGORIA;
         contact.etiqueta = ContactsService.ETIQUETA;
-        contact.propietario = "7ideas"; //luego obtener de las cookies al loguearse username
     }
 
     getContactoByName(id: string): Contact {
@@ -342,7 +341,7 @@ export class ContactsService implements Resolve<any>
         return this._httpClient.get(url, this.httpOptions);
     }
 
-    crearRequestNewCodigoProveedor(propietario: string, modulo: string) {
+    crearRequestNewCodigoProveedor() {
 
         let method = 'siguientecodigo';
 
@@ -353,8 +352,7 @@ export class ContactsService implements Resolve<any>
         });
 
         let params = new HttpParams();
-        params = params.set("propietario", propietario);
-        params = params.set("modulo", modulo)
+        params = params.set("modulo", ContactsService.MODULO)
         
         return this._httpClient.get(url, { headers : httpHeaders, 
                                            params : params,

@@ -67,8 +67,7 @@ export class LoginService implements Resolve<any>
                         this.token = info.token;
                         this.username = info.username;
                         this.cookieService.set('tokenAuth', this.token);
-                        this.cookieService.set('userName', this.username);
-                         this._router.navigate(['/gastos']);
+                        this._router.navigate(['/gastos']);
                     }
                     this.infoOnChanged.next(this.info);
                 }, reject);

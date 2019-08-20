@@ -131,7 +131,6 @@ export class GastosService implements Resolve<any>
         gasto.modulo = GastosService.MODULO;
         gasto.categoria = GastosService.CATEGORIA;
         gasto.etiqueta = GastosService.ETIQUETA;
-        gasto.propietario = this.cookieService.get('userName');
     }
 
     addGasto(gasto : Gasto): Promise<any> {
@@ -214,7 +213,6 @@ export class GastosService implements Resolve<any>
     createRequestObtenerGastosConFiltro(): any {
 
         let body = {
-            "propietario" : "7ideas",
             "modulo"      : "Compras",
             "categoria"   : "Facturas",
             "etiqueta"    : "-Oficina-",

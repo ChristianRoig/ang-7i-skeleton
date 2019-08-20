@@ -68,7 +68,7 @@ export class ContactsContactFormDialogComponent
             this.contact = new Contact({});
             this._contactsService.initContacto(this.contact);
             this.contactForm = this.createContactForm();
-            this._contactsService.crearRequestNewCodigoProveedor("7ideas", "Proveedores")
+            this._contactsService.crearRequestNewCodigoProveedor()
                 .subscribe((response: any) => {
                     this.contact.cod = response;
                     this.contactForm.controls['cod'].setValue(this.contact.cod); //setea el cod que 
@@ -130,8 +130,7 @@ export class ContactsContactFormDialogComponent
             genero: [this.contact.genero],
             notas: [this.contact.notas],
             file_link: [this.contact.file_link],
-/*             activo: [this.contact.activo],
- */            predefinido: [this.contact.predefinido],
+            predefinido: [this.contact.predefinido],
             estado: [this.contact.estado]
         });
     }
