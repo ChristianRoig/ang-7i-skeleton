@@ -24,7 +24,6 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         component: NovedadesComponent,
         resolve  : {
-            // conceptos: ConceptosService,
             novedades: NovedadService,
         }
     }

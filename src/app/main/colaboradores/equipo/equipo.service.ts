@@ -8,6 +8,7 @@ import { Perfil } from 'app/main/perfil/perfil.model';
 import { ErrorService } from 'app/main/errors/error.service';
 import { LoginService } from 'app/main/authentication/login-2/login-2.service';
 import { CombosService } from '../../common/combos/combos.service';
+import { takeUntil } from 'rxjs/operators';
 
 const API_URL: string = environment.API;
 
@@ -20,6 +21,7 @@ export class EquipoService implements Resolve<any>
     
     private searchText = '';
     private colaboradores: Perfil[] = [];    
+    private _unsubscribeAll: Subject<any>;
     
     onColaboradoresChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
@@ -45,7 +47,8 @@ export class EquipoService implements Resolve<any>
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();         
         this.onComboOrigenesChanged = new Subject();         
-               
+
+        this._unsubscribeAll = new Subject();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -77,7 +80,14 @@ export class EquipoService implements Resolve<any>
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
                         this._filterColaboradores();
-                    });    
+                    });
+
+                    this._combosService.onComboOrigenDep_SucChanged.pipe(takeUntil(this._unsubscribeAll))
+                        .subscribe(data => {
+                            this.ComboOrigenes = data;
+                            this.onComboOrigenesChanged.next(this.ComboOrigenes);
+                        });
+                        
 
                     resolve();
 

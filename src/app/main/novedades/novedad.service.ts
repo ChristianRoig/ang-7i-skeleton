@@ -8,6 +8,7 @@ import { ErrorService } from 'app/main/errors/error.service';
 import { LoginService } from 'app/main/authentication/login-2/login-2.service';
 import { Novedad } from './novedad.model';
 import { CombosService } from '../common/combos/combos.service';
+import { takeUntil } from 'rxjs/operators';
 
 const API_URL: string = environment.API;
 
@@ -20,6 +21,8 @@ export class NovedadService implements Resolve<any>
     private searchText = '';
     private novedades: Novedad[] = [];
     private invocador = '';
+
+    private _unsubscribeAll: Subject<any>;
 
     ComboDepSuc = [];
     ComboExtRRHH = [];
@@ -57,7 +60,7 @@ export class NovedadService implements Resolve<any>
         this.onComboExtRRHHChanged = new Subject();
         this.onComboPeriodoChanged = new Subject();
 
-
+        this._unsubscribeAll = new Subject();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -94,6 +97,24 @@ export class NovedadService implements Resolve<any>
                         this._filterNovedades();
                     });
 
+                    this._combosService.onComboOrigenDep_SucChanged.pipe(takeUntil(this._unsubscribeAll))
+                        .subscribe(data => {
+                            this.ComboDepSuc = data;
+                            this.onComboDepSucChanged.next(this.ComboDepSuc);
+                        });
+                    
+                    this._combosService.onComboOrigenExt_RRHHChanged.pipe(takeUntil(this._unsubscribeAll))
+                        .subscribe(data => {
+                            this.ComboExtRRHH = data;
+                            this.onComboExtRRHHChanged.next(this.ComboExtRRHH);
+                        });
+
+                    this._combosService.onComboOrigenPeriodoChanged.pipe(takeUntil(this._unsubscribeAll))
+                        .subscribe(data => {
+                            this.ComboPeriodo = data;
+                            this.onComboPeriodoChanged.next(this.ComboPeriodo);
+                        });
+
                     resolve();
 
                 },
@@ -114,7 +135,7 @@ export class NovedadService implements Resolve<any>
     }
 
     private _getCombos(): void {
-        this.ComboDepSuc = this._combosService.getCombo('dep-suc');
+        this.ComboDepSuc = this._combosService.getCombo('dep-suc');        
         this.onComboDepSucChanged.next(this.ComboDepSuc);
 
         this.ComboExtRRHH = this._combosService.getCombo('ext-rrhh');
@@ -122,6 +143,9 @@ export class NovedadService implements Resolve<any>
 
         this.ComboPeriodo = this._combosService.getCombo('periodos');
         this.onComboPeriodoChanged.next(this.ComboPeriodo);
+
+
+  
     }
 
     /**

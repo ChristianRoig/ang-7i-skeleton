@@ -4,6 +4,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ConceptosService } from 'app/main/configurar/conceptos.service';
 import { Concepto } from '../conceptos/concepto.model';
 import { CombosService } from '../../common/combos/combos.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -33,6 +35,8 @@ export class ConceptosFormDialogComponent implements OnInit
     ConceptoForm: FormGroup;
     
     dialogTitle: string;
+
+    private _unsubscribeAll: Subject<any>;
 
     // candidatos: any;
 
@@ -64,16 +68,26 @@ export class ConceptosFormDialogComponent implements OnInit
         }
        
         this.ConceptoForm = this.createConceptoForm();
+
+        this._unsubscribeAll = new Subject();
         
     }
 
 
     ngOnInit(): void {
         this.origenesRRHH = this._combosService.getCombo('rrhh');
-        // console.log('origenesRRHH ' + this.origenesRRHH);
+        this._combosService.onComboOrigenRRHHChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(data => {
+                this.origenesRRHH = data;                
+            });
 
         this.origenesExterno = this._combosService.getCombo('ext');
-        // console.log('origenesExterno ' + this.origenesExterno);
+        this._combosService.onComboOrigenExtChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(data => {
+                this.origenesExterno = data;                
+            });
 
         this.validateGuardar();
     }

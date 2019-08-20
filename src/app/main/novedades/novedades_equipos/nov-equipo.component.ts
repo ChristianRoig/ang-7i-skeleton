@@ -97,21 +97,19 @@ export class NovEquiposComponent implements OnInit, OnDestroy
 
         });    
         
+        this._novedadService.onFilterChanged.next(this.seleccionado);
+
         // Combo de Origenes
         this.listOrigenes = this._novedadService.ComboDepSuc;
         this._novedadService.onComboDepSucChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(data => {
                 this.listOrigenes = data;
+
+                const aux: any[] = FuseUtils.filterArrayByString(this.listOrigenes, this.seleccionado);
+                this.filtroAMostrar = (aux.length) ? aux[0].valor : '';
             });
      
-        this._novedadService.onFilterChanged.next(this.seleccionado);
-
-        const aux: any[] = FuseUtils.filterArrayByString(this.listOrigenes, this.seleccionado);
-
-        this.filtroAMostrar = (aux.length) ? aux[0].valor : '';
-
-
         this.periodos = this._novedadService.ComboPeriodo;
         this._novedadService.onComboPeriodoChanged
             .pipe(takeUntil(this._unsubscribeAll))
@@ -119,10 +117,7 @@ export class NovEquiposComponent implements OnInit, OnDestroy
                 this.periodos = data;
             });
 
-        const auxP = new Date();
-        const actual = '1/' + (auxP.getMonth() + 1) + '/' + auxP.getFullYear();
-        const pSelect = FuseUtils.filterArrayByString(this.periodos, actual);
-        this.periodoSelect = (this.periodos.length !== 0) ? pSelect[0].valor : '';
+        this._defineDate(); // En un futuro se usara el valor enviado por url
 
 
         this.dataSource = new FilesDataSource(this._novedadService);
@@ -157,6 +152,14 @@ export class NovEquiposComponent implements OnInit, OnDestroy
         this.filtroAMostrar = elemento.valor;
 
         this._router.navigate(['novedades/equipos/' + elemento.cod]);
+    }
+
+    private _defineDate(data?: string): void {
+        const auxP = new Date();
+        const actual = (auxP.getMonth() + 1) + '/' + auxP.getFullYear();
+        const pSelect = FuseUtils.filterArrayByString(this.periodos, actual);
+        console.log(pSelect);
+        this.periodoSelect = (this.periodos.length !== 0) ? pSelect[0].valor : '';
     }
 }
 

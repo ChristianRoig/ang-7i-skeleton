@@ -37,14 +37,14 @@ export class NovedadesComponent implements OnInit, OnDestroy
 
     seleccionado = '';
 
-    filtroAMostrar: any;
+    filtroAMostrar = '';
 
     titulo = 'Novedades por Sector';    
 
     dataSource: FilesDataSource | null;
     
     periodos: any[];
-    periodoSelect: any;
+    periodoSelect = '';
     
     private _unsubscribeAll: Subject<any>;
 
@@ -91,6 +91,7 @@ export class NovedadesComponent implements OnInit, OnDestroy
 
             if (this.seleccionado === '' || this.seleccionado == null || this.seleccionado === ' ') {
                 this.seleccionado = 'Prem-Vta';
+
                 this._router.navigate(['novedades/sectores/' + this.seleccionado]);
             }
 
@@ -103,27 +104,20 @@ export class NovedadesComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(data => {
                 this.sectores = data;
+                
+                const aux: any[] = FuseUtils.filterArrayByString(this.sectores, this.seleccionado);
+                this.filtroAMostrar = (aux.length) ? aux[0].valor : '';
             });
-
-        
-        const aux: any[] = FuseUtils.filterArrayByString(this.sectores, this.seleccionado);
-
-        this.filtroAMostrar = (aux.length) ? aux[0].valor : '';
-        
 
         this.periodos = this._novedadService.ComboPeriodo;
         this._novedadService.onComboPeriodoChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(data => {
-                this.periodos = data;
+                this.periodos = data;          
             });
+        this._defineDate(); // En un futuro se usara el valor enviado por url
+       
 
-        const auxP = new Date();
-        const actual = '1/' + (auxP.getMonth() + 1) + '/' + auxP.getFullYear();
-        const pSelect = FuseUtils.filterArrayByString(this.periodos, actual);
-        this.periodoSelect = (this.periodos.length !== 0) ? pSelect[0].valor : '';
-
-        
         this.dataSource = new FilesDataSource(this._novedadService);
 
         this.searchInput.valueChanges
@@ -147,16 +141,19 @@ export class NovedadesComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
-    // buscarXFiltro(dato): void {
-    //     console.log(dato.value);
-    //     this._router.navigate(['novedades/sectores/' + dato.value]);
-    // }
-
     buscarXFiltro(elemento): void {
         this.seleccionado = elemento.cod;
         this.filtroAMostrar = elemento.valor;
 
         this._router.navigate(['novedades/sectores/' + elemento.cod]);
+    }
+
+    private _defineDate(data?: string): void{
+        const auxP = new Date();       
+        const actual = (auxP.getMonth() + 1) + '/' + auxP.getFullYear();
+        const pSelect = FuseUtils.filterArrayByString(this.periodos, actual);
+        console.log(pSelect);
+        this.periodoSelect = (this.periodos.length !== 0) ? pSelect[0].valor : '';
     }
 }
 

@@ -22,8 +22,7 @@ const routes: Routes = [
         path     : 'equipo/:equipo',
         canActivate: [AuthGuard],
         component: ColaboradoresComponent,
-        resolve  : {            
-            // listOrigenes  : OrigenesService,
+        resolve  : {                        
             colaboradores : EquipoService,            
         }
     }

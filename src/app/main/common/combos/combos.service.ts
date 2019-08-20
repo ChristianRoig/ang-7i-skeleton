@@ -20,12 +20,12 @@ export class CombosService
     private comboOrigenPeriodo: Combo[];
     
 
-    /**
-     * Utilizo solo un observer para todos, dependiendo 
-     * las necesitdades del sistema se podria llegar a 
-     * necesitar usar uno por cada combo
-     */
-    onComboChanged: BehaviorSubject<any>;
+    // onComboChanged: BehaviorSubject<any>;
+    onComboOrigenDep_SucChanged: BehaviorSubject<any>;
+    onComboOrigenExt_RRHHChanged: BehaviorSubject<any>;
+    onComboOrigenExtChanged: BehaviorSubject<any>;
+    onComboOrigenRRHHChanged: BehaviorSubject<any>;
+    onComboOrigenPeriodoChanged: BehaviorSubject<any>;
 
     /**
      * Constructor
@@ -40,7 +40,13 @@ export class CombosService
         private _loginService: LoginService
     ) {
         // Set the defaults
-        this.onComboChanged = new BehaviorSubject([]);
+        // this.onComboChanged = new BehaviorSubject([]);
+
+        this.onComboOrigenDep_SucChanged = new BehaviorSubject([]);
+        this.onComboOrigenExt_RRHHChanged = new BehaviorSubject([]);
+        this.onComboOrigenExtChanged = new BehaviorSubject([]);
+        this.onComboOrigenRRHHChanged = new BehaviorSubject([]);
+        this.onComboOrigenPeriodoChanged = new BehaviorSubject([]);
 
         this.comboOrigenDep_Suc = [];
         this.comboOrigenExt_RRHH = [];
@@ -50,17 +56,8 @@ export class CombosService
     }
 
     // -----------------------------------------------------------------------------------------------------
-    // @ Readme
-    // Se implementa tanto con un getCombo como con un 'onChanged' para que el servicio sea flexible
-    // dependiendo de las necesidades del sistema.
-    // -----------------------------------------------------------------------------------------------------
-    
-
-
-    // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
 
     /**
      * Devuelve el combo correspondiente, si no lo tiene lo trae del backend
@@ -102,16 +99,26 @@ export class CombosService
             case 'ext'     : url = url + 'sectores-externos'; break;            
             case 'rrhh'    : url = url + 'sectores-rrhh';     break;
 
-            case 'periodos': url = 'api/combo_periodo';       break;
+            case 'periodos': url = 'periodos';          break;
             default        : url = '';                        break;
         }
+
 
         if (url === ''){ // Si no es valida la url no hago nada
             return;
         }
 
         if (!(this._isEmpty(combo))){ // Si ya fue cargado no lo vuelvo a cargar
+            // this._updateObserver(combo);
+            return;
+        }
+
+        if (combo === 'periodos') {
+            const data = this._generateComboPeriodo();
+
+            this._updateInternalVar(combo, data);
             this._updateObserver(combo);
+
             return;
         }
 
@@ -218,20 +225,15 @@ export class CombosService
      * @param {string} combo
      */
     private _updateObserver(combo: string): void{
-        let comboUpdate: any;
-
         switch (combo) {
-            case 'dep-suc' : comboUpdate = this.comboOrigenDep_Suc;  break;
-            case 'ext-rrhh': comboUpdate = this.comboOrigenExt_RRHH; break;
-            case 'ext'     : comboUpdate = this.comboOrigenExt;      break;
-            case 'rrhh'    : comboUpdate = this.comboOrigenRRHH;     break;
-            case 'periodos': comboUpdate = this.comboOrigenPeriodo;  break;
-            default        : comboUpdate = [];                       break;
-        }
-
-        this.onComboChanged.next(comboUpdate);
+            case 'dep-suc' : this.onComboOrigenDep_SucChanged.next(this.comboOrigenDep_Suc);   break;
+            case 'ext-rrhh': this.onComboOrigenExt_RRHHChanged.next(this.comboOrigenExt_RRHH); break;
+            case 'ext'     : this.onComboOrigenExtChanged.next(this.comboOrigenExt);           break;
+            case 'rrhh'    : this.onComboOrigenRRHHChanged.next(this.comboOrigenRRHH);         break;
+            case 'periodos': this.onComboOrigenPeriodoChanged.next(this.comboOrigenPeriodo);   break;
+            default        : /**    No hago nada                                           */  break;
+        }       
     }
-
 
     /**
      * Realiza el llamado al backend mediante la url y token
@@ -245,6 +247,32 @@ export class CombosService
         const options = { headers: httpHeaders };
 
         return this._httpClient.get(url, options);
+    }
+
+    private _generateComboPeriodo(): Combo[]{
+        const opt = {year: 'numeric', month: 'long'};
+        let arrPeriodo: Combo[] = [];
+
+        let today = new Date();  
+        
+
+        arrPeriodo.push(new Combo({
+            'codigo' : (today.getMonth() + 1) + '/' + today.getFullYear(),
+            'valor' : today.toLocaleDateString('latn-ES', opt),
+        }));
+
+
+        for (let index = 1; index <= 12; index++) {
+            today.setMonth(today.getMonth() - 1);
+
+            arrPeriodo.push(new Combo({
+                'codigo': (today.getMonth() + 1) + '/' + today.getFullYear(),
+                'valor': today.toLocaleDateString('latn-ES', opt),
+            }));
+            
+        }
+
+        return arrPeriodo;
     }
 
 }
