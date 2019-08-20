@@ -1,4 +1,4 @@
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef,  } from '@angular/material';
 
@@ -31,11 +31,22 @@ export class GastoFormDialogComponent
         {value: 'Pendiente', viewValue: 'Pendiente'},
         {value: 'A Completar', viewValue: 'A Completar'}
       ];
+    pago_formas : Estado[] = [
+        { value: 'Efectivo', viewValue: 'Efectivo'},
+        { value: 'Bancaria', viewValue: 'Bancaria'},
+        { value: 'Cheque', viewValue: 'Cheque'},
+        { value: 'Tarjeta', viewValue: 'Tarjeta'},
+        { value: 'Cta. Cte.', viewValue: 'Cta. Cte'},
+        { value: 'Otra', viewValue: 'Otra'}
+    ]       
     copy: boolean;
     gastos_contact : any[];
     selected_gasto: Gasto;
     contactos: Contact[];
     date: Date;
+    verMas: boolean
+    @ViewChild('dialogcontent') target: ElementRef;
+
 
 
     /**
@@ -53,6 +64,7 @@ export class GastoFormDialogComponent
         private _formBuilder: FormBuilder
     )
     {
+        this.verMas = true;
         // Set the defaults
         this.action = _data.action;
         this.contactos = contactsService.getContactos(); 
@@ -110,7 +122,10 @@ export class GastoFormDialogComponent
             contacto_id : [this.gasto.contacto_id],
             notas : [this.gasto.notas],
             file_link : [this.gasto.file_link],
-            orden : [this.gasto.orden]
+            orden : [this.gasto.orden],
+            pago_forma :[this.gasto.pago_forma]
+
+
         });
     }
 
@@ -132,5 +147,12 @@ export class GastoFormDialogComponent
         this.contacto =  event.value;
         this.getLastestFacturas(); 
 
+    }
+
+    showMore(): void {
+        this.verMas = !this.verMas;
+        setTimeout(() => {  
+            this.target.nativeElement.scrollTop = this.target.nativeElement.scrollHeight;  //
+        }, 280);        
     }
 }

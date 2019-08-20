@@ -3,7 +3,7 @@ import { HttpModule } from '@angular/http';
 
 import { RouterModule, Routes } from '@angular/router';
 import {MatSelectModule,
-    MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldModule, MatIconModule, MatInputModule, MatMenuModule, MatRippleModule, MatTableModule, MatToolbarModule, MatTabsModule
+    MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldModule, MatIconModule, MatInputModule, MatMenuModule, MatRippleModule, MatTableModule, MatToolbarModule, MatTabsModule, MatDividerModule
 } from '@angular/material';
 
 
@@ -62,6 +62,7 @@ const routes: Routes = [
         MatToolbarModule,
         MatSelectModule,
         MatTabsModule,
+        MatDividerModule,
         HttpModule,
 
         FuseSharedModule,
