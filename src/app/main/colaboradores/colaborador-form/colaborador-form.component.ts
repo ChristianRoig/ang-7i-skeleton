@@ -15,15 +15,27 @@ import { Perfil } from 'app/main/perfil/perfil.model';
 
 const moment = _moment;
 
-export const MY_FORMATS = {
+// export const mes_año = {
+//     parse: {
+//         dateInput: 'MM/YYYY',
+//     },
+//     display: {
+//         dateInput: 'MM/YYYY',
+//         monthYearLabel: 'MMM YYYY',
+//         dateA11yLabel: 'LL',
+//         monthYearA11yLabel: 'MMMM YYYY',
+//     },
+// };
+
+export const dia_mes_año = {
     parse: {
-        dateInput: 'MM/YYYY',
+        dateInput: 'DD/MM/YYYY',
     },
     display: {
-        dateInput: 'MM/YYYY',
-        monthYearLabel: 'MMM YYYY',
+        dateInput: 'DD/MM/YYYY',
+        monthYearLabel: 'DD MMM YYYY',
         dateA11yLabel: 'LL',
-        monthYearA11yLabel: 'MMMM YYYY',
+        monthYearA11yLabel: 'DDDD MMMM YYYY',
     },
 };
 
@@ -34,17 +46,13 @@ export const MY_FORMATS = {
     styleUrls    : ['./colaborador-form.component.scss'],
     encapsulation: ViewEncapsulation.None,
     providers: [
-        // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
-        // application's root module. We provide it at the component level here, due to limitations of
-        // our example generation script.
         { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-
-        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+        { provide: MAT_DATE_FORMATS, useValue: dia_mes_año },
     ],
 }) 
 export class ColaboradoresContactFormDialogComponent
 {
-    date = new FormControl(moment());
+    // date = new FormControl(moment());
     
     action: string;
     colaborador: Perfil;
@@ -54,7 +62,6 @@ export class ColaboradoresContactFormDialogComponent
     hideshow = true;
  
     unidad = '';
-
 
     cuantitativos = [
         {
@@ -208,19 +215,6 @@ export class ColaboradoresContactFormDialogComponent
         this.colaboradorForm = this.createContactForm();
     }
 
-    chosenYearHandler(normalizedYear: Moment): void {
-        const ctrlValue = this.date.value;
-        ctrlValue.year(normalizedYear.year());
-        this.date.setValue(ctrlValue);
-    }
-
-    chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>): void {
-        const ctrlValue = this.date.value;
-        ctrlValue.month(normalizedMonth.month());
-        this.date.setValue(ctrlValue);
-        datepicker.close();
-    }
-
     switchParam(): void {        
         this.hideshow = !this.hideshow;
 
@@ -256,6 +250,7 @@ export class ColaboradoresContactFormDialogComponent
         console.log(this.colaboradorForm);
         this.matDialogRef.close();
     }
+    
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -267,16 +262,28 @@ export class ColaboradoresContactFormDialogComponent
      */
     createContactForm(): FormGroup
     {
+        const hoy = new Date;
+
         return this._formBuilder.group({
             id                       : [this.colaborador.idColaborador],
             legajo                   : [this.colaborador.legajo],
             name                     : [this.colaborador.nombre],            
             avatar                   : [this.colaborador.img],            
             company                  : [this.colaborador.empresa],
-            date                     : '',
+            datePeriodo              : new FormControl({ value: this._to2digit(hoy.getMonth() + 1) + '/' + hoy.getFullYear(), disabled: true }),
+            dateDesde                : hoy,
+            dateHasta                : hoy,
             cantidad                 : '',
             concepto_cuantitativos   : '',
             concepto_cualitativos    : '',            
         });
     }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
+
+    private _to2digit(n: number): string {
+        return ('00' + n).slice(-2);
+    } 
 }

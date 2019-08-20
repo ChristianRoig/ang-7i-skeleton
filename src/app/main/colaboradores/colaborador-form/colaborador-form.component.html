@@ -22,19 +22,36 @@
 
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Fecha</mat-label>
+                    <mat-label>Periodo</mat-label>
 
-                    <input matInput [matDatepicker]="DatePicker" placeholder="Month and Year" [formControl]="date" readonly>
-                    <mat-datepicker-toggle matSuffix [for]="DatePicker" disabled></mat-datepicker-toggle>
-                
-                
-                    <mat-datepicker #DatePicker startView="multi-year" (yearSelected)="chosenYearHandler($event)" 
-                        (monthSelected)="chosenMonthHandler($event, DatePicker)" >      
-                    </mat-datepicker>
+                    <input matInput placeholder="" formControlName="datePeriodo" name="datePeriodo">
 
                 </mat-form-field>
             </div>
 
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Fecha Desde</mat-label>
+            
+                    <input matInput [matDatepicker]="DatePickerDesde" placeholder="" formControlName="dateDesde" name="dateDesde"> 
+                    
+                    <mat-datepicker-toggle matSuffix [for]="DatePickerDesde"></mat-datepicker-toggle>
+                    <mat-datepicker #DatePickerDesde></mat-datepicker>
+            
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Fecha Hasta</mat-label>
+            
+                    <input matInput [matDatepicker]="DatePickerHasta" placeholder="" formControlName="dateHasta" name="dateHasta"> 
+                    
+                    <mat-datepicker-toggle matSuffix [for]="DatePickerHasta"></mat-datepicker-toggle>
+                    <mat-datepicker #DatePickerHasta></mat-datepicker>
+            
+                </mat-form-field>
+            </div>
 
             <div fxLayout="row" fxLayoutAlign="start start">
                 <div id="switch">
