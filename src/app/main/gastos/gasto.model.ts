@@ -21,7 +21,7 @@ export class Gasto
     etiqueta: string;
     orden : number;
     comprobante: any;
-    condiciones : string;
+    pago_forma : string;
 
      /**
      * Constructor
@@ -48,6 +48,6 @@ export class Gasto
       this.etiqueta = gasto.etiqueta || '';
       this.orden = gasto.orden || 0;
       this.comprobante = gasto.comprobante || '';
-      this.condiciones = gasto.condiciones || '';
+      this.pago_forma = gasto.pago_forma || '';
     }
   }
