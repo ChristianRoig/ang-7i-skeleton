@@ -92,11 +92,11 @@ data-list-colaboradores, data-list-novedades {
                             color: white;
                             text-transform: uppercase;
 
-                            &.modificado, &.Pendiente {
+                            &.modificado, &.CONFIRMAR {
                                 background-color: #ff9800;
                             }
 
-                            &.nuevo, &.Verificado {
+                            &.nuevo, &.VERIFICADO {
                                 background-color: #4caf50;
                             }
 

@@ -40,7 +40,7 @@
             </mat-cell>
         </ng-container>
 
-        <!-- Departament Column -->
+        <!-- Departament Column (xEquipo) -->
         <ng-container matColumnDef="departament">
             <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Departamento</mat-header-cell>
             <mat-cell *matCellDef="let data" fxHide fxShow.gt-sm>
@@ -50,10 +50,10 @@
             </mat-cell>
         </ng-container>
 
-        <!-- Sector Column -->
+        <!-- Sector Column (xSector) -->
         <ng-container matColumnDef="sector">
-            <mat-header-cell *matHeaderCellDef>Sector</mat-header-cell>
-            <mat-cell *matCellDef="let data">
+            <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Sector</mat-header-cell>
+            <mat-cell *matCellDef="let data" fxHide fxShow.gt-sm>
                 <p class="text-truncate" >
                     {{data.origen}}
                 </p>
@@ -65,28 +65,28 @@
             <mat-header-cell *matHeaderCellDef>Concepto</mat-header-cell>
             <mat-cell *matCellDef="let data">
                 <p class="text-truncate">
-                    {{data.concepto}}
+                    {{data.descripcion}}
                 </p>
             </mat-cell>
         </ng-container>
 
         
-        <!-- Monto Column -->
+        <!-- Monto (importe) Column -->
         <ng-container matColumnDef="monto">
-            <mat-header-cell *matHeaderCellDef>Monto</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Importe</mat-header-cell>
             <mat-cell *matCellDef="let data">
-                <p class="monto text-truncate" *ngIf="data.monto">
-                    {{data.monto}}
+                <p class="monto text-truncate" *ngIf="data.importe">
+                    {{data.importe}}
                 </p>
             </mat-cell>
         </ng-container>
 
-        <!-- statusNovedades Column -->
-        <ng-container matColumnDef="statusNovedades">
+        <!-- Estado Column -->
+        <ng-container matColumnDef="estado">
             <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
             <mat-cell *matCellDef="let data">                        
-                <p class="status {{data.estatus}} text-truncate">
-                    {{data.estatus}}
+                <p class="status {{data.estado}} text-truncate">
+                    {{data.estado}}
                 </p>
             </mat-cell>
         </ng-container>

@@ -22,8 +22,7 @@ const routes: Routes = [
         path     : 'novedades/equipos/:filtro',
         canActivate: [AuthGuard],
         component: NovEquiposComponent,        
-        resolve  : {            
-            listOrigenes: OrigenesService,
+        resolve  : {                        
             novedades: NovedadService,            
         }
     }

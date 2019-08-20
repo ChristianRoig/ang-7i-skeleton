@@ -146,7 +146,7 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
         this.hasCheckNomina = c;
         // console.log("cambio " + this.hasCheckNomina);
 
-        const col = 'statusNovedades';
+        const col = 'estado';
 
         const pos = this.columnas.indexOf(col);
         if ( pos >= 0){
@@ -179,25 +179,6 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
                 break;
         }
 
-
-
-
-        // let pos = -1;
-        
-        // if (b){            
-        //     pos = this.columnas.indexOf('departament');
-
-        //     if (pos !== -1){
-        //         this.columnas[pos] = 'concepto';
-        //     }
-
-        // }else{
-        //     pos = this.columnas.indexOf('concepto');
-
-        //     if (pos !== -1) {
-        //         this.columnas[pos] = 'departament';
-        //     }
-        // }
     }
 
     

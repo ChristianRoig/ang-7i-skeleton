@@ -124,30 +124,6 @@ export class NovedadService implements Resolve<any>
         this.onComboPeriodoChanged.next(this.ComboPeriodo);
     }
 
-
-
-    /**
-     * getComboDepSuc()
-     * Encargado de traer del backend los Origenes de Sucursales y Departamentos
-     */
-    // getComboDepSuc(): Promise<any> {
-    //     if (this.ComboDepSuc.length !== 0) { return; }
-
-    //     this.ComboDepSuc = this._combosService.getCombo('dep-suc');
-    //     this.onComboDepSucChanged.next(this.ComboDepSuc);
-    // }
-
-    /**
-     * getComboExtRRHH()
-     * Encargado de traer del backend los Origenes Externos
-     */
-    // getComboExtRRHH(): Promise<any> {
-    //     if (this.ComboExtRRHH.length !== 0) { return; }
-
-    //     this.ComboExtRRHH = this._combosService.getCombo('ext-rrhh');
-    //     this.onComboExtRRHHChanged.next(this.ComboExtRRHH);
-    // }    
-
     /**
      * _filterNovedades()
      * Dependiendo del texto ingresado filtra el contenido del objeto novedades
