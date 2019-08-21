@@ -100,17 +100,16 @@ export class NovedadesComponent implements OnInit, OnDestroy
         this._novedadService.onFilterChanged.next(this.seleccionado);        
 
         this.sectores = this._novedadService.ComboExtRRHH;
+        this._defineAMostrar();
         this._novedadService.onComboExtRRHHChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(data => {
                 this.sectores = data;
-                
-                const aux: any[] = FuseUtils.filterArrayByString(this.sectores, this.seleccionado);
-                this.filtroAMostrar = (aux.length) ? aux[0].valor : '';
+                this._defineAMostrar();
             });
-
-        this.periodos = this._novedadService.ComboPeriodo;
-        this._novedadService.onComboPeriodoChanged
+            
+            this.periodos = this._novedadService.ComboPeriodo;
+            this._novedadService.onComboPeriodoChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(data => {
                 this.periodos = data;          
@@ -130,7 +129,7 @@ export class NovedadesComponent implements OnInit, OnDestroy
                 this._novedadService.onSearchTextChanged.next(searchText);
             });
     }
-
+    
     /**
      * On destroy
      */
@@ -140,20 +139,26 @@ export class NovedadesComponent implements OnInit, OnDestroy
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
-
+    
     buscarXFiltro(elemento): void {
         this.seleccionado = elemento.cod;
         this.filtroAMostrar = elemento.valor;
-
+        
         this._router.navigate(['novedades/sectores/' + elemento.cod]);
     }
-
-    private _defineDate(data?: string): void{
-        const auxP = new Date();       
-        const actual = (auxP.getMonth() + 1) + '/' + auxP.getFullYear();
-        const pSelect = FuseUtils.filterArrayByString(this.periodos, actual);
-        console.log(pSelect);
-        this.periodoSelect = (this.periodos.length !== 0) ? pSelect[0].valor : '';
+    
+    private _defineDate(data?: string): void {
+        if (data) {
+            const pSelect = FuseUtils.filterArrayByString(this.periodos, data);
+            this.periodoSelect = (this.periodos.length !== 0) ? pSelect[0].valor : '';
+        } else {
+            this.periodoSelect = (this.periodos.length !== 0) ? this.periodos[0].valor : ''; //El primero siempre es el Actual
+        }
+    }
+    
+    private _defineAMostrar(): void {
+        const aux: any[] = FuseUtils.filterArrayByString(this.sectores, this.seleccionado);
+        this.filtroAMostrar = (aux.length) ? aux[0].valor : '';        
     }
 }
 

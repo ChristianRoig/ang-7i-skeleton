@@ -90,15 +90,16 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
 
         // Combo de Origenes
         this.listOrigenes = this._equipoService.ComboOrigenes;
+        this._defineAMostrar();
+
         this._equipoService.onComboOrigenesChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(data => {
                 this.listOrigenes = data;                
+                this._defineAMostrar();
             });
 
-        const aux: any[] = FuseUtils.filterArrayByString(this.listOrigenes, this.seleccionado);
-
-        this.filtroAMostrar = (aux.length) ? aux[0].valor : '';
+        
 
         this.dataSource = new FilesDataSource(this._equipoService);   
 
@@ -131,6 +132,10 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
         this._router.navigate(['equipo/' + elemento.cod]);
     }
 
+    private _defineAMostrar(): void {
+        const aux: any[] = FuseUtils.filterArrayByString(this.listOrigenes, this.seleccionado);
+        this.filtroAMostrar = (aux.length) ? aux[0].valor : '';
+    }
 }
 
 

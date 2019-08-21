@@ -109,15 +109,13 @@ export class CombosService
         }
 
         if (!(this._isEmpty(combo))){ // Si ya fue cargado no lo vuelvo a cargar
-            // this._updateObserver(combo);
             return;
         }
 
         if (combo === 'periodos') {
             const data = this._generateComboPeriodo();
 
-            this._updateInternalVar(combo, data);
-            this._updateObserver(combo);
+            this._updateInternalValues(combo, data);
 
             return;
         }
@@ -131,8 +129,7 @@ export class CombosService
                             return new Combo(res);
                         });
 
-                        this._updateInternalVar(combo, response);
-                        this._updateObserver(combo);
+                        this._updateInternalValues(combo, response);
                        
                     },
                     (err) => {
@@ -205,34 +202,34 @@ export class CombosService
     }
 
     /**
-     * Actualiza la variable correspondiente al combo deseado con la informacion traida desde el backend
+     * Actualiza la variable & el Observer correspondientes al combo deseado con la informacion traida desde el backend
      * @param {string} combo 
      * @param {Combo[]} response 
      */
-    private _updateInternalVar(combo: string, response: Combo[]): void {        
+    private _updateInternalValues(combo: string, response: Combo[]): void {        
         switch (combo) {
-            case 'dep-suc' : this.comboOrigenDep_Suc = response;  break;
-            case 'ext-rrhh': this.comboOrigenExt_RRHH = response; break;
-            case 'ext'     : this.comboOrigenExt = response;      break;
-            case 'rrhh'    : this.comboOrigenRRHH = response;     break;
-            case 'periodos': this.comboOrigenPeriodo = response;  break;
+            case 'dep-suc' : 
+                this.comboOrigenDep_Suc = response;  
+                this.onComboOrigenDep_SucChanged.next(this.comboOrigenDep_Suc);
+                break;
+            case 'ext-rrhh': 
+                this.comboOrigenExt_RRHH = response; 
+                this.onComboOrigenExt_RRHHChanged.next(this.comboOrigenExt_RRHH);
+                break;
+            case 'ext'     : 
+                this.comboOrigenExt = response;      
+                this.onComboOrigenExtChanged.next(this.comboOrigenExt);
+                break;
+            case 'rrhh'    : 
+                this.comboOrigenRRHH = response;     
+                this.onComboOrigenRRHHChanged.next(this.comboOrigenRRHH);
+                break;
+            case 'periodos': 
+                this.comboOrigenPeriodo = response;  
+                this.onComboOrigenPeriodoChanged.next(this.comboOrigenPeriodo);
+                break;
             default        : /**    No hago nada              */  break;
         }   
-    }
-
-    /**
-     * Actualiza el Observer General del servicio
-     * @param {string} combo
-     */
-    private _updateObserver(combo: string): void{
-        switch (combo) {
-            case 'dep-suc' : this.onComboOrigenDep_SucChanged.next(this.comboOrigenDep_Suc);   break;
-            case 'ext-rrhh': this.onComboOrigenExt_RRHHChanged.next(this.comboOrigenExt_RRHH); break;
-            case 'ext'     : this.onComboOrigenExtChanged.next(this.comboOrigenExt);           break;
-            case 'rrhh'    : this.onComboOrigenRRHHChanged.next(this.comboOrigenRRHH);         break;
-            case 'periodos': this.onComboOrigenPeriodoChanged.next(this.comboOrigenPeriodo);   break;
-            default        : /**    No hago nada                                           */  break;
-        }       
     }
 
     /**
@@ -249,29 +246,26 @@ export class CombosService
         return this._httpClient.get(url, options);
     }
 
+    /**
+     * Genera de forma dinamica el combo segun la fecha actual
+     */
     private _generateComboPeriodo(): Combo[]{
         const opt = {year: 'numeric', month: 'long'};
-        let arrPeriodo: Combo[] = [];
-
-        let today = new Date();  
+        const arrPeriodo: Combo[] = [];
         
-
-        arrPeriodo.push(new Combo({
-            'codigo' : (today.getMonth() + 1) + '/' + today.getFullYear(),
-            'valor' : today.toLocaleDateString('latn-ES', opt),
-        }));
-
-
-        for (let index = 1; index <= 12; index++) {
-            today.setMonth(today.getMonth() - 1);
+        const today = new Date();
+        
+        for (let index = 0; index <= 12; index++) {      
+            today.setMonth(today.getMonth() - index);
 
             arrPeriodo.push(new Combo({
                 'codigo': (today.getMonth() + 1) + '/' + today.getFullYear(),
                 'valor': today.toLocaleDateString('latn-ES', opt),
             }));
-            
-        }
 
+            today.setMonth(today.getMonth() + index);
+        }
+        
         return arrPeriodo;
     }
 

@@ -101,13 +101,13 @@ export class NovEquiposComponent implements OnInit, OnDestroy
 
         // Combo de Origenes
         this.listOrigenes = this._novedadService.ComboDepSuc;
+        this._defineAMostrar();
+
         this._novedadService.onComboDepSucChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(data => {
                 this.listOrigenes = data;
-
-                const aux: any[] = FuseUtils.filterArrayByString(this.listOrigenes, this.seleccionado);
-                this.filtroAMostrar = (aux.length) ? aux[0].valor : '';
+                this._defineAMostrar();
             });
      
         this.periodos = this._novedadService.ComboPeriodo;
@@ -155,11 +155,17 @@ export class NovEquiposComponent implements OnInit, OnDestroy
     }
 
     private _defineDate(data?: string): void {
-        const auxP = new Date();
-        const actual = (auxP.getMonth() + 1) + '/' + auxP.getFullYear();
-        const pSelect = FuseUtils.filterArrayByString(this.periodos, actual);
-        console.log(pSelect);
-        this.periodoSelect = (this.periodos.length !== 0) ? pSelect[0].valor : '';
+        if (data){
+            const pSelect = FuseUtils.filterArrayByString(this.periodos, data);
+            this.periodoSelect = (this.periodos.length !== 0) ? pSelect[0].valor : '';
+        }else{
+            this.periodoSelect = (this.periodos.length !== 0) ? this.periodos[0].valor : ''; //El primero siempre es el Actual
+        }
+    }
+
+    private _defineAMostrar(): void{
+        const aux: any[] = FuseUtils.filterArrayByString(this.listOrigenes, this.seleccionado);
+        this.filtroAMostrar = (aux.length) ? aux[0].valor : '';
     }
 }
 
