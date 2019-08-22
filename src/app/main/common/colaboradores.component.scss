@@ -149,6 +149,23 @@
     }
 }
 
+.container-delete {
+    width: auto;
+    display: flex;
+    justify-content: flex-end;
+
+    #DeleteButton {
+        width: 40px;
+        height: 40px;
+        margin: 12px 24px 0 0;
+        
+        .mat-button-wrapper{
+            padding: 0;
+        }
+    }
+}
+
+
 #importarButton {
     right: 75px;
 }

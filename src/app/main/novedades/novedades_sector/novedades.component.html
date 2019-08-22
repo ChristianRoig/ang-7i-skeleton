@@ -85,6 +85,16 @@
     </div>
     <!-- / HEADER -->
 
+    <!-- DELETE BUTTON -->
+    <div class="container-delete">
+        <button mat-fab class="accent" id="DeleteButton" (click)="addNovedad()" aria-label="DELETE ALL"
+            [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+    <!-- / DELETE BUTTON -->
+
+
     <!-- CONTENT -->
     <div class="content">
 
