@@ -1,14 +1,15 @@
 @import "src/@fuse/scss/fuse";
 
 .importar-form-dialog {
+    min-width: 800px;
     width: 500px;
 
     @include media-breakpoint('xs') {
         width: 100%;
     }
 
-    @include media-breakpoint('gt-xs') {
-        width: 800px;
+    @include media-breakpoint('gt-xs') {        
+        width: auto;
     }
 
     .mat-dialog-container {
@@ -32,6 +33,23 @@
         form {
             #texto {
                 margin-top: 24px;
+
+                .mat-form-field {
+                    .mat-form-field-wrapper {
+                        .mat-form-field-flex {
+                            .mat-form-field-infix {
+                                width: auto;
+
+                                textarea {
+                                    font-family: monospace;
+                                    resize: auto; 
+                                }
+                            }
+                        }
+                    }
+                }
+                
+
             }
 
             button {

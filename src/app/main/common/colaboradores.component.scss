@@ -133,3 +133,22 @@
 .mat-menu-content {
     max-height: 400px;
 }
+
+
+#addNovedadButton, #importarButton {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    padding: 0;
+    z-index: 99;
+
+    @include media-breakpoint('xs') {
+        position: sticky;
+        top: calc(100vh - 120px);
+        bottom: auto;
+    }
+}
+
+#importarButton {
+    right: 75px;
+}

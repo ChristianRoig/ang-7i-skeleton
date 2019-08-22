@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { Subject, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
@@ -12,6 +12,9 @@ import { ConceptosService } from 'app/main/configurar/conceptos.service';
 import { NovedadService } from '../novedad.service';
 import { DataSource } from '@angular/cdk/table';
 import { FuseUtils } from '@fuse/utils';
+import { NovXComponenteFormDialogComponent } from '../nov_x_componente_form/nov_x_componente_form.component';
+import { ImportarFormDialogComponent } from '../importar-form/importar-form.component';
+import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector     : 'sector',
@@ -45,6 +48,11 @@ export class NovedadesComponent implements OnInit, OnDestroy
     
     periodos: any[];
     periodoSelect = '';
+
+
+    dialogRefImportar: any;
+    confirmDialogRefImportar: MatDialogRef<FuseConfirmDialogComponent>;
+
     
     private _unsubscribeAll: Subject<any>;
 
@@ -108,12 +116,13 @@ export class NovedadesComponent implements OnInit, OnDestroy
                 this._defineAMostrar();
             });
             
-            this.periodos = this._novedadService.ComboPeriodo;
-            this._novedadService.onComboPeriodoChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(data => {
-                this.periodos = data;          
-            });
+        this.periodos = this._novedadService.ComboPeriodo;
+        this._novedadService.onComboPeriodoChanged
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe(data => {
+            this.periodos = data;
+            this._defineDate();       
+        });
         this._defineDate(); // En un futuro se usara el valor enviado por url
        
 
@@ -159,6 +168,82 @@ export class NovedadesComponent implements OnInit, OnDestroy
     private _defineAMostrar(): void {
         const aux: any[] = FuseUtils.filterArrayByString(this.sectores, this.seleccionado);
         this.filtroAMostrar = (aux.length) ? aux[0].valor : '';        
+    }
+
+    addNovedad(): void {
+        this.dialogRef = this._matDialog.open(NovXComponenteFormDialogComponent, {
+            panelClass: 'NovXComponente-form-dialog',
+            data: {
+                periodo: this.periodoSelect,
+                periodos: this.periodos,
+                invocador: this.componente,
+                action: 'new'
+            }
+        });
+
+        this.dialogRef.afterClosed()
+            .subscribe(response => {
+                if (!response) {
+                    return;
+                }
+                const actionType: string = response[0];
+                const formData: FormGroup = response[1];
+                switch (actionType) {
+                    /**
+                     * Save
+                     */
+                    case 'save':
+
+                        //         this..updateContact(formData.getRawValue());
+
+                        break;
+                    /**
+                     * Delete
+                     */
+                    case 'delete':
+
+                        // this.deleteContact(colaborador);
+
+                        break;
+                }
+            });
+    }
+
+    importar(): void {
+        this.dialogRefImportar = this._matDialog.open(ImportarFormDialogComponent, {
+            panelClass: 'importar-form-dialog',
+            data: {
+                // colaborador: colaborador,
+                // action: 'new'
+            }
+        });
+
+        this.dialogRefImportar.afterClosed()
+            .subscribe(response => {
+                if (!response) {
+                    return;
+                }
+                const actionType: string = response[0];
+                const formData: FormGroup = response[1];
+                switch (actionType) {
+                    /**
+                     * Save
+                     */
+                    case 'save':
+
+                        //         this..updateContact(formData.getRawValue());
+
+                        break;
+                    /**
+                     * Delete
+                     */
+                    case 'delete':
+
+                        // this.deleteContact(colaborador);
+
+                        break;
+                }
+            });
     }
 }
 

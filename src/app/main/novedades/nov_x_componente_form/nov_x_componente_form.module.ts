@@ -5,14 +5,13 @@ import { CommonModule } from '@angular/common';
 import { MatToolbarModule, MatDatepickerModule, MatFormFieldModule, MatIconModule,
          MatInputModule, MatButtonModule, MatSelectModule, MatOptionModule, MatSlideToggleModule,  } from '@angular/material';
 import { FuseSharedModule } from '@fuse/shared.module';
-import { NovedadesFormDialogComponent } from './novedad-form.component';
+import { NovXComponenteFormDialogComponent } from './nov_x_componente_form.component';
 
 
 
 @NgModule({
     declarations: [
-        
-        NovedadesFormDialogComponent 
+        NovXComponenteFormDialogComponent      
     ],
     imports: [
         CommonModule,
@@ -33,12 +32,11 @@ import { NovedadesFormDialogComponent } from './novedad-form.component';
 
     ],
     exports: [
-        NovedadesFormDialogComponent
-        
+        NovXComponenteFormDialogComponent    
     ],
     entryComponents: [
-        NovedadesFormDialogComponent
+        NovXComponenteFormDialogComponent
     ]
 })
-export class NovedadesFormModule {
+export class NovXComponenteFormModule {
 }

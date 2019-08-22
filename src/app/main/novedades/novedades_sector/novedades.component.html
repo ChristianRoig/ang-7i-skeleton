@@ -107,7 +107,7 @@
             <div class="content">
 
 
-                <data-list-novedades [displayedColumns]="columnas"  [hasCheck]="false" [invocador]="componente" [dataSource]="dataSource" ></data-list-novedades>
+                <data-list-novedades [displayedColumns]="columnas"  [hasCheck]="false" [periodoSelect]="periodoSelect"  [periodos]="periodos" [invocador]="componente" [dataSource]="dataSource" ></data-list-novedades>
             
             
             </div>
@@ -119,11 +119,21 @@
     </div>
     <!-- / CONTENT-->
 
+    <!-- ADD NOVEDAD BUTTON -->
+    <button mat-fab class="accent" id="addNovedadButton" (click)="addNovedad()" aria-label="add-novedad"
+        [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+        <mat-icon>announcement</mat-icon>
+    </button>
+    <!-- / ADD NOVEDAD BUTTON -->
+
+    <!-- ADD NOVEDAD BUTTON -->
+    <button mat-fab class="accent" id="importarButton" (click)="importar()" aria-label="importar"
+        [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+        <mat-icon>archive</mat-icon>
+    </button>
+    <!-- / ADD NOVEDAD BUTTON -->
+
+
 </div>
 
-<!-- ADD CONTACT BUTTON -->
-<!-- <button mat-fab class="accent" id="add-contact-button" (click)="newContact()" aria-label="add contact"
-        [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
-    <mat-icon>person_add</mat-icon>
-</button> -->
-<!-- / ADD CONTACT BUTTON -->
+

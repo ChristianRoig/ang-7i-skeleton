@@ -42,18 +42,6 @@ export const navigation: FuseNavigation[] = [
                 }
             },
             {
-                id: 'sector',
-                title: 'Novedades por Sector',
-                type: 'item',
-                icon: 'announcement',
-                url: '/novedades/sectores/',
-                badge: {
-                    title: '23',
-                    bg: '#8ebdaf',
-                    fg: '#FFFFFF'
-                }
-            },
-            {
                 id: 'nov-equipo',
                 title: 'Novedades por Equipo',
                 type: 'item',
@@ -65,6 +53,18 @@ export const navigation: FuseNavigation[] = [
                     fg: '#FFFFFF'
                 }
             },            
+            {
+                id: 'sector',
+                title: 'Novedades por Sector',
+                type: 'item',
+                icon: 'announcement',
+                url: '/novedades/sectores/',
+                badge: {
+                    title: '23',
+                    bg: '#8ebdaf',
+                    fg: '#FFFFFF'
+                }
+            },
         ]
     },
 

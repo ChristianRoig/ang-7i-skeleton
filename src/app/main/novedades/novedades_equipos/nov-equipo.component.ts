@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataSource } from '@angular/cdk/table';
 import { NovedadService } from '../novedad.service';
 import { FuseUtils } from '@fuse/utils';
+import { NovXComponenteFormDialogComponent } from '../nov_x_componente_form/nov_x_componente_form.component';
 
 @Component({
     selector     : 'novequipos',
@@ -115,6 +116,7 @@ export class NovEquiposComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(data => {
                 this.periodos = data;
+                this._defineDate();
             });
 
         this._defineDate(); // En un futuro se usara el valor enviado por url
@@ -143,10 +145,6 @@ export class NovEquiposComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
-    // buscarXFiltro(dato): void {
-    //     this._router.navigate(['novedades/equipos/' + dato.value]);
-    // }
-
     buscarXFiltro(elemento): void {
         this.seleccionado = elemento.cod;
         this.filtroAMostrar = elemento.valor;
@@ -167,6 +165,46 @@ export class NovEquiposComponent implements OnInit, OnDestroy
         const aux: any[] = FuseUtils.filterArrayByString(this.listOrigenes, this.seleccionado);
         this.filtroAMostrar = (aux.length) ? aux[0].valor : '';
     }
+
+    addNovedad(): void {
+        this.dialogRef = this._matDialog.open(NovXComponenteFormDialogComponent, {
+            panelClass: 'NovXComponente-form-dialog',
+            data: {
+                periodo: this.periodoSelect,
+                periodos: this.periodos,
+                invocador: this.componente,
+                action: 'new'
+            }
+        });
+
+        this.dialogRef.afterClosed()
+            .subscribe(response => {
+                if (!response) {
+                    return;
+                }
+                const actionType: string = response[0];
+                const formData: FormGroup = response[1];
+                switch (actionType) {
+                    /**
+                     * Save
+                     */
+                    case 'save':
+
+                        //         this..updateContact(formData.getRawValue());
+
+                        break;
+                    /**
+                     * Delete
+                     */
+                    case 'delete':
+
+                        // this.deleteContact(colaborador);
+
+                        break;
+                }
+            });
+    }
+
 }
 
 

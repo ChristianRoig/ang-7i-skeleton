@@ -26,7 +26,7 @@ import { ColaboradoresModule } from './main/colaboradores/equipo/equipo.module';
 import { ColaboradorFormModule } from './main/colaboradores/colaborador-form/colaborador-form.module';
 import { NominaModule } from './main/colaboradores/nomina/nomina.module';
 
-import { NovedadesFormModule } from './main/novedades/novedades-form/novedad-form.module';
+
 import { ControlNovedadesModule } from './main/novedades/control-novedades/control-novedades.module';
 import { NovEquiposModule } from './main/novedades/novedades_equipos/nov-equipo.module';
 
@@ -43,6 +43,7 @@ import { NovedadesModule } from './main/novedades/novedades_sector/novedades.mod
 import { ImportarFormModule } from './main/novedades/importar-form/importar-form.module';
 import { LogoutModule } from './main/authentication/logout/logout.module';
 import { CombosService } from './main/common/combos/combos.service';
+import { NovXComponenteFormModule } from './main/novedades/nov_x_componente_form/nov_x_componente_form.module';
 
 
 
@@ -107,9 +108,10 @@ const appRoutes: Routes = [
         NovedadesModule,
         NovEquiposModule,
         ControlNovedadesModule,
-        // ImportarFormModule,        
-        // NovedadesFormModule,        
+        ImportarFormModule,        
+              
 
+        NovXComponenteFormModule,
         ErrorModule
 
 

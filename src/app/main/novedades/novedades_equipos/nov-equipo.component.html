@@ -110,9 +110,7 @@
             <!-- CONTENT -->
             <div class="content">
 
-
-                <data-list-novedades [displayedColumns]="columnas"  [hasCheck]="false" [invocador]="componente" [dataSource]="dataSource"></data-list-novedades>
-            
+                <data-list-novedades [displayedColumns]="columnas"  [hasCheck]="false" [periodoSelect]="periodoSelect" [periodos]="periodos" [invocador]="componente" [dataSource]="dataSource"></data-list-novedades>            
             
             </div>
             <!-- / CONTENT -->
@@ -122,12 +120,13 @@
 
     </div>
     <!-- / CONTENT-->
+    
+    <!-- ADD NOVEDAD BUTTON -->
+    <button mat-fab class="accent addNovedad" id="addNovedadButton" (click)="addNovedad()" aria-label="add-novedad"
+            [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+        <mat-icon>account_box</mat-icon>
+    </button> 
+    <!-- / ADD NOVEDAD BUTTON -->
 
 </div>
 
-<!-- ADD CONTACT BUTTON -->
-<!-- <button mat-fab class="accent" id="add-contact-button" (click)="newContact()" aria-label="add contact"
-        [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
-    <mat-icon>person_add</mat-icon>
-</button> -->
-<!-- / ADD CONTACT BUTTON -->

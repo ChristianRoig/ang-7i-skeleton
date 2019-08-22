@@ -76,11 +76,7 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
             .subscribe(data => {
                 this.periodos = data;
             });
-
-        const auxP = new Date();
-        const actual = '1/' + (auxP.getMonth() + 1) + '/' + auxP.getFullYear();
-        const pSelect = FuseUtils.filterArrayByString(this.periodos, actual);
-        this.periodoSelect = (this.periodos.length !== 0) ? pSelect[0].valor : '';
+        this._defineDate(); // En un futuro se usara el valor enviado por url
 
 
         
@@ -181,7 +177,14 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
 
     }
 
-    
+    private _defineDate(data?: string): void {
+        if (data) {
+            const pSelect = FuseUtils.filterArrayByString(this.periodos, data);
+            this.periodoSelect = (this.periodos.length !== 0) ? pSelect[0].valor : '';
+        } else {
+            this.periodoSelect = (this.periodos.length !== 0) ? this.periodos[0].valor : ''; //El primero siempre es el Actual
+        }
+    }
 
 }
 

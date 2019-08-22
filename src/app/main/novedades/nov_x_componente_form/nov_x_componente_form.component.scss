@@ -1,7 +1,6 @@
 @import "src/@fuse/scss/fuse";
 
-.novedad-form-dialog {
-    width: 300px;
+.NovXComponente-form-dialog {
 
     @include media-breakpoint('xs') {
         width: 100%;
@@ -28,22 +27,20 @@
         max-height: 85vh;
         display: flex;
         flex-direction: column;
-    }
-}
 
-span {
-    &.mat-option-text {
-
-        .img-list {
-            vertical-align: middle;
-        }
-        
-        p {
-            &.p-list {
-                margin: 0;
-                display: inline-block;
-            }        
+        form {
+            #switch {
+                margin: .25em 0;
+                padding-bottom: 1.34375em;
+            }
         }
 
+        .example-month-picker .mat-calendar-period-button {
+            pointer-events: none;
+        }
+
+        .example-month-picker .mat-calendar-arrow {
+            display: none;
+        }
     }
 }

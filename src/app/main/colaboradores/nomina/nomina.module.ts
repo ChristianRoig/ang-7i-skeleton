@@ -14,7 +14,7 @@ import { NominaService } from './nomina.service';
 import { AuthGuard } from 'app/main/authentication/auth.guard';
 
 const routes: Routes = [
-    { path: 'nomina', redirectTo: 'nomina/GrupoFava', },
+    { path: 'nomina', redirectTo: 'nomina/FavaHnos', },
     {
         path: 'nomina',
         canActivate: [AuthGuard],

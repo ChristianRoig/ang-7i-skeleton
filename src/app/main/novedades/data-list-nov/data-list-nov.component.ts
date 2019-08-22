@@ -1,19 +1,12 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { DataSource } from '@angular/cdk/collections';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
-
-import { ColaboradoresContactFormDialogComponent } from 'app/main/colaboradores/colaborador-form/colaborador-form.component';
 import { Router } from '@angular/router';
-
-import { NovedadesFormDialogComponent } from '../../novedades/novedades-form/novedad-form.component';
 import { ImportarFormDialogComponent } from '../importar-form/importar-form.component';
-import { Perfil } from 'app/main/perfil/perfil.model';
+import { NovXComponenteFormDialogComponent } from '../nov_x_componente_form/nov_x_componente_form.component';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -39,17 +32,21 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
 
     @Input() dataSource;
 
+    @Input() periodoSelect;
+
+    @Input() periodos;
+
     selectedContacts: any[];
     checkboxes: {};
 
     dialogRef: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
 
-    dialogRefImportar: any;
-    confirmDialogRefImportar: MatDialogRef<FuseConfirmDialogComponent>;
+    // dialogRefImportar: any;
+    // confirmDialogRefImportar: MatDialogRef<FuseConfirmDialogComponent>;
 
-    dialogRefNovedades: any;
-    confirmDialogRefNovedades: MatDialogRef<FuseConfirmDialogComponent>;
+    // dialogRefNovedades: any;
+    // confirmDialogRefNovedades: MatDialogRef<FuseConfirmDialogComponent>;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -94,89 +91,87 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    /**
-     * 
-     *
-     * @param colaborador
-     */
-    addNovedad(colaborador): void
-    {
-        this.dialogRef = this._matDialog.open(ColaboradoresContactFormDialogComponent, {
-            panelClass: 'colaborador-form-dialog',
-            data      : {
-                colaborador: colaborador,
-                action : 'new'
-            }
-        });
 
-        this.dialogRef.afterClosed()
-            .subscribe(response => {
-                if ( !response )
-                {
-                    return;
-                }
-                const actionType: string = response[0];
-                const formData: FormGroup = response[1];
-                switch ( actionType )
-                {
-                    /**
-                     * Save
-                     */
-                    case 'save':
+    // addNovedad(): void
+    // {
+    //     this.dialogRef = this._matDialog.open(NovXComponenteFormDialogComponent, {
+    //         panelClass: 'NovXComponente-form-dialog',
+    //         data      : {
+    //             periodo  : this.periodoSelect,
+    //             periodos : this.periodos,
+    //             invocador: this.invocador,
+    //             action   : 'new'
+    //         }
+    //     });
 
-               //         this..updateContact(formData.getRawValue());
+    //     this.dialogRef.afterClosed()
+    //         .subscribe(response => {
+    //             if ( !response )
+    //             {
+    //                 return;
+    //             }
+    //             const actionType: string = response[0];
+    //             const formData: FormGroup = response[1];
+    //             switch ( actionType )
+    //             {
+    //                 /**
+    //                  * Save
+    //                  */
+    //                 case 'save':
 
-                        break;
-                    /**
-                     * Delete
-                     */
-                    case 'delete':
+    //            //         this..updateContact(formData.getRawValue());
 
-                        // this.deleteContact(colaborador);
+    //                     break;
+    //                 /**
+    //                  * Delete
+    //                  */
+    //                 case 'delete':
 
-                        break;
-                }
-            });
-    }
+    //                     // this.deleteContact(colaborador);
+
+    //                     break;
+    //             }
+    //         });
+    // }
 
 
 
-    importar(): void {
-        this.dialogRefImportar = this._matDialog.open(ImportarFormDialogComponent, {
-            panelClass: 'importar-form-dialog',
-            data: {
-                // colaborador: colaborador,
-                // action: 'new'
-            }
-        });
+    // importar(): void {
+    //     this.dialogRefImportar = this._matDialog.open(ImportarFormDialogComponent, {
+    //         panelClass: 'importar-form-dialog',
+    //         data: {
+    //             // colaborador: colaborador,
+    //             // action: 'new'
+    //         }
+    //     });
 
-        this.dialogRefImportar.afterClosed()
-            .subscribe(response => {
-                if (!response) {
-                    return;
-                }
-                const actionType: string = response[0];
-                const formData: FormGroup = response[1];
-                switch (actionType) {
-                    /**
-                     * Save
-                     */
-                    case 'save':
+    //     this.dialogRefImportar.afterClosed()
+    //         .subscribe(response => {
+    //             if (!response) {
+    //                 return;
+    //             }
+    //             const actionType: string = response[0];
+    //             const formData: FormGroup = response[1];
+    //             switch (actionType) {
+    //                 /**
+    //                  * Save
+    //                  */
+    //                 case 'save':
 
-                        //         this..updateContact(formData.getRawValue());
+    //                     //         this..updateContact(formData.getRawValue());
 
-                        break;
-                    /**
-                     * Delete
-                     */
-                    case 'delete':
+    //                     break;
+    //                 /**
+    //                  * Delete
+    //                  */
+    //                 case 'delete':
 
-                        // this.deleteContact(colaborador);
+    //                     // this.deleteContact(colaborador);
 
-                        break;
-                }
-            });
-    }
+    //                     break;
+    //             }
+    //         });
+    // }
   
     goPerfil(data): void {
         // console.log(data);

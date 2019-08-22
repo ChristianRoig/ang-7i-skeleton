@@ -16,6 +16,15 @@
 
                 <mat-divider class="first"></mat-divider>
 
+                <div class="nav-item" aria-label="FavaHnos" (click)="changeFilter('FavaHnos')">                    
+                    <a  class="nav-link" matRipple 
+                        routerLink="/{{url}}/FavaHnos"                        
+                        [ngClass]="{'active accent':filterBy ==='FavaHnos'}">
+                                        
+                        <div class="title">Fava<strong>HNOS</strong></div>
+                    </a>
+                </div>
+                
                 <div class="nav-item" aria-label="FavaCard contacted" (click)="changeFilter('FavaCard')">
                     <a  class="nav-link" matRipple                     
                         routerLink="/{{url}}/FavaCard"
@@ -31,15 +40,6 @@
                         [ngClass]="{'active accent':filterBy ==='FavaNet'}">
 
                         <div class="title">Fava<strong>NET</strong></div>
-                    </a>
-                </div>
-
-                <div class="nav-item" aria-label="FavaHnos" (click)="changeFilter('FavaHnos')">                    
-                    <a  class="nav-link" matRipple 
-                        routerLink="/{{url}}/FavaHnos"                        
-                        [ngClass]="{'active accent':filterBy ==='FavaHnos'}">
-                                        
-                        <div class="title">Fava<strong>HNOS</strong></div>
                     </a>
                 </div>
 
