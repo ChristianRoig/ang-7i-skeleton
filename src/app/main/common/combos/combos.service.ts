@@ -124,7 +124,10 @@ export class CombosService
             this._createRequest(url)            
                 .subscribe(
                     (response: Combo[]) => {
-                        
+                        if (response == null) {
+                            response = [];
+                        }
+
                         response = response.map(res => {
                             return new Combo(res);
                         });
@@ -259,7 +262,7 @@ export class CombosService
             today.setMonth(today.getMonth() - index);
 
             arrPeriodo.push(new Combo({
-                'codigo': (today.getMonth() + 1) + '/' + today.getFullYear(),
+                'codigo': this._to2digit(today.getMonth() + 1) + '-' + today.getFullYear(),
                 'valor': today.toLocaleDateString('latn-ES', opt),
             }));
 
@@ -267,6 +270,10 @@ export class CombosService
         }
         
         return arrPeriodo;
+    }
+
+    private _to2digit(n: number): string {
+        return ('00' + n).slice(-2);
     }
 
 }

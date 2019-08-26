@@ -1,6 +1,9 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Observable } from 'rxjs';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { LoginService } from '../../authentication/login-2/login-2.service';
 
 @Component({
     selector     : 'importar-form-dialog',
@@ -15,6 +18,10 @@ export class ImportarFormDialogComponent
     ImportarForm: FormGroup;
     dialogTitle: string;
 
+    private periodo = '';
+    private origen = '';
+
+    respuesta = '';
     /**
      * Constructor
      *
@@ -24,14 +31,21 @@ export class ImportarFormDialogComponent
      */
     constructor(
         public matDialogRef: MatDialogRef<ImportarFormDialogComponent>,
-        // @Inject(MAT_DIALOG_DATA) private _data: any,
-        private _formBuilder: FormBuilder
+        @Inject(MAT_DIALOG_DATA) private _data: any,
+        private _formBuilder: FormBuilder,
+        private _loginService: LoginService,
+        private _httpClient: HttpClient,
     )
     {
         // Set the defaults
         // this.action = _data.action;
 
         this.dialogTitle = 'Importar Novedades Externas';
+
+        this.periodo = _data.periodo || '';
+        this.origen = _data.origen || '';
+
+
         // this.contact = _data.contact;
 
         // if ( this.action === 'edit' )
@@ -45,6 +59,8 @@ export class ImportarFormDialogComponent
         //     this.contact = _data.contact || new Contact({});
             
         // }
+
+
 
         this.ImportarForm = this.createImportarForm();
     }
@@ -75,7 +91,7 @@ export class ImportarFormDialogComponent
                 const data = fileReader.result.toString();
                 // console.log(data);
                 this.ImportarForm.controls['texto'].setValue(data);
-            }
+            };
 
             fileReader.readAsText(fileList[0]);
         
@@ -85,6 +101,38 @@ export class ImportarFormDialogComponent
 
     onSubmit(): void {
         console.log(this.ImportarForm);
-        this.matDialogRef.close();
+
+        console.log(this.ImportarForm.controls['texto'].value);
+        
+        this._createRequest()
+            .subscribe((response: any) => {
+                console.log(response);
+                this.respuesta = response;
+        });
+
+
+        // this.matDialogRef.close();
     }
+
+    private _createRequest(): Observable<any> | any {
+        const httpHeaders = new HttpHeaders({
+            'Authorization': this._loginService.getLocalToken()
+        });
+
+        const options = {
+            headers: httpHeaders,
+            responseType: 'text' as 'text'
+        };
+        
+        const params = {
+            // 'origen': this.origen,
+            // 'periodo': this.periodo,
+            'contenido': this.ImportarForm.controls['texto'].value,
+        };
+        
+        const url = 'http://10.100.58.83:8083/ges-rrhh-svc/test';
+
+        return this._httpClient.post(url, params, options);
+    }
+    
 }

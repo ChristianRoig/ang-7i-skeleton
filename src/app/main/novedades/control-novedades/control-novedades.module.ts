@@ -16,7 +16,7 @@ import { AuthGuard } from 'app/main/authentication/auth.guard';
 
 
 const routes: Routes = [
-    { path: 'novedades/control', redirectTo: 'novedades/control/GrupoFava' },
+    { path: 'novedades/control', redirectTo: 'novedades/control/FavaHnos' },
 
     { path: 'novedades/control/GrupoFava', canActivate: [AuthGuard], component: ControlNovedadesComponent, resolve: { novedades: NovedadService } },
     { path: 'novedades/control/FavaCard',  canActivate: [AuthGuard], component: ControlNovedadesComponent, resolve: { novedades: NovedadService } },

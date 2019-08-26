@@ -119,7 +119,7 @@ export class NovEquiposComponent implements OnInit, OnDestroy
                 this._defineDate();
             });
 
-        this._defineDate(); // En un futuro se usara el valor enviado por url
+        this._defineDate();
 
 
         this.dataSource = new FilesDataSource(this._novedadService);
@@ -152,12 +152,20 @@ export class NovEquiposComponent implements OnInit, OnDestroy
         this._router.navigate(['novedades/equipos/' + elemento.cod]);
     }
 
-    private _defineDate(data?: string): void {
+    filtrarXPeriodo(elemento): void {
+        this.periodoSelect = elemento.valor;
+
+        this._novedadService.onfilterPeriodoChanged.next(elemento.cod);
+    }
+
+    private _defineDate(data?: string): void { // En un futuro puede que se usara un valor enviado por url
         if (data){
             const pSelect = FuseUtils.filterArrayByString(this.periodos, data);
             this.periodoSelect = (this.periodos.length !== 0) ? pSelect[0].valor : '';
+            this._novedadService.onfilterPeriodoChanged.next((this.periodos.length !== 0) ? pSelect[0].cod : '');
         }else{
-            this.periodoSelect = (this.periodos.length !== 0) ? this.periodos[0].valor : ''; //El primero siempre es el Actual
+            this.periodoSelect = (this.periodos.length !== 0) ? this.periodos[0].valor : ''; // El primero siempre es el Actual
+            this._novedadService.onfilterPeriodoChanged.next((this.periodos.length !== 0) ? this.periodos[0].cod : '');
         }
     }
 

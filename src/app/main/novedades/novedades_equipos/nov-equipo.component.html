@@ -57,7 +57,7 @@
                 </button>
             
                 <mat-menu #projectsMenuPeriodo="matMenu">
-                    <button mat-menu-item *ngFor="let elemento of periodos" (click)="periodoSelect = elemento.valor">
+                    <button mat-menu-item *ngFor="let elemento of periodos" (click)="filtrarXPeriodo(elemento)">
                         <span>{{elemento.valor}}</span>
                     </button>
                 </mat-menu>
