@@ -167,16 +167,19 @@ export class EquipoService implements Resolve<any>
         return new Promise((resolve, reject) => {
                 this._createRequest(url)
                     .subscribe((response: Perfil[]) => {
+                        if (response == null) {
+                            response = [];
+                        }
     
-                    this.colaboradores = response;
-    
-                    this.colaboradores = this.colaboradores.map(contact => {
-                        return new Perfil(contact);
-                    });
-    
-                    this.onColaboradoresChanged.next(this.colaboradores); 
-    
-                    resolve(this.colaboradores);
+                        this.colaboradores = response;
+        
+                        this.colaboradores = this.colaboradores.map(contact => {
+                            return new Perfil(contact);
+                        });
+        
+                        this.onColaboradoresChanged.next(this.colaboradores); 
+        
+                        resolve(this.colaboradores);
     
                 }, reject);
             }

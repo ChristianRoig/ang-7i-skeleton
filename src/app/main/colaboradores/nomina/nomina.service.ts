@@ -140,6 +140,10 @@ export class NominaService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._createRequest(url)
                 .subscribe((response: Perfil[]) => {
+                    if (response == null) {
+                        response = [];
+                    }
+
                     this.colaboradores = response;
 
                     this.colaboradores = this.colaboradores.map(contact => {
