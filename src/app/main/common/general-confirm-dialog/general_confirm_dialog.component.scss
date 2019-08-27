@@ -1,0 +1,55 @@
+@import "src/@fuse/scss/fuse";
+
+.general-confirm-dialog {
+
+    @include media-breakpoint('xs') {
+        width: 100%;
+    }
+
+    @include media-breakpoint('gt-xs') {
+        width: 400px;
+    }
+
+    .mat-dialog-container {
+        padding: 0;
+
+        .mat-toolbar {
+            flex: 1 0 auto;
+            min-height: initial;
+        }
+
+        .toolbar-bottom {
+            height: auto;
+        }
+    }
+
+    .mensaje {
+        font-size: 18px;
+    }
+
+    .botones {
+        .boton {
+            width: 100%;
+            padding: 5px 0;
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 20px;
+            border-radius: 0;
+    
+            &.aceptar-button {
+                background-color: #009846;
+            }
+
+            &.cancelar-button {
+                background-color: #e53935;
+            }
+        }
+        
+    }
+
+    .dialog-content-wrapper {
+        display: flex;
+        flex-direction: column;       
+    }
+}
