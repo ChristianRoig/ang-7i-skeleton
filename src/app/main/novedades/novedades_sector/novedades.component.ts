@@ -97,7 +97,7 @@ export class NovedadesComponent implements OnInit, OnDestroy
             this.seleccionado = params.filtro;
 
             if (this.seleccionado === '' || this.seleccionado == null || this.seleccionado === ' ') {
-                this.seleccionado = 'Adela';
+                this.seleccionado = 'Antici';
 
                 this._router.navigate(['novedades/sectores/' + this.seleccionado]);
             }
