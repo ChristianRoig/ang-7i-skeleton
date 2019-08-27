@@ -217,41 +217,23 @@ export class NovedadesComponent implements OnInit, OnDestroy
     }
 
     importar(): void {
+        const auxPeriodo = FuseUtils.filterArrayByString(this.periodos, this.periodoSelect);
+
         this.dialogRefImportar = this._matDialog.open(ImportarFormDialogComponent, {
             panelClass: 'importar-form-dialog',
             data: {
-                periodo: this.periodoSelect,
-                origen: this.seleccionado,
-                // action: 'new'
+                periodo: (auxPeriodo.length !== 0) ? auxPeriodo[0].cod : '',
+                origen: this.filtroAMostrar,
             }
         });
 
-        this.dialogRefImportar.afterClosed()
-            .subscribe(response => {
-                if (!response) {
-                    return;
-                }
-                const actionType: string = response[0];
-                const formData: FormGroup = response[1];
-                switch (actionType) {
-                    /**
-                     * Save
-                     */
-                    case 'save':
-
-                        //         this..updateContact(formData.getRawValue());
-
-                        break;
-                    /**
-                     * Delete
-                     */
-                    case 'delete':
-
-                        // this.deleteContact(colaborador);
-
-                        break;
-                }
-            });
+        // Realizo la actualizacion en el propio importar
+        // this.dialogRefImportar.afterClosed()
+        //     .subscribe(response => {
+        //         if (!response) {
+        //             return;
+        //         }               
+        //     });
     }
 
 
