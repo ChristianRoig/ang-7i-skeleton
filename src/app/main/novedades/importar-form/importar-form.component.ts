@@ -103,12 +103,13 @@ export class ImportarFormDialogComponent
         console.log(this.ImportarForm);
 
         console.log(this.ImportarForm.controls['texto'].value);
-        
-        this._createRequest()
-            .subscribe((response: any) => {
-                console.log(response);
-                this.respuesta = response;
-        });
+
+        this.respuesta = 'Novedades importadas: 112 de 114. Errores: 2. Chekcsum = 14.253,15'; // Mock
+        // this._createRequest()
+        //     .subscribe((response: any) => {
+        //         console.log(response);
+        //         this.respuesta = response;
+        // });
 
 
         // this.matDialogRef.close();

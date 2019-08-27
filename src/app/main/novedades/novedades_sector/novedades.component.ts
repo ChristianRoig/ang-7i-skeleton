@@ -14,7 +14,7 @@ import { DataSource } from '@angular/cdk/table';
 import { FuseUtils } from '@fuse/utils';
 import { NovXComponenteFormDialogComponent } from '../nov_x_componente_form/nov_x_componente_form.component';
 import { ImportarFormDialogComponent } from '../importar-form/importar-form.component';
-import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
+import { GeneralConfirmDialogComponent } from 'app/main/common/general-confirm-dialog/general_confirm_dialog.component';
 
 @Component({
     selector     : 'sector',
@@ -50,8 +50,7 @@ export class NovedadesComponent implements OnInit, OnDestroy
     periodoSelect = '';
 
 
-    dialogRefImportar: any;
-    confirmDialogRefImportar: MatDialogRef<FuseConfirmDialogComponent>;
+    dialogRefImportar: any;    
 
     
     private _unsubscribeAll: Subject<any>;
@@ -250,6 +249,38 @@ export class NovedadesComponent implements OnInit, OnDestroy
 
                         // this.deleteContact(colaborador);
 
+                        break;
+                }
+            });
+    }
+
+
+    borrarTodos(): void {
+        this.dialogRef = this._matDialog.open(GeneralConfirmDialogComponent, {
+            panelClass: 'general-confirm-dialog',
+            data: {
+                dialogTitle: 'Borrar todas las novedades',
+                mensaje: '¿Esta seguro que quiere eliminar todas las novedades del periodo ' + this.periodoSelect + '?',
+            }
+        });
+
+        this.dialogRef.afterClosed()
+            .subscribe(response => {
+                if (!response) {
+                    return;
+                }
+                const actionType: string = response[0];
+
+                console.log(actionType);
+                
+                switch (actionType) {
+
+                    case 'aceptar':
+                        console.log('Desea eliminar');                        
+                        break;
+
+                    case 'cancelar':
+                        console.log('NO Desea eliminar');                        
                         break;
                 }
             });
