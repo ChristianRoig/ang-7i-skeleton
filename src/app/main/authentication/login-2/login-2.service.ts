@@ -92,8 +92,9 @@ export class LoginService
             this._createRequest(username, password)
                 .subscribe(
                     (info: ResponseLogin) => {
-                        info = new ResponseLogin(info);
-                                 
+                        info = new ResponseLogin(info);                                 
+                        
+
                         if (info.token != null){
                             let expirar = new Date();
 
@@ -114,6 +115,7 @@ export class LoginService
 
                                                     this._cookieService.set(user, JSON.stringify(perf), expirar);
                                                     
+                                                    this.info = info;
                                                     this.infoOnChanged.next(this.info);
                                                     this.perfilLogOnChanged.next(this.perfilLog);
 
@@ -135,7 +137,7 @@ export class LoginService
                         }   
                                                
                     }, 
-                    (err) => {                                
+                    (err) => {
                         this._defineError();
                     }
                 );

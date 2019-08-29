@@ -81,17 +81,15 @@ export class Login2Component implements OnInit, OnDestroy
             .subscribe(info => {
 
                 if (info){
-                    this.info = info;
-                    this.errorLog = false;
-                    
+                    this.info = info;                    
+
                     if (info === 'error'){
+                        console.log('error sistema');
                         this.error = true; // Error Sistema
-                    }else {
-                        this.error = false;
-                        this.info = info;
-                    }                                            
+                    }
+                                                     
                 } else { // null
-                    this.error = false;
+                    console.log('error log');                                        
                     this.errorLog = true;
                 }
         
