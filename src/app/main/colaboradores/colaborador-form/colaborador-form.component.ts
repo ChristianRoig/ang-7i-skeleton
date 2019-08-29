@@ -15,17 +15,6 @@ import { Perfil } from 'app/main/perfil/perfil.model';
 
 const moment = _moment;
 
-// export const mes_año = {
-//     parse: {
-//         dateInput: 'MM/YYYY',
-//     },
-//     display: {
-//         dateInput: 'MM/YYYY',
-//         monthYearLabel: 'MMM YYYY',
-//         dateA11yLabel: 'LL',
-//         monthYearA11yLabel: 'MMMM YYYY',
-//     },
-// };
 
 export const dia_mes_año = {
     parse: {
@@ -271,8 +260,8 @@ export class ColaboradoresContactFormDialogComponent
             avatar                   : [this.colaborador.img],            
             company                  : [this.colaborador.empresa],
             datePeriodo              : new FormControl({ value: this._to2digit(hoy.getMonth() + 1) + '/' + hoy.getFullYear(), disabled: true }),
-            dateDesde                : hoy,
-            dateHasta                : hoy,
+            dateDesde                : '',
+            dateHasta                : '',
             cantidad                 : '',
             concepto_cuantitativos   : '',
             concepto_cualitativos    : '',            

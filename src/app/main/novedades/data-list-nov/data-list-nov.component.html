@@ -1,14 +1,3 @@
-<div *ngIf="invocador === 'novedades'" class="botones">
-    <button mat-raised-button color="accent" class="button" aria-label="agregar novedad" (click)="addNovedad()">
-        <mat-icon>add_circle_outline</mat-icon>
-        <span>Novedad</span>            
-    </button>
-    <button mat-raised-button color="accent" class="button" aria-label="Importar novedades externas" (click)="importar()">
-        <mat-icon>add_circle_outline</mat-icon>
-        <span>Importar Novedades Externas</span>
-    </button>
-</div>
-
 <div class="lista">
     <mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}">
 
@@ -103,20 +92,15 @@
                     </button>
 
                     <mat-menu #moreMenu="matMenu">                        
-                        <button mat-menu-item aria-label="add-novedades" (click)="test()" *ngIf="false">
-                            <mat-icon>add_circle_outline</mat-icon>
-                            <span>TEST</span>
+                        
+                        <button mat-menu-item aria-label="Editar" title="Editar">
+                            <mat-icon>edit</mat-icon>
+                            <span>Editar</span>
                         </button>
-
-                        <button mat-menu-item aria-label="Ver Perfil" (click)="goPerfil(data)" *ngIf="false">
-                            <mat-icon>account_circle</mat-icon>
-                            <span>Ver Perfil</span>
+                        <button mat-menu-item aria-label="Eliminar" title="Eliminar">
+                            <mat-icon>delete</mat-icon>
+                            <span>Eliminar</span>
                         </button>
-
-                        <!-- <button mat-menu-item aria-label="add-novedades" (click)="addNovedad()" *ngIf="invocador != 'ControlNovedades'">
-                            <mat-icon>add_circle_outline</mat-icon>
-                            <span>Novedad</span>
-                        </button> -->
 
                     </mat-menu>
                 </div>
