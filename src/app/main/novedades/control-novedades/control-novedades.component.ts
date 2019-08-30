@@ -92,34 +92,6 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
                 this._novedadService.onSearchTextChanged.next(searchText);
             });
 
-        // this._activeRouter.params.subscribe(params => {
-
-        //     this.param = params.id;
-
-        //     if (this.param === '' || this.param == null || this.param === ' ') {
-        //         this.param = 'all';
-        //         this._router.navigate(['novedades/control/' + this.param]);
-        //     }
-
-        // });    
-
-        // this._controlNovedadesService.onFilterChanged.next('all');
-
-        // this._controlNovedadesService.onSelectedContactsChanged
-        //     .pipe(takeUntil(this._unsubscribeAll))
-        //     .subscribe(selectedContacts => {
-        //         this.hasSelectedContacts = selectedContacts.length > 0;
-        //     });
-
-        // this.searchInput.valueChanges
-        //     .pipe(
-        //         takeUntil(this._unsubscribeAll),
-        //         debounceTime(300),
-        //         distinctUntilChanged()
-        //     )
-        //     .subscribe(searchText => {
-        //         this._controlNovedadesService.onSearchTextChanged.next(searchText);
-        //     });
     }
 
 
@@ -158,11 +130,11 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
 
     }
 
-    changeColumns(value: string): void {
-
-        
-
-    }
+    // changeColumns(value: string): void {
+    //    // No se realizan cambios de columnas 
+    //    // en caso que sea necesario agregar (isFilterNov)="changeColumns($event)"
+    //    // en el control-novedades.component.html en <general-main-sidebar></general-main-sidebar>    
+    // }
 
     filtrarXPeriodo(elemento): void {
         this.periodoSelect = elemento.valor;
