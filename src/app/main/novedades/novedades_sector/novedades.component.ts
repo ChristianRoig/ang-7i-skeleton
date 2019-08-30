@@ -226,14 +226,6 @@ export class NovedadesComponent implements OnInit, OnDestroy
                 origen: this.filtroAMostrar,
             }
         });
-
-        // Realizo la actualizacion en el propio importar
-        // this.dialogRefImportar.afterClosed()
-        //     .subscribe(response => {
-        //         if (!response) {
-        //             return;
-        //         }               
-        //     });
     }
 
 
@@ -242,7 +234,7 @@ export class NovedadesComponent implements OnInit, OnDestroy
             panelClass: 'general-confirm-dialog',
             data: {
                 dialogTitle: 'Borrar todas las novedades',
-                mensaje: '¿Esta seguro que quiere eliminar todas las novedades del periodo ' + this.periodoSelect + '?',
+                mensaje: '¿Esta seguro que quiere eliminar todas las novedades del sector ' + this.filtroAMostrar + ' y periodo ' + this.periodoSelect + '?',
             }
         });
 
@@ -258,7 +250,13 @@ export class NovedadesComponent implements OnInit, OnDestroy
                 switch (actionType) {
 
                     case 'aceptar':
-                        console.log('Desea eliminar');                        
+                        console.log('Desea eliminar');     
+                        const aux = FuseUtils.filterArrayByString(this.periodos, this.periodoSelect);
+                        
+                        if (aux.length !== 0){
+                            this._novedadService.borrarAllNovedades(aux[0].cod, this.seleccionado);
+                        }
+                        
                         break;
 
                     case 'cancelar':

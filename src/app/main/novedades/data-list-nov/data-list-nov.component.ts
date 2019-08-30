@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
 import { ImportarFormDialogComponent } from '../importar-form/importar-form.component';
 import { NovXComponenteFormDialogComponent } from '../nov_x_componente_form/nov_x_componente_form.component';
 import { Subject } from 'rxjs';
+import { NovedadService } from '../novedad.service';
+import { Novedad } from '../novedad.model';
+import { GeneralConfirmDialogComponent } from 'app/main/common/general-confirm-dialog/general_confirm_dialog.component';
 
 
 @Component({
@@ -40,13 +43,6 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
     checkboxes: {};
 
     dialogRef: any;
-    confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-
-    // dialogRefImportar: any;
-    // confirmDialogRefImportar: MatDialogRef<FuseConfirmDialogComponent>;
-
-    // dialogRefNovedades: any;
-    // confirmDialogRefNovedades: MatDialogRef<FuseConfirmDialogComponent>;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -58,7 +54,8 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
      */
     constructor(        
         public _matDialog: MatDialog,
-        private router: Router
+        private router: Router,
+        private _novedadService: NovedadService
     )
     {
         // Set the private defaults
@@ -91,98 +88,59 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    /**
+     * borrarNovedad()
+     * Se encarga de borrar una novedad
+     * @param novedad 
+     */
+    borrarNovedad(novedad: Novedad): void {
 
-    // addNovedad(): void
-    // {
-    //     this.dialogRef = this._matDialog.open(NovXComponenteFormDialogComponent, {
-    //         panelClass: 'NovXComponente-form-dialog',
-    //         data      : {
-    //             periodo  : this.periodoSelect,
-    //             periodos : this.periodos,
-    //             invocador: this.invocador,
-    //             action   : 'new'
-    //         }
-    //     });
+        this.dialogRef = this._matDialog.open(GeneralConfirmDialogComponent, {
+            panelClass: 'general-confirm-dialog',
+            data: {
+                dialogTitle: 'Borrar Novedad',
+                mensaje: '¿Esta seguro que desea eliminar la novedad de ' 
+                         + this._capitalizar(novedad.nombre.toLowerCase()) 
+                         + ' (' + novedad.legajo + '), importe: $' + novedad.importe + '?',
+            }
+        });
 
-    //     this.dialogRef.afterClosed()
-    //         .subscribe(response => {
-    //             if ( !response )
-    //             {
-    //                 return;
-    //             }
-    //             const actionType: string = response[0];
-    //             const formData: FormGroup = response[1];
-    //             switch ( actionType )
-    //             {
-    //                 /**
-    //                  * Save
-    //                  */
-    //                 case 'save':
+        this.dialogRef.afterClosed()
+            .subscribe(response => {
+                if (!response) {
+                    return;
+                }
+                const actionType: string = response[0];
 
-    //            //         this..updateContact(formData.getRawValue());
+                console.log(actionType);
 
-    //                     break;
-    //                 /**
-    //                  * Delete
-    //                  */
-    //                 case 'delete':
+                switch (actionType) {
 
-    //                     // this.deleteContact(colaborador);
+                    case 'aceptar':
+                        // console.log('Desea eliminar');
+                        if (novedad.idNovedad){
+                            this._novedadService.borrarNovedad(novedad.idNovedad);
+                        }
 
-    //                     break;
-    //             }
-    //         });
-    // }
+                        break;
 
-
-
-    // importar(): void {
-    //     this.dialogRefImportar = this._matDialog.open(ImportarFormDialogComponent, {
-    //         panelClass: 'importar-form-dialog',
-    //         data: {
-    //             // colaborador: colaborador,
-    //             // action: 'new'
-    //         }
-    //     });
-
-    //     this.dialogRefImportar.afterClosed()
-    //         .subscribe(response => {
-    //             if (!response) {
-    //                 return;
-    //             }
-    //             const actionType: string = response[0];
-    //             const formData: FormGroup = response[1];
-    //             switch (actionType) {
-    //                 /**
-    //                  * Save
-    //                  */
-    //                 case 'save':
-
-    //                     //         this..updateContact(formData.getRawValue());
-
-    //                     break;
-    //                 /**
-    //                  * Delete
-    //                  */
-    //                 case 'delete':
-
-    //                     // this.deleteContact(colaborador);
-
-    //                     break;
-    //             }
-    //         });
-    // }
-  
-    goPerfil(data): void {
-        // console.log(data);
-
-        this.router.navigate([
-            'perfil/' + data.legajo                     
-        ]); 
+                    case 'cancelar':
+                        // console.log('NO Desea eliminar');
+                        break;
+                }
+            });
     }
 
-    test(): void{
-        console.log('funciona');
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * capitaliza todo un string
+     */
+    private _capitalizar(texto: string): string {
+        return texto.replace(/\b\w/g, l => l.toUpperCase());
     }
 
 

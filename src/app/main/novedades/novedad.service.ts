@@ -145,57 +145,6 @@ export class NovedadService implements Resolve<any>
     }
 
     /**
-     * _getCombos
-     * Realiza el llamado al servicio de combos para inicializar los combos necesarios
-     */
-    private _getCombos(): void {
-        this.ComboDepSuc = this._combosService.getCombo('dep-suc');        
-        this.onComboDepSucChanged.next(this.ComboDepSuc);
-
-        this.ComboExtRRHH = this._combosService.getCombo('ext-rrhh');
-        this.onComboExtRRHHChanged.next(this.ComboExtRRHH);
-
-        this.ComboPeriodo = this._combosService.getCombo('periodos');
-        this.onComboPeriodoChanged.next(this.ComboPeriodo);
-    }
-
-    /**
-     * _filterNovedades()
-     * Dependiendo del texto ingresado filtra el contenido del objeto novedades
-     */
-    private _filterNovedades(): void {
-        let aux = this.novedades;
-        if (this.searchText && this.searchText !== '') {
-            aux = FuseUtils.filterArrayByString(this.novedades, this.searchText);
-        }
-
-        this.onNovedadesChanged.next(aux);
-    }
-
-    /**
-     * _defineFilters()
-     * Define el filtro segun la url del componente que invoco al servicio
-     * @param {ActivatedRouteSnapshot} _r
-     */
-    private _defineFilters(_r: ActivatedRouteSnapshot): void {
-        
-        this.invocador = _r.routeConfig.path.split('/')[1];
-        this.filterBy = (_r.params.filtro) ? _r.params.filtro : _r.routeConfig.path.split('/')[2];
-        if (this.filterBy === ':filtro'){
-            this.filterBy = '';
-        }
-
-        if (this.filterPeriodo === ''){
-            const today = new Date();
-            this.filterPeriodo = ('00' + (today.getMonth() + 1)).slice(-2) + '-' + today.getFullYear();
-            this.onfilterPeriodoChanged.next(this.filterPeriodo);
-        }
-        
-        this.OnInvocadorChanged.next(this.invocador);
-        this.onFilterChanged.next(this.filterBy);
-    }
-
-    /**
      * getNovedades()
      * Conecta con el Backend para traer un conjunto de novedades segun los filtros
      * @returns {Promise<any>}
@@ -254,6 +203,106 @@ export class NovedadService implements Resolve<any>
 
     }
 
+ 
+    /**
+     * borrarNovedad()
+     * Elimina una novedad segun el id
+     * @param {string} id 
+     */
+    borrarNovedad(id: string): void{
+        const httpHeaders = new HttpHeaders({
+            'Authorization': this._loginService.getLocalToken()
+        });
+
+        const options = { headers: httpHeaders };
+        
+        const url = API_URL + 'novedad?id=' + id;
+
+        this._httpClient.delete(url, options).subscribe(
+            (res) => { this.getNovedades(); },
+            (err) => { console.log(err); }
+        );
+    }
+
+
+    /**
+     * borrarAllNovedades()
+     * encargado de eliminar todas las novedades segun un periodo y departamento/origen
+     * 
+     * @param {string} periodo
+     * @param {string} departamento
+     */
+    borrarAllNovedades(periodo: string, departamento: string): void {        
+        const httpHeaders = new HttpHeaders({
+            'Authorization': this._loginService.getLocalToken()
+        });
+
+        const options = { headers: httpHeaders };
+        
+        const url = API_URL + 'novedades?departamento=' + departamento + '&periodo=' + periodo;
+
+        this._httpClient.delete(url, options).subscribe(
+            (res) => { this.getNovedades(); },
+            (err) => { console.log(err); }
+        );
+
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * _getCombos
+     * Realiza el llamado al servicio de combos para inicializar los combos necesarios
+     */
+    private _getCombos(): void {
+        this.ComboDepSuc = this._combosService.getCombo('dep-suc');
+        this.onComboDepSucChanged.next(this.ComboDepSuc);
+
+        this.ComboExtRRHH = this._combosService.getCombo('ext-rrhh');
+        this.onComboExtRRHHChanged.next(this.ComboExtRRHH);
+
+        this.ComboPeriodo = this._combosService.getCombo('periodos');
+        this.onComboPeriodoChanged.next(this.ComboPeriodo);
+    }
+
+    /**
+     * _filterNovedades()
+     * Dependiendo del texto ingresado filtra el contenido del objeto novedades
+     */
+    private _filterNovedades(): void {
+        let aux = this.novedades;
+        if (this.searchText && this.searchText !== '') {
+            aux = FuseUtils.filterArrayByString(this.novedades, this.searchText);
+        }
+
+        this.onNovedadesChanged.next(aux);
+    }
+
+    /**
+     * _defineFilters()
+     * Define el filtro segun la url del componente que invoco al servicio
+     * @param {ActivatedRouteSnapshot} _r
+     */
+    private _defineFilters(_r: ActivatedRouteSnapshot): void {
+
+        this.invocador = _r.routeConfig.path.split('/')[1];
+        this.filterBy = (_r.params.filtro) ? _r.params.filtro : _r.routeConfig.path.split('/')[2];
+        if (this.filterBy === ':filtro') {
+            this.filterBy = '';
+        }
+
+        if (this.filterPeriodo === '') {
+            const today = new Date();
+            this.filterPeriodo = ('00' + (today.getMonth() + 1)).slice(-2) + '-' + today.getFullYear();
+            this.onfilterPeriodoChanged.next(this.filterPeriodo);
+        }
+
+        this.OnInvocadorChanged.next(this.invocador);
+        this.onFilterChanged.next(this.filterBy);
+    }
+
     /**
      * Crea el llamado a los servicios de back
      * @param {string} url     
@@ -264,7 +313,7 @@ export class NovedadService implements Resolve<any>
         });
 
         const options = { headers: httpHeaders };
-        
+
         return this._httpClient.get(url, options);
     }
 

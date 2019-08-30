@@ -89,6 +89,11 @@ data-list-colaboradores, data-list-novedades {
                             p {
                                 &.status {
                                     margin: 0;
+                                    opacity: 0.7;
+                             
+                                    &:hover {
+                                        opacity: 1;
+                                    }
                                 }
                             }
                         }
@@ -99,13 +104,14 @@ data-list-colaboradores, data-list-novedades {
                         &.Docket {
                             font-weight: bold;
                         }
+
                         &.status {                            
                             padding: 4px;
                             font-weight: bold;
                             border-radius: 5px;
                             color: white;
                             text-transform: uppercase;
-                            opacity: 0.7;
+                      
 
                             &.modificado, &.CONFIRMAR {
                                 background-color: #ff9800;
@@ -115,13 +121,11 @@ data-list-colaboradores, data-list-novedades {
                                 background-color: #4caf50;
                             }
 
-                            &.ELIMINADO {
+                            &.eliminado, &.ELIMINADO {
                                 background-color: #b71c1c;
                             }
 
-                            &:hover {
-                                opacity: 1;
-                            }
+                            
                         }
                         &.novedades {
                             background-color: #e53935;

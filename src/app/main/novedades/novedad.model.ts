@@ -1,6 +1,8 @@
 import { FuseUtils } from '@fuse/utils';
 
 export class Novedad {
+    
+    idNovedad: string;
     empresa: string;
     descripcion: string;
     fecha_desde: string;
@@ -27,7 +29,8 @@ export class Novedad {
      *
      * @param novedad
      */
-    constructor(novedad) {       
+    constructor(novedad) {
+        this.idNovedad = novedad.idNovedad || null;
         this.nombre = novedad.nombre || '';
         this.legajo = novedad.legajo || '-';
         this.origen = novedad.origen || '';
