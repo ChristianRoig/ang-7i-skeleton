@@ -80,10 +80,7 @@ export class NovedadService implements Resolve<any>
      * @param {RouterStateSnapshot} state
      * @returns {Observable<any> | Promise<any> | any}
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-
-        // this._defineFilters(route);
-
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {        
         return new Promise((resolve, reject) => {
 
             Promise.all([
@@ -103,6 +100,7 @@ export class NovedadService implements Resolve<any>
                         this._filterNovedades();
                     });
 
+                    // Filtro por periodo, este impacta directamente en el llamado a la base de datos
                     this.onfilterPeriodoChanged.subscribe(periodo => {
                         if (periodo !== undefined && periodo !== this.filterPeriodo){
                             this.filterPeriodo = periodo;
@@ -110,6 +108,7 @@ export class NovedadService implements Resolve<any>
                         }                        
                     });
 
+                    // Combos Service
                     this._combosService.onComboOrigenDep_SucChanged.pipe(takeUntil(this._unsubscribeAll))
                         .subscribe(data => {
                             this.ComboDepSuc = data;
@@ -135,18 +134,20 @@ export class NovedadService implements Resolve<any>
                     this.novedades = [];
                     this.onNovedadesChanged.next(this.novedades);
 
-                    // this.filterBy = 'GrupoFava';
-                    // this.onFilterChanged.next(this.filterBy);
-
+                    // llamado al error service
                     this._errorService.errorHandler(error);
 
                     resolve(this.novedades);
-                    // resolve(this.filterBy);
+                    
                 }
             );
         });
     }
 
+    /**
+     * _getCombos
+     * Realiza el llamado al servicio de combos para inicializar los combos necesarios
+     */
     private _getCombos(): void {
         this.ComboDepSuc = this._combosService.getCombo('dep-suc');        
         this.onComboDepSucChanged.next(this.ComboDepSuc);
@@ -184,18 +185,14 @@ export class NovedadService implements Resolve<any>
             this.filterBy = '';
         }
 
-
         if (this.filterPeriodo === ''){
             const today = new Date();
             this.filterPeriodo = ('00' + (today.getMonth() + 1)).slice(-2) + '-' + today.getFullYear();
             this.onfilterPeriodoChanged.next(this.filterPeriodo);
         }
-
         
         this.OnInvocadorChanged.next(this.invocador);
         this.onFilterChanged.next(this.filterBy);
-
-
     }
 
     /**
@@ -217,42 +214,24 @@ export class NovedadService implements Resolve<any>
             return;
         }
 
+        console.log('invocador: ' + this.invocador);
+        console.log('filterBy: ' + this.filterBy);
+        console.log('filterPeriodo: ' + this.filterPeriodo);
+
         if (this.invocador === 'control') {
-
-
-            console.log('invocador: ' + this.invocador);
-            console.log('filterBy: ' + this.filterBy);
-            console.log('filterPeriodo: ' + this.filterPeriodo);
-
-            // Mock
-                const mock = 'api/contactos-novSector'; // Mando cualquier mock en el model se completa el estatus
-                url = mock;
-            // Fin Mock
+            if (this.filterBy === 'GrupoFava'){
+                url = url + 'novedades';
+                console.log(url);
+            }else{
+                url = url + 'novedades?empresa=' + this.filterBy + '&periodo=' + this.filterPeriodo;
+                console.log(url);
+            }
 
         }else{
             url = url + 'novedades?departamento=' + this.filterBy + '&periodo=' + this.filterPeriodo;
             console.log(url);
         }
         
-        // if (this.invocador === 'equipos'){
-            // Mock
-                // const mock = 'api/contactos-novEquipo';
-                // verbo = 'get';
-
-                // url = mock;
-            // Fin Mock
-        // }
-
-        // if (this.invocador === 'sectores') {
-            // Mock
-                // const mock = 'api/contactos-novSector';
-                // verbo = 'get';
-    
-                // url = mock;
-            // Fin Mock
-        // }
-
-
         return new Promise((resolve, reject) => {
             this._createRequest(url)
                 .subscribe((response: Novedad[]) => {
@@ -275,12 +254,9 @@ export class NovedadService implements Resolve<any>
 
     }
 
-
     /**
      * Crea el llamado a los servicios de back
-     * @param {string} url
-     * @param {string} verbo ('get' o 'post')
-     * @param {{}} params
+     * @param {string} url     
      */
     private _createRequest(url: string): Observable<any> | any {
         const httpHeaders = new HttpHeaders({

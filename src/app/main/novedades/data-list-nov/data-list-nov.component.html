@@ -43,7 +43,17 @@
         <ng-container matColumnDef="sector">
             <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Sector</mat-header-cell>
             <mat-cell *matCellDef="let data" fxHide fxShow.gt-sm>
-                <p class="text-truncate" >
+                <p class="text-truncate">
+                    {{data.origen}}
+                </p>
+            </mat-cell>
+        </ng-container>
+        
+        <!-- Origen Column (Ctrol) -->
+        <ng-container matColumnDef="origen">
+            <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Origen</mat-header-cell>
+            <mat-cell *matCellDef="let data" fxHide fxShow.gt-sm>
+                <p class="text-truncate">
                     {{data.origen}}
                 </p>
             </mat-cell>
@@ -74,9 +84,15 @@
         <ng-container matColumnDef="estado">
             <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
             <mat-cell *matCellDef="let data">                        
-                <p class="status {{data.estado}} text-truncate">
-                    {{data.estado}}
-                </p>
+                <button mat-button class="button-status" aria-label="TEST" >
+                   
+                    <p class="status {{data.estado}} text-truncate">
+                        {{data.estado}}
+                    </p>
+                </button>
+
+
+                
             </mat-cell>
         </ng-container>
 
@@ -109,9 +125,9 @@
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let data; columns: displayedColumns;" class="contact"
-            matRipple [@animate]="{value:'*',params:{y:'100%'}}">
+             [@animate]="{value:'*',params:{y:'100%'}}">
         </mat-row>
-
+<!-- matRipple -->
     </mat-table>
 </div>
 

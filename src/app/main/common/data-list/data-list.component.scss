@@ -81,27 +81,46 @@ data-list-colaboradores, data-list-novedades {
                         }
                     }
 
+
+                    button.button-status {
+                        padding: 0;
+                        
+                        span {
+                            p {
+                                &.status {
+                                    margin: 0;
+                                }
+                            }
+                        }
+                    }
+
+
                     p {
                         &.Docket {
                             font-weight: bold;
                         }
-                        &.status {
+                        &.status {                            
                             padding: 4px;
                             font-weight: bold;
                             border-radius: 5px;
                             color: white;
                             text-transform: uppercase;
+                            opacity: 0.7;
 
                             &.modificado, &.CONFIRMAR {
                                 background-color: #ff9800;
                             }
 
-                            &.nuevo, &.VERIFICADO {
+                            &.nuevo, &.APROBADO {
                                 background-color: #4caf50;
                             }
 
-                            &.eliminado {
+                            &.ELIMINADO {
                                 background-color: #b71c1c;
+                            }
+
+                            &:hover {
+                                opacity: 1;
                             }
                         }
                         &.novedades {

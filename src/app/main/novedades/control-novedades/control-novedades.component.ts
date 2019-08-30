@@ -22,7 +22,9 @@ import { FuseUtils } from '@fuse/utils';
 export class ControlNovedadesComponent implements OnInit, OnDestroy 
 {
     
-    columnas = ['avatar', 'docket', 'name', 'departament', 'buttons'];
+    // columnas = ['avatar', 'docket', 'name', 'departament', 'buttons'];
+
+    columnas = ['avatar', 'name', 'docket', 'origen', 'concepto', 'monto', 'buttons'];
 
     hasCheckNomina = false;
 
@@ -157,23 +159,8 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
     }
 
     changeColumns(value: string): void {
-        switch (value) {
-            case 'departamentos':
-                this.columnas = ['avatar', 'docket', 'name', 'departament', 'buttons'];
-                break;
 
-            case 'sucursales':
-                this.columnas = ['avatar', 'docket', 'name', 'sucursal', 'buttons'];
-                break;
-
-            case 'externos':
-                this.columnas = ['avatar', 'docket', 'name', 'sector', 'buttons'];
-                break;
-
-            default:
-                this.columnas = ['avatar', 'docket', 'name', 'departament', 'buttons'];
-                break;
-        }
+        
 
     }
 
