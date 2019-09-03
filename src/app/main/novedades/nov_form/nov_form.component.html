@@ -1,0 +1,160 @@
+<div class="dialog-content-wrapper"> 
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+
+        <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center" *ngIf="action === 'edit' || invocador == 'equipo'">
+            <img [src]="colaborador.img" class="avatar contact-avatar huge m-0" [alt]="colaborador.nombre" />
+            <div class="contact-name mt-8">{{colaborador.nombre}}</div>
+            <div class="contact-name mt-8">{{colaborador.legajo}}</div>
+        </mat-toolbar-row>
+
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+        <form [formGroup]="novXForm">
+
+            <!-- Periodo -->
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Periodo</mat-label>
+                    <input matInput placeholder="" formControlName="periodo" name="periodo">
+                </mat-form-field>
+            </div>
+
+            <!-- Legajo -->
+            <div fxLayout="row" fxLayoutAlign="start start" *ngIf="action !== 'edit' && invocador != 'equipo'">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Legajo</mat-label>
+                    <mat-icon matSuffix class="secondary-text">perm_identity</mat-icon>
+                    <input name="legajo" matInput formControlName="legajo" type="text" placeholder="ejemplo. FC1645"
+                        required>
+                </mat-form-field>
+            </div>                      
+
+            <!-- Descripcion - Visible solo con xSector -->
+            <div fxLayout="row" fxLayoutAlign="start start" *ngIf="invocador == 'sector'">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Descripcion</mat-label>
+                    <mat-select formControlName="descripcion" name="descripcion" required>
+                        <mat-option *ngFor="let c of conceptosXOrigen" [value]="c.valor">
+                            {{c.valor | titlecase }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <!-- Tipo -->
+            <div fxLayout="row" fxLayoutAlign="start start" *ngIf="invocador != 'sector'">
+                <div id="switch">
+                    <mat-slide-toggle [checked]="hideshow" name="slide" appearance="outline" fxFlex (change)="switchParam()">{{hideshow ? "Cuantitativa" : "Cualitativa" }}</mat-slide-toggle>
+                </div>                
+            </div>
+
+            <!-- Combo Cuantitativo -->
+            <div fxLayout="row" fxLayoutAlign="start start" *ngIf="hideshow && invocador != 'sector'">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Descripcion</mat-label>                                   
+                    <mat-select formControlName="descripcion" name="descripcion" required > <!-- (selectionChange)="changeUnidad($event)" -->
+                        <mat-option *ngFor="let c of cuantitativos" [value]="c.valor">
+                            {{c.valor | titlecase }}
+                        </mat-option>
+                    </mat-select>                                    
+                </mat-form-field>
+            </div>
+
+            <!-- Combo Cualitativo -->
+            <div fxLayout="row" fxLayoutAlign="start start" *ngIf="!hideshow && invocador != 'sector'">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Descripcion</mat-label>
+                    <mat-select formControlName="descripcion" name="descripcion" required >
+                        <mat-option *ngFor="let c of cualitativos" [value]="c.valor">
+                            {{c.valor | titlecase }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+
+            <!-- Importe -->
+            <div fxLayout="row" fxLayoutAlign="start start" *ngIf="hideshow && invocador != 'sector'">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Importe / Cantidad</mat-label>                    
+                    <input name="importe" matInput formControlName="importe"  required>
+                </mat-form-field>
+            </div>          
+
+            <!-- Importe -->
+            <div fxLayout="row" fxLayoutAlign="start start" *ngIf="invocador === 'sector'">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Importe</mat-label>
+                    <mat-icon matSuffix class="secondary-text">attach_money</mat-icon>
+                    <input name="importe" matInput formControlName="importe" type="text" required>
+                </mat-form-field>
+            </div>
+
+
+
+
+
+
+            <!-- NO Visible con NovXSector -->
+            <div fxLayout="row" fxLayoutAlign="start start" *ngIf="invocador != 'sector'">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Fecha Desde</mat-label>
+            
+                    <input matInput [matDatepicker]="DatePickerDesde" placeholder="" formControlName="fechaDesde" name="fechaDesde">
+            
+                    <mat-datepicker-toggle matSuffix [for]="DatePickerDesde"></mat-datepicker-toggle>
+                    <mat-datepicker #DatePickerDesde></mat-datepicker>
+            
+                </mat-form-field>
+            </div>
+            
+            <!-- NO Visible con NovXSector -->
+            <div fxLayout="row" fxLayoutAlign="start start" *ngIf="invocador != 'sector'">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Fecha Hasta</mat-label>
+            
+                    <input matInput [matDatepicker]="DatePickerHasta" placeholder="" formControlName="fechaHasta" name="fechaHasta">
+            
+                    <mat-datepicker-toggle matSuffix [for]="DatePickerHasta"></mat-datepicker-toggle>
+                    <mat-datepicker #DatePickerHasta></mat-datepicker>
+            
+                </mat-form-field>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+        <button *ngIf="action !== 'edit'"
+                mat-button
+                color="accent"
+                class="save-button"
+                type="submit"
+                (click)="onSubmit()"
+                [disabled]="novXForm.invalid"
+                aria-label="SAVE">
+            Agregar
+        </button>
+       
+        <button *ngIf="action === 'edit'"
+                mat-button
+                color="accent"
+                class="save-button"
+                (click)="matDialogRef.close(['save',novXForm])"
+                [disabled]="novXForm.invalid"
+                aria-label="SAVE">
+            Guardar
+        </button>
+
+    </div>
+</div>
