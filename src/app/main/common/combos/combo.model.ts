@@ -1,6 +1,7 @@
 export class Combo {
     cod: string;
     valor: string;
+    valor2: string;
 
     /**
      * Constructor
@@ -9,5 +10,7 @@ export class Combo {
     constructor(combo) {
         this.cod = combo.cod || combo.codigo || '';
         this.valor = combo.valor || combo.nombre || '';
+        this.valor2 = combo.valor2 || '';
+
     }
 }

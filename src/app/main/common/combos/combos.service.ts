@@ -1,26 +1,33 @@
 import { FuseUtils } from '@fuse/utils';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { environment } from 'environments/environment';
 import { ErrorService } from 'app/main/errors/error.service';
 import { LoginService } from 'app/main/authentication/login-2/login-2.service';
 import { Combo } from './combo.model';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { forEach } from '@angular/router/src/utils/collection';
 
 const API_URL: string = environment.API;
 
 @Injectable()
-export class CombosService 
+export class CombosService implements Resolve<any>
 {
-
     private comboOrigenDep_Suc: Combo[];
     private comboOrigenExt_RRHH: Combo[];
     private comboOrigenExt: Combo[];
     private comboOrigenRRHH: Combo[];
     private comboOrigenPeriodo: Combo[];
-    
 
-    // onComboChanged: BehaviorSubject<any>;
+    private comboConceptoCuantitativa: Combo[];
+    private comboConceptoCualitativa: Combo[];
+    private comboConceptoExterna: Combo[];
+    
+    onComboConceptoCuantitativaChanged: BehaviorSubject<any>;
+    onComboConceptoCualitativaChanged: BehaviorSubject<any>;
+    onComboConceptoExternaChanged: BehaviorSubject<any>;
+    
     onComboOrigenDep_SucChanged: BehaviorSubject<any>;
     onComboOrigenExt_RRHHChanged: BehaviorSubject<any>;
     onComboOrigenExtChanged: BehaviorSubject<any>;
@@ -39,29 +46,79 @@ export class CombosService
         private _errorService: ErrorService,
         private _loginService: LoginService
     ) {
-        // Set the defaults
-        // this.onComboChanged = new BehaviorSubject([]);
-
         this.onComboOrigenDep_SucChanged = new BehaviorSubject([]);
         this.onComboOrigenExt_RRHHChanged = new BehaviorSubject([]);
         this.onComboOrigenExtChanged = new BehaviorSubject([]);
         this.onComboOrigenRRHHChanged = new BehaviorSubject([]);
         this.onComboOrigenPeriodoChanged = new BehaviorSubject([]);
+        this.onComboConceptoCuantitativaChanged = new BehaviorSubject([]);
+        this.onComboConceptoCualitativaChanged = new BehaviorSubject([]);
+        this.onComboConceptoExternaChanged = new BehaviorSubject([]);
 
         this.comboOrigenDep_Suc = [];
         this.comboOrigenExt_RRHH = [];
         this.comboOrigenExt = [];
         this.comboOrigenRRHH = [];
         this.comboOrigenPeriodo = [];
+        this.comboConceptoCuantitativa = [];
+        this.comboConceptoCualitativa = [];
+        this.comboConceptoExterna = [];
     }
+
+
+
+
+
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
     /**
+         * Resolver
+         *
+         * @param {ActivatedRouteSnapshot} route
+         * @param {RouterStateSnapshot} state
+         * @returns {Observable<any> | Promise<any> | any}
+         */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
+        return new Promise((resolve, reject) => {
+            Promise.all([
+                this._getAll()
+            ]).then(
+                ([files]) => {
+                    resolve();
+                },
+                (error) => {                
+                    this._errorService.errorHandler(error, 'error en el servicio de combos');                   
+                    resolve();
+                }
+            );
+        });
+    }
+
+
+    private _getAll(): void{
+        const combos = [
+            'cualitativo',
+            'cuantitativo',
+            'externa',
+            'dep-suc',
+            'ext-rrhh',
+            'ext',
+            'rrhh',
+            'periodos',
+        ];
+
+        combos.forEach(combo => {
+            console.log(combo);
+            this.initCombo(combo);
+        });
+    }
+
+    /**
      * Devuelve el combo correspondiente, si no lo tiene lo trae del backend
-     * @param {string} combo { 'dep-suc' || 'ext-rrhh' || 'ext' || 'rrhh' || 'periodos' }
+     * @param {string} combo { 'dep-suc' || 'ext-rrhh' || 'ext' || 'rrhh' || 'periodos' || 'cualitativo' || 'cuantitativo' || 'externa' }
      */
     getCombo(combo: string): Combo[]{
         let respuesta: Combo[] = [];
@@ -69,12 +126,16 @@ export class CombosService
         this.initCombo(combo);
         
         switch (combo) {
-            case 'dep-suc' : respuesta = this.comboOrigenDep_Suc;  break;
-            case 'ext-rrhh': respuesta = this.comboOrigenExt_RRHH; break;
-            case 'ext'     : respuesta = this.comboOrigenExt;      break;
-            case 'rrhh'    : respuesta = this.comboOrigenRRHH;     break;
-            case 'periodos': respuesta = this.comboOrigenPeriodo;  break;
-            default        : /**  No hago nada                  */ break;
+            case 'cualitativo' : respuesta = this.comboConceptoCuantitativa; break;
+            case 'cuantitativo': respuesta = this.comboConceptoCualitativa;  break;
+            case 'externa'     : respuesta = this.comboConceptoExterna;      break;
+
+            case 'dep-suc'     : respuesta = this.comboOrigenDep_Suc;        break;
+            case 'ext-rrhh'    : respuesta = this.comboOrigenExt_RRHH;       break;
+            case 'ext'         : respuesta = this.comboOrigenExt;            break;
+            case 'rrhh'        : respuesta = this.comboOrigenRRHH;           break;
+            case 'periodos'    : respuesta = this.comboOrigenPeriodo;        break;
+            default            : /**  No hago nada                       */  break;
         }
 
         return respuesta;
@@ -89,18 +150,19 @@ export class CombosService
         let url = API_URL;      
 
         switch (combo) {
-            // case 'ext-rrhh': url = 'api/combo_ext_rrhh'; break;
-            // case 'ext': url = 'api/combo_ext'; break;
-            // case 'rrhh': url = 'api/combo_rrhh'; break;
-            
-            case 'dep-suc' : url = 'api/combo_dep_suc';       break;            
-            
-            case 'ext-rrhh': url = url + 'sectores';          break;
-            case 'ext'     : url = url + 'sectores-externos'; break;            
-            case 'rrhh'    : url = url + 'sectores-rrhh';     break;
 
-            case 'periodos': url = 'periodos';          break;
-            default        : url = '';                        break;
+            // Harcodeados
+            case 'cualitativo' : url = 'api/combo_cualitativo';   break;
+            case 'cuantitativo': url = 'api/combo_cuantitativo';  break;
+            case 'externa'     : url = 'api/combo_externa';       break;        
+            
+            // Backend
+            case 'dep-suc'     : url = url + 'equipos';           break;
+            case 'ext-rrhh'    : url = url + 'sectores';          break;
+            case 'ext'         : url = url + 'sectores-externos'; break;            
+            case 'rrhh'        : url = url + 'sectores-rrhh';     break;
+            case 'periodos'    : url = 'periodos';                break;
+            default            : url = '';                        break;
         }
 
 
@@ -120,7 +182,7 @@ export class CombosService
             return;
         }
 
-        return new Promise(() => {        
+        return new Promise((resolve, reject) => {        
             this._createRequest(url)            
                 .subscribe(
                     (response: Combo[]) => {
@@ -133,7 +195,7 @@ export class CombosService
                         });
 
                         this._updateInternalValues(combo, response);
-                       
+                        resolve();
                     },
                     (err) => {
                         this._errorService.errorHandler(err, 'Lo sentimos, algo salio mal reintente nuevamente', 403);
@@ -197,6 +259,33 @@ export class CombosService
 
                 break;
 
+            case 'cualitativo':
+                if (this.comboConceptoCualitativa .length > 0){
+                    respuesta = false;
+                }else{
+                    respuesta = true;
+                }
+                
+                break;
+
+            case 'cuantitativo':
+                if (this.comboConceptoCuantitativa.length > 0){
+                    respuesta = false;
+                }else{
+                    respuesta = true;
+                }
+                
+                break;
+
+            case 'externa':
+                if (this.comboConceptoExterna.length > 0){
+                    respuesta = false;
+                }else{
+                    respuesta = true;
+                }
+                
+                break;
+
             default:
                     respuesta = true;
                 break;
@@ -211,7 +300,19 @@ export class CombosService
      */
     private _updateInternalValues(combo: string, response: Combo[]): void {        
         switch (combo) {
-            case 'dep-suc' : 
+            case 'cualitativo':
+                this.comboConceptoCualitativa = response;
+                this.onComboConceptoCualitativaChanged.next(this.comboConceptoCualitativa);
+                break;
+            case 'cuantitativo':
+                this.comboConceptoCuantitativa = response;
+                this.onComboConceptoCuantitativaChanged.next(this.comboConceptoCuantitativa);
+                break;
+            case 'externa':
+                this.comboConceptoExterna = response;
+                this.onComboConceptoExternaChanged.next(this.comboConceptoExterna);
+                break;
+            case 'dep-suc': 
                 this.comboOrigenDep_Suc = response;  
                 this.onComboOrigenDep_SucChanged.next(this.comboOrigenDep_Suc);
                 break;
@@ -219,11 +320,11 @@ export class CombosService
                 this.comboOrigenExt_RRHH = response; 
                 this.onComboOrigenExt_RRHHChanged.next(this.comboOrigenExt_RRHH);
                 break;
-            case 'ext'     : 
+            case 'ext': 
                 this.comboOrigenExt = response;      
                 this.onComboOrigenExtChanged.next(this.comboOrigenExt);
                 break;
-            case 'rrhh'    : 
+            case 'rrhh': 
                 this.comboOrigenRRHH = response;     
                 this.onComboOrigenRRHHChanged.next(this.comboOrigenRRHH);
                 break;
@@ -231,7 +332,7 @@ export class CombosService
                 this.comboOrigenPeriodo = response;  
                 this.onComboOrigenPeriodoChanged.next(this.comboOrigenPeriodo);
                 break;
-            default        : /**    No hago nada              */  break;
+            default: /**    No hago nada              */  break;
         }   
     }
 
