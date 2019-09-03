@@ -111,7 +111,7 @@ export class CombosService implements Resolve<any>
         ];
 
         combos.forEach(combo => {
-            console.log(combo);
+            // console.log(combo);
             this.initCombo(combo);
         });
     }

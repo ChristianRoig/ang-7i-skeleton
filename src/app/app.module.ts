@@ -23,7 +23,6 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { PerfilModule } from './main/perfil/perfil.module';
 
 import { ColaboradoresModule } from './main/colaboradores/equipo/equipo.module';
-import { ColaboradorFormModule } from './main/colaboradores/colaborador-form/colaborador-form.module';
 import { NominaModule } from './main/colaboradores/nomina/nomina.module';
 
 
@@ -103,8 +102,6 @@ const appRoutes: Routes = [
         OrigenesFormModule,
         ConceptosModule,
         
-
-        ColaboradorFormModule,
         ConceptosFormModule,
 
         NovedadesModule,

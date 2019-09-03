@@ -183,7 +183,7 @@ export class Combos {
         },
         {
             'cod': 'LENF',
-            'valor': 'LIC.POR ENFERMEDAD'
+            'valor': 'LIC. POR ENFERMEDAD'
         },
         {
             'cod': 'VACA',
@@ -195,15 +195,15 @@ export class Combos {
         },
         {
             'cod': 'LIMAT',
-            'valor': 'LIC.POR MATERNIDAD'
+            'valor': 'LIC. POR MATERNIDAD'
         },
         {
             'cod': 'LICEX',
-            'valor': 'LIC.POR EXCEDENCIA'
+            'valor': 'LIC. POR EXCEDENCIA'
         },
         {
             'cod': '70',
-            'valor': 'LIC.POR MATRIMONIO'
+            'valor': 'LIC. POR MATRIMONIO'
         },
     ];
 
