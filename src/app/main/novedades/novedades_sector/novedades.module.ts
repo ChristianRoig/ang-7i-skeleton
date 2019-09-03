@@ -12,6 +12,7 @@ import { ConceptosService } from '../../configurar/conceptos.service';
 import { NovedadService } from '../novedad.service';
 import { DataListNovedadModule } from '../data-list-nov/data-list-nov.module';
 import { AuthGuard } from 'app/main/authentication/auth.guard';
+import { CombosService } from 'app/main/common/combos/combos.service';
 
 
 
@@ -24,6 +25,7 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         component: NovedadesComponent,
         resolve  : {
+            combos: CombosService, 
             novedades: NovedadService,
         }
     }

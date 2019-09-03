@@ -109,7 +109,8 @@
 
                     <mat-menu #moreMenu="matMenu">                        
                         
-                        <button mat-menu-item aria-label="Editar" title="Editar">
+                        <button mat-menu-item aria-label="Editar" title="Editar"
+                        (click)="editNovedad(data)">
                             <mat-icon>edit</mat-icon>
                             <span>Editar</span>
                         </button>

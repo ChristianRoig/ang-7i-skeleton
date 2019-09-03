@@ -12,9 +12,10 @@ import { ConceptosService } from 'app/main/configurar/conceptos.service';
 import { NovedadService } from '../novedad.service';
 import { DataSource } from '@angular/cdk/table';
 import { FuseUtils } from '@fuse/utils';
-import { NovXComponenteFormDialogComponent } from '../nov_x_componente_form/nov_x_componente_form.component';
+import { NovedadFormDialogComponent } from '../nov_form/nov_form.component';
 import { ImportarFormDialogComponent } from '../importar-form/importar-form.component';
 import { GeneralConfirmDialogComponent } from 'app/main/common/general-confirm-dialog/general_confirm_dialog.component';
+import { CombosService } from 'app/main/common/combos/combos.service';
 
 @Component({
     selector     : 'sector',
@@ -70,8 +71,8 @@ export class NovedadesComponent implements OnInit, OnDestroy
         private _fuseSidebarService: FuseSidebarService,
         private _matDialog: MatDialog,
         private _activeRouter: ActivatedRoute,
-        private _router: Router,
-        private _conceptosService: ConceptosService,
+        private _router: Router,        
+        private _combosService: CombosService,
 
     )
     {
@@ -106,27 +107,26 @@ export class NovedadesComponent implements OnInit, OnDestroy
         
         this._novedadService.onFilterChanged.next(this.seleccionado);        
 
-        this.sectores = this._novedadService.ComboExtRRHH;
-        this._defineAMostrar();
-        this._novedadService.onComboExtRRHHChanged
+
+        // Combo de Periodos
+        this._combosService.onComboOrigenPeriodoChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(data => {
+                this.periodos = data;
+                this._defineDate();
+            });
+
+        // Combo de ExtRRHH
+        this._combosService.onComboOrigenExt_RRHHChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(data => {
                 this.sectores = data;
                 this._defineAMostrar();
-            });
-            
-        this.periodos = this._novedadService.ComboPeriodo;
-        this._novedadService.onComboPeriodoChanged
-        .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe(data => {
-            this.periodos = data;
-            this._defineDate();       
-        });
-        this._defineDate();
-       
+            });          
 
         this.dataSource = new FilesDataSource(this._novedadService);
 
+        // Filtro x search
         this.searchInput.valueChanges
             .pipe(
                 takeUntil(this._unsubscribeAll),
@@ -178,8 +178,8 @@ export class NovedadesComponent implements OnInit, OnDestroy
     }
 
     addNovedad(): void {
-        this.dialogRef = this._matDialog.open(NovXComponenteFormDialogComponent, {
-            panelClass: 'NovXComponente-form-dialog',
+        this.dialogRef = this._matDialog.open(NovedadFormDialogComponent, {
+            panelClass: 'nov-form-dialog',
             data: {
                 periodo: this.periodoSelect,
                 periodos: this.periodos,

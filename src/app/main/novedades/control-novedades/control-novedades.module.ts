@@ -13,15 +13,16 @@ import { SidebarsMainModule } from 'app/main/common/sidebars/main/sidebars-main.
 import { DataListNovedadModule } from '../data-list-nov/data-list-nov.module';
 import { NovedadService } from '../novedad.service';
 import { AuthGuard } from 'app/main/authentication/auth.guard';
+import { CombosService } from 'app/main/common/combos/combos.service';
 
 
 const routes: Routes = [
     { path: 'novedades/control', redirectTo: 'novedades/control/FavaHnos' },
 
-    { path: 'novedades/control/GrupoFava', canActivate: [AuthGuard], component: ControlNovedadesComponent, resolve: { novedades: NovedadService } },
-    { path: 'novedades/control/FavaCard',  canActivate: [AuthGuard], component: ControlNovedadesComponent, resolve: { novedades: NovedadService } },
-    { path: 'novedades/control/FavaNet',   canActivate: [AuthGuard], component: ControlNovedadesComponent, resolve: { novedades: NovedadService } },
-    { path: 'novedades/control/FavaHnos',  canActivate: [AuthGuard], component: ControlNovedadesComponent, resolve: { novedades: NovedadService } },            
+    { path: 'novedades/control/GrupoFava', canActivate: [AuthGuard], component: ControlNovedadesComponent, resolve: { combos: CombosService, novedades: NovedadService } },
+    { path: 'novedades/control/FavaCard',  canActivate: [AuthGuard], component: ControlNovedadesComponent, resolve: { combos: CombosService, novedades: NovedadService } },
+    { path: 'novedades/control/FavaNet',   canActivate: [AuthGuard], component: ControlNovedadesComponent, resolve: { combos: CombosService, novedades: NovedadService } },
+    { path: 'novedades/control/FavaHnos',  canActivate: [AuthGuard], component: ControlNovedadesComponent, resolve: { combos: CombosService, novedades: NovedadService } },
         
 ];
 

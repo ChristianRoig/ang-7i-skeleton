@@ -17,16 +17,14 @@ export class EquipoService implements Resolve<any>
 {   
     
     filterBy = ''; 
-    ComboOrigenes = [];
-    
+    private ComboOrigenes = [];    
     private searchText = '';
     private colaboradores: Perfil[] = [];    
     private _unsubscribeAll: Subject<any>;
     
     onColaboradoresChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
-    onFilterChanged: Subject<any>;
-    onComboOrigenesChanged: Subject<any>;
+    onFilterChanged: Subject<any>;    
 
     /**
      * Constructor
@@ -46,7 +44,7 @@ export class EquipoService implements Resolve<any>
         this.onColaboradoresChanged = new BehaviorSubject([]);        
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();         
-        this.onComboOrigenesChanged = new Subject();         
+        // this.onComboOrigenesChanged = new Subject();         
 
         this._unsubscribeAll = new Subject();
     }
@@ -68,7 +66,7 @@ export class EquipoService implements Resolve<any>
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getComboOrigenes(),
+                this._getComboOrigenes(),
                 this._defineFilter(route),
                 this.getColaboradores()
             ]).then(
@@ -85,7 +83,8 @@ export class EquipoService implements Resolve<any>
                     this._combosService.onComboOrigenDep_SucChanged.pipe(takeUntil(this._unsubscribeAll))
                         .subscribe(data => {
                             this.ComboOrigenes = data;
-                            this.onComboOrigenesChanged.next(this.ComboOrigenes);
+                            this._defineFilter(route);
+                            this.getColaboradores();                            
                         });
                         
 
@@ -139,13 +138,12 @@ export class EquipoService implements Resolve<any>
     }
 
     /**
-     * getComboOrigenes()
-     * Encargado de traer del backend los Origenes de Sucursales y Departamentos
+     * _getComboOrigenes()
+     * Encargado de consumir el servicio de combos para traer del backend los Origenes de Sucursales y Departamentos
      */
-    getComboOrigenes(): void {
+    private _getComboOrigenes(): void {
         if (this.ComboOrigenes.length !== 0) { return; }
-        this.ComboOrigenes = this._combosService.getCombo('dep-suc');
-        this.onComboOrigenesChanged.next(this.ComboOrigenes);
+        this.ComboOrigenes = this._combosService.getCombo('dep-suc');        
     }
 
     /**

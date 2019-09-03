@@ -11,6 +11,7 @@ import { NovedadService } from '../novedad.service';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DataSource } from '@angular/cdk/table';
 import { FuseUtils } from '@fuse/utils';
+import { CombosService } from '../../common/combos/combos.service';
 
 @Component({
     selector     : 'control-novedades',
@@ -55,7 +56,8 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
         protected _matDialog: MatDialog,
         private _activeRouter: ActivatedRoute,
         private _router: Router,
-        private _novedadService: NovedadService
+        private _novedadService: NovedadService,
+        private _combosService: CombosService
      )
     {
 
@@ -72,16 +74,15 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
         this.dataSource = new FilesDataSource(this._novedadService);
             
 
-        this.periodos = this._novedadService.ComboPeriodo;
-        this._novedadService.onComboPeriodoChanged
+        // Combo de Periodos
+        this._combosService.onComboOrigenPeriodoChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(data => {
                 this.periodos = data;
+                this._defineDate();
             });
-        this._defineDate(); // En un futuro se usara el valor enviado por url
-
-
         
+        // Filtro x search
         this.searchInput.valueChanges
             .pipe(
                 takeUntil(this._unsubscribeAll),

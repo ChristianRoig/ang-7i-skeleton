@@ -7,8 +7,6 @@ import { environment } from 'environments/environment';
 import { ErrorService } from 'app/main/errors/error.service';
 import { LoginService } from 'app/main/authentication/login-2/login-2.service';
 import { Novedad } from './novedad.model';
-import { CombosService } from '../common/combos/combos.service';
-import { takeUntil } from 'rxjs/operators';
 
 const API_URL: string = environment.API;
 
@@ -24,22 +22,12 @@ export class NovedadService implements Resolve<any>
     private novedades: Novedad[] = [];
     private invocador = '';
 
-    private _unsubscribeAll: Subject<any>;
-
-    ComboDepSuc = [];
-    ComboExtRRHH = [];
-    ComboPeriodo = [];
-    
     onNovedadesChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
+    OnInvocadorChanged: Subject<any>;
     onfilterPeriodoChanged: Subject<any>;
 
-    OnInvocadorChanged: Subject<any>;
-
-    onComboDepSucChanged: Subject<any>;
-    onComboExtRRHHChanged: Subject<any>;
-    onComboPeriodoChanged: Subject<any>;
     
     /**
      * Constructor
@@ -52,21 +40,13 @@ export class NovedadService implements Resolve<any>
         private _httpClient: HttpClient,
         private _errorService: ErrorService,
         private _loginService: LoginService,
-        private _combosService: CombosService
     ) {
         // Set the defaults
         this.onNovedadesChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
-        this.OnInvocadorChanged = new Subject();
-
+        this.OnInvocadorChanged = new Subject();           
         this.onfilterPeriodoChanged = new Subject();
-        
-        this.onComboDepSucChanged = new Subject();
-        this.onComboExtRRHHChanged = new Subject();
-        this.onComboPeriodoChanged = new Subject();
-
-        this._unsubscribeAll = new Subject();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -82,9 +62,7 @@ export class NovedadService implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {        
         return new Promise((resolve, reject) => {
-
-            Promise.all([
-                this._getCombos(),                
+            Promise.all([                             
                 this._defineFilters(route),
                 this.getNovedades()
             ]).then(
@@ -98,7 +76,7 @@ export class NovedadService implements Resolve<any>
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
                         this._filterNovedades();
-                    });
+                    });           
 
                     // Filtro por periodo, este impacta directamente en el llamado a la base de datos
                     this.onfilterPeriodoChanged.subscribe(periodo => {
@@ -108,25 +86,7 @@ export class NovedadService implements Resolve<any>
                         }                        
                     });
 
-                    // Combos Service
-                    this._combosService.onComboOrigenDep_SucChanged.pipe(takeUntil(this._unsubscribeAll))
-                        .subscribe(data => {
-                            this.ComboDepSuc = data;
-                            this.onComboDepSucChanged.next(this.ComboDepSuc);
-                        });
                     
-                    this._combosService.onComboOrigenExt_RRHHChanged.pipe(takeUntil(this._unsubscribeAll))
-                        .subscribe(data => {
-                            this.ComboExtRRHH = data;
-                            this.onComboExtRRHHChanged.next(this.ComboExtRRHH);
-                        });
-
-                    this._combosService.onComboOrigenPeriodoChanged.pipe(takeUntil(this._unsubscribeAll))
-                        .subscribe(data => {
-                            this.ComboPeriodo = data;
-                            this.onComboPeriodoChanged.next(this.ComboPeriodo);
-                        });
-
                     resolve();
 
                 },
@@ -253,21 +213,6 @@ export class NovedadService implements Resolve<any>
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * _getCombos
-     * Realiza el llamado al servicio de combos para inicializar los combos necesarios
-     */
-    private _getCombos(): void {
-        this.ComboDepSuc = this._combosService.getCombo('dep-suc');
-        this.onComboDepSucChanged.next(this.ComboDepSuc);
-
-        this.ComboExtRRHH = this._combosService.getCombo('ext-rrhh');
-        this.onComboExtRRHHChanged.next(this.ComboExtRRHH);
-
-        this.ComboPeriodo = this._combosService.getCombo('periodos');
-        this.onComboPeriodoChanged.next(this.ComboPeriodo);
-    }
-
-    /**
      * _filterNovedades()
      * Dependiendo del texto ingresado filtra el contenido del objeto novedades
      */
@@ -295,8 +240,7 @@ export class NovedadService implements Resolve<any>
 
         if (this.filterPeriodo === '') {
             const today = new Date();
-            this.filterPeriodo = ('00' + (today.getMonth() + 1)).slice(-2) + '-' + today.getFullYear();
-            this.onfilterPeriodoChanged.next(this.filterPeriodo);
+            this.filterPeriodo = ('00' + (today.getMonth() + 1)).slice(-2) + '-' + today.getFullYear();            
         }
 
         this.OnInvocadorChanged.next(this.invocador);

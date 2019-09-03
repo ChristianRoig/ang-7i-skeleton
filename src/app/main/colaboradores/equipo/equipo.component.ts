@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EquipoService } from './equipo.service';
 import { DataSource } from '@angular/cdk/table';
 import { FuseUtils } from '@fuse/utils';
+import { CombosService } from '../../common/combos/combos.service';
 
 
 @Component({
@@ -57,7 +58,8 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
         private _equipoService: EquipoService,
         private _fuseSidebarService: FuseSidebarService,                
         private _activeRouter: ActivatedRoute,
-        private _router: Router
+        private _router: Router,
+        private _combosService: CombosService
     )
     {
         // Set the defaults
@@ -89,16 +91,12 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
         });
 
         // Combo de Origenes
-        this.listOrigenes = this._equipoService.ComboOrigenes;
-        this._defineAMostrar();
-
-        this._equipoService.onComboOrigenesChanged
+        this._combosService.onComboOrigenDep_SucChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(data => {
-                this.listOrigenes = data;                
+                this.listOrigenes = data;
                 this._defineAMostrar();
             });
-
         
 
         this.dataSource = new FilesDataSource(this._equipoService);   

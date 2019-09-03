@@ -12,6 +12,7 @@ import { DataListColaboradorModule } from '../data-list-col/data-list-col.module
 import { SidebarsMainModule } from 'app/main/common/sidebars/main/sidebars-main.module';
 import { NominaService } from './nomina.service';
 import { AuthGuard } from 'app/main/authentication/auth.guard';
+import { CombosService } from 'app/main/common/combos/combos.service';
 
 const routes: Routes = [
     { path: 'nomina', redirectTo: 'nomina/FavaHnos', },
@@ -19,10 +20,10 @@ const routes: Routes = [
         path: 'nomina',
         canActivate: [AuthGuard],
         children: [
-            {    path: 'GrupoFava',  canActivateChild: [AuthGuard], component: NominaComponent, resolve: { colaboradores: NominaService }    },
-            {    path: 'FavaCard',   canActivateChild: [AuthGuard], component: NominaComponent, resolve: { colaboradores: NominaService }    },
-            {    path: 'FavaNet',    canActivateChild: [AuthGuard], component: NominaComponent, resolve: { colaboradores: NominaService }    },
-            {    path: 'FavaHnos',   canActivateChild: [AuthGuard], component: NominaComponent, resolve: { colaboradores: NominaService }    },
+            {    path: 'GrupoFava',  canActivateChild: [AuthGuard], component: NominaComponent, resolve: { colaboradores: NominaService } },
+            {    path: 'FavaCard',   canActivateChild: [AuthGuard], component: NominaComponent, resolve: { colaboradores: NominaService } },
+            {    path: 'FavaNet',    canActivateChild: [AuthGuard], component: NominaComponent, resolve: { colaboradores: NominaService } },
+            {    path: 'FavaHnos',   canActivateChild: [AuthGuard], component: NominaComponent, resolve: { colaboradores: NominaService } },
             // {    path: 'departamentos',       component: NominaComponent, resolve: { colaboradores: NominaService }    },
             // {    path: 'sucursales',       component: NominaComponent, resolve: { colaboradores: NominaService }    },
             // {    path: 'externos',       component: NominaComponent, resolve: { colaboradores: NominaService }    },

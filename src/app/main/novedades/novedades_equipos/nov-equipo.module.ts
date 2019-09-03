@@ -12,6 +12,7 @@ import { NovEquiposComponent } from './nov-equipo.component';
 import { DataListNovedadModule } from '../data-list-nov/data-list-nov.module';
 import { NovedadService } from '../novedad.service';
 import { AuthGuard } from 'app/main/authentication/auth.guard';
+import { CombosService } from 'app/main/common/combos/combos.service';
 
 
 const routes: Routes = [
@@ -22,7 +23,8 @@ const routes: Routes = [
         path     : 'novedades/equipos/:filtro',
         canActivate: [AuthGuard],
         component: NovEquiposComponent,        
-        resolve  : {                        
+        resolve  : {   
+            combos: CombosService,                      
             novedades: NovedadService,            
         }
     }

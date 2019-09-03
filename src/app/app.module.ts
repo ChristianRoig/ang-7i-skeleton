@@ -43,8 +43,9 @@ import { NovedadesModule } from './main/novedades/novedades_sector/novedades.mod
 import { ImportarFormModule } from './main/novedades/importar-form/importar-form.module';
 import { LogoutModule } from './main/authentication/logout/logout.module';
 import { CombosService } from './main/common/combos/combos.service';
-import { NovXComponenteFormModule } from './main/novedades/nov_x_componente_form/nov_x_componente_form.module';
+
 import { GeneralConfirmDialogModule } from './main/common/general-confirm-dialog/general_confirm_dialog.module';
+import { NovFormModule } from './main/novedades/nov_form/nov_form.module';
 
 
 
@@ -112,7 +113,7 @@ const appRoutes: Routes = [
         ImportarFormModule,        
               
         GeneralConfirmDialogModule,
-        NovXComponenteFormModule,
+        NovFormModule,
         ErrorModule
 
 

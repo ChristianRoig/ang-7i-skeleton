@@ -5,10 +5,11 @@ export class Novedad {
     idNovedad: string;
     empresa: string;
     descripcion: string;
-    fecha_desde: string;
-    fecha_hasta: string;
-    cod_novedad: string;
-    cod_origen: string;
+    fechaDesde: string;
+    fechaHasta: string;
+    codNovedad: string;
+    codEmpresa: string;
+    codOrigen: string;
     periodo: string;
     tipo: string;
     observaciones: string;
@@ -43,11 +44,12 @@ export class Novedad {
         }
 
         this.empresa = novedad.empresa || '';
+        this.codEmpresa = novedad.codEmpresa || '';
         this.descripcion = novedad.descripcion || '';
-        this.fecha_desde = novedad.fecha_desde || '';
-        this.fecha_hasta = novedad.fecha_hasta || '';
-        this.cod_novedad = novedad.cod_novedad || '';
-        this.cod_origen = novedad.cod_origen || '';
+        this.fechaDesde = novedad.fechaDesde || '';
+        this.fechaHasta = novedad.fechaHasta || '';
+        this.codNovedad = novedad.codNovedad || '';
+        this.codOrigen = novedad.codOrigen || '';
         this.periodo = novedad.periodo || '';
         this.tipo = novedad.tipo || '';
         this.observaciones = novedad.observaciones || '';
