@@ -79,12 +79,13 @@ export class MockDbService implements InMemoryDbService
             
 
             // Combos
-            'combo_dep_suc'   : Combos.dep_suc,
-            'combo_ext_rrhh'  : Combos.ext_rrhh,
-            'combo_ext'       : Combos.ext,
-            'combo_rrhh'      : Combos.rrhh,
-            'combo_periodo'   : Combos.periodos,
-
+            'combo_dep_suc'      : Combos.dep_suc,
+            'combo_ext_rrhh'     : Combos.ext_rrhh,
+            'combo_ext'          : Combos.ext,
+            'combo_rrhh'         : Combos.rrhh,            
+            'combo_cualitativo'  : Combos.cualitativo,
+            'combo_cuantitativo' : Combos.cuantitativo,
+            'combo_externa'      : Combos.externa,
 
         };
     }

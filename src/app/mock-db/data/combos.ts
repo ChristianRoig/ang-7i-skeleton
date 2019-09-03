@@ -157,55 +157,91 @@ export class Combos {
         },
     ];
 
-    public static periodos = [
+    public static cualitativo = [
         {
-            'cod'  : '01/1/2019',
-            'valor': 'Enero 2019',
+            'cod': '97', 
+            'valor': 'PLUS DOMINGO'
         },
         {
-            'cod'  : '01/2/2019',
-            'valor': 'Febrero 2019',
-        },
-        {
-            'cod'  : '01/3/2019',
-            'valor': 'Marzo 2019',
-        },
-        {
-            'cod'  : '01/4/2019',
-            'valor': 'Abril 2019',
-        },
-        {
-            'cod'  : '01/5/2019',
-            'valor': 'Mayo 2019',
-        },
-        {
-            'cod'  : '01/6/2019',
-            'valor': 'Junio 2019',
-        },
-        {
-            'cod'  : '01/7/2019',
-            'valor': 'Julio 2019',
-        },
-        {
-            'cod'  : '01/8/2019',
-            'valor': 'Agosto 2019',
-        },
-        {
-            'cod'  : '01/9/2019',
-            'valor': 'Septiembre 2019',
-        },
-        {
-            'cod'  : '01/10/2019',
-            'valor': 'Octubre 2019',
-        },
-        {
-            'cod'  : '01/11/2019',
-            'valor': 'Noviembre 2019',
-        },
-        {
-            'cod'  : '01/12/2019',
-            'valor': 'Diciembre 2019',
+            'cod': '508',
+            'valor': 'PLUS VACACIONES'
         },
     ];
 
+    public static cuantitativo = [
+        {
+            'cod': 'FALTA',
+            'valor': 'FALTA INJUSTIFICADA'
+        },
+        {
+            'cod': '10',
+            'valor': 'HORAS EXTRAS 100%'
+        },
+        {
+            'cod': '9',
+            'valor': 'HORAS EXTRAS 50%'
+        },
+        {
+            'cod': 'LENF',
+            'valor': 'LIC.POR ENFERMEDAD'
+        },
+        {
+            'cod': 'VACA',
+            'valor': 'VACACIONES(DÍAS)'
+        },
+        {
+            'cod': '94',
+            'valor': 'FERIADO TRABAJADO(HORAS)'
+        },
+        {
+            'cod': 'LIMAT',
+            'valor': 'LIC.POR MATERNIDAD'
+        },
+        {
+            'cod': 'LICEX',
+            'valor': 'LIC.POR EXCEDENCIA'
+        },
+        {
+            'cod': '70',
+            'valor': 'LIC.POR MATRIMONIO'
+        },
+    ];
+
+    public static externa = [
+        {
+            'cod': '31   ',
+            'valor': 'ADICIONAL PROVISORIO ADM',
+            'valor2': 'EntMan-Inc'
+        },
+        {
+            'cod': '109  ',
+            'valor': 'COMISION GESTION DOMICILIARIA',
+            'valor2': 'Gesti-Dom'
+        },
+        {
+            'cod': '259  ',
+            'valor': 'CORPORATIVO-CLARO',
+            'valor2': 'Corpo'
+        },
+        {
+            'cod': '262  ',
+            'valor': 'CORPORATIVO-PERSONAL',
+            'valor2': 'Corpo'
+        },
+        {
+            'cod': 'DIFCA',
+            'valor': 'DIFERENCIA DE CAJA',
+            'valor2': 'Difer'
+        },
+        {
+            'cod': '117  ',
+            'valor': 'PREMIO COBRANZAS',
+            'valor2': 'Prem-Cob'
+        },
+        {
+            'cod': '116  ',
+            'valor': 'PREMIO VENTAS',
+            'valor2': 'Prem-Vta'
+        },
+    ];
 }
