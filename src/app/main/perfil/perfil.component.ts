@@ -44,7 +44,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
       this.param = params.id;
 
       if (this.param === '' || this.param === null || this.param === ' ') {
-        console.log(this._loginService.getLocalUser());
+        // console.log(this._loginService.getLocalUser());
 
         this._router.navigate(['perfil/' + this._loginService.getLocalUser()]); 
       }

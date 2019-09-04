@@ -123,22 +123,18 @@ export class NovedadService implements Resolve<any>
             return;
         }
 
-        console.log('invocador: ' + this.invocador);
-        console.log('filterBy: ' + this.filterBy);
-        console.log('filterPeriodo: ' + this.filterPeriodo);
-
         if (this.invocador === 'control') {
             if (this.filterBy === 'GrupoFava'){
                 url = url + 'novedades';
-                console.log(url);
+                // console.log(url);
             }else{
                 url = url + 'novedades?empresa=' + this.filterBy + '&periodo=' + this.filterPeriodo;
-                console.log(url);
+                // console.log(url);
             }
 
         }else{
             url = url + 'novedades?departamento=' + this.filterBy + '&periodo=' + this.filterPeriodo;
-            console.log(url);
+            // console.log(url);
         }
         
         return new Promise((resolve, reject) => {
