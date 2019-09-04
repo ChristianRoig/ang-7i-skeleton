@@ -34,7 +34,7 @@
             <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Departamento</mat-header-cell>
             <mat-cell *matCellDef="let data" fxHide fxShow.gt-sm>
                 <p class="Departament text-truncate">
-                    {{data.origen}}
+                    {{data.origen | titlecase}}
                 </p>
             </mat-cell>
         </ng-container>
@@ -44,7 +44,7 @@
             <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Sector</mat-header-cell>
             <mat-cell *matCellDef="let data" fxHide fxShow.gt-sm>
                 <p class="text-truncate">
-                    {{data.origen}}
+                    {{data.origen | titlecase}}
                 </p>
             </mat-cell>
         </ng-container>
@@ -54,7 +54,7 @@
             <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Origen</mat-header-cell>
             <mat-cell *matCellDef="let data" fxHide fxShow.gt-sm>
                 <p class="text-truncate">
-                    {{data.origen}}
+                    {{data.origen | titlecase}}
                 </p>
             </mat-cell>
         </ng-container>
@@ -64,7 +64,7 @@
             <mat-header-cell *matHeaderCellDef>Concepto</mat-header-cell>
             <mat-cell *matCellDef="let data">
                 <p class="text-truncate">
-                    {{data.descripcion}}
+                    {{data.descripcion | titlecase}}
                 </p>
             </mat-cell>
         </ng-container>

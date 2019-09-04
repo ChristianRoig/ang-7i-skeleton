@@ -39,6 +39,8 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
 
     @Input() periodos;
 
+    @Input() origen;
+
     selectedContacts: any[];
     checkboxes: {};
 
@@ -142,6 +144,7 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
                 periodos: this.periodos,
                 invocador: this.invocador,
                 novedad: nov,
+                origen: this.origen,
                 action: 'edit'
             }
         });

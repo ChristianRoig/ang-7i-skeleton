@@ -184,6 +184,7 @@ export class NovedadesComponent implements OnInit, OnDestroy
                 periodo: this.periodoSelect,
                 periodos: this.periodos,
                 invocador: this.componente,
+                origen: this.seleccionado,
                 action: 'new'
             }
         });

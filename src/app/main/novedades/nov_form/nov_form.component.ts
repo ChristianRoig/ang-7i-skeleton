@@ -1,24 +1,14 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-
-import * as _moment from 'moment';
-
 import { Perfil } from 'app/main/perfil/perfil.model';
 import { FuseUtils } from '@fuse/utils';
 import { Novedad } from '../novedad.model';
 import { CombosService } from '../../common/combos/combos.service';
-import { Combos } from '../../../mock-db/data/combos';
-import { NovedadService } from '../novedad.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
-
-const moment = _moment;
-
 
 export const dia_mes_año = {
     parse: {
@@ -77,7 +67,6 @@ export class NovedadFormDialogComponent
         public matDialogRef: MatDialogRef<NovedadFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder,
-        private _novedadService: NovedadService,
         private _combosService: CombosService
     )
     {
@@ -115,37 +104,43 @@ export class NovedadFormDialogComponent
             this._combosService.onComboConceptoExternaChanged
                 .pipe(takeUntil(this._unsubscribeAll))
                 .subscribe(data => {
-                    this.conceptosXOrigen = data;
+                    const resFiltrado = FuseUtils.filterArrayByString(data, this.origen);
+
+                    if (resFiltrado.length === 0){
+                        this.conceptosXOrigen = data;
+                    }else{
+                        this.conceptosXOrigen = resFiltrado;
+                    }
+
                 });
         }
 
-
-        if ( this.action === 'edit' )
-        {
+        if ( this.action === 'edit' ){
             this.dialogTitle = 'Editar Novedad';       
             this.novedad = _data.novedad;
             this.colaborador = new Perfil(_data.novedad);
         }
-        else
-        {
-            this.dialogTitle = 'Nueva Novedad';      
-            
+        else{
+            this.dialogTitle = 'Nueva Novedad';                  
         }
 
         this.novXForm = this.createForm();
     }
 
- 
+   
+    
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
+    verForm(): void {
+        console.log(this.novXForm);
+    }
 
     onSubmit(): void {
         console.log(this.novXForm);
         this.matDialogRef.close();
     }
-    
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
 
     /**
      * Cambia el tipo segun el switch y setea importe en '' si es cualitativa
@@ -155,19 +150,16 @@ export class NovedadFormDialogComponent
 
         if (this.hideshow) { // Cuantitativa
             this.novXForm.controls['tipo'].setValue('Cuantitativa');
-            // this.novXForm.controls.cantidad.enable();
-            // this.novXForm.controls.concepto_cuantitativos.enable();
-            // this.novXForm.controls.concepto_cualitativos.disable();
-        } else { // Cualitativa
+            this.novXForm.controls.descripcion.reset('');                       
             this.novXForm.controls['importe'].setValue('');
+            this.novXForm.controls.importe.enable();
+        } else { // Cualitativa
             this.novXForm.controls['tipo'].setValue('Cualitativa');
-            // this.novXForm.controls.concepto_cualitativos.enable();
-            // this.novXForm.controls.cantidad.disable();
-            // this.novXForm.controls.concepto_cuantitativos.disable();
+            this.novXForm.controls.descripcion.reset('');                       
+            this.novXForm.controls['importe'].setValue('');
+            this.novXForm.controls.importe.disable();            
         }
     }
-
-
 
     /**
      * Create colaborador form
@@ -192,8 +184,13 @@ export class NovedadFormDialogComponent
                 }      
             }
             
-            return this._formBuilder.group({
+            let isCtrlNov = false;
+            if (this.invocador === 'ControlNovedades'){
+                isCtrlNov = true;
+            }
 
+
+            return this._formBuilder.group({
                 idNovedad: this.novedad.idNovedad,
                 empresa: this.novedad.empresa,                
                 codNovedad: this.novedad.codNovedad,
@@ -209,10 +206,10 @@ export class NovedadFormDialogComponent
                 nombre: this.novedad.nombre,
                 legajo: new FormControl({ value: this.novedad.legajo, disabled: true }),
                 periodo: new FormControl({ value: this._refactorDate(this.novedad.periodo), disabled: true }),
-                fechaDesde: this.novedad.fechaDesde,
-                fechaHasta: this.novedad.fechaHasta,
+                fechaDesde: (this.novedad.fechaDesde === 'null') ? '' : this.novedad.fechaDesde,                
+                fechaHasta: (this.novedad.fechaHasta === 'null') ? '' : this.novedad.fechaHasta,
                 estado: this.novedad.estado,
-                descripcion: this.novedad.descripcion,
+                descripcion: (isCtrlNov) ? new FormControl({ value: this.novedad.descripcion, disabled: true }) : this.novedad.descripcion,
                 importe: this.novedad.importe,
 
             });
@@ -220,11 +217,9 @@ export class NovedadFormDialogComponent
 
 
         }else {
-
             const hoy = new Date;
 
-            if (this.invocador === 'equipo') {
-                // this.colaborador
+            if (this.invocador === 'equipo') {                
                 return this._formBuilder.group({
                     idNovedad: null,
                     codNovedad: '',

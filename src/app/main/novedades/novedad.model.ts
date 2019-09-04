@@ -45,7 +45,7 @@ export class Novedad {
 
         this.empresa = novedad.empresa || '';
         this.codEmpresa = novedad.codEmpresa || '';
-        this.descripcion = novedad.descripcion || '';
+        this.descripcion = novedad.descripcion.toLocaleUpperCase() || '';
         this.fechaDesde = novedad.fechaDesde || '';
         this.fechaHasta = novedad.fechaHasta || '';
         this.codNovedad = novedad.codNovedad || '';
