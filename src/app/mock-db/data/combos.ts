@@ -208,40 +208,30 @@ export class Combos {
     ];
 
     public static externa = [
-        {
-            'cod': '31   ',
-            'valor': 'ADICIONAL PROVISORIO ADM',
-            'valor2': 'EntMan-Inc'
-        },
-        {
-            'cod': '109  ',
-            'valor': 'COMISION GESTION DOMICILIARIA',
-            'valor2': 'Gesti-Dom'
-        },
-        {
-            'cod': '259  ',
-            'valor': 'CORPORATIVO-CLARO',
-            'valor2': 'Corpo'
-        },
-        {
-            'cod': '262  ',
-            'valor': 'CORPORATIVO-PERSONAL',
-            'valor2': 'Corpo'
-        },
-        {
-            'cod': 'DIFCA',
-            'valor': 'DIFERENCIA DE CAJA',
-            'valor2': 'Difer'
-        },
-        {
-            'cod': '117  ',
-            'valor': 'PREMIO COBRANZAS',
-            'valor2': 'Prem-Cob'
-        },
-        {
-            'cod': '116  ',
-            'valor': 'PREMIO VENTAS',
-            'valor2': 'Prem-Vta'
-        },
+        { 'cod': 'ADELA', 'valor': 'ADELANTOS', 'valor2': 'Antici', },
+        { 'cod': '32', 'valor': 'ADICIONAL PROVISORIO', 'valor2': 'Comis', },
+        { 'cod': '31', 'valor': 'ADICIONAL PROVISORIO ADM', 'valor2': 'EntMan-Inc', },
+        { 'cod': '269', 'valor': 'AJUSTE DEV DIFERENCIA CAJA', 'valor2': 'Antici', },
+        { 'cod': '261', 'valor': 'AJUSTE RETROACTIVO', 'valor2': 'Retro', },
+        { 'cod': '228', 'valor': 'ANTICIPO PAGO CAFETERIA', 'valor2': 'Antici', },
+        { 'cod': '229', 'valor': 'ANTICIPO PAGO FAVACARD', 'valor2': 'Antici', },
+        { 'cod': 'COMI', 'valor': 'COMISION', 'valor2': 'Comis', },
+        { 'cod': '109', 'valor': 'COMISION GESTION DOMICILIARIA', 'valor2': 'Gesti-Dom', },
+        { 'cod': 'COMIF', 'valor': 'COMISION POR ENFERMEDAD', 'valor2': 'Comis', },
+        { 'cod': 'COMIV', 'valor': 'COMISION POR VACACIONES', 'valor2': 'Comis', },
+        { 'cod': 'COMIPRES', 'valor': 'COMISION PRESTAMOS PERSONALES', 'valor2': 'Comis', },
+        { 'cod': 'COMIBECA', 'valor': 'COMISIONES BECA', 'valor2': 'Comis', },
+        { 'cod': 'COMIS', 'valor': 'COMISIONES FAVA SALUD', 'valor2': 'Comis', },
+        { 'cod': 'COMIP', 'valor': 'COMISIONES PROMOTORES', 'valor2': 'Comis', },
+        { 'cod': '259', 'valor': 'CORPORATIVO-CLARO', 'valor2': 'Corpo', },
+        { 'cod': '262', 'valor': 'CORPORATIVO-PERSONAL', 'valor2': 'Corpo', },
+        { 'cod': '500', 'valor': 'DECRETO', 'valor2': 'RRHH-Gen', },
+        { 'cod': 'DESC', 'valor': 'DESCUENTO DIAS', 'valor2': 'RRHH-Gen', },
+        { 'cod': '588', 'valor': 'Dev.Imp Gcias - Periodo Fiscal 2016', 'valor2': 'RRHH-Gen', },
+        { 'cod': '225', 'valor': 'DEVOLUCION PREMIO TRIMESTRAL', 'valor2': 'Prem-Prod', },
+        { 'cod': 'DIFCA', 'valor': 'DIFERENCIA DE CAJA', 'valor2': 'Difer', },
+        { 'cod': '12', 'valor': 'GUARDIAS PASIVAS 100%', 'valor2': 'RRHH-Gen', },
+        { 'cod': '11', 'valor': 'GUARDIAS PASIVAS 50%', 'valor2': 'RRHH-Gen', },
+        { 'cod': '34', 'valor': 'INCENTIVO PROVISORIO', 'valor2': 'Retro', },
     ];
 }
