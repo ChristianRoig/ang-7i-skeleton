@@ -68,10 +68,6 @@ export class NovedadService implements Resolve<any>
             ]).then(
                 ([files]) => {
 
-                    /**
-                     * Filtros de busqueda
-                     */
-
                     // Filtro por texto                     
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
@@ -85,7 +81,6 @@ export class NovedadService implements Resolve<any>
                             this.getNovedades();
                         }                        
                     });
-
                     
                     resolve();
 
@@ -183,8 +178,7 @@ export class NovedadService implements Resolve<any>
 
     /**
      * borrarAllNovedades()
-     * encargado de eliminar todas las novedades segun un periodo y departamento/origen
-     * 
+     * Encargado de eliminar todas las novedades segun un periodo y departamento/origen
      * @param {string} periodo
      * @param {string} departamento
      */
@@ -199,14 +193,105 @@ export class NovedadService implements Resolve<any>
 
         this._httpClient.delete(url, options).subscribe(
             (res) => { this.getNovedades(); },
-            (err) => { console.log(err); }
+            (err) => {
+                this._errorService.errorHandler(err);
+            }
         );
 
     }
 
+    /**
+     * updateNovedad()
+     * Se encarga de enviar al backend una novedad para que sea actualizada
+     * @param {Novedad} nov 
+     */
+    updateNovedad(nov: Novedad): void {
+        console.log('Updatear Novedad');
+        console.log(nov);
+
+        nov.periodo = this._tratamientoDate(nov.periodo);
+
+        console.log(this.invocador);
+
+        const httpHeaders = new HttpHeaders({
+            'Authorization': this._loginService.getLocalToken()
+        });
+
+        const options = { headers: httpHeaders };
+
+        const url = API_URL + 'novedad?id=' + nov.idNovedad;
+        // const url = 'http://10.100.58.83:8083/ges-rrhh-svc/' + 'novedad?id=' + nov.idNovedad;    
+
+        this._httpClient.put(url, nov, options).subscribe(
+            (res) => {
+                console.log('respuesta ' + res);
+
+                if (this.invocador !== 'equipo') {
+                    this.getNovedades();
+                }
+
+            },
+            (err) => {
+                this._errorService.errorHandler(err);
+            }
+        );
+    }
+
+
+    /**
+     * addNovedad()
+     * Se encarga de enviar al backend una novedad para que sea guardada
+     * @param {Novedad} nov 
+     */
+    addNovedad(nov: Novedad): void {
+        console.log('Agregar Novedad');
+        console.log(nov);
+
+        nov.periodo = this._tratamientoDate(nov.periodo);
+
+        console.log(this.invocador);
+
+        const httpHeaders = new HttpHeaders({
+            'Authorization': this._loginService.getLocalToken()
+        });
+
+        const options = { headers: httpHeaders };
+
+        const url = API_URL + 'novedad';        
+
+        this._httpClient.post(url, nov , options).subscribe(
+            (res) => { 
+                console.log('respuesta ' + res);
+
+                if (this.invocador !== 'equipo') {
+                    this.getNovedades();
+                }
+                
+             },
+            (err) => {
+                this._errorService.errorHandler(err);
+            }
+        );
+        
+    }
+
+
     // -----------------------------------------------------------------------------------------------------
     // @ Private methods
     // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * _tratamientoDate()
+     * Manejo del string date para que se corresponda con lo esperado por el backend
+     * @param {string} date 
+     */
+    private _tratamientoDate(date: string): string {
+        if (date.length !== 7){
+            return date;
+        }
+        return date.split('-')[1] + '-' + date.split('-')[0] + '-01 00:00:00';
+    }
+
 
     /**
      * _filterNovedades()

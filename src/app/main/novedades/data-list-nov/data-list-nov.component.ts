@@ -133,9 +133,60 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
             });
     }
 
+
+    cambiarEstado(nov: Novedad): void {
+        console.log(nov);
+        let actual = '';
+        let nuevo = '';
+        // const estados = ['CONFIRMAR', 'APROBADO'];
+        if (nov.estado !== 'CONFIRMAR' && nov.estado !== 'APROBADO'){
+            return;
+        }
+
+        if (nov.estado === 'CONFIRMAR'){
+            actual = 'CONFIRMAR';
+            nuevo = 'APROBADO';
+        }else{
+            actual = 'APROBADO';
+            nuevo = 'CONFIRMAR';
+        }
+
+        this.dialogRef = this._matDialog.open(GeneralConfirmDialogComponent, {
+            panelClass: 'general-confirm-dialog',
+            data: {
+                dialogTitle: 'Cambiar el Estado de la Nov.',
+                mensaje: '¿Esta seguro que desea cambiar el estado de ' + actual + ' a ' + nuevo + '?',
+            }
+        });
+
+        this.dialogRef.afterClosed()
+            .subscribe(response => {
+                if (!response) {
+                    return;
+                }
+                const actionType: string = response[0];                
+
+                switch (actionType) {
+
+                    case 'aceptar':
+                        // console.log('Desea Cambiar el estado');
+                        nov.estado = nuevo;
+
+                        this._novedadService.updateNovedad(nov);
+                        break;
+
+                    case 'cancelar':
+                        // console.log('NO Desea Cambiar el estado');
+                        break;
+                }
+            });
+
+    }
+
+
     editNovedad(nov: Novedad): void {
 
-        console.log(nov);
+        // console.log(nov);
 
         this.dialogRef = this._matDialog.open(NovedadFormDialogComponent, {
             panelClass: 'nov-form-dialog',
@@ -148,33 +199,6 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
                 action: 'edit'
             }
         });
-
-        // this.dialogRef.afterClosed()
-        //     .subscribe(response => {
-        //         if (!response) {
-        //             return;
-        //         }
-        //         const actionType: string = response[0];
-        //         const formData: FormGroup = response[1];
-        //         switch (actionType) {
-        //             /**
-        //              * Save
-        //              */
-        //             case 'save':
-
-        //                 //         this..updateContact(formData.getRawValue());
-
-        //                 break;
-        //             /**
-        //              * Delete
-        //              */
-        //             case 'delete':
-
-        //                 // this.deleteContact(colaborador);
-
-        //                 break;
-        //         }
-        //     });
     }
 
 
@@ -190,6 +214,5 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
     private _capitalizar(texto: string): string {
         return texto.replace(/\b\w/g, l => l.toUpperCase());
     }
-
 
 }

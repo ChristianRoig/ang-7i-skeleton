@@ -184,37 +184,38 @@ export class NovedadesComponent implements OnInit, OnDestroy
                 periodo: this.periodoSelect,
                 periodos: this.periodos,
                 invocador: this.componente,
-                origen: this.seleccionado,
+                origen: this.filtroAMostrar,
+                codOrigen: this.seleccionado,
                 action: 'new'
             }
         });
 
-        this.dialogRef.afterClosed()
-            .subscribe(response => {
-                if (!response) {
-                    return;
-                }
-                const actionType: string = response[0];
-                const formData: FormGroup = response[1];
-                switch (actionType) {
-                    /**
-                     * Save
-                     */
-                    case 'save':
+        // this.dialogRef.afterClosed()
+        //     .subscribe(response => {
+        //         if (!response) {
+        //             return;
+        //         }
+        //         const actionType: string = response[0];
+        //         const formData: FormGroup = response[1];
+        //         switch (actionType) {
+        //             /**
+        //              * Save
+        //              */
+        //             case 'save':
 
-                        //         this..updateContact(formData.getRawValue());
+        //                 //         this..updateContact(formData.getRawValue());
 
-                        break;
-                    /**
-                     * Delete
-                     */
-                    case 'delete':
+        //                 break;
+        //             /**
+        //              * Delete
+        //              */
+        //             case 'delete':
 
-                        // this.deleteContact(colaborador);
+        //                 // this.deleteContact(colaborador);
 
-                        break;
-                }
-            });
+        //                 break;
+        //         }
+        //     });
     }
 
     importar(): void {

@@ -180,6 +180,8 @@ export class NovEquiposComponent implements OnInit, OnDestroy
                 periodo: this.periodoSelect,
                 periodos: this.periodos,
                 invocador: this.componente,
+                origen: this.filtroAMostrar,
+                codOrigen: this.seleccionado,                
                 action: 'new'
             }
         });

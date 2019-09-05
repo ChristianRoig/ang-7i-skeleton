@@ -73,7 +73,6 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
     ngOnInit(): void {
         this.dataSource = new FilesDataSource(this._novedadService);
             
-
         // Combo de Periodos
         this._combosService.onComboOrigenPeriodoChanged
             .pipe(takeUntil(this._unsubscribeAll))
@@ -114,8 +113,7 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
     }
 
     updateCheck(c: boolean): void {
-        this.hasCheckNomina = c;
-        // console.log("cambio " + this.hasCheckNomina);
+        this.hasCheckNomina = c;        
 
         const col = 'estado';
 
@@ -126,9 +124,6 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
             const anteultimo = this.columnas.length - 1; 
             this.columnas.splice(anteultimo, 0, col);
         }
-
-
-
     }
 
     // changeColumns(value: string): void {

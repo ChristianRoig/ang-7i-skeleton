@@ -89,7 +89,7 @@
 
             <!-- CONTENT -->
             <div class="content">
-                <data-list-colaboradores [displayedColumns]="columnas" [hasCheck]="false" [invocador]="componente" [dataSource]="dataSource"></data-list-colaboradores>
+                <data-list-colaboradores [comboOrigen]="{'cod': seleccionado, 'valor':filtroAMostrar}" [displayedColumns]="columnas" [hasCheck]="false" [invocador]="componente" [dataSource]="dataSource"></data-list-colaboradores>
             </div>
             <!-- / CONTENT -->
 

@@ -32,30 +32,36 @@ export class Novedad {
      */
     constructor(novedad) {
         this.idNovedad = novedad.idNovedad || null;
-        this.nombre = novedad.nombre || '';
-        this.legajo = novedad.legajo || '-';
-        this.origen = novedad.origen || '';
+        this.nombre = this._isTextNull(novedad.nombre) || '';
+        this.legajo = this._isTextNull(novedad.legajo) || '-';
+        this.origen = this._isTextNull(novedad.origen) || '';
 
-        this.sexo = novedad.sexo || 'Masculino';
+        this.sexo = this._isTextNull(novedad.sexo) || 'Masculino';
         if (this.sexo === 'Femenino') {
             this.img = novedad.img || 'assets/images/avatars/avatarF.png';
         } else {
             this.img = novedad.img || 'assets/images/avatars/avatarM.png';
         }
 
-        this.empresa = novedad.empresa || '';
-        this.codEmpresa = novedad.codEmpresa || '';
+        this.empresa = this._isTextNull(novedad.empresa) || '';
+        this.codEmpresa = this._isTextNull(novedad.codEmpresa) || '';
         this.descripcion = novedad.descripcion.toLocaleUpperCase() || '';
-        this.fechaDesde = novedad.fechaDesde || '';
-        this.fechaHasta = novedad.fechaHasta || '';
-        this.codNovedad = novedad.codNovedad || '';
-        this.codOrigen = novedad.codOrigen || '';
-        this.periodo = novedad.periodo || '';
-        this.tipo = novedad.tipo || '';
-        this.observaciones = novedad.observaciones || '';
-        this.importe = novedad.importe || '';
-        this.estado = novedad.estado || '';
+        this.fechaDesde = this._isTextNull(novedad.fechaDesde) || '';
+        this.fechaHasta = this._isTextNull(novedad.fechaHasta) || '';
+        this.codNovedad = this._isTextNull(novedad.codNovedad) || '';
+        this.codOrigen = this._isTextNull(novedad.codOrigen) || '';
+        this.periodo = this._isTextNull(novedad.periodo) || '';
+        this.tipo = this._isTextNull(novedad.tipo) || '';
+        this.observaciones = this._isTextNull(novedad.observaciones) || '';
+        this.importe = this._isTextNull(novedad.importe) || '0';
+        this.estado = this._isTextNull(novedad.estado) || '';
+    }
 
+    private _isTextNull(value: string): string {
+        if (value === 'null' || value === null){
+            return '';
+        }
+        return value;
     }
 
 }

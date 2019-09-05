@@ -9,6 +9,7 @@ import { Novedad } from '../novedad.model';
 import { CombosService } from '../../common/combos/combos.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { NovedadService } from '../novedad.service';
 
 export const dia_mes_año = {
     parse: {
@@ -34,22 +35,24 @@ export const dia_mes_año = {
     ],
 }) 
 export class NovedadFormDialogComponent
-{        
+{   
+    
+    // Datos de _data
     colaborador: Perfil;
-    unidad = '';
-
     action: string;
-    novXForm: FormGroup;
-    dialogTitle: string;
     novedad: Novedad;
     invocador: string;
-    origen: string;
-
-    hideshow = true;
-    
+    private codOrigen: string;
+    private origen: string;
     private periodo: string;
     private periodos: [];        
-
+    // /Datos
+    
+    novXForm: FormGroup;
+    dialogTitle: string;
+    hideshow = true;
+    
+    // Combos
     cuantitativos = [];
     cualitativos = [];
     conceptosXOrigen = [];
@@ -67,16 +70,31 @@ export class NovedadFormDialogComponent
         public matDialogRef: MatDialogRef<NovedadFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder,
-        private _combosService: CombosService
+        private _combosService: CombosService,
+        private _novedadService: NovedadService
     )
     {
+        this._unsubscribeAll = new Subject();
+
+
         // Set the defaults
         this.action = _data.action;
         this.periodo = _data.periodo || '';
         this.periodos = _data.periodos || [];
+        this.origen = _data.origen || '';
+        this.codOrigen = _data.codOrigen || '';
+        this.colaborador = new Perfil(_data.perfil || {});
         this.invocador = _data.invocador || '';
-
-        this._unsubscribeAll = new Subject();
+        
+        
+        if (this.invocador !== '' && this.invocador !== undefined && this.invocador === 'equipo'){
+            // Pregunto solo por 'equipo', '' y undefined, mas que nada para no romper el manejo
+            // existente que se realiza en el servicio de novedades, el cual saca de la url el invocador, el equipo no ocupa ser registrado 
+            console.log('Invocador del form: ' + this.invocador);
+            this._novedadService.OnInvocadorChanged.next(this.invocador);
+        }
+        
+        
 
         // Combo Cuantitativos
         this._combosService.onComboConceptoCuantitativaChanged
@@ -93,13 +111,12 @@ export class NovedadFormDialogComponent
             });
 
 
-        if (this.invocador === 'equipo') {
-            this.colaborador = new Perfil(_data.perfil || {});
-        }
+        // if (this.invocador === 'equipo') {
+        //     this.colaborador = new Perfil(_data.perfil || {});
+        // }
+
 
         if (this.invocador === 'sector'){
-            this.origen = _data.origen || ''; // se tiene que enviar en NovXSector
-        
             // Combo Cualitativos
             this._combosService.onComboConceptoExternaChanged
                 .pipe(takeUntil(this._unsubscribeAll))
@@ -134,13 +151,54 @@ export class NovedadFormDialogComponent
     // -----------------------------------------------------------------------------------------------------
 
     verForm(): void {
-        console.log(this.novXForm);
+        
+        console.log(this.novXForm.getRawValue());
     }
 
     onSubmit(): void {
         console.log(this.novXForm);
+
+        const novedad = new Novedad(this.novXForm.getRawValue());
+
+        if (this.action === 'edit'){
+            this._novedadService.updateNovedad(novedad);
+        }
+
+        if (this.action === 'new') {
+            this._novedadService.addNovedad(novedad);
+        }
+
         this.matDialogRef.close();
     }
+
+    setearCodNovedad(param: any, combo: string): void {
+        let comboFiltrado = [];
+
+        if (combo === 'cualitativos'){
+            comboFiltrado = this.cualitativos;    
+        }
+        
+        if (combo === 'cuantitativos'){
+            comboFiltrado = this.cuantitativos;
+        }
+
+        if (combo === 'xSector'){
+            comboFiltrado = this.conceptosXOrigen;
+        }
+        
+        const yaFiltrado = FuseUtils.filterArrayByString(comboFiltrado, param.value);
+        
+        if (yaFiltrado.length !== 0){
+            this.novXForm.controls['codNovedad'].setValue(yaFiltrado[0].cod);
+
+
+            if (combo === 'xSector') {
+                this.novXForm.controls['tipo'].setValue(yaFiltrado[0].valor3);
+            }
+        }
+    }
+
+
 
     /**
      * Cambia el tipo segun el switch y setea importe en '' si es cualitativa
@@ -150,13 +208,15 @@ export class NovedadFormDialogComponent
 
         if (this.hideshow) { // Cuantitativa
             this.novXForm.controls['tipo'].setValue('Cuantitativa');
-            this.novXForm.controls.descripcion.reset('');                       
-            this.novXForm.controls['importe'].setValue('');
+            this.novXForm.controls.descripcion.reset('');
+            this.novXForm.controls.codNovedad.reset('');
+            this.novXForm.controls['importe'].setValue('0');
             this.novXForm.controls.importe.enable();
         } else { // Cualitativa
             this.novXForm.controls['tipo'].setValue('Cualitativa');
-            this.novXForm.controls.descripcion.reset('');                       
-            this.novXForm.controls['importe'].setValue('');
+            this.novXForm.controls.descripcion.reset('');
+            this.novXForm.controls.codNovedad.reset('');
+            this.novXForm.controls['importe'].setValue('0');
             this.novXForm.controls.importe.disable();            
         }
     }
@@ -214,32 +274,30 @@ export class NovedadFormDialogComponent
 
             });
 
-
-
         }else {
             const hoy = new Date;
 
-            if (this.invocador === 'equipo') {                
+            if (this.invocador === 'equipo') {                                                
                 return this._formBuilder.group({
                     idNovedad: null,
-                    codNovedad: '',
                     codEmpresa: this.colaborador.codEmpresa,
                     empresa: this.colaborador.empresa,
-                    codOrigen: '',
-                    origen: '',
-                    observaciones: '',
+                    codOrigen: this.codOrigen,
+                    origen: this.origen,
                     sexo: this.colaborador.sexo,
                     img: this.colaborador.img,
                     nombre: this.colaborador.nombre,
+                    codNovedad: '',
+                    observaciones: '',
 
                     ///////////////////
 
                     legajo: this.colaborador.legajo,
-                    tipo: '',
+                    tipo: (this.hideshow) ? 'Cuantitativa' : 'Cualitativa',
                     periodo: new FormControl({ value: this._to2digit(hoy.getMonth() + 1) + '-' + hoy.getFullYear(), disabled: true }),
                     fechaDesde: '',
                     fechaHasta: '',
-                    importe: '',
+                    importe: '0',
                     estado: 'CONFIRMAR',
                     descripcion: '',
                 });
@@ -253,8 +311,8 @@ export class NovedadFormDialogComponent
                     codNovedad: '',
                     codEmpresa: '',
                     empresa: '',
-                    codOrigen: '',
-                    origen: '',
+                    codOrigen: this.codOrigen,
+                    origen: this.origen,
                     observaciones: '',
                     sexo: '',
                     img: 'assets/images/avatars/avatarF.png',
@@ -262,19 +320,16 @@ export class NovedadFormDialogComponent
 
                     ///////////////////
 
-                    tipo: '',
+                    tipo: (this.invocador === 'sector') ? '' : (this.hideshow) ? 'Cuantitativa' : 'Cualitativa',
                     legajo: '',
                     periodo: new FormControl({ value: pSelect, disabled: true }),
                     fechaDesde: '',
                     fechaHasta: '',
-                    importe: '',
+                    importe: '0',
                     estado: 'CONFIRMAR',
                     descripcion: '',
                 });
             }
-
-
-            
 
         }
 

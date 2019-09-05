@@ -41,7 +41,7 @@
             <div fxLayout="row" fxLayoutAlign="start start" *ngIf="invocador == 'sector'">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Descripcion</mat-label>
-                    <mat-select formControlName="descripcion" name="descripcion" required>
+                    <mat-select formControlName="descripcion" name="descripcion" required (selectionChange)="setearCodNovedad($event,'xSector')">
                         <mat-option *ngFor="let c of conceptosXOrigen" [value]="c.valor">
                             {{c.valor | titlecase }}
                         </mat-option>
@@ -68,7 +68,7 @@
             <div fxLayout="row" fxLayoutAlign="start start" *ngIf="hideshow && invocador != 'sector' && invocador != 'ControlNovedades'">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Descripcion</mat-label>                                   
-                    <mat-select formControlName="descripcion" name="descripcion" required > <!-- (selectionChange)="changeUnidad($event)" -->
+                    <mat-select formControlName="descripcion" name="descripcion" required (selectionChange)="setearCodNovedad($event,'cuantitativos')"> 
                         <mat-option *ngFor="let c of cuantitativos" [value]="c.valor">
                             {{c.valor | titlecase }}
                         </mat-option>
@@ -80,7 +80,7 @@
             <div fxLayout="row" fxLayoutAlign="start start" *ngIf="!hideshow && invocador != 'sector' && invocador != 'ControlNovedades'">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Descripcion</mat-label>
-                    <mat-select formControlName="descripcion" name="descripcion" required >
+                    <mat-select formControlName="descripcion" name="descripcion" required (selectionChange)="setearCodNovedad($event,'cualitativos')">
                         <mat-option *ngFor="let c of cualitativos" [value]="c.valor">
                             {{c.valor | titlecase }}
                         </mat-option>
@@ -155,7 +155,7 @@
                 mat-button
                 color="accent"
                 class="save-button"
-                (click)="matDialogRef.close(['save',novXForm])"
+                (click)="onSubmit()"
                 [disabled]="novXForm.invalid"
                 aria-label="SAVE">
             Guardar

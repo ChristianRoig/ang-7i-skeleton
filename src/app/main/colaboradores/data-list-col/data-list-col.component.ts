@@ -7,6 +7,7 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 import { Router } from '@angular/router';
 import { Perfil } from 'app/main/perfil/perfil.model';
 import { NovedadFormDialogComponent } from 'app/main/novedades/nov_form/nov_form.component';
+import { Combo } from 'app/main/common/combos/combo.model';
 
 
 @Component({
@@ -31,8 +32,9 @@ export class DataListColaboradorComponent implements OnInit, OnDestroy
 
     @Input() invocador: string;
 
-    @Input() dataSource; 
+    @Input() dataSource;
 
+    @Input() comboOrigen;
 
     dialogRef: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
@@ -46,8 +48,7 @@ export class DataListColaboradorComponent implements OnInit, OnDestroy
      * @param {MatDialog} _matDialog
      * @param {Router} router
      */
-    constructor(
-        
+    constructor(        
         public _matDialog: MatDialog,
         private router: Router
     )
@@ -82,7 +83,14 @@ export class DataListColaboradorComponent implements OnInit, OnDestroy
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    /**
+     * addNovedad()
+     * Invoca el form de nueva novedad asignando un colaborador
+     * @param {Perfil} colaborador 
+     */
     addNovedad(colaborador: Perfil): void {
+        const combo = new Combo(this.comboOrigen);
+        
         this.dialogRef = this._matDialog.open(NovedadFormDialogComponent, {
             panelClass: 'nov-form-dialog',
             data: {
@@ -91,38 +99,18 @@ export class DataListColaboradorComponent implements OnInit, OnDestroy
                 invocador: this.invocador,
                 action: 'new',
                 perfil: colaborador,
+                codOrigen: combo.cod,
+                origen: combo.valor,
             }
         });
 
-        // this.dialogRef.afterClosed()
-        //     .subscribe(response => {
-        //         if (!response) {
-        //             return;
-        //         }
-        //         const actionType: string = response[0];
-        //         const formData: FormGroup = response[1];
-        //         switch (actionType) {
-        //             /**
-        //              * Save
-        //              */
-        //             case 'save':
-
-        //                 //         this..updateContact(formData.getRawValue());
-
-        //                 break;
-        //             /**
-        //              * Delete
-        //              */
-        //             case 'delete':
-
-        //                 // this.deleteContact(colaborador);
-
-        //                 break;
-        //         }
-        //     });
     }
 
-
+    /**
+     * goPerfil()
+     * Permite re-dirigir al perfil de la persona
+     * @param {Perfil} colaborador 
+     */
     goPerfil(colaborador: Perfil): void {
         this.router.navigate([
             'perfil/' + colaborador.legajo                     
