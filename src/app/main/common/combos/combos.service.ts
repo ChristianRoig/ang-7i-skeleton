@@ -7,7 +7,6 @@ import { ErrorService } from 'app/main/errors/error.service';
 import { LoginService } from 'app/main/authentication/login-2/login-2.service';
 import { Combo } from './combo.model';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { forEach } from '@angular/router/src/utils/collection';
 
 const API_URL: string = environment.API;
 
@@ -65,11 +64,6 @@ export class CombosService implements Resolve<any>
         this.comboConceptoExterna = [];
     }
 
-
-
-
-
-
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -98,23 +92,6 @@ export class CombosService implements Resolve<any>
     }
 
 
-    private _getAll(): void{
-        const combos = [
-            'cualitativo',
-            'cuantitativo',
-            'externa',
-            'dep-suc',
-            'ext-rrhh',
-            'ext',
-            'rrhh',
-            'periodos',
-        ];
-
-        combos.forEach(combo => {
-            // console.log(combo);
-            this.initCombo(combo);
-        });
-    }
 
     /**
      * Devuelve el combo correspondiente, si no lo tiene lo trae del backend
@@ -206,6 +183,28 @@ export class CombosService implements Resolve<any>
     // -----------------------------------------------------------------------------------------------------
     // @ Private methods
     // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * _getAll()
+     * Metodo utilizado para cargar todos los combos
+     */
+    private _getAll(): void {
+        const combos = [
+            'cualitativo',
+            'cuantitativo',
+            'externa',
+            'dep-suc',
+            'ext-rrhh',
+            'ext',
+            'rrhh',
+            'periodos',
+        ];
+
+        combos.forEach(combo => {
+            // console.log(combo);
+            this.initCombo(combo);
+        });
+    }
 
     /**
      * Determina si el combo requerido ya fue consultado o no

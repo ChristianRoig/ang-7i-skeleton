@@ -123,6 +123,15 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * buscarXFiltro()
+     * Encargado de redireccionar la url
+     * @param elemento
+     */
     buscarXFiltro(elemento): void{        
         this.seleccionado = elemento.cod;
         this.filtroAMostrar = elemento.valor; 
@@ -130,6 +139,13 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
         this._router.navigate(['equipo/' + elemento.cod]);
     }
 
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * _defineAMostrar()
+     */
     private _defineAMostrar(): void {
         const aux: any[] = FuseUtils.filterArrayByString(this.listOrigenes, this.seleccionado);
         this.filtroAMostrar = (aux.length) ? aux[0].valor : '';

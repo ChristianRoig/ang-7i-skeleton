@@ -11,11 +11,11 @@ import { ErrorService } from '../errors/error.service';
 @Injectable()
 export class OrigenesService implements Resolve<any>
 {
-    onOrigenesChanged: BehaviorSubject<any>;
-    origenes = [];   
-
+    
     private searchText = '';
+    origenes = [];
     onSearchTextChanged: Subject<any>;
+    onOrigenesChanged: BehaviorSubject<any>;
 
     /**
      * Constructor
@@ -64,11 +64,6 @@ export class OrigenesService implements Resolve<any>
                         this._filterOrigenes();
                     });
 
-                    // this.onFilterChanged.subscribe(filter => {
-                    //     this.filterBy = filter;
-                    //     this.getContacts();
-                    // });
-
                     resolve();
 
                 },
@@ -84,18 +79,9 @@ export class OrigenesService implements Resolve<any>
     }
     
     /**
-     * _filterOrigenes()
-     * Dependiendo del texto ingresado filtra el contenido del objeto origenes
+     * getOrigenes()
+     * Encargado de traer del backend los origenes
      */
-    private _filterOrigenes(): void {
-        let aux = this.origenes;
-        if (this.searchText && this.searchText !== '') {
-            aux = FuseUtils.filterArrayByString(this.origenes, this.searchText);
-        }
-
-        this.onOrigenesChanged.next(aux);
-    }
-
     getOrigenes(): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient.get('api/tabla')
@@ -114,4 +100,20 @@ export class OrigenesService implements Resolve<any>
         });
     }
 
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * _filterOrigenes()
+     * Dependiendo del texto ingresado filtra el contenido del objeto origenes
+     */
+    private _filterOrigenes(): void {
+        let aux = this.origenes;
+        if (this.searchText && this.searchText !== '') {
+            aux = FuseUtils.filterArrayByString(this.origenes, this.searchText);
+        }
+
+        this.onOrigenesChanged.next(aux);
+    }
 }

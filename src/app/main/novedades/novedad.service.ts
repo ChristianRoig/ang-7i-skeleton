@@ -120,16 +120,13 @@ export class NovedadService implements Resolve<any>
 
         if (this.invocador === 'control') {
             if (this.filterBy === 'GrupoFava'){
-                url = url + 'novedades';
-                // console.log(url);
+                url = url + 'novedades';                
             }else{
-                url = url + 'novedades?empresa=' + this.filterBy + '&periodo=' + this.filterPeriodo;
-                // console.log(url);
+                url = url + 'novedades?empresa=' + this.filterBy + '&periodo=' + this.filterPeriodo;                
             }
 
         }else{
-            url = url + 'novedades?departamento=' + this.filterBy + '&periodo=' + this.filterPeriodo;
-            // console.log(url);
+            url = url + 'novedades?departamento=' + this.filterBy + '&periodo=' + this.filterPeriodo;            
         }
         
         return new Promise((resolve, reject) => {
@@ -206,12 +203,7 @@ export class NovedadService implements Resolve<any>
      * @param {Novedad} nov 
      */
     updateNovedad(nov: Novedad): void {
-        console.log('Updatear Novedad');
-        console.log(nov);
-
         nov.periodo = this._tratamientoDate(nov.periodo);
-
-        console.log(this.invocador);
 
         const httpHeaders = new HttpHeaders({
             'Authorization': this._loginService.getLocalToken()
@@ -219,12 +211,11 @@ export class NovedadService implements Resolve<any>
 
         const options = { headers: httpHeaders };
 
-        const url = API_URL + 'novedad?id=' + nov.idNovedad;
-        // const url = 'http://10.100.58.83:8083/ges-rrhh-svc/' + 'novedad?id=' + nov.idNovedad;    
+        const url = API_URL + 'novedad?id=' + nov.idNovedad;        
 
         this._httpClient.put(url, nov, options).subscribe(
             (res) => {
-                console.log('respuesta ' + res);
+                // console.log('respuesta ' + res);
 
                 if (this.invocador !== 'equipo') {
                     this.getNovedades();
@@ -244,12 +235,7 @@ export class NovedadService implements Resolve<any>
      * @param {Novedad} nov 
      */
     addNovedad(nov: Novedad): void {
-        console.log('Agregar Novedad');
-        console.log(nov);
-
         nov.periodo = this._tratamientoDate(nov.periodo);
-
-        console.log(this.invocador);
 
         const httpHeaders = new HttpHeaders({
             'Authorization': this._loginService.getLocalToken()
@@ -261,7 +247,7 @@ export class NovedadService implements Resolve<any>
 
         this._httpClient.post(url, nov , options).subscribe(
             (res) => { 
-                console.log('respuesta ' + res);
+                // console.log('respuesta ' + res);
 
                 if (this.invocador !== 'equipo') {
                     this.getNovedades();

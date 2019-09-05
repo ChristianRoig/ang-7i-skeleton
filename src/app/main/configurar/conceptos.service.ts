@@ -10,15 +10,14 @@ import { FuseUtils } from '@fuse/utils';
 @Injectable()
 export class ConceptosService implements Resolve<any>
 {    
-    onConceptosTablaChanged: BehaviorSubject<any>;
     
     TablaConceptos = [];   
 
-    // api = 'api/conceptos';
     api2 = 'api/tablaConceptos';
-
+    
     private searchText = '';
     onSearchTextChanged: Subject<any>;
+    onConceptosTablaChanged: BehaviorSubject<any>;
     
     /**
      * Constructor
@@ -64,12 +63,7 @@ export class ConceptosService implements Resolve<any>
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
                         this._filterConceptos();
-                    });
-
-                    // this.onFilterChanged.subscribe(filter => {
-                    //     this.filterBy = filter;
-                    //     this.getContacts();
-                    // });
+                    });                
 
                     resolve();
 
@@ -87,20 +81,12 @@ export class ConceptosService implements Resolve<any>
         }); 
     }
 
+  
+
     /**
-     * _filterConceptos()
-     * Dependiendo del texto ingresado filtra el contenido del objeto origenes
+     * getConceptosTabla()
+     * Encargado de traer del backend los conceptos
      */
-    private _filterConceptos(): void {
-        let aux = this.TablaConceptos;
-        if (this.searchText && this.searchText !== '') {
-            aux = FuseUtils.filterArrayByString(this.TablaConceptos, this.searchText);
-        }
-
-        this.onConceptosTablaChanged.next(aux);
-    }
-
-
     getConceptosTabla(): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient.get('api/tablaConceptos')
@@ -117,5 +103,23 @@ export class ConceptosService implements Resolve<any>
                 }, reject);
             }
         );
+    }
+
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * _filterConceptos()
+     * Dependiendo del texto ingresado filtra el contenido del objeto origenes
+     */
+    private _filterConceptos(): void {
+        let aux = this.TablaConceptos;
+        if (this.searchText && this.searchText !== '') {
+            aux = FuseUtils.filterArrayByString(this.TablaConceptos, this.searchText);
+        }
+
+        this.onConceptosTablaChanged.next(aux);
     }
 }

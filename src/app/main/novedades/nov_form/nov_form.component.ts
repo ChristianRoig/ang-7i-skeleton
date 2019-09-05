@@ -150,11 +150,19 @@ export class NovedadFormDialogComponent
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    /**
+     * verForm()
+     * Usado cuando se realiza un debug
+     */
     verForm(): void {
-        
+        console.log(this.novXForm);
         console.log(this.novXForm.getRawValue());
     }
 
+    /**
+     * onSubmit()
+     * Encargado de invocar el servicio una vez terminado de relizar los cambios en la novedad
+     */
     onSubmit(): void {
         console.log(this.novXForm);
 
@@ -171,6 +179,12 @@ export class NovedadFormDialogComponent
         this.matDialogRef.close();
     }
 
+    /**
+     * setearCodNovedad()
+     * Mecanismo para setear el codigo de novedad dependiendo del combo que se este usando
+     * @param {any} param 
+     * @param {string} combo 
+     */
     setearCodNovedad(param: any, combo: string): void {
         let comboFiltrado = [];
 
@@ -339,10 +353,18 @@ export class NovedadFormDialogComponent
     // @ Private methods
     // -----------------------------------------------------------------------------------------------------
     
+    /**
+     * _to2digit()
+     * @param {number} n 
+     */
     private _to2digit(n: number): string {
         return ('00' + n).slice(-2);
     }
 
+    /**
+     * _refactorDate()
+     * @param {string} date 
+     */
     private _refactorDate(date: string): string{
         if (date.length < 10 || date.length > 10){
             return 'error';

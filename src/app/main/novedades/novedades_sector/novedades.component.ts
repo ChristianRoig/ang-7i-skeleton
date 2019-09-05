@@ -147,7 +147,16 @@ export class NovedadesComponent implements OnInit, OnDestroy
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
     
+    /**
+     * buscarXFiltro()
+     * Encargado de redireccionar la url
+     * @param elemento 
+     */
     buscarXFiltro(elemento): void {
         this.seleccionado = elemento.cod;
         this.filtroAMostrar = elemento.valor;
@@ -155,28 +164,21 @@ export class NovedadesComponent implements OnInit, OnDestroy
         this._router.navigate(['novedades/sectores/' + elemento.cod]);
     }
 
+    /**
+     * filtrarXPeriodo()
+     * Encargado de asignar en el NovedadService el filtro x periodo
+     * @param elemento 
+     */
     filtrarXPeriodo(elemento): void {
         this.periodoSelect = elemento.valor;
 
         this._novedadService.onfilterPeriodoChanged.next(elemento.cod);
     }
     
-    private _defineDate(data?: string): void { // En un futuro puede que se usara un valor enviado por url
-        if (data) {
-            const pSelect = FuseUtils.filterArrayByString(this.periodos, data);
-            this.periodoSelect = (this.periodos.length !== 0) ? pSelect[0].valor : '';
-            this._novedadService.onfilterPeriodoChanged.next((this.periodos.length !== 0) ? pSelect[0].cod : '');
-        } else {
-            this.periodoSelect = (this.periodos.length !== 0) ? this.periodos[0].valor : ''; // El primero siempre es el Actual
-            this._novedadService.onfilterPeriodoChanged.next((this.periodos.length !== 0) ? this.periodos[0].cod : '');
-        }
-    }
-    
-    private _defineAMostrar(): void {
-        const aux: any[] = FuseUtils.filterArrayByString(this.sectores, this.seleccionado);
-        this.filtroAMostrar = (aux.length) ? aux[0].valor : '';        
-    }
-
+    /**
+     * addNovedad()
+     * Encargado de llamar al form para cargar una nueva novedad
+     */
     addNovedad(): void {
         this.dialogRef = this._matDialog.open(NovedadFormDialogComponent, {
             panelClass: 'nov-form-dialog',
@@ -189,35 +191,12 @@ export class NovedadesComponent implements OnInit, OnDestroy
                 action: 'new'
             }
         });
-
-        // this.dialogRef.afterClosed()
-        //     .subscribe(response => {
-        //         if (!response) {
-        //             return;
-        //         }
-        //         const actionType: string = response[0];
-        //         const formData: FormGroup = response[1];
-        //         switch (actionType) {
-        //             /**
-        //              * Save
-        //              */
-        //             case 'save':
-
-        //                 //         this..updateContact(formData.getRawValue());
-
-        //                 break;
-        //             /**
-        //              * Delete
-        //              */
-        //             case 'delete':
-
-        //                 // this.deleteContact(colaborador);
-
-        //                 break;
-        //         }
-        //     });
     }
 
+    /**
+     * importar()
+     * Encargado de llamar al form para importar
+     */
     importar(): void {
         const auxPeriodo = FuseUtils.filterArrayByString(this.periodos, this.periodoSelect);
 
@@ -230,7 +209,10 @@ export class NovedadesComponent implements OnInit, OnDestroy
         });
     }
 
-
+    /**
+     * borrarTodos()
+     * Encargado de llamar al popup para confirmar y realizar el eliminado
+     */
     borrarTodos(): void {
         this.dialogRef = this._matDialog.open(GeneralConfirmDialogComponent, {
             panelClass: 'general-confirm-dialog',
@@ -266,6 +248,34 @@ export class NovedadesComponent implements OnInit, OnDestroy
                         break;
                 }
             });
+    }
+
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * _defineDate()
+     * @param {string} data 
+     */
+    private _defineDate(data?: string): void { // En un futuro puede que se usara un valor enviado por url
+        if (data) {
+            const pSelect = FuseUtils.filterArrayByString(this.periodos, data);
+            this.periodoSelect = (this.periodos.length !== 0) ? pSelect[0].valor : '';
+            this._novedadService.onfilterPeriodoChanged.next((this.periodos.length !== 0) ? pSelect[0].cod : '');
+        } else {
+            this.periodoSelect = (this.periodos.length !== 0) ? this.periodos[0].valor : ''; // El primero siempre es el Actual
+            this._novedadService.onfilterPeriodoChanged.next((this.periodos.length !== 0) ? this.periodos[0].cod : '');
+        }
+    }
+
+    /**
+     * _defineAMostrar()
+     */
+    private _defineAMostrar(): void {
+        const aux: any[] = FuseUtils.filterArrayByString(this.sectores, this.seleccionado);
+        this.filtroAMostrar = (aux.length) ? aux[0].valor : '';
     }
 }
 

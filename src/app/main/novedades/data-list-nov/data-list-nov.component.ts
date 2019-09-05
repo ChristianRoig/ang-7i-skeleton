@@ -133,12 +133,15 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
             });
     }
 
-
+    /**
+     * cambiarEstado()
+     * Encargado de mostrar un popup para confirmar y cambiar el estado de la novedad
+     * @param {Novedad} nov 
+     */
     cambiarEstado(nov: Novedad): void {
-        console.log(nov);
         let actual = '';
         let nuevo = '';
-        // const estados = ['CONFIRMAR', 'APROBADO'];
+
         if (nov.estado !== 'CONFIRMAR' && nov.estado !== 'APROBADO'){
             return;
         }
@@ -167,27 +170,24 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
                 const actionType: string = response[0];                
 
                 switch (actionType) {
-
-                    case 'aceptar':
-                        // console.log('Desea Cambiar el estado');
+                    case 'aceptar':               
                         nov.estado = nuevo;
 
                         this._novedadService.updateNovedad(nov);
                         break;
 
-                    case 'cancelar':
-                        // console.log('NO Desea Cambiar el estado');
+                    case 'cancelar':                
                         break;
                 }
             });
-
     }
 
-
+    /**
+     * editNovedad()
+     * Encargado de llamar al form de novedad enviando una novedad
+     * @param {Novedad} nov 
+     */
     editNovedad(nov: Novedad): void {
-
-        // console.log(nov);
-
         this.dialogRef = this._matDialog.open(NovedadFormDialogComponent, {
             panelClass: 'nov-form-dialog',
             data: {
@@ -200,9 +200,6 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
             }
         });
     }
-
-
-
 
     // -----------------------------------------------------------------------------------------------------
     // @ Private methods

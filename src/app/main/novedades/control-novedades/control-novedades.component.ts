@@ -102,6 +102,10 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
     }
 
 
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
     /**
      * Toggle the sidebar
      *
@@ -112,6 +116,11 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
         this._fuseSidebarService.getSidebar(name).toggleOpen();
     }
 
+    /**
+     * updateCheck()
+     * Muestra o oculta la columna estado mediante el checkbox
+     * @param {boolean} c 
+     */
     updateCheck(c: boolean): void {
         this.hasCheckNomina = c;        
 
@@ -132,12 +141,25 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
     //    // en el control-novedades.component.html en <general-main-sidebar></general-main-sidebar>    
     // }
 
+    /**
+     * filtrarXPeriodo()
+     * Encargado de asignar en el NovedadService el filtro x periodo
+     * @param elemento
+     */
     filtrarXPeriodo(elemento): void {
         this.periodoSelect = elemento.valor;
 
         this._novedadService.onfilterPeriodoChanged.next(elemento.cod);
     }
 
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * _defineDate()
+     * @param {string} data 
+     */
     private _defineDate(data?: string): void { // En un futuro puede que se usara un valor enviado por url
         if (data) {
             const pSelect = FuseUtils.filterArrayByString(this.periodos, data);

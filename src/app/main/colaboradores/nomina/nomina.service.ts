@@ -23,7 +23,6 @@ export class NominaService implements Resolve<any>
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
 
-
     /**
      * Constructor
      *
