@@ -150,7 +150,6 @@ export class NovedadService implements Resolve<any>
         });
 
     }
-
  
     /**
      * borrarNovedad()
@@ -171,7 +170,6 @@ export class NovedadService implements Resolve<any>
             (err) => { console.log(err); }
         );
     }
-
 
     /**
      * borrarAllNovedades()
@@ -228,7 +226,6 @@ export class NovedadService implements Resolve<any>
         );
     }
 
-
     /**
      * addNovedad()
      * Se encarga de enviar al backend una novedad para que sea guardada
@@ -257,8 +254,32 @@ export class NovedadService implements Resolve<any>
             (err) => {
                 this._errorService.errorHandler(err);
             }
+        );        
+    }
+
+    /**
+     * importar()
+     * Encargado de enviar un csv al backend para cargar varias novedades
+     * @param {string} origen 
+     * @param {string} periodo 
+     * @param {string} contenido
+     * @returns {string} resultado
+     */
+    importar(origen: string, periodo: string, contenido: string): string {
+        let resultado = '';
+        this._createRequestXImportar(origen, periodo, contenido)
+            .subscribe((response: any) => {               
+                resultado = response;
+                            
+                this.getNovedades(); // Forzar la actualizacion
+            },
+            (err) => { 
+                console.log(err);
+                resultado = 'Error de Sistema';
+            }
         );
-        
+
+        return resultado;
     }
 
 
@@ -277,7 +298,6 @@ export class NovedadService implements Resolve<any>
         }
         return date.split('-')[1] + '-' + date.split('-')[0] + '-01 00:00:00';
     }
-
 
     /**
      * _filterNovedades()
@@ -298,7 +318,6 @@ export class NovedadService implements Resolve<any>
      * @param {ActivatedRouteSnapshot} _r
      */
     private _defineFilters(_r: ActivatedRouteSnapshot): void {
-
         this.invocador = _r.routeConfig.path.split('/')[1];
         this.filterBy = (_r.params.filtro) ? _r.params.filtro : _r.routeConfig.path.split('/')[2];
         if (this.filterBy === ':filtro') {
@@ -326,6 +345,34 @@ export class NovedadService implements Resolve<any>
         const options = { headers: httpHeaders };
 
         return this._httpClient.get(url, options);
+    }
+
+    /**
+     * _createRequestXImportar()
+     * Realiza el envio al backend para importar un csv
+     * @param ori 
+     * @param periodo 
+     * @param contenido 
+     */
+    private _createRequestXImportar(ori: string, periodo: string, contenido: string): Observable<any> | any {
+        const httpHeaders = new HttpHeaders({
+            'Authorization': this._loginService.getLocalToken()
+        });
+
+        const options = {
+            headers: httpHeaders,
+            responseType: 'text' as 'text'
+        };
+
+        const params = {
+            'origen': ori,
+            'periodo': periodo,
+            'contenido': contenido,
+        };
+
+        const url = API_URL + 'importarNovedades';
+
+        return this._httpClient.post(url, params, options);
     }
 
 }
