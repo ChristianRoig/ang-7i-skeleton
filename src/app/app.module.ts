@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { MatButtonModule, MatIconModule } from '@angular/material';
+import { MatButtonModule, MatIconModule, MatSnackBarModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import 'hammerjs';
 
@@ -45,6 +45,7 @@ import { CombosService } from './main/common/combos/combos.service';
 
 import { GeneralConfirmDialogModule } from './main/common/general-confirm-dialog/general_confirm_dialog.module';
 import { NovFormModule } from './main/novedades/nov_form/nov_form.module';
+import { NotificacionSnackbarService } from './main/common/notificacion.snackbar.service';
 
 
 
@@ -111,8 +112,9 @@ const appRoutes: Routes = [
               
         GeneralConfirmDialogModule,
         NovFormModule,
-        ErrorModule
+        ErrorModule,
 
+        MatSnackBarModule
 
     ],
     providers: [
@@ -120,6 +122,7 @@ const appRoutes: Routes = [
         LoginService,
         PerfilService,
         CombosService,
+        NotificacionSnackbarService,
     ],
     bootstrap   : [
         AppComponent
