@@ -1,14 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation, Input } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material';
 import { Subject, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
-
 import { Router, ActivatedRoute } from '@angular/router';
-import { ConceptosService } from 'app/main/configurar/conceptos.service';
 import { NovedadService } from '../novedad.service';
 import { DataSource } from '@angular/cdk/table';
 import { FuseUtils } from '@fuse/utils';
