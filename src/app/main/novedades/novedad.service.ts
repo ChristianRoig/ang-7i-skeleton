@@ -7,6 +7,7 @@ import { environment } from 'environments/environment';
 import { ErrorService } from 'app/main/errors/error.service';
 import { LoginService } from 'app/main/authentication/login-2/login-2.service';
 import { Novedad } from './novedad.model';
+import { NotificacionSnackbarService } from '../common/notificacion.snackbar.service';
 
 const API_URL: string = environment.API;
 
@@ -16,7 +17,6 @@ export class NovedadService implements Resolve<any>
 
     filterBy = '';
     filterPeriodo = '';
-
 
     private searchText = '';
     private novedades: Novedad[] = [];
@@ -40,6 +40,7 @@ export class NovedadService implements Resolve<any>
         private _httpClient: HttpClient,
         private _errorService: ErrorService,
         private _loginService: LoginService,
+        private _notiSnackbarService: NotificacionSnackbarService,
     ) {
         // Set the defaults
         this.onNovedadesChanged = new BehaviorSubject([]);
@@ -166,8 +167,19 @@ export class NovedadService implements Resolve<any>
         const url = API_URL + 'novedad?id=' + id;
 
         this._httpClient.delete(url, options).subscribe(
-            (res) => { this.getNovedades(); },
-            (err) => { console.log(err); }
+            (res) => { 
+                if (res === 1){
+                    this._notiSnackbarService.openSnackBar('Se Elimino la Novedad Correctamente');
+                    this.getNovedades();
+                }
+                if (res === 0 || res === -1) {
+                    this._notiSnackbarService.openSnackBar('No se pudo Eliminar la Novedad');
+                }
+            },
+            (err) => { 
+                console.log(err);
+                this._notiSnackbarService.openSnackBar('No se pudo Eliminar la Novedad');
+            }
         );
     }
 
@@ -187,9 +199,20 @@ export class NovedadService implements Resolve<any>
         const url = API_URL + 'novedades?departamento=' + departamento + '&periodo=' + periodo;
 
         this._httpClient.delete(url, options).subscribe(
-            (res) => { this.getNovedades(); },
+            (res) => { 
+                // if (res === 1) {
+                //     this._notiSnackbarService.openSnackBar('Se Elimino la Novedad Correctamente');
+                //     this.getNovedades();
+                // }
+                if (res === 0 || res === -1) {
+                    this._notiSnackbarService.openSnackBar('No se pudieron eliminar todas las Novedades');
+                }
+                this.getNovedades();
+            },
             (err) => {
-                this._errorService.errorHandler(err);
+                // this._errorService.errorHandler(err);
+                console.log(err);
+                this._notiSnackbarService.openSnackBar('No se pudo Eliminar la Novedad');
             }
         );
 
@@ -212,13 +235,17 @@ export class NovedadService implements Resolve<any>
         const url = API_URL + 'novedad?id=' + nov.idNovedad;        
 
         this._httpClient.put(url, nov, options).subscribe(
-            (res) => {
-                // console.log('respuesta ' + res);
-
-                if (this.invocador !== 'equipo') {
+            (res) => {                
+                // if (this.invocador !== 'equipo') {                    
+                //     this.getNovedades();
+                // }
+                if (res === 1) {
+                    this._notiSnackbarService.openSnackBar('Se actualizo la Novedad correctamente');
                     this.getNovedades();
                 }
-
+                if (res === 0 || res === -1) {
+                    this._notiSnackbarService.openSnackBar('No se pudo actualizar la Novedad');
+                }
             },
             (err) => {
                 this._errorService.errorHandler(err);
@@ -244,15 +271,22 @@ export class NovedadService implements Resolve<any>
 
         this._httpClient.post(url, nov , options).subscribe(
             (res) => { 
-                // console.log('respuesta ' + res);
+                if (res === 1) {
+                    this._notiSnackbarService.openSnackBar('Se agrego la Novedad correctamente');                    
 
-                if (this.invocador !== 'equipo') {
-                    this.getNovedades();
+                    if (this.invocador !== 'equipo') {
+                        this.getNovedades();
+                    }
                 }
+                if (res === 0 || res === -1) {
+                    this._notiSnackbarService.openSnackBar('No se pudo agregar la Novedad');
+                }                
                 
              },
             (err) => {
-                this._errorService.errorHandler(err);
+                // this._errorService.errorHandler(err);
+                console.log(err);
+                this._notiSnackbarService.openSnackBar('No se pudo agregar la Novedad');
             }
         );        
     }
