@@ -1,23 +1,24 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Concepto } from './conceptos/concepto.model';
 import { ErrorService } from '../errors/error.service';
 import { FuseUtils } from '@fuse/utils';
+import { LoginService } from '../authentication/login-2/login-2.service';
+import { environment } from 'environments/environment';
 
+const API_URL: string = environment.API;
 
 @Injectable()
 export class ConceptosService implements Resolve<any>
 {    
     
-    TablaConceptos = [];   
+    conceptos = [];   
 
-    api2 = 'api/tablaConceptos';
-    
     private searchText = '';
     onSearchTextChanged: Subject<any>;
-    onConceptosTablaChanged: BehaviorSubject<any>;
+    onConceptosChanged: BehaviorSubject<any>;
     
     /**
      * Constructor
@@ -27,11 +28,12 @@ export class ConceptosService implements Resolve<any>
      */
     constructor(
         private _httpClient: HttpClient,
-        private _errorService: ErrorService
+        private _errorService: ErrorService,
+        private _loginService: LoginService
     )
     {
         // Set the defaults        
-        this.onConceptosTablaChanged = new BehaviorSubject([]);
+        this.onConceptosChanged = new BehaviorSubject([]);
               
         this.onSearchTextChanged = new Subject();
     }
@@ -52,7 +54,7 @@ export class ConceptosService implements Resolve<any>
          return new Promise((resolve, reject) => {
 
             Promise.all([                
-                this.getConceptosTabla(),
+                this.getAllConceptos(),
             ]).then(
                 ([files]) => {
 
@@ -69,42 +71,45 @@ export class ConceptosService implements Resolve<any>
 
                 },
                 (error) => {                    
-                    this.TablaConceptos = [];
+                    this.conceptos = [];
 
-                    this.onConceptosTablaChanged.next(this.TablaConceptos);                    
+                    this.onConceptosChanged.next(this.conceptos);                    
 
                     this._errorService.errorHandler(error);
                     
-                    resolve(this.TablaConceptos);                    
+                    resolve(this.conceptos);                    
                 }
             );
         }); 
     }
 
-  
-
     /**
-     * getConceptosTabla()
+     * getAllConceptos()
      * Encargado de traer del backend los conceptos
      */
-    getConceptosTabla(): Promise<any> {
+    getAllConceptos(): any {
+        const url = API_URL + 'conceptos';  
+
         return new Promise((resolve, reject) => {
-            this._httpClient.get('api/tablaConceptos')
-                .subscribe((response: []) => {
+            this._createRequest(url)
+                .subscribe(
+                    (response: Concepto[]) => {
+                        if (response == null) {
+                            response = [];
+                        }
 
-                    this.TablaConceptos = response;
+                        this.conceptos = response;
 
-                    this.TablaConceptos = this.TablaConceptos.map(c => {
-                        return new Concepto(c);
-                    });  
+                        this.conceptos = this.conceptos.map(c => {
+                            return new Concepto(c);
+                        });
 
-                    this.onConceptosTablaChanged.next(this.TablaConceptos);
-                    resolve(this.TablaConceptos);
-                }, reject);
-            }
-        );
+                        this.onConceptosChanged.next(this.conceptos);
+                        resolve(this.conceptos);
+                
+                    }, reject);
+        });
     }
-
 
     // -----------------------------------------------------------------------------------------------------
     // @ Private methods
@@ -115,11 +120,25 @@ export class ConceptosService implements Resolve<any>
      * Dependiendo del texto ingresado filtra el contenido del objeto origenes
      */
     private _filterConceptos(): void {
-        let aux = this.TablaConceptos;
+        let aux = this.conceptos;
         if (this.searchText && this.searchText !== '') {
-            aux = FuseUtils.filterArrayByString(this.TablaConceptos, this.searchText);
+            aux = FuseUtils.filterArrayByString(this.conceptos, this.searchText);
         }
 
-        this.onConceptosTablaChanged.next(aux);
+        this.onConceptosChanged.next(aux);
+    }
+
+    /**
+     * Realiza el llamado al backend mediante la url y token
+     * @param {string} url 
+     */
+    private _createRequest(url: string): Observable<any> | any {
+        const httpHeaders = new HttpHeaders({
+            'Authorization': this._loginService.getLocalToken()
+        });
+
+        const options = { headers: httpHeaders };
+
+        return this._httpClient.get(url, options);
     }
 }

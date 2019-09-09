@@ -25,7 +25,7 @@ export class ConceptosComponent implements OnInit, OnDestroy
 
     searchInput: FormControl;
 
-    columnas = ['cod', 'nombre', 'tipo', 'origenNombre', 'buttons'];
+    columnas = ['cod', 'descripcion', 'tipo', 'cod_origen', 'buttons'];
 
     placeholder = 'Buscar por codigo, nombre, origen o tipo';
 
@@ -63,16 +63,7 @@ export class ConceptosComponent implements OnInit, OnDestroy
      * On init
      */
     ngOnInit(): void
-    {
-        // this._conceptosService.onConceptosTablaChanged
-        //     .pipe(takeUntil(this._unsubscribeAll))
-        //     .subscribe(data => {           
-        //         this.listConceptos = data;
-        //         console.log(data);
-        //     });
-
-
-
+    {      
         this.searchInput.valueChanges
             .pipe(
                 takeUntil(this._unsubscribeAll),

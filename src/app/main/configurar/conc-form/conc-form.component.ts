@@ -21,11 +21,9 @@ export class ConceptosFormDialogComponent implements OnInit
 {
     action: string;    
 
-    tipos = ['Externo', 'Recursos Humanos'];
+    tipos = ['EXTERNA', 'RRHH'];
 
     isRRHH = false;
-
-    aux = true;
 
     origenesRRHH = null;
     origenesExterno = null;
@@ -63,7 +61,7 @@ export class ConceptosFormDialogComponent implements OnInit
 
         this.concepto = _data.concepto;
 
-        if (this.concepto.tipo === 'RECURSOS HUMANOS'){
+        if (this.concepto.tipoNov === 'RRHH'){
             this.isRRHH = true;
         }
        
@@ -88,41 +86,7 @@ export class ConceptosFormDialogComponent implements OnInit
             .subscribe(data => {
                 this.origenesExterno = data;                
             });
-
-        this.validateGuardar();
     }
-
-    private validateGuardar(): void {
-        if (
-            (this.ConceptoForm.get('origenCod').value !== '') &&
-            (this.ConceptoForm.get('origenNombre').value !== '') &&
-            (this.ConceptoForm.get('tipo').value !== '') &&
-            (this.ConceptoForm.get('cod').value !== '')) {
-            this.aux = false;
-        } else {
-            this.aux = true;
-        }
-    }
-
-    // FuseUtils.filterArrayByString
-
-    private getCodByValue(valor: string): string {
-        let arr = this.origenesExterno;
-
-        if (this.isRRHH){
-            arr = this.origenesRRHH;
-        }
-
-        for (let index = 0; index < arr.length; index++) {
-            const element = arr[index];
-            if ((element.valor) === valor) {
-                return element.cod;
-            }
-        }
-        
-        return '';
-    }
-
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -136,39 +100,33 @@ export class ConceptosFormDialogComponent implements OnInit
     createConceptoForm(): FormGroup
     {       
         return this._formBuilder.group({
-            'nombre': [this.concepto.nombre],
-            'cod': [this.concepto.cod],
-            'tipo': [this.concepto.tipo],
-            'origenCod': [this.concepto.origenCod],
-            'origenNombre': [this.concepto.origenNombre],
+            'tipoNov' : [this.concepto.tipoNov],
+            'codNov' : [this.concepto.codNov],
+            'descripcion' : [this.concepto.descripcion],
+            'codOrigen' : [this.concepto.codOrigen],
+            'observaciones' : [this.concepto.observaciones],
         });
     }
 
-    verForm(f): void {
-        console.log(f);
-    }
 
     onSubmit(): void {
         console.log(this.ConceptoForm);
         this.matDialogRef.close();
     }
 
-    updateCod(e): void {
-        // console.log(e.value);
-        const cod = this.getCodByValue(e.value);
-
-        this.ConceptoForm.controls['origenCod'].setValue(cod);
-
-        this.validateGuardar();
-    }
-
     swithOrigenList(): void {
-        this.ConceptoForm.controls['origenCod'].reset();
-        this.ConceptoForm.controls['origenNombre'].reset();
+        this.ConceptoForm.controls['codOrigen'].reset();
 
         this.isRRHH = !this.isRRHH;
 
-        this.validateGuardar();
+        if (this.isRRHH) {
+            this.ConceptoForm.controls['tipoNov'].reset('RRHH');
+        }else{
+            this.ConceptoForm.controls['tipoNov'].reset('EXTERNA');
+        }
     }
 
+    verForm(F): void {
+        console.log(F.value);
+    }
 }

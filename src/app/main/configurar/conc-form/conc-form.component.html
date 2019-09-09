@@ -8,8 +8,8 @@
             </button>
         </mat-toolbar-row>
         <mat-toolbar-row class="toolbar-bottom pb-16" fxLayout="column" fxLayoutAlign="center center">
-            <span class="title dialog-title">{{concepto.nombre}}</span>
-            <span class="title dialog-title">({{concepto.cod}})</span>
+            <span class="title dialog-title">{{concepto.descripcion}}</span>
+            <span class="title dialog-title">({{concepto.codNov}})</span>
             
             
         </mat-toolbar-row>
@@ -22,31 +22,20 @@
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Tipo</mat-label>
-                    <mat-select formControlName="tipo" name="tipo" required (selectionChange)="swithOrigenList()">
+                    <mat-select formControlName="tipoNov" name="tipoNov" required (selectionChange)="swithOrigenList()">
                         <mat-option *ngFor="let t of tipos" [value]="t">                
-                            <p class="">{{t | titlecase}}</p>
+                            <p class="">{{t}}</p>
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
 
 
-            <div fxLayout="row" fxLayoutAlign="start start" *ngIf="isRRHH"> 
+            <div fxLayout="row" fxLayoutAlign="start start"> 
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Origen</mat-label>
-                    <mat-select formControlName="origenNombre" name="origenNombre" required (selectionChange)="updateCod($event)">
-                        <mat-option *ngFor="let o of origenesRRHH" [value]="o.valor">
-                            <p class="">{{o.valor}}</p>
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-
-            <div fxLayout="row" fxLayoutAlign="start start" *ngIf="!isRRHH">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Origen</mat-label>
-                    <mat-select formControlName="origenNombre" name="origenNombre" required (selectionChange)="updateCod($event)"> 
-                        <mat-option *ngFor="let o of origenesExterno" [value]="o.valor">
+                    <mat-select formControlName="codOrigen" name="codOrigen" required >                         
+                        <mat-option *ngFor="let o of origenesRRHH" [value]="o.cod">
                             <p class="">{{o.valor}}</p>
                         </mat-option>
                     </mat-select>
@@ -62,7 +51,7 @@
 
         <!-- debug -->
         <button  mat-button color="accent" class="mr-8" 
-            *ngIf="false"
+            *ngIf="true"
             (click)="verForm(ConceptoForm)"  aria-label="ver">
             ver
         </button>
@@ -72,7 +61,7 @@
                 color="accent"
                 class="save-button"
                 (click)="matDialogRef.close(['save',ConceptoForm])"
-                [disabled]="aux"
+                [disabled]="ConceptoForm.invalid"
                 aria-label="SAVE">
             Guardar
         </button>

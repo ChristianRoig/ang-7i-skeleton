@@ -2,13 +2,21 @@
     <mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}">
 
         <!-- Codigo Column -->
-        <ng-container matColumnDef="cod">
+        <ng-container matColumnDef="cod" *ngIf="invocador !== 'conceptos'">
             <mat-header-cell *matHeaderCellDef>Codigo</mat-header-cell>
             <mat-cell *matCellDef="let data">
                 <p class="text-truncate font-weight-600">{{data.cod}}</p>
             </mat-cell>
         </ng-container>
 
+        <!-- Codigo Column -->
+        <ng-container matColumnDef="cod" *ngIf="invocador === 'conceptos'">
+            <mat-header-cell *matHeaderCellDef>Codigo de la novedad</mat-header-cell>
+            <mat-cell *matCellDef="let data">
+                <p class="text-truncate font-weight-600">{{data.codNov}}</p>
+            </mat-cell>
+        </ng-container>
+        
         <!-- Nombre Column -->
         <ng-container matColumnDef="nombre">
             <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
@@ -17,19 +25,35 @@
             </mat-cell>
         </ng-container>
 
+        <!-- Descripcion Column -->
+        <ng-container matColumnDef="descripcion">
+            <mat-header-cell *matHeaderCellDef>descripcion</mat-header-cell>
+            <mat-cell *matCellDef="let data">
+                <p class="text-truncate font-weight-600">{{data.descripcion | titlecase}}</p>
+            </mat-cell>
+        </ng-container>
+
         <!-- Tipo Column -->
-        <ng-container matColumnDef="tipo">
+        <ng-container matColumnDef="tipo" *ngIf="invocador !== 'conceptos'">
             <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
             <mat-cell *matCellDef="let data">
                 <p class="text-truncate font-weight-600">{{data.tipo | titlecase}}</p>
             </mat-cell>
         </ng-container>
 
-        <!-- Origen Column -->
-        <ng-container matColumnDef="origenNombre">
-            <mat-header-cell *matHeaderCellDef>Origen</mat-header-cell>
+        <!-- Tipo Column -->
+        <ng-container matColumnDef="tipo" *ngIf="invocador === 'conceptos'">
+            <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
             <mat-cell *matCellDef="let data">
-                <p class="text-truncate font-weight-600">{{data.origenNombre | titlecase}}</p>
+                <p class="text-truncate font-weight-600">{{data.tipoNov}}</p>
+            </mat-cell>
+        </ng-container>
+
+        <!-- Origen Column -->
+        <ng-container matColumnDef="cod_origen">
+            <mat-header-cell *matHeaderCellDef>Codigo de Origen</mat-header-cell>
+            <mat-cell *matCellDef="let data">
+                <p class="text-truncate font-weight-600">{{data.codOrigen}}</p>
             </mat-cell>
         </ng-container>
 
@@ -83,7 +107,7 @@
                         aria-label="editar" 
                         class="editar" 
                         (click)="editConcepto(data)"
-                        *ngIf="invocador == 'conceptos' && (data.tipo == 'Recursos Humanos' || data.tipo == 'EXTERNO')">
+                        *ngIf="invocador == 'conceptos' && (data.tipoNov == 'RRHH' || data.tipoNov == 'EXTERNA')">
                     <mat-icon>create</mat-icon>
                 </button>
 

@@ -1,13 +1,15 @@
-import { FuseUtils } from '@fuse/utils';
-
 export class Concepto
 {
-    nombre: string;
-    cod: string;
-    tipo: string;
-    origenCod: string;
-    origenNombre: string;
-    
+
+    idConcepto: string;
+    tipoNov: string;
+    codNov: string;
+    descripcion: string;
+    codOrigen: string;
+    observaciones: string;
+
+
+
     /**
      * Constructor
      *
@@ -15,13 +17,10 @@ export class Concepto
      */
     constructor(concepto)
     {
-        {
-            this.nombre = concepto.nombre || '';
-            this.cod = concepto.cod || '';
-            this.tipo = concepto.tipo || '';
-            this.origenCod = concepto.origenCod || '';
-            this.origenNombre = concepto.origenNombre || '';
-    
-        }
+        this.tipoNov = concepto.tipoNov || '';
+        this.codNov = concepto.codNov || '';
+        this.descripcion = concepto.descripcion || '';
+        this.codOrigen = concepto.codOrigen || '';
+        this.observaciones = concepto.observaciones || '';
     }
 }
