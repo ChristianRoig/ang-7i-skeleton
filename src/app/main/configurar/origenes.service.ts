@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { FuseUtils } from '@fuse/utils';
 import { Origen } from './origenes/origen.model';
 import { ErrorService } from '../errors/error.service';
+import { environment } from 'environments/environment';
+import { LoginService } from '../authentication/login-2/login-2.service';
 
+const API_URL: string = environment.API;
 
 @Injectable()
 export class OrigenesService implements Resolve<any>
@@ -25,7 +28,8 @@ export class OrigenesService implements Resolve<any>
      */
     constructor(
         private _httpClient: HttpClient,
-        private _errorService: ErrorService
+        private _errorService: ErrorService,
+        private _loginService: LoginService,
     )
     {
         // Set the defaults
@@ -83,21 +87,29 @@ export class OrigenesService implements Resolve<any>
      * Encargado de traer del backend los origenes
      */
     getOrigenes(): Promise<any> {
+        const url = API_URL + 'origenes';
+
         return new Promise((resolve, reject) => {
-            this._httpClient.get('api/tabla')
-                .subscribe((response: []) => {
+            this._createRequest(url)
+                .subscribe(
+                    (response: []) => {
+                        if (response == null) {
+                            response = [];
+                        }
 
-                    this.origenes = response;
+                        this.origenes = response;
 
-                    this.origenes = this.origenes.map(d => {
-                        return new Origen(d);
-                    });  
-               
+                        this.origenes = this.origenes.map(o => {
+                            return new Origen(o);
+                        });
 
-                    this.onOrigenesChanged.next(this.origenes);
-                    resolve(this.origenes);
-                }, reject);
+                        this.onOrigenesChanged.next(this.origenes);
+                        resolve(this.origenes);
+
+                    }, reject);
         });
+
+
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -115,5 +127,19 @@ export class OrigenesService implements Resolve<any>
         }
 
         this.onOrigenesChanged.next(aux);
+    }
+
+    /**
+      * Realiza el llamado al backend mediante la url y token
+      * @param {string} url 
+      */
+    private _createRequest(url: string): Observable<any> | any {
+        const httpHeaders = new HttpHeaders({
+            'Authorization': this._loginService.getLocalToken()
+        });
+
+        const options = { headers: httpHeaders };
+
+        return this._httpClient.get(url, options);
     }
 }

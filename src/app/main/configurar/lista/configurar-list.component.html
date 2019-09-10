@@ -5,7 +5,7 @@
         <ng-container matColumnDef="cod" *ngIf="invocador !== 'conceptos'">
             <mat-header-cell *matHeaderCellDef>Codigo</mat-header-cell>
             <mat-cell *matCellDef="let data">
-                <p class="text-truncate font-weight-600">{{data.cod}}</p>
+                <p class="text-truncate font-weight-600">{{data.codOrigen}}</p>
             </mat-cell>
         </ng-container>
 
@@ -62,12 +62,12 @@
             <mat-header-cell *matHeaderCellDef>Responsable</mat-header-cell>
             <mat-cell *matCellDef="let data">
                 <p class="text-truncate font-weight-600"
-                    *ngIf="data.legajoR == 'Ninguno' || data.legajoR == ''">
+                    *ngIf="data.legajoR == null">
                     Ninguno 
                 </p>
 
                 <p class="text-truncate font-weight-600" 
-                    *ngIf="data.legajoR !== 'Ninguno' && data.legajoR !== ''">
+                    *ngIf="data.legajoR !== null">
                     {{data.legajoR}}
                 </p>
             </mat-cell>
@@ -78,12 +78,12 @@
             <mat-header-cell *matHeaderCellDef>Responsable Secundario</mat-header-cell>
             <mat-cell *matCellDef="let data">
                 <p class="text-truncate font-weight-600" 
-                    *ngIf="data.legajoS == 'Ninguno' || data.legajoS == ''">
+                    *ngIf="data.legajoS == null">
                     Ninguno
                 </p>
                 
                 <p class="text-truncate font-weight-600" 
-                    *ngIf="data.legajoS !== 'Ninguno' && data.legajoS !== ''">
+                    *ngIf="data.legajoS !== null">
                     {{data.legajoS}}
                 </p>
             </mat-cell>

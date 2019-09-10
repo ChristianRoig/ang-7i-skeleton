@@ -2,10 +2,6 @@ import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Origen } from '../origenes/origen.model';
-import { PerfilService } from '../../perfil/perfil.service';
-import { Perfil } from 'app/main/perfil/perfil.model';
-
-
 
 @Component({
     selector     : 'ori-form-dialog',
@@ -67,9 +63,9 @@ export class OrigenesFormDialogComponent
     createOrigenForm(): FormGroup
     {
         const f: FormGroup = this._formBuilder.group({
-            id: [this.origen.id],
-            responsableR: (this.origen.legajoR === 'Ninguno') ? '' : this.origen.legajoR,
-            responsableS: (this.origen.legajoS === 'Ninguno') ? '' : this.origen.legajoS,
+            id: [this.origen.idOrigen],
+            responsableR: [this.origen.legajoResp],
+            responsableS: [this.origen.legajoSup],
         });
                
         return f;
