@@ -167,12 +167,12 @@ export class NovedadService implements Resolve<any>
         const url = API_URL + 'novedad?id=' + id;
 
         this._httpClient.delete(url, options).subscribe(
-            (res) => { 
-                if (res === 1){
+            (res: any) => { 
+                if (res.codigo === '1'){
                     this._notiSnackbarService.openSnackBar('Se Elimino la Novedad Correctamente');
                     this.getNovedades();
                 }
-                if (res === 0 || res === -1) {
+                if (res.codigo === '0' || res.codigo === '-1') {
                     this._notiSnackbarService.openSnackBar('No se pudo Eliminar la Novedad');
                 }
             },
@@ -199,12 +199,12 @@ export class NovedadService implements Resolve<any>
         const url = API_URL + 'novedades?departamento=' + departamento + '&periodo=' + periodo;
 
         this._httpClient.delete(url, options).subscribe(
-            (res) => { 
-                // if (res === 1) {
+            (res: any) => { 
+                // if (res.codigo === '1') {
                 //     this._notiSnackbarService.openSnackBar('Se Elimino la Novedad Correctamente');
                 //     this.getNovedades();
                 // }
-                if (res === 0 || res === -1) {
+                if (res.codigo === '0' || res.codigo === '-1') {
                     this._notiSnackbarService.openSnackBar('No se pudieron eliminar todas las Novedades');
                 }
                 this.getNovedades();
@@ -225,7 +225,8 @@ export class NovedadService implements Resolve<any>
      */
     updateNovedad(nov: Novedad): void {
         nov.periodo = this._tratamientoDate(nov.periodo);
-
+        nov.legajo = nov.legajo.toUpperCase();
+        
         const httpHeaders = new HttpHeaders({
             'Authorization': this._loginService.getLocalToken()
         });
@@ -235,15 +236,15 @@ export class NovedadService implements Resolve<any>
         const url = API_URL + 'novedad?id=' + nov.idNovedad;        
 
         this._httpClient.put(url, nov, options).subscribe(
-            (res) => {                
+            (res: any) => {                
                 // if (this.invocador !== 'equipo') {                    
                 //     this.getNovedades();
                 // }
-                if (res === 1) {
+                if (res.codigo === '1') {
                     this._notiSnackbarService.openSnackBar('Se actualizo la Novedad correctamente');
                     this.getNovedades();
                 }
-                if (res === 0 || res === -1) {
+                if (res.codigo === '0' || res.codigo === '-1') {
                     this._notiSnackbarService.openSnackBar('No se pudo actualizar la Novedad');
                 }
             },
@@ -260,6 +261,7 @@ export class NovedadService implements Resolve<any>
      */
     addNovedad(nov: Novedad): void {
         nov.periodo = this._tratamientoDate(nov.periodo);
+        nov.legajo = nov.legajo.toUpperCase();
 
         const httpHeaders = new HttpHeaders({
             'Authorization': this._loginService.getLocalToken()
@@ -270,15 +272,15 @@ export class NovedadService implements Resolve<any>
         const url = API_URL + 'novedad';        
 
         this._httpClient.post(url, nov , options).subscribe(
-            (res) => { 
-                if (res === 1) {
+            (res: any) => { 
+                if (res.codigo === '1') {
                     this._notiSnackbarService.openSnackBar('Se agrego la Novedad correctamente');                    
 
                     if (this.invocador !== 'equipo') {
                         this.getNovedades();
                     }
                 }
-                if (res === 0 || res === -1) {
+                if (res.codigo === '0' || res.codigo === '-1') {
                     this._notiSnackbarService.openSnackBar('No se pudo agregar la Novedad');
                 }                
                 

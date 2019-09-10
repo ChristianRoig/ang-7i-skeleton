@@ -25,7 +25,7 @@ export class NotificacionSnackbarService
 {
     private defaultH: MatSnackBarHorizontalPosition = 'right';
     private defaultV: MatSnackBarVerticalPosition = 'top';
-    private defaultT = 1000; // Milisegundos
+    private defaultT = 5000; // Milisegundos
 
     private defaultOptHorizontal = ['start', 'center', 'end', 'left', 'right'];
     private defaultOptVertical = ['top', 'bottom'];
