@@ -57,11 +57,8 @@ export class ConceptosService implements Resolve<any>
                 this.getAllConceptos(),
             ]).then(
                 ([files]) => {
-
-                    /**
-                     * Filtros de busqueda
-                     */
                     
+                    // Filtro por texto
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
                         this._filterConceptos();
@@ -109,6 +106,31 @@ export class ConceptosService implements Resolve<any>
                 
                     }, reject);
         });
+    }
+
+    /**
+     * updateConcepto()
+     * Se encarga de enviar al backend un concepto para que sea actualizado
+     * @param { Concepto } conc 
+     */
+    updateConcepto(conc: Concepto): void {
+        const httpHeaders = new HttpHeaders({
+            'Authorization': this._loginService.getLocalToken()
+        });
+
+        const options = { headers: httpHeaders };
+
+        const url = API_URL + 'concepto?id=' + conc.idConcepto;        
+
+        this._httpClient.put(url, conc, options).subscribe(
+            (res: any) => {
+                // console.log('respuesta del upConcepto ' + res);
+                this.getAllConceptos();
+            },
+            (err) => {
+                this._errorService.errorHandler(err);
+            }
+        );
     }
 
     // -----------------------------------------------------------------------------------------------------

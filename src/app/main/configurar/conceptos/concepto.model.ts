@@ -8,8 +8,6 @@ export class Concepto
     codOrigen: string;
     observaciones: string;
 
-
-
     /**
      * Constructor
      *
@@ -17,10 +15,11 @@ export class Concepto
      */
     constructor(concepto)
     {
+        this.idConcepto = concepto.idConcepto || null;
         this.tipoNov = concepto.tipoNov || '';
         this.codNov = concepto.codNov || '';
         this.descripcion = concepto.descripcion || '';
-        this.codOrigen = concepto.codOrigen || '';
-        this.observaciones = concepto.observaciones || '';
+        this.codOrigen = concepto.codOrigen || null;
+        this.observaciones = concepto.observaciones || null;
     }
 }

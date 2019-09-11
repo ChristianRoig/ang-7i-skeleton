@@ -47,11 +47,9 @@
     </div>
 
     <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
-
-
         <!-- debug -->
         <button  mat-button color="accent" class="mr-8" 
-            *ngIf="true"
+            *ngIf="false"
             (click)="verForm(ConceptoForm)"  aria-label="ver">
             ver
         </button>
@@ -60,11 +58,11 @@
                 mat-button
                 color="accent"
                 class="save-button"
-                (click)="matDialogRef.close(['save',ConceptoForm])"
+                (click)="onSubmit()"
                 [disabled]="ConceptoForm.invalid"
                 aria-label="SAVE">
             Guardar
         </button>
-
+<!-- matDialogRef.close(['save',ConceptoForm]) -->
     </div>
 </div>

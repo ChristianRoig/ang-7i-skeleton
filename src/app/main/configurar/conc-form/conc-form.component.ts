@@ -98,8 +98,9 @@ export class ConceptosFormDialogComponent implements OnInit
      * @returns {FormGroup}
      */
     createConceptoForm(): FormGroup
-    {       
+    {
         return this._formBuilder.group({
+            'idConcepto': [this.concepto.idConcepto],
             'tipoNov' : [this.concepto.tipoNov],
             'codNov' : [this.concepto.codNov],
             'descripcion' : [this.concepto.descripcion],
@@ -108,12 +109,19 @@ export class ConceptosFormDialogComponent implements OnInit
         });
     }
 
-
+    /**
+     * Actualiza el concepto
+     */
     onSubmit(): void {
-        console.log(this.ConceptoForm);
+        // console.log(this.ConceptoForm);
+        const concepto = new Concepto(this.ConceptoForm.getRawValue());        
+        this._conceptosService.updateConcepto(concepto);
         this.matDialogRef.close();
     }
 
+    /**
+     * Cambia el tipoNov del formulario
+     */
     swithOrigenList(): void {
         this.ConceptoForm.controls['codOrigen'].reset();
 
