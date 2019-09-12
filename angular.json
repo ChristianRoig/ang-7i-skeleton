@@ -33,6 +33,30 @@
                         "showCircularDependencies": false
                     },
                     "configurations": {
+                        "fava": {
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.fava.ts"
+                                }
+                            ],
+                            "optimization": true,
+                            "outputHashing": "all",
+                            "sourceMap": false,
+                            "extractCss": true,
+                            "namedChunks": false,
+                            "aot": true,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "buildOptimizer": true,
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "2mb",
+                                    "maximumError": "5mb"
+                                }
+                            ]
+                        },
                         "production": {
                             "fileReplacements": [
                                 {
@@ -77,6 +101,9 @@
                         "browserTarget": "fuse:build"
                     },
                     "configurations": {
+                        "fava": {
+                            "browserTarget": "fuse:build:fava"
+                        },
                         "production": {
                             "browserTarget": "fuse:build:production"
                         },
