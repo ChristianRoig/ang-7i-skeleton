@@ -118,10 +118,10 @@ export class NovedadFormDialogComponent
 
         if (this.invocador === 'sector'){
             // Combo Cualitativos
-            this._combosService.onComboConceptoExternaChanged
+            this._combosService.onComboConceptoExternaRRHHChanged
                 .pipe(takeUntil(this._unsubscribeAll))
                 .subscribe(data => {
-                    const resFiltrado = FuseUtils.filterArrayByString(data, this.origen);
+                    const resFiltrado = FuseUtils.filterArrayByString(data, this.codOrigen);
 
                     if (resFiltrado.length === 0){
                         this.conceptosXOrigen = data;

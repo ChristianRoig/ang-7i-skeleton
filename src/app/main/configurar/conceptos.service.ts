@@ -7,6 +7,7 @@ import { ErrorService } from '../errors/error.service';
 import { FuseUtils } from '@fuse/utils';
 import { LoginService } from '../authentication/login-2/login-2.service';
 import { environment } from 'environments/environment';
+import { NotificacionSnackbarService } from '../common/notificacion.snackbar.service';
 
 const API_URL: string = environment.API;
 
@@ -29,7 +30,8 @@ export class ConceptosService implements Resolve<any>
     constructor(
         private _httpClient: HttpClient,
         private _errorService: ErrorService,
-        private _loginService: LoginService
+        private _loginService: LoginService,
+        private _notiSnackbarService: NotificacionSnackbarService
     )
     {
         // Set the defaults        
@@ -124,8 +126,23 @@ export class ConceptosService implements Resolve<any>
 
         this._httpClient.put(url, conc, options).subscribe(
             (res: any) => {
-                // console.log('respuesta del upConcepto ' + res);
-                this.getAllConceptos();
+                ///////////////////////////////////////////////////////
+                // Por el momento hasta que el response no traiga el codigo lo ejecuto 
+                ///////////////////////////////////////////////////////
+                console.log('respuesta del upConcepto ' + res);
+                if (res == null) { this.getAllConceptos(); }                
+                ///////////////////////////////////////////////////////
+
+                
+                if (res.codigo === '1') {
+                    this._notiSnackbarService.openSnackBar('Se Actualizo correctamente el Concepto');
+                    this.getAllConceptos();
+                }
+                if (res.codigo === '0' || res.codigo === '-1') {
+                    this._notiSnackbarService.openSnackBar('No se pudo Actualizo el Concepto');
+                }
+
+                
             },
             (err) => {
                 this._errorService.errorHandler(err);

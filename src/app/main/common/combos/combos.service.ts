@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { environment } from 'environments/environment';
 import { ErrorService } from 'app/main/errors/error.service';
 import { LoginService } from 'app/main/authentication/login-2/login-2.service';
 import { Combo } from './combo.model';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Concepto } from 'app/main/configurar/conceptos/concepto.model';
+import { ConceptosService } from 'app/main/configurar/conceptos.service';
+import { takeUntil } from 'rxjs/operators';
+import { FuseUtils } from '@fuse/utils';
 
 const API_URL: string = environment.API;
 
@@ -20,11 +24,14 @@ export class CombosService implements Resolve<any>
 
     private comboConceptoCuantitativa: Combo[];
     private comboConceptoCualitativa: Combo[];
-    private comboConceptoExterna: Combo[];
+    private comboConceptoExternaRRHH: Combo[];
     
+    private _auxAllConceptos: Concepto[];
+    private _unsubscribeAll: Subject<any>;
+
     onComboConceptoCuantitativaChanged: BehaviorSubject<any>;
     onComboConceptoCualitativaChanged: BehaviorSubject<any>;
-    onComboConceptoExternaChanged: BehaviorSubject<any>;
+    onComboConceptoExternaRRHHChanged: BehaviorSubject<any>;
     
     onComboOrigenDep_SucChanged: BehaviorSubject<any>;
     onComboOrigenExt_RRHHChanged: BehaviorSubject<any>;
@@ -42,7 +49,8 @@ export class CombosService implements Resolve<any>
     constructor(
         private _httpClient: HttpClient,
         private _errorService: ErrorService,
-        private _loginService: LoginService
+        private _loginService: LoginService,
+        private _conceptoService: ConceptosService
     ) {
         this.onComboOrigenDep_SucChanged = new BehaviorSubject([]);
         this.onComboOrigenExt_RRHHChanged = new BehaviorSubject([]);
@@ -51,7 +59,7 @@ export class CombosService implements Resolve<any>
         this.onComboOrigenPeriodoChanged = new BehaviorSubject([]);
         this.onComboConceptoCuantitativaChanged = new BehaviorSubject([]);
         this.onComboConceptoCualitativaChanged = new BehaviorSubject([]);
-        this.onComboConceptoExternaChanged = new BehaviorSubject([]);
+        this.onComboConceptoExternaRRHHChanged = new BehaviorSubject([]);
 
         this.comboOrigenDep_Suc = [];
         this.comboOrigenExt_RRHH = [];
@@ -60,7 +68,11 @@ export class CombosService implements Resolve<any>
         this.comboOrigenPeriodo = [];
         this.comboConceptoCuantitativa = [];
         this.comboConceptoCualitativa = [];
-        this.comboConceptoExterna = [];
+        this.comboConceptoExternaRRHH = [];
+
+        this._auxAllConceptos = [];
+
+        this._unsubscribeAll = new Subject();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -80,6 +92,18 @@ export class CombosService implements Resolve<any>
                 this._getAll()
             ]).then(
                 ([files]) => {
+
+                    this._conceptoService.onConceptosChanged
+                        .pipe(takeUntil(this._unsubscribeAll))
+                        .subscribe(data => {                            
+                            if (!(this._compareArrConceptos(this._auxAllConceptos, data))) {                                
+                                this._auxAllConceptos = data;
+                                this._actualizarComboConcepto('cualitativo');
+                                this._actualizarComboConcepto('cuantitativo');
+                                this._actualizarComboConcepto('externa-rrhh');    
+                            }
+                        });
+
                     resolve();
                 },
                 (error) => {                
@@ -94,7 +118,7 @@ export class CombosService implements Resolve<any>
 
     /**
      * Devuelve el combo correspondiente, si no lo tiene lo trae del backend
-     * @param {string} combo { 'dep-suc' || 'ext-rrhh' || 'ext' || 'rrhh' || 'periodos' || 'cualitativo' || 'cuantitativo' || 'externa' }
+     * @param {string} combo { 'dep-suc' || 'ext-rrhh' || 'ext' || 'rrhh' || 'periodos' || 'cualitativo' || 'cuantitativo' || 'externa-rrhh' }
      */
     getCombo(combo: string): Combo[]{
         let respuesta: Combo[] = [];
@@ -104,7 +128,7 @@ export class CombosService implements Resolve<any>
         switch (combo) {
             case 'cualitativo' : respuesta = this.comboConceptoCuantitativa; break;
             case 'cuantitativo': respuesta = this.comboConceptoCualitativa;  break;
-            case 'externa'     : respuesta = this.comboConceptoExterna;      break;
+            case 'externa-rrhh': respuesta = this.comboConceptoExternaRRHH;  break;
 
             case 'dep-suc'     : respuesta = this.comboOrigenDep_Suc;        break;
             case 'ext-rrhh'    : respuesta = this.comboOrigenExt_RRHH;       break;
@@ -127,17 +151,19 @@ export class CombosService implements Resolve<any>
 
         switch (combo) {
 
-            // Harcodeados
-            case 'cualitativo' : url = 'api/combo_cualitativo';   break;
-            case 'cuantitativo': url = 'api/combo_cuantitativo';  break;
-            case 'externa'     : url = 'api/combo_externa';       break;        
+            // desde Conceptos
+            case 'cualitativo' : url = null;                      break; //'api/combo_cualitativo'
+            case 'cuantitativo': url = null;                      break; //'api/combo_cuantitativo'
+            case 'externa-rrhh': url = null;                      break; //'api/combo_externa'
             
-            // Backend
+            // desde Origenes
             case 'dep-suc'     : url = url + 'equipos';           break;
             case 'ext-rrhh'    : url = url + 'sectores';          break;
             case 'ext'         : url = url + 'sectores-externos'; break;            
             case 'rrhh'        : url = url + 'sectores-rrhh';     break;
-            case 'periodos'    : url = 'periodos';                break;
+            
+            // Generada internamente
+            case 'periodos'    : url = null;                      break;
             default            : url = '';                        break;
         }
 
@@ -157,6 +183,17 @@ export class CombosService implements Resolve<any>
 
             return;
         }
+
+        if ((combo === 'cualitativo') || (combo === 'cuantitativo') || (combo === 'externa-rrhh')) {
+            if (this._auxAllConceptos.length === 0){
+               return;
+            }
+            
+            this._actualizarComboConcepto(combo);
+            
+            return;
+        }
+
 
         return new Promise((resolve, reject) => {        
             this._createRequest(url)            
@@ -188,19 +225,22 @@ export class CombosService implements Resolve<any>
      * Metodo utilizado para cargar todos los combos
      */
     private _getAll(): void {
+        if (this._auxAllConceptos.length === 0){            
+            this._conceptoService.getAllConceptos(); // Fuerzo los conceptos
+        }
+        
         const combos = [
-            'cualitativo',
-            'cuantitativo',
-            'externa',
             'dep-suc',
             'ext-rrhh',
             'ext',
             'rrhh',
             'periodos',
+            'cualitativo',
+            'cuantitativo',
+            'externa-rrhh',
         ];
 
-        combos.forEach(combo => {
-            // console.log(combo);
+        combos.forEach(combo => {            
             this.initCombo(combo);
         });
     }
@@ -258,7 +298,7 @@ export class CombosService implements Resolve<any>
                 break;
 
             case 'cualitativo':
-                if (this.comboConceptoCualitativa .length > 0){
+                if (this.comboConceptoCualitativa.length > 0){
                     respuesta = false;
                 }else{
                     respuesta = true;
@@ -275,8 +315,8 @@ export class CombosService implements Resolve<any>
                 
                 break;
 
-            case 'externa':
-                if (this.comboConceptoExterna.length > 0){
+            case 'externa-rrhh':
+                if (this.comboConceptoExternaRRHH.length > 0){
                     respuesta = false;
                 }else{
                     respuesta = true;
@@ -306,9 +346,9 @@ export class CombosService implements Resolve<any>
                 this.comboConceptoCuantitativa = response;
                 this.onComboConceptoCuantitativaChanged.next(this.comboConceptoCuantitativa);
                 break;
-            case 'externa':
-                this.comboConceptoExterna = response;
-                this.onComboConceptoExternaChanged.next(this.comboConceptoExterna);
+            case 'externa-rrhh':
+                this.comboConceptoExternaRRHH = response;
+                this.onComboConceptoExternaRRHHChanged.next(this.comboConceptoExternaRRHH);
                 break;
             case 'dep-suc': 
                 this.comboOrigenDep_Suc = response;  
@@ -332,6 +372,107 @@ export class CombosService implements Resolve<any>
                 break;
             default: /**    No hago nada              */  break;
         }   
+    }
+
+    /**
+     * _actualizarComboConcepto()
+     * Encargado de invocar a cada 'cargar' sergun el combo ingresado.
+     * @param {string} combo 
+     */
+    private _actualizarComboConcepto(combo: string): void {
+        switch (combo) {
+            case 'cualitativo':
+                        this._cargarCualitativo();     break;
+            case 'cuantitativo':
+                        this._cargarCuantitativo();    break;
+            case 'externa-rrhh':
+                        this._cargarExternaRRHH();     break;
+            default:    /**        No hago nada    */  break;
+        }
+    }
+
+    /**
+     * _cargarCualitativo()
+     * Filtra los conceptos y crea el combo Cualitativo desde conceptos
+     */
+    private _cargarCualitativo(): void {
+        const aux: Concepto[] = FuseUtils.filterArrayByString(this._auxAllConceptos, 'CUALITATIVO');
+
+        if (aux.length === 0){
+            // console.log('Los conceptos filtrados por CUALITATIVO es null');
+            return;
+        }
+
+        let combos: Combo[] = [];
+        aux.forEach(concepto => {            
+            combos.push( new Combo({
+                'codigo': concepto.codNov,
+                'valor' : concepto.descripcion,
+            }));
+        });
+        
+        this._updateInternalValues('cualitativo', combos);
+    }
+
+
+    /**
+     * _cargarCuantitativo()
+     * En la base esta como EQUIPO
+     * Filtra los conceptos y crea el combo Cuantitativo desde conceptos
+     */
+    private _cargarCuantitativo(): void {
+        const aux: Concepto[] = FuseUtils.filterArrayByString(this._auxAllConceptos, 'EQUIPO');
+
+        if (aux.length === 0) {
+            // console.log('Los conceptos filtrados por Cuantitativo/EQUIPO es null');
+            return;
+        }
+
+        let combos: Combo[] = [];
+        aux.forEach(concepto => {
+            combos.push(new Combo({
+                'codigo': concepto.codNov,
+                'valor': concepto.descripcion,
+            }));
+        });
+        
+        this._updateInternalValues('cuantitativo', combos);
+    }
+
+    /**
+     * _cargarExternaRRHH()
+     * Filtra los conceptos y crea el combo ExternaRRHH desde conceptos
+     */
+    private _cargarExternaRRHH(): void {
+        const auxE: Concepto[] = FuseUtils.filterArrayByString(this._auxAllConceptos, 'EXTERNA');
+        const auxR: Concepto[] = FuseUtils.filterArrayByString(this._auxAllConceptos, 'RRHH');
+
+        if (auxE.length === 0 && auxR.length === 0) {
+            // console.log('Los conceptos filtrados por EXTERNA & RRHH son null');
+            return;
+        }
+
+        let combos: Combo[] = [];
+
+        auxE.forEach(concepto => {
+            combos.push(new Combo({
+                'codigo': concepto.codNov,
+                'valor': concepto.descripcion,
+                'valor2': concepto.codOrigen,
+                'valor3': concepto.tipoNov
+            }));
+        });
+
+        auxR.forEach(concepto => {
+            combos.push(new Combo({
+                'codigo': concepto.codNov,
+                'valor': concepto.descripcion,
+                'valor2': concepto.codOrigen,
+                'valor3': concepto.tipoNov
+            }));
+        }); 
+        
+        this._updateInternalValues('externa-rrhh', combos);
     }
 
     /**
@@ -369,6 +510,26 @@ export class CombosService implements Resolve<any>
         }
         
         return arrPeriodo;
+    }
+
+    /**
+     * _compareArrConceptos()
+     * Determino si los dos [] de conceptos son iguales o no.
+     * @param {Concepto[]} c1 
+     * @param {Concepto[]} c2 
+     */
+    private _compareArrConceptos(c1: Concepto[], c2: Concepto[]): boolean {
+        if (c1.length !== c2.length) {
+            return false;
+        }
+
+        for (let index = 0; index < c1.length; index++) {
+            if (!(c1[index].compare(c2[index]))){
+                return false;
+            }            
+        }
+
+        return true;
     }
 
     private _to2digit(n: number): string {
