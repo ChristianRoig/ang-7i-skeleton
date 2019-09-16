@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { ContactsMainSidebarComponent } from './main.component';
 import { CommonModule } from '@angular/common';
-import { MatDividerModule, MatCheckboxModule } from '@angular/material';
+import { MatDividerModule, MatCheckboxModule, MatIconModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
     declarations: [
@@ -14,7 +15,9 @@ import { RouterModule } from '@angular/router';
         MatDividerModule,
         MatCheckboxModule,
         FormsModule,
-        RouterModule
+        RouterModule,
+        MatButtonModule,
+        MatIconModule
     ],
     providers: [
 

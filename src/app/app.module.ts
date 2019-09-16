@@ -46,8 +46,7 @@ import { CombosService } from './main/common/combos/combos.service';
 import { GeneralConfirmDialogModule } from './main/common/general-confirm-dialog/general_confirm_dialog.module';
 import { NovFormModule } from './main/novedades/nov_form/nov_form.module';
 import { NotificacionSnackbarService } from './main/common/notificacion.snackbar.service';
-
-
+import { ExportarTXTModule } from './main/novedades/exportar-txt/exportar-txt.module';
 
 
 const appRoutes: Routes = [
@@ -114,7 +113,8 @@ const appRoutes: Routes = [
         NovFormModule,
         ErrorModule,
 
-        MatSnackBarModule
+        MatSnackBarModule,
+        ExportarTXTModule
 
     ],
     providers: [

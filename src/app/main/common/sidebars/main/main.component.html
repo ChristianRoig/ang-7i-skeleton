@@ -91,6 +91,12 @@
     </mat-checkbox>
 </div>
 
+<button mat-raised-button color="accent" class="mt-24 mr-24 ml-24 " aria-label="LOGIN" type="button" 
+        (click)="exportar()"
+        *ngIf="invocador === 'ControlNovedades' && filterBy !=='GrupoFava'"> 
+        <mat-icon class="">save</mat-icon>
+        Exportar a TXT
+</button>
 
 
 <!-- / SIDEBAR CONTENT -->

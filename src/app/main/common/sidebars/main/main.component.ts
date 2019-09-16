@@ -3,6 +3,8 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { NominaService } from '../../../colaboradores/nomina/nomina.service';
 import { NovedadService } from '../../../novedades/novedad.service';
+import { ExportarTXTComponent } from 'app/main/novedades/exportar-txt/exportar-txt.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
     selector   : 'general-main-sidebar',
@@ -15,6 +17,7 @@ export class ContactsMainSidebarComponent implements OnInit, OnDestroy
     filterBy: string;
     isCheck = false;
     url = '';
+    dialogRefExportar: any;
 
     @Output() isCheckSideBar: EventEmitter<boolean>;
     @Output() isFilter: EventEmitter<string>;
@@ -29,7 +32,8 @@ export class ContactsMainSidebarComponent implements OnInit, OnDestroy
      */
     constructor(        
         private _nominaService: NominaService,
-        private _novedadService: NovedadService
+        private _novedadService: NovedadService,
+        private _matDialog: MatDialog,
     )
     {
         this.isCheckSideBar = new EventEmitter<any>();
@@ -94,4 +98,14 @@ export class ContactsMainSidebarComponent implements OnInit, OnDestroy
     changeCheck(): void {        
         this.isCheckSideBar.emit(this.isCheck);        
     }
+
+    exportar(): void{
+        this.dialogRefExportar = this._matDialog.open(ExportarTXTComponent, {
+            panelClass: 'exportar-txt',
+            data: {
+                
+            }
+        });
+    }
+     
 }
