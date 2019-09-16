@@ -91,10 +91,16 @@
     </mat-checkbox>
 </div>
 
-<button mat-raised-button color="accent" class="mt-24 mr-24 ml-24 " aria-label="LOGIN" type="button" 
+<button mat-raised-button color="" class="mt-24 mr-24 ml-24 " aria-label="" type="button"
+     *ngIf="invocador === 'ControlNovedades' && filterBy ==='GrupoFava'">
+    <mat-icon class="">unarchive</mat-icon>
+    Importar de CSV
+</button>
+
+<button mat-raised-button color="accent" class="mt-24 mr-24 ml-24 " aria-label="" type="button" 
         (click)="exportar()"
         *ngIf="invocador === 'ControlNovedades' && filterBy !=='GrupoFava'"> 
-        <mat-icon class="">save</mat-icon>
+        <mat-icon class="">archive</mat-icon>
         Exportar a TXT
 </button>
 
