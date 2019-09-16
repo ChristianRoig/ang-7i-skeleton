@@ -1,0 +1,71 @@
+@import "src/@fuse/scss/fuse";
+
+.exportar-txt {
+    min-width: 800px;
+    width: 500px;
+
+    @include media-breakpoint('xs') {
+        width: 100%;
+    }
+
+    @include media-breakpoint('gt-xs') {        
+        width: auto;
+    }
+
+    .mat-dialog-container {
+        padding: 0;
+
+        .mat-toolbar {
+            flex: 1 0 auto;
+            min-height: initial;
+        }
+
+        .toolbar-bottom {
+            height: auto;
+        }
+    }
+
+    .dialog-content-wrapper {
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+
+
+        form {
+            #texto {
+                margin-top: 24px;
+
+                .mat-form-field {
+                    .mat-form-field-wrapper {
+                        .mat-form-field-flex {
+                            .mat-form-field-infix {
+                                width: auto;
+
+                                textarea {
+                                    font-family: monospace;
+                                    resize: auto; 
+                                }
+                            }
+                        }
+                    }
+                }
+                
+
+            }
+
+            button {
+                span {
+
+                    span {
+                        padding-left: 5px;
+                    }
+                }
+            }
+
+            textarea {
+                height: 150px;
+            }
+        }
+
+    }
+}
