@@ -1,6 +1,19 @@
 export class Novedades
 {
-   
+    public static texto =   '      192DIFCA     30/04/2019           18,11            0,00\n' +                          
+                            '     1068LENF      30/04/2019            6,00            0,00\n' +
+                            '     1068ADELA     30/04/2019         5000,00            0,00\n' +
+                            '     1068DIFCA     30/04/2019          459,10            0,00\n' +
+                            '     1791DIFCA     30/04/2019         1286,11            0,00\n' +
+                            '     1966ADELA     30/04/2019         4000,00            0,00\n' +
+                            '     1966259       30/04/2019         1324,82            0,00\n' +
+                            '     1966DIFCA     30/04/2019           19,54            0,00\n' +
+                            '     2173ADELA     30/04/2019         3000,00            0,00\n' +
+                            '     2173DIFCA     30/04/2019          914,94            0,00\n' +
+                            '     1068DESC      30/04/2019            6,00            0,00\n' +
+                            '     2173DIFCA     30/04/2019          914,94            0,00';
+                            
+
     public static FN0051 = Novedades.crearNovedades();
     public static FC0784 = Novedades.crearNovedades();
     public static FC7871 = Novedades.crearNovedades();
