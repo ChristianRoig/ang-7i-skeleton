@@ -103,7 +103,7 @@ export class ContactsMainSidebarComponent implements OnInit, OnDestroy
         this.dialogRefExportar = this._matDialog.open(ExportarTXTComponent, {
             panelClass: 'exportar-txt',
             data: {
-                
+                empresa: this.filterBy
             }
         });
     }
