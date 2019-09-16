@@ -7,10 +7,10 @@ import { AuthGuard } from '../authentication/auth.guard';
 
 const routes: Routes = [
   {      
-      path: 'perfil', redirectTo: 'perfil/',
+      path: 'legajo', redirectTo: 'legajo/',
   },
   {
-      path     : 'perfil/:id', component: PerfilComponent, canActivate: [ AuthGuard ],
+      path     : 'legajo/:id', component: PerfilComponent, canActivate: [ AuthGuard ],
       resolve  : {
         profile: PerfilService,
         nov: NovedadesService

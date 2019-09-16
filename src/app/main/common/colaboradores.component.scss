@@ -135,7 +135,7 @@
 }
 
 
-#addNovedadButton, #importarButton {
+#addNovedadButton {
     position: absolute;
     bottom: 12px;
     right: 12px;
@@ -149,23 +149,24 @@
     }
 }
 
-.container-delete {
+.container-addnovedad-delete {
     width: auto;
     display: flex;
     justify-content: flex-end;
 
+    #importarButton,
     #DeleteButton {
-        width: 40px;
-        height: 40px;
+        // width: 40px;
+        // height: 40px;
         margin: 12px 24px 0 0;
         
         .mat-button-wrapper{
             padding: 0;
         }
     }
-}
 
+    #importarButton {
+        margin: 12px 10px 0 0;
+    }
 
-#importarButton {
-    right: 75px;
 }

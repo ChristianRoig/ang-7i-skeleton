@@ -3,8 +3,8 @@ import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 export const navigation: FuseNavigation[] = [
     {
-        id       : 'Usuario',
-        title    : 'Usuario',
+        id       : 'Acceso',
+        title    : 'Acceso',
         // translate: 'NAV.APPLICATIONS',
         type     : 'group',
         children : [            
@@ -21,13 +21,21 @@ export const navigation: FuseNavigation[] = [
                 type: 'item',
                 icon: 'meeting_room',
                 url: '/auth/logout'                      
-            },            
+            }            
+        ]
+    },
+
+    {
+        id       : 'AreadeUsuario',
+        title    : 'Area de Usuario',
+        type     : 'group',
+        children : [
             {
-                id       : 'perfil',
-                title    : 'Perfil',
-                type     : 'item',
-                icon     : 'person',
-                url      : '/perfil/',               
+                id: 'Legajo',
+                title: 'Legajo',
+                type: 'item',
+                icon: 'person',
+                url: '/legajo/',
             },
             {
                 id: 'equipo',
@@ -45,19 +53,19 @@ export const navigation: FuseNavigation[] = [
                 id: 'nov-equipo',
                 title: 'Novedades por Equipo',
                 type: 'item',
-                icon: 'ballot',
+                icon: 'assignment_ind',
                 url: '/novedades/equipos/',
                 badge: {
                     title: '8',
                     bg: '#9158e2',
                     fg: '#FFFFFF'
                 }
-            },            
+            },
             {
                 id: 'sector',
                 title: 'Novedades por Sector',
                 type: 'item',
-                icon: 'announcement',
+                icon: 'assignment_late',
                 url: '/novedades/sectores/',
                 badge: {
                     title: '23',
@@ -68,9 +76,11 @@ export const navigation: FuseNavigation[] = [
         ]
     },
 
+
+
     {
         id       : 'RRHH',
-        title    : 'RRHH',
+        title    : 'Area de RRHH',
         type     : 'group',
         children: [
             {
@@ -89,7 +99,7 @@ export const navigation: FuseNavigation[] = [
                 id: 'control_de_novedades',
                 title: 'Control de Novedades',
                 type: 'item',
-                icon: 'supervisor_account',
+                icon: 'beenhere',
                 url: '/novedades/control/',                
             }
         ]

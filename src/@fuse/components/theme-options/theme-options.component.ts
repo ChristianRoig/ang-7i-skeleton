@@ -142,7 +142,7 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy
         const customFunctionNavItem = {
 
             'id'       : 'custom-function',
-            'title'    : 'Configurar',
+            'title'    : 'Configuracion',
             // 'translate': 'NAV.CUSTOMFUNCTIONS',
             'type'     : 'group',
             'icon'     : 'settings',
@@ -163,10 +163,10 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy
                 },
                 {
                     'id'       : 'customize',
-                    'title'    : 'Personalizar',
+                    'title'    : 'Colores y Diseño',
                     // 'translate': 'NAV.CUSTOMIZE',
                     'type'     : 'item',
-                    'icon'     : 'settings',
+                    'icon'     : 'palette',
                     'function' : () => {
                         this.toggleSidebarOpen('themeOptionsPanel');
                     }

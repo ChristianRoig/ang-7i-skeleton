@@ -14,7 +14,7 @@
 
             <div class="logo" fxLayout="row" fxLayoutAlign="start center">
                 <mat-icon class="logo-icon mr-16"
-                          [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">announcement
+                          [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">assignment_late
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
                     {{titulo}}
@@ -85,14 +85,23 @@
     </div>
     <!-- / HEADER -->
 
-    <!-- DELETE BUTTON -->
-    <div class="container-delete">
+    <div class="container-addnovedad-delete">
+
+        <!-- IMPORTAR BUTTON class="accent"-->
+        <button mat-fab color="" id="importarButton" (click)="importar()" title="Importar" aria-label="importar"
+            [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+            <mat-icon>archive</mat-icon>
+        </button>
+        <!-- / IMPORTAR BUTTON -->
+        
+        <!-- DELETE BUTTON -->
         <button mat-fab class="accent" id="DeleteButton" (click)="borrarTodos()" title="Eliminar las Novedades" aria-label="DELETE ALL"
             [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
             <mat-icon>delete</mat-icon>
         </button>
+        <!-- / DELETE BUTTON -->
+
     </div>
-    <!-- / DELETE BUTTON -->
 
 
     <!-- CONTENT -->
@@ -132,16 +141,9 @@
     <!-- ADD NOVEDAD BUTTON -->
     <button mat-fab class="accent" id="addNovedadButton" (click)="addNovedad()" title="Agregar Novedad" aria-label="add-novedad"
         [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
-        <mat-icon>announcement</mat-icon>
+        <mat-icon>add_circle_outline</mat-icon>
     </button>
     <!-- / ADD NOVEDAD BUTTON -->
-
-    <!-- IMPORTAR BUTTON -->
-    <button mat-fab class="accent" id="importarButton" (click)="importar()" title="Importar" aria-label="importar"
-        [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
-        <mat-icon>archive</mat-icon>
-    </button>
-    <!-- / IMPORTAR BUTTON -->
 
 </div>
 

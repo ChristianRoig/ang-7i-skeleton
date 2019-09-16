@@ -119,7 +119,7 @@ export class LoginService
                                                     this.infoOnChanged.next(this.info);
                                                     this.perfilLogOnChanged.next(this.perfilLog);
 
-                                                    this._router.navigate(['/perfil']);  
+                                                    this._router.navigate(['/legajo']);  
 
                                                 },
                                                 (err) => {

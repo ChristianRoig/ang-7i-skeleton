@@ -113,7 +113,7 @@ export class DataListColaboradorComponent implements OnInit, OnDestroy
      */
     goPerfil(colaborador: Perfil): void {
         this.router.navigate([
-            'perfil/' + colaborador.legajo                     
+            'legajo/' + colaborador.legajo                     
         ]); 
     }
 
