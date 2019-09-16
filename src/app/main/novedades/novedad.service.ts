@@ -22,6 +22,9 @@ export class NovedadService implements Resolve<any>
     private novedades: Novedad[] = [];
     private invocador = '';
 
+    private exportTXT = '';
+
+    onExportTXTChanged: Subject<any>;
     onNovedadesChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
@@ -48,6 +51,7 @@ export class NovedadService implements Resolve<any>
         this.onFilterChanged = new Subject();
         this.OnInvocadorChanged = new Subject();           
         this.onfilterPeriodoChanged = new Subject();
+        this.onExportTXTChanged = new Subject();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -97,6 +101,34 @@ export class NovedadService implements Resolve<any>
                     
                 }
             );
+        });
+    }
+
+    /**
+     * exportarTXT()
+     * Encargado de traer del backend, un string con las novedades por empresa.
+     */
+    exportarTXT(): Promise<any> {
+        let url = API_URL;
+
+        // Mock
+        url = 'api/texto';
+
+        return new Promise((resolve, reject) => {
+            this._createRequest(url)
+                .subscribe((response: string) => {                    
+                    if (response == null) {
+                        response = '';
+                    }
+                    // console.log(response);
+
+                    this.exportTXT = response;
+
+                    this.onExportTXTChanged.next(this.exportTXT);
+
+                    resolve(this.novedades);
+
+                }, reject);
         });
     }
 
