@@ -4,6 +4,14 @@ import { NovedadService } from '../novedad.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import * as FileSaver from 'file-saver';
+
+////////////////////////////////////////////
+// Instalar 
+// npm install file-saver --save
+// npm install @types/file-saver --save
+////////////////////////////////////////////
+
 
 @Component({
     selector     : 'exportar-txt',
@@ -59,9 +67,31 @@ export class ExportarTXTComponent implements OnInit
     // -----------------------------------------------------------------------------------------------------
 
     saveFile(): void {
-        console.log('salvar');
+        // console.log('salvar');
+        // let aux = JSON.stringify(txt, null, '\t');
+        let blob = new Blob([this.txt], { type: 'text/plain;charset=utf-8' });
+        let nombre = 'TXT';
+
+        if (this.empresa === 'FavaHnos') {
+            nombre = nombre + ' FH';
+        }
+
+        if (this.empresa === 'FavaCard') {
+            nombre = nombre + ' FC';
+        }
+
+        if (this.empresa === 'FavaNet') {
+            nombre = nombre + ' FN';
+        }
+
+        nombre = nombre + '.txt';
+
+        FileSaver.saveAs(blob, nombre);
+
     }
 
+
+    
    
     // No funciona en firefox
     // saveFile(): void {
