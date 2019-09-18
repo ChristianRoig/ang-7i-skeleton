@@ -51,7 +51,7 @@ import { ExportarTXTModule } from './main/novedades/exportar-txt/exportar-txt.mo
 
 const appRoutes: Routes = [
     {
-        path: '', redirectTo: 'perfil/', pathMatch: 'full'
+        path: '', redirectTo: 'legajo/', pathMatch: 'full'
     },
     {
         path      : '**',
