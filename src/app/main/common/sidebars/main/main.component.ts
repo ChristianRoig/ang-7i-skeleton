@@ -22,6 +22,7 @@ export class ContactsMainSidebarComponent implements OnInit, OnDestroy
     @Output() isCheckSideBar: EventEmitter<boolean>;
     @Output() isFilter: EventEmitter<string>;
     @Input() invocador: string;
+    @Input() periodo: string;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -103,7 +104,8 @@ export class ContactsMainSidebarComponent implements OnInit, OnDestroy
         this.dialogRefExportar = this._matDialog.open(ExportarTXTComponent, {
             panelClass: 'exportar-txt',
             data: {
-                empresa: this.filterBy
+                empresa: this.filterBy,
+                periodo: this.periodo
             }
         });
     }

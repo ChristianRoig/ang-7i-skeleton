@@ -19,10 +19,30 @@ import { CombosService } from 'app/main/common/combos/combos.service';
 const routes: Routes = [
     { path: 'novedades/control', redirectTo: 'novedades/control/FavaHnos' },
 
-    { path: 'novedades/control/GrupoFava', canActivate: [AuthGuard], component: ControlNovedadesComponent, resolve: { combos: CombosService, novedades: NovedadService } },
-    { path: 'novedades/control/FavaCard',  canActivate: [AuthGuard], component: ControlNovedadesComponent, resolve: { combos: CombosService, novedades: NovedadService } },
-    { path: 'novedades/control/FavaNet',   canActivate: [AuthGuard], component: ControlNovedadesComponent, resolve: { combos: CombosService, novedades: NovedadService } },
-    { path: 'novedades/control/FavaHnos',  canActivate: [AuthGuard], component: ControlNovedadesComponent, resolve: { combos: CombosService, novedades: NovedadService } },
+    { path: 'novedades/control/GrupoFava',
+      data: { roles: ['RRHH'] },
+      canActivate: [AuthGuard],
+      component: ControlNovedadesComponent, 
+      resolve: { combos: CombosService, novedades: NovedadService }
+    },
+    { path: 'novedades/control/FavaCard', 
+      data: { roles: ['RRHH'] },
+      canActivate: [AuthGuard],
+      component: ControlNovedadesComponent, 
+      resolve: { combos: CombosService, novedades: NovedadService }
+    },
+    { path: 'novedades/control/FavaNet',  
+      data: { roles: ['RRHH'] },
+      canActivate: [AuthGuard],
+      component: ControlNovedadesComponent, 
+      resolve: { combos: CombosService, novedades: NovedadService }
+    },
+    { path: 'novedades/control/FavaHnos', 
+      data: { roles: ['RRHH'] },
+      canActivate: [AuthGuard],
+      component: ControlNovedadesComponent, 
+      resolve: { combos: CombosService, novedades: NovedadService }
+    },
         
 ];
 
