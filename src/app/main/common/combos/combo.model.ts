@@ -9,7 +9,7 @@ export class Combo {
      * @param combo 
      */
     constructor(combo) {
-        this.cod = combo.cod || combo.codigo || '';
+        this.cod = combo.cod || combo.codigo || '-';
         this.valor = combo.valor || combo.nombre || '';
         this.valor2 = combo.valor2 || '';
         this.valor3 = combo.valor3 || '';
