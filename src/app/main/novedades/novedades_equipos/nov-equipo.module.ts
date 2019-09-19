@@ -21,6 +21,7 @@ const routes: Routes = [
     },
     {
         path     : 'novedades/equipos/:filtro',
+        data: { roles: ['RRHH', 'ResEquipo'] },
         canActivate: [AuthGuard],
         component: NovEquiposComponent,        
         resolve  : {   

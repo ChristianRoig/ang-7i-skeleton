@@ -3,6 +3,7 @@ import { merge, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
+import { LoginService } from '../../../app/main/authentication/login-2/login-2.service';
 
 @Component({
     selector       : 'fuse-navigation',
@@ -29,7 +30,8 @@ export class FuseNavigationComponent implements OnInit
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseNavigationService: FuseNavigationService
+        private _fuseNavigationService: FuseNavigationService,
+        private _loginService: LoginService
     )
     {
         // Set the private defaults
@@ -60,6 +62,8 @@ export class FuseNavigationComponent implements OnInit
                 this._changeDetectorRef.markForCheck();
             });
 
+        this._visualizarSegunRol();
+        
         // Subscribe to navigation item
         merge(
             this._fuseNavigationService.onNavigationItemAdded,
@@ -71,5 +75,105 @@ export class FuseNavigationComponent implements OnInit
              // Mark for check
              this._changeDetectorRef.markForCheck();
          });
+    }
+
+
+    private _visualizarSegunRol(): void {
+        let rol = this._loginService.getRol();
+        
+        if (!(rol)) {
+            return;
+        }
+
+        switch (rol) {
+            case 'RRHH':
+                this._fuseNavigationService.updateNavigationItem('equipo', {
+                    hidden: false
+                });
+                this._fuseNavigationService.updateNavigationItem('nov-equipo', {
+                    hidden: false
+                });
+                this._fuseNavigationService.updateNavigationItem('nov-sector', {
+                    hidden: false
+                });
+                this._fuseNavigationService.updateNavigationItem('control_de_novedades', {
+                    hidden: false
+                });
+                this._fuseNavigationService.updateNavigationItem('origenes', {
+                    hidden: false
+                });
+                this._fuseNavigationService.updateNavigationItem('conceptos', {
+                    hidden: false
+                });
+
+                break;
+            case 'ResSector':
+                this._fuseNavigationService.updateNavigationItem('equipo', {
+                    hidden: true
+                });
+                this._fuseNavigationService.updateNavigationItem('nov-equipo', {
+                    hidden: true
+                });
+                this._fuseNavigationService.updateNavigationItem('nov-sector', {
+                    hidden: false
+                });
+                this._fuseNavigationService.updateNavigationItem('control_de_novedades', {
+                    hidden: true
+                });
+                this._fuseNavigationService.updateNavigationItem('origenes', {
+                    hidden: true
+                });
+                this._fuseNavigationService.updateNavigationItem('conceptos', {
+                    hidden: true
+                });
+                break;
+            case 'ResEquipo':
+                this._fuseNavigationService.updateNavigationItem('nov-equipo', {
+                    hidden: false
+                });
+                this._fuseNavigationService.updateNavigationItem('equipo', {
+                    hidden: false
+                });
+                this._fuseNavigationService.updateNavigationItem('nov-sector', {
+                    hidden: true
+                });
+                this._fuseNavigationService.updateNavigationItem('control_de_novedades', {
+                    hidden: true
+                });
+                this._fuseNavigationService.updateNavigationItem('origenes', {
+                    hidden: true
+                });
+                this._fuseNavigationService.updateNavigationItem('conceptos', {
+                    hidden: true
+                });
+
+                break;
+            case 'comun':
+                this._fuseNavigationService.updateNavigationItem('equipo', {
+                    hidden: true
+                });
+                this._fuseNavigationService.updateNavigationItem('nov-equipo', {
+                    hidden: true
+                });
+                this._fuseNavigationService.updateNavigationItem('nov-sector', {
+                    hidden: true
+                });
+                this._fuseNavigationService.updateNavigationItem('control_de_novedades', {
+                    hidden: true
+                });
+                this._fuseNavigationService.updateNavigationItem('origenes', {
+                    hidden: true
+                });
+                this._fuseNavigationService.updateNavigationItem('conceptos', {
+                    hidden: true
+                });
+
+                break;
+
+            default:
+                break;
+        }
+
+
     }
 }

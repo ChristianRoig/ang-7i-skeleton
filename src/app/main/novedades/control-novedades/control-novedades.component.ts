@@ -41,6 +41,8 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
 
     periodos: any[];
     periodoSelect: any;
+    periodoSelectCod: any;
+    
     
     // Protected
     protected _unsubscribeAll: Subject<any>;
@@ -148,6 +150,7 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
      */
     filtrarXPeriodo(elemento): void {
         this.periodoSelect = elemento.valor;
+        this.periodoSelectCod = elemento.cod;
 
         this._novedadService.onfilterPeriodoChanged.next(elemento.cod);
     }
@@ -164,9 +167,11 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
         if (data) {
             const pSelect = FuseUtils.filterArrayByString(this.periodos, data);
             this.periodoSelect = (this.periodos.length !== 0) ? pSelect[0].valor : '';
+            this.periodoSelectCod = (this.periodos.length !== 0) ? pSelect[0].cod : '';
             this._novedadService.onfilterPeriodoChanged.next((this.periodos.length !== 0) ? pSelect[0].cod : '');
         } else {
             this.periodoSelect = (this.periodos.length !== 0) ? this.periodos[0].valor : ''; // El primero siempre es el Actual
+            this.periodoSelectCod = (this.periodos.length !== 0) ? this.periodos[0].cod : '';
             this._novedadService.onfilterPeriodoChanged.next((this.periodos.length !== 0) ? this.periodos[0].cod : '');
         }
     }

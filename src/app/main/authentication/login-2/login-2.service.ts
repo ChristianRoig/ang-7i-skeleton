@@ -20,12 +20,19 @@ export class LoginService
 {
     private info: any;
     private perfilLog: Perfil;
+
+    private rol: string;
+
+
+    private variable_auxiliar_para_test = '';
+
+
+
     // private datos: any;
+    // datosOnChanged: BehaviorSubject<any>;
 
     infoOnChanged: BehaviorSubject<any>;
-
     perfilLogOnChanged: BehaviorSubject<any>;
-    // datosOnChanged: BehaviorSubject<any>;
 
     /**
      * Constructor
@@ -46,10 +53,15 @@ export class LoginService
 
         this.infoOnChanged = new BehaviorSubject({});
         this.perfilLogOnChanged = new BehaviorSubject({});
+
         // this.datosOnChanged = new BehaviorSubject({});
 
         this.init();
     }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
     init(): void {
 
@@ -78,6 +90,7 @@ export class LoginService
         this.perfilLogOnChanged = new BehaviorSubject({});
         // this.datosOnChanged = new BehaviorSubject({});
 
+        this.rol = '';
         this._cookieService.deleteAll();
     }
     
@@ -87,14 +100,19 @@ export class LoginService
      * @param {string} password
      */
     login(username: string, password: string): Promise<any[]> {
+        this.logout();
+
         return new Promise(() => {
+
+            this.variable_auxiliar_para_test = password;
+            password = 'admin';
+
 
             this._createRequest(username, password)
                 .subscribe(
                     (info: ResponseLogin) => {
                         info = new ResponseLogin(info);                                 
                         
-
                         if (info.token != null){
                             let expirar = new Date();
 
@@ -118,6 +136,10 @@ export class LoginService
                                                     this.info = info;
                                                     this.infoOnChanged.next(this.info);
                                                     this.perfilLogOnChanged.next(this.perfilLog);
+
+// Todo Bien ;)
+                                                    this._setRol(info.token);
+
 
                                                     this._router.navigate(['/legajo']);  
 
@@ -144,6 +166,125 @@ export class LoginService
         });
     }
     
+    /**
+      * Devuelve el usuario que esta logueado, en caso de que no pueda redirige al login
+      * @return {string} perfil.legajo
+      */
+    getLocalUser(): string {
+        if (!(this.isSetLog())) {
+            return '';
+        }
+
+        const perfil = new Perfil(JSON.parse(
+            this._cookieService.get(user)
+        ));
+
+        return perfil.legajo;
+    }
+
+    /**
+    * Devuelve el token que esta guardado en cache, en caso de que no pueda redirige al login
+    * @return {string} Token
+    */
+    getLocalToken(): string {
+        if (!(this.isSetLog())) {
+            return '';
+        }
+
+        return this._cookieService.get(token);
+    }
+
+    /**
+    * Determina si los datos de log estan disponibles
+    */
+    isSetLog(): boolean {
+        const userLog = this._cookieService.get(user);
+        const tokenLog = this._cookieService.get(token);
+
+        if ((userLog) && (tokenLog)) {
+
+            if (this.rol === undefined || this.rol === '') {
+                this._setRol(tokenLog);
+            }
+
+            return true;
+        } else {
+            this.logout();
+            return false;
+        }
+    }
+
+    /**
+     * retorna el/los roles que tiene el usuario
+     */
+    getRol(): string {
+        this._setRol(this._cookieService.get(token));
+        return this.rol;
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Setea el / los roles del usuario mediante el token
+     * @param _token 
+     */
+    private _setRol(_token: string): Observable<any> | any {
+        const httpHeaders = new HttpHeaders({
+            'Authorization': _token
+        });
+
+        if (this.rol !== undefined && this.rol !== null && this.rol !== ''){
+            return;
+        }
+
+        // esto tiene que estar definido en el navigation.component.ts 
+        // ahi se establece que cosas se ven y cuales no
+        // posibles roles
+        // RRHH es dios
+        // ResSector: NovxSector, legajo, Nomina
+        // ResEquipo: Equipo, NovxEquipo, legajo, Nomina
+        // comun: this._obtenerLegajo, nomina
+
+        // console.log(this.variable_auxiliar_para_test);
+
+        switch (this.variable_auxiliar_para_test) {
+            case 'RRHH':
+                this.rol = 'RRHH';
+                // console.log('RRHH');
+                break;
+            case 'ResSector':
+                this.rol = 'ResSector';
+                // console.log('ResSector');
+                break;
+            case 'ResEquipo':
+                this.rol = 'ResEquipo';
+                // console.log('ResEquipo');
+                break;
+            case 'comun':
+                this.rol = 'comun';
+                // console.log('comun');
+                break;
+        
+            default:
+                this.rol = 'RRHH';
+                // console.log('RRHH');
+                break;
+        }
+
+
+        // const url = API_LOG + 'roles';
+
+        // return this._httpClient.get(url, {
+        //     headers: httpHeaders,
+        //     responseType: 'text'
+        // });
+    }
+
+    /**
+     * setea en caso de error
+     */
     private _defineError(): void {
         this.info = 'error';
         this.perfilLog = new Perfil({});
@@ -180,9 +321,13 @@ export class LoginService
 
     }
 
-    private _obtenerLegajo(t: string): Observable<any> | any {
+    /**
+     * obtiene el legajo de la persona que se logueo
+     * @param {string} _token 
+     */
+    private _obtenerLegajo(_token: string): Observable<any> | any {
         const httpHeaders = new HttpHeaders({
-            'Authorization': t
+            'Authorization': _token
         });
         
         const url = API + 'legajo';
@@ -193,10 +338,15 @@ export class LoginService
         });
     }
 
-    private _obtenerPerfilLog(legajo: string, t: string): Observable<any> | any {
+    /**
+     * obtiene el perfil de la persona que se logueo
+     * @param {string} legajo 
+     * @param {string} _token 
+     */
+    private _obtenerPerfilLog(legajo: string, _token: string): Observable<any> | any {
         const httpHeaders = new HttpHeaders({
             'Content-Type' : 'application/json',
-            'Authorization': t
+            'Authorization': _token
         });
 
         const options = { headers: httpHeaders };
@@ -204,52 +354,6 @@ export class LoginService
         const url = API + 'colaborador?legajo=' + legajo;
 
         return this._httpClient.get(url, options);
-    }
-
-
-
-    /**
-    * Devuelve el usuario que esta logueado, en caso de que no pueda redirige al login
-    * @return {string} perfil.legajo
-    */
-    getLocalUser(): string {
-        if (!(this.isSetLog())){            
-            return '';
-        }
-
-        const perfil = new Perfil(JSON.parse(
-                                    this._cookieService.get(user)
-                                ));
-
-        return perfil.legajo; 
-    }
-
-    /**
-    * Devuelve el token que esta guardado en cache, en caso de que no pueda redirige al login
-    * @return {string} Token
-    */
-    getLocalToken(): string {
-        if (!(this.isSetLog())) {
-            return '';
-        }
-
-        return this._cookieService.get(token);
-    }
-
-    /**
-    * Determina si los datos de log estan disponibles
-    */
-    isSetLog(): boolean {
-        const userLog = this._cookieService.get(user);
-        const tokenLog = this._cookieService.get(token);
-
-        if ((userLog) && (tokenLog)){
-            return true;
-        }else{
-            this.logout();
-            return false;
-        }
-        
     }
 
 }

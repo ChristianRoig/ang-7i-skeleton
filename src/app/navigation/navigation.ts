@@ -1,5 +1,4 @@
 import { FuseNavigation } from '@fuse/types';
-import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 export const navigation: FuseNavigation[] = [
     {
@@ -47,7 +46,8 @@ export const navigation: FuseNavigation[] = [
                     title: '16',
                     bg: '#825e5a',
                     fg: '#FFFFFF'
-                }
+                },
+                hidden: true
             },
             {
                 id: 'nov-equipo',
@@ -59,10 +59,11 @@ export const navigation: FuseNavigation[] = [
                     title: '8',
                     bg: '#9158e2',
                     fg: '#FFFFFF'
-                }
+                },
+                hidden: true
             },
             {
-                id: 'sector',
+                id: 'nov-sector',
                 title: 'Novedades por Sector',
                 type: 'item',
                 icon: 'assignment_late',
@@ -71,7 +72,8 @@ export const navigation: FuseNavigation[] = [
                     title: '23',
                     bg: '#8ebdaf',
                     fg: '#FFFFFF'
-                }
+                },
+                hidden: true
             },
         ]
     },
@@ -100,7 +102,8 @@ export const navigation: FuseNavigation[] = [
                 title: 'Control de Novedades',
                 type: 'item',
                 icon: 'beenhere',
-                url: '/novedades/control/',                
+                url: '/novedades/control/',
+                hidden: true
             }
         ]
     },

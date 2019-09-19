@@ -21,6 +21,7 @@ const routes: Routes = [
     },
     {
         path     : 'equipo/:equipo',
+        data: { roles: ['RRHH', 'ResEquipo'] },
         canActivate: [AuthGuard],
         component: ColaboradoresComponent,
         resolve  : {

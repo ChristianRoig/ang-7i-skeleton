@@ -17,6 +17,7 @@ import { AuthGuard } from 'app/main/authentication/auth.guard';
 const routes: Routes = [
     {
         path     : 'origenes',
+        data: { roles: ['RRHH'] },
         canActivate: [AuthGuard],
         component: OrigenesComponent,
         resolve  : {            

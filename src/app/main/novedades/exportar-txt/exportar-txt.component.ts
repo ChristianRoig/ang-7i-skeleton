@@ -28,6 +28,7 @@ export class ExportarTXTComponent implements OnInit
     txt = '';
 
     private empresa: string = '-';
+    private periodo: string = '';
 
     private _unsubscribeAll: Subject<any>;
 
@@ -46,7 +47,16 @@ export class ExportarTXTComponent implements OnInit
     {       
         this.dialogTitle = 'Exportar TXT';
 
-        this.empresa = _data.empresa || '-';          
+        this.empresa = _data.empresa || '-';
+
+        this.periodo = _data.periodo || '';
+
+        if (this.periodo !== ''){
+            let aux = this.periodo.split('-');
+            if (aux.length > 1){
+                this.periodo = aux[1] + '-' + aux[0];
+            }
+        }
         
         this._unsubscribeAll = new Subject();
 
@@ -67,32 +77,15 @@ export class ExportarTXTComponent implements OnInit
     // -----------------------------------------------------------------------------------------------------
 
     saveFile(): void {
-        // console.log('salvar');
-        // let aux = JSON.stringify(txt, null, '\t');
         let blob = new Blob([this.txt], { type: 'text/plain;charset=utf-8' });
-        let nombre = 'TXT';
 
-        if (this.empresa === 'FavaHnos') {
-            nombre = nombre + ' FH';
-        }
-
-        if (this.empresa === 'FavaCard') {
-            nombre = nombre + ' FC';
-        }
-
-        if (this.empresa === 'FavaNet') {
-            nombre = nombre + ' FN';
-        }
-
-        nombre = nombre + '.txt';
+        let nombre = 'GesRH-Tango-' + this.periodo + '-' + this.empresa + '.txt';
 
         FileSaver.saveAs(blob, nombre);
 
     }
 
 
-    
-   
     // No funciona en firefox
     // saveFile(): void {
     //     // const aux = JSON.stringify(this.rank, null, '\t');

@@ -153,6 +153,7 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy
                     type: 'item',
                     icon: 'domain',
                     url: 'origenes',
+                    hidden: true,
                 },
                 {
                     id: 'conceptos',
@@ -160,6 +161,7 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy
                     type: 'item',
                     icon: 'assignment',
                     url: '/conceptos',
+                    hidden: true,
                 },
                 {
                     'id'       : 'customize',
