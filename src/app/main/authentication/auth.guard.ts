@@ -24,18 +24,18 @@ export class AuthGuard implements CanActivate, CanActivateChild {
       // Comentar para no validar el ROL
       //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-      // let roles = next.data['roles'] as Array<string>;
+      let roles = next.data['roles'] as Array<string>;
 
-      // if (!(this._roleMatch(roles))) {
-      //   let componente = '';
+      if (!(this._roleMatch(roles))) {
+        let componente = '';
 
-      //   next.url.forEach(element => {
-      //     componente = componente + '/' + element;
-      //   });
+        next.url.forEach(element => {
+          componente = componente + '/' + element;
+        });
 
-      //   this._errorService.errorHandler('forbidden', 'Usted NO tiene permitido entrar ' + componente, 403);
-      //   return false;
-      // }
+        this._errorService.errorHandler('forbidden', 'Usted NO tiene permitido entrar ' + componente, 403);
+        return false;
+      }
 
       //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
