@@ -91,19 +91,10 @@ export class NovedadesComponent implements OnInit, OnDestroy
     {
 
         this._activeRouter.params.subscribe(params => {
-
             this.seleccionado = params.filtro;
-
-            if (this.seleccionado === '' || this.seleccionado == null || this.seleccionado === ' ') {
-                this.seleccionado = 'Antici';
-
-                this._router.navigate(['novedades/sectores/' + this.seleccionado]);
-            }
-
         });    
         
-        this._novedadService.onFilterChanged.next(this.seleccionado);        
-
+        // this._novedadService.onFilterChanged.next(this.seleccionado);        
 
         // Combo de Periodos
         this._combosService.onComboOrigenPeriodoChanged
@@ -273,6 +264,10 @@ export class NovedadesComponent implements OnInit, OnDestroy
     private _defineAMostrar(): void {
         const aux: any[] = FuseUtils.filterArrayByString(this.sectores, this.seleccionado);
         this.filtroAMostrar = (aux.length) ? aux[0].valor : '';
+
+        if ((this.seleccionado === '' || this.seleccionado == null) && (aux.length > 0)) {
+            this._router.navigate(['novedades/sectores/' + aux[0].cod]);
+        }        
     }
 }
 

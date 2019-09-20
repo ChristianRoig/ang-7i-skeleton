@@ -34,7 +34,7 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
 
     listOrigenes = [];
 
-    seleccionado: any;
+    seleccionado = '';
 
     filtroAMostrar: any;
 
@@ -80,14 +80,7 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         this._activeRouter.params.subscribe(params => {
-
             this.seleccionado = params.equipo;
-
-            if (this.seleccionado === '' || this.seleccionado == null || this.seleccionado === ' ') {
-                this.seleccionado = 'Cajas';
-                this._router.navigate(['equipo/' + this.seleccionado]);
-            }
-
         });
 
         // Combo de Origenes
@@ -111,6 +104,7 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
             .subscribe(searchText => {
                 this._equipoService.onSearchTextChanged.next(searchText);
             });
+
     }
 
     /**
@@ -149,6 +143,10 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
     private _defineAMostrar(): void {
         const aux: any[] = FuseUtils.filterArrayByString(this.listOrigenes, this.seleccionado);
         this.filtroAMostrar = (aux.length) ? aux[0].valor : '';
+
+        if ((this.seleccionado === '' || this.seleccionado == null ) && (aux.length > 0)) {            
+            this._router.navigate(['equipo/' + aux[0].cod]);
+        }
     }
 }
 

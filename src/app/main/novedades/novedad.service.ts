@@ -141,13 +141,16 @@ export class NovedadService implements Resolve<any>
         let url = API_URL;
 
         if (!(this.invocador)) {
+            this.onNovedadesChanged.next([]);
             return;
         }
         if (!(this.filterBy)) {
+            this.onNovedadesChanged.next([]);
             return;
         }
 
         if (!(this.filterPeriodo)) {
+            this.onNovedadesChanged.next([]);
             return;
         }
 
