@@ -1,53 +1,47 @@
 <div id="profile" class="page-layout simple tabbed">
 
-  <!-- HEADER -->
-  <div class="header p-24" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
-       fxLayoutAlign.gt-sm="space-between end">
+    <!-- HEADER -->
+    <div class="header p-24" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between end">
 
-      <div class="user-info" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
-           fxLayoutAlign.gt-sm="start center">
-          <img class="profile-image avatar huge" [src]= "contacto.file_link"
-               [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-          <div class="name" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-              {{gasto.contacto_corto}} / {{gasto.descripcion}}
-          </div>
-      </div>
+        <div class="user-info" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center">
+            <img class="profile-image avatar huge" [src]="contacto.file_link" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+            <div class="name" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                {{gasto.contacto_corto}} / {{gasto.descripcion}}
+            </div>
+        </div>
 
-      <div class="user-info importe" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
-      fxLayoutAlign.gt-sm="start center">
-        {{gasto.importe | currency}}
+        <div class="user-info importe" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center">
+            {{gasto.importe | currency}}
+        </div>
+
+        <div class="actions" fxLayout="row" fxLayoutAlign="end center" [@animate]="{value:'*',params:{delay:'200ms'}}">
+            <button mat-raised-button color="accent" aria-label="Editar">Editar</button>
+            <button mat-raised-button color="error" aria-label="Eliminar">Eliminar</button>
+        </div>
+
     </div>
+    <!-- / HEADER -->
 
-      <div class="actions" fxLayout="row" fxLayoutAlign="end center" [@animate]="{value:'*',params:{delay:'200ms'}}">
-          <button mat-raised-button color="accent" aria-label="Editar">Editar</button>
-          <button mat-raised-button color="error" aria-label="Eliminar">Eliminar</button>
-      </div>
+    <!-- CONTENT -->
+    <div class="content">
 
-  </div>
-  <!-- / HEADER -->
+        <mat-tab-group dynamicHeight="true">
 
-  <!-- CONTENT -->
-  <div class="content">
+            <mat-tab label="Datos Básicos">
+                <gasto-info [gasto]="gasto"></gasto-info>
+            </mat-tab>
 
-      <mat-tab-group dynamicHeight="true"> 
+            <mat-tab label="Datos Fiscales">
+                <!-- <gasto-fiscal></gasto-fiscal>  -->
+            </mat-tab>
 
-          <mat-tab label="Datos Básicos">
-               <gasto-info [gasto]="gasto"></gasto-info>
-           </mat-tab>
+            <mat-tab label="PDF o Imágen">
+                <!-- <gasto-pdf></gasto-pdf> -->
+            </mat-tab>
 
-          <mat-tab label="Detalle">
-        <!--    <perfil-info-leg></perfil-info-leg>
-                perfil-preferencias></perfil-preferencias-->
-          </mat-tab>
+        </mat-tab-group>
 
- <!--          <mat-tab label="Seguridad y Acceso">
-            <perfil-info-seg></perfil-info-seg>
-            perfil-imagenes></perfil-imagenes
-          </mat-tab> -->
-
-      </mat-tab-group>
-
-  </div>
-  <!-- / CONTENT -->
+    </div>
+    <!-- / CONTENT -->
 
 </div>

@@ -11,7 +11,7 @@
             <div class="container">
                 <img [src]="contact.file_link" class="avatar contact-avatar huge m-0" [alt]="contact.file_link" />
                 <div class="overlay">
-                    <button mat-button (click)="fileInput.click()"  matTooltip="Elegir foto de contacto">
+                    <button mat-button (click)="fileInput.click()" matTooltip="Elegir foto de contacto">
                         <mat-icon matSuffix class="secondary-text">camera_alt</mat-icon>
                         <input #fileInput type="file" (change)="uploadImage($event)" name="avatar" style="display:none;">
                     </button>
@@ -37,8 +37,7 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Nombre Corto</mat-label>
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <input name="nombre_corto" (input)="NameOnChanges($event.target.value)"
-                        formControlName="nombre_corto" matInput required>
+                    <input name="nombre_corto" (input)="NameOnChanges($event.target.value)" formControlName="nombre_corto" matInput required>
                 </mat-form-field>
             </div>
 
@@ -124,18 +123,15 @@
 
     <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
 
-        <button *ngIf="action === 'edit'" mat-button class="mr-8" (click)="matDialogRef.close(['delete',contactForm])"
-            aria-label="Delete" matTooltip="Delete">
+        <button *ngIf="action === 'edit'" mat-button class="mr-8" (click)="matDialogRef.close(['delete',contactForm])" aria-label="Eliminar" matTooltip="Eliminar">
             Eliminar
         </button>
 
-        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(contactForm)"
-            [disabled]="contactForm.invalid" aria-label="SAVE">
+        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(contactForm)" [disabled]="contactForm.invalid" aria-label="AGREGAR">
             Agregar
         </button>
 
-        <button *ngIf="action === 'edit'" mat-button class="save-button"
-            (click)="matDialogRef.close(['save',contactForm])" [disabled]="contactForm.invalid" aria-label="SAVE">
+        <button *ngIf="action === 'edit'" mat-button class="save-button" (click)="matDialogRef.close(['save',contactForm])" [disabled]="contactForm.invalid" aria-label="GUARDAR">
             Guardar
         </button>
 

@@ -57,7 +57,7 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
-        //Set translation service
+        // Set translation service
         this._fuseTranslationLoaderService.loadTranslations(english, spanish, turkish);
 
     }
@@ -142,17 +142,15 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy
         const customFunctionNavItem = {
 
             'id'       : 'custom-function',
-            'title'    : 'Custom Function',
-            'translate': 'NAV.CUSTOMFUNCTIONS',
+            'title'    : 'Configuración',
             'type'     : 'group',
             'icon'     : 'settings',
             'children' : [
                 {
                     'id'       : 'customize',
-                    'title'    : 'Customize',
-                    'translate': 'NAV.CUSTOMIZE',
+                    'title'    : 'Colores y Diseño',
                     'type'     : 'item',
-                    'icon'     : 'settings',
+                    'icon'     : 'palette',
                     'function' : () => {
                         this.toggleSidebarOpen('themeOptionsPanel');
                     }

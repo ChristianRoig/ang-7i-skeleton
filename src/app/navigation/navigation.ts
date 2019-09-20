@@ -3,16 +3,32 @@ import { FuseNavigation } from '@fuse/types';
 export const navigation: FuseNavigation[] = [
     {
         id       : 'applications',
-        title    : 'Applications',
-        translate: 'NAV.APPLICATIONS',
+        title    : 'PyMA',
         type     : 'group',
         children : [
             {
-                id   : 'login-v2',
-                title: 'Login',
-                type : 'item',
-                icon: 'lock',
-                url: '/auth/login-2'
+                id: 'comprobantes',
+                title: 'Gastos',
+                type: 'item',
+                icon: 'description',
+                url: '/gastos',
+                badge: {
+                    title: '8',
+                    bg: '#E54D03',
+                    fg: '#FFFFFF'
+                }
+            },
+            {
+                id       : 'personas',
+                title    : 'Proveedores',
+                type     : 'item',
+                icon     : 'group',
+                url      : '/proveedores',
+                badge    : {
+                    title    : '2',
+                    bg       : '#0068AD',
+                    fg       : '#FFFFFF'
+                }
             },
             {
                 id       : 'perfil',
@@ -20,36 +36,28 @@ export const navigation: FuseNavigation[] = [
                 type     : 'item',
                 icon     : 'person',
                 url      : '/perfil',
-                badge    : {
-                    title    : '1',
-                    bg       : '#525e8a',
-                    fg       : '#FFFFFF'
-                }
             }
         ]
     },
     {
-        id       : 'contactos',
-                title    : 'Contactos',
-                type     : 'item',
-                icon     : 'person',
-                url      : '/proveedores',
-                badge    : {
-                    title    : '8',
-                    bg       : '#825e5a',
-                    fg       : '#FFFFFF'
-                }
+        id       : 'user',
+        title    : 'Acceso',
+        type     : 'group',
+        children : [
+            {
+                id: 'logout',
+                title: 'Cerrar Sesión',
+                type: 'item',
+                icon: 'meeting_room',
+                url: '/auth/login-2',
+            },
+            {
+                id   : 'login-v2',
+                title: 'Cambiar de Usuario',
+                type : 'item',
+                icon: 'lock',
+                url: '/auth/login-2'
+            }
+        ]
     },
-    {
-        id: 'gastos',
-        title: 'Gastos',
-        type: 'item',
-        icon: 'description',
-        url: '/gastos',
-        badge: {
-            title: '8',
-            bg: '#825e5a',
-            fg: '#FFFFFF'
-        }
-    }
 ];

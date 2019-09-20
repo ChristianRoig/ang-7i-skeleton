@@ -8,47 +8,45 @@
         </mat-toolbar-row>
 
         <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
-            <img [src]="contacto.file_link" *ngIf="contacto" class="avatar contact-avatar huge m-0"[alt]="gasto.contacto_corto"/>
-            <img src="/assets/images/avatars/profile.jpg" *ngIf="!contacto" class="avatar contact-avatar huge m-0"
-                 [alt]="gasto.contacto_corto"/>
+            <img [src]="contacto.file_link" *ngIf="contacto" class="avatar contact-avatar huge m-0" [alt]="gasto.contacto_corto" />
+            <img src="/assets/images/avatars/profile.jpg" *ngIf="!contacto" class="avatar contact-avatar huge m-0" [alt]="gasto.contacto_corto" />
             <div class="contact-name mt-8">{{gasto.contacto_corto |titlecase }}/ {{gasto.descripcion}} </div>
         </mat-toolbar-row>
     </mat-toolbar>
 
     <div mat-dialog-content #dialogcontent fusePerfectScrollbar>
-<!-- class="p-24 pb-0 m-0" -->
+        <!-- class="p-24 pb-0 m-0" -->
         <form [formGroup]="gastoForm">
             <div class="p-24 pb-0 m-0">
                 <div class="copy">
                     <div fxLayout="row" fxLayoutAlign="start start">
-                        <mat-checkbox *ngIf="contacto && gastos_contact" [(ngModel)]="copy" [ngModelOptions]="{standalone: true}" >Copiar Factura</mat-checkbox>
+                        <mat-checkbox *ngIf="contacto && gastos_contact" [(ngModel)]="copy" [ngModelOptions]="{standalone: true}">Copiar Factura</mat-checkbox>
                     </div>
 
-                        <div *ngIf="copy" fxLayout="row" fxLayoutAlign="start start">
-                                <mat-form-field appearance="outline" fxFlex>
-                                    <mat-label>Facturas</mat-label>
-                                    <mat-select [(value)]="selected_gasto" (selectionChange)="selectionChange()" name="proveedores" required> 
-                                            <mat-option *ngFor="let gasto of gastos_contact.slice(0,5)" [(value)]= "gasto">
-                                                    <p class="text-truncate">
-                                                        {{gasto.nombre}} - {{gasto.nro| slice:((gasto.nro.length) - 4)}} {{gasto.importe  | currency }}
-                                                    </p>
-                                                </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                        </div>
+                    <div *ngIf="copy" fxLayout="row" fxLayoutAlign="start start">
+                        <mat-form-field appearance="outline" fxFlex>
+                            <mat-label>Facturas</mat-label>
+                            <mat-select [(value)]="selected_gasto" (selectionChange)="selectionChange()" name="proveedores" required>
+                                <mat-option *ngFor="let gasto of gastos_contact.slice(0,5)" [(value)]="gasto">
+                                    <p class="text-truncate">
+                                        {{gasto.nombre}} - {{gasto.nro| slice:((gasto.nro.length) - 4)}} {{gasto.importe | currency }}
+                                    </p>
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                 </div>
 
                 <div fxLayout="row" fxLayoutAlign="start start">
                     <mat-form-field appearance="outline" fxFlex>
                         <mat-label>Proveedor</mat-label>
-                        <mat-select formControlName="proveedor" name="proveedor" (selectionChange)="selectionContactoChange($event)" required>  
-                                <mat-option *ngFor="let contact of contactos" [value]="contact">
-                                        <img [src]="contact.file_link" class="avatar contact-avatar"/>
-                                        {{contact.nombre_corto}}
-                                    </mat-option>
+                        <mat-select formControlName="proveedor" name="proveedor" (selectionChange)="selectionContactoChange($event)" required>
+                            <mat-option *ngFor="let contact of contactos" [value]="contact">
+                                <img [src]="contact.file_link" class="avatar contact-avatar" /> {{contact.nombre_corto}}
+                            </mat-option>
                         </mat-select>
                     </mat-form-field>
-                </div> 
+                </div>
 
                 <div fxLayout="row" fxLayoutAlign="start start">
                     <mat-form-field appearance="outline" fxFlex>
@@ -59,11 +57,11 @@
                 </div>
 
                 <div fxLayout="row" fxLayoutAlign="start start">
-                        <mat-form-field appearance="outline" fxFlex>
-                            <mat-label>Numero</mat-label>
-                            <mat-icon matSuffix class="secondary-text">star</mat-icon>
-                            <input name="nro" formControlName="nro" matInput>
-                        </mat-form-field>
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>Numero</mat-label>
+                        <mat-icon matSuffix class="secondary-text">star</mat-icon>
+                        <input name="nro" formControlName="nro" matInput>
+                    </mat-form-field>
                 </div>
 
                 <div fxLayout="row" fxLayoutAlign="start start">
@@ -83,7 +81,7 @@
                 </div>
             </div>
             <div *ngIf="!verMas" class="vermas">
-                <div class="p-24 pb-0 m-0" >
+                <div class="p-24 pb-0 m-0">
                     <div fxLayout="row" fxLayoutAlign="start start">
                         <mat-form-field appearance="outline" fxFlex>
                             <mat-label>Forma de Pago</mat-label>
@@ -98,10 +96,10 @@
                     <div fxLayout="row" fxLayoutAlign="start start">
                         <mat-form-field appearance="outline" fxFlex>
                             <mat-label>Estado</mat-label>
-                            <mat-select name="pago_estado" formControlName="pago_estado" [(value)]="gasto.pago_estado" >
-                                    <mat-option *ngFor="let state of estados" [value]="state.value" >
+                            <mat-select name="pago_estado" formControlName="pago_estado" [(value)]="gasto.pago_estado">
+                                <mat-option *ngFor="let state of estados" [value]="state.value">
                                     {{state.viewValue}}
-                                    </mat-option>
+                                </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -116,7 +114,7 @@
             </div>
         </form>
 
-     </div>
+    </div>
     <mat-divider></mat-divider>
 
 
@@ -136,34 +134,16 @@
 
         <div style="justify-content: flex-end; align-content: flex-end">
 
-            <button *ngIf="action === 'edit'"
-                    color="accent"
-                    mat-button
-                    class="mr-8"
-                    (click)="matDialogRef.close(['delete',gastoForm])"
-                    aria-label="Delete"
-                    matTooltip="Delete">
+            <button *ngIf="action === 'edit'" color="accent" mat-button class="mr-8" (click)="matDialogRef.close(['delete',gastoForm])" aria-label="Eliminar" matTooltip="Eliminar">
                 Eliminar
             </button>
 
-            <button *ngIf="action !== 'edit'"
-                    mat-button
-                    color="accent"
-                    class="save-button"
-                    (click)="matDialogRef.close(gastoForm)"
-                    [disabled]="gastoForm.invalid"
-                    aria-label="SAVE">
+            <button *ngIf="action !== 'edit'" mat-button color="accent" class="save-button" (click)="matDialogRef.close(gastoForm)" [disabled]="gastoForm.invalid" aria-label="AGREGAR">
                 Agregar
             </button>
 
-            <button *ngIf="action === 'edit'"
-                    mat-button
-                    color="accent"
-                    class="save-button"
-                    (click)="matDialogRef.close(['save',gastoForm])"
-                    [disabled]="gastoForm.invalid"
-                    aria-label="SAVE">
+            <button *ngIf="action === 'edit'" mat-button color="accent" class="save-button" (click)="matDialogRef.close(['save',gastoForm])" [disabled]="gastoForm.invalid" aria-label="GUARDAR">
                 Guardar
             </button>
         </div>
-</div>
+    </div>

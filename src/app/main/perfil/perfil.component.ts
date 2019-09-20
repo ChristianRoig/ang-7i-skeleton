@@ -25,6 +25,7 @@ export class PerfilComponent implements OnInit {
 
   }
 
+  // tslint:disable-next-line: typedef
   ngOnInit() {
 
     this.perfilService.infoOnChanged.pipe(

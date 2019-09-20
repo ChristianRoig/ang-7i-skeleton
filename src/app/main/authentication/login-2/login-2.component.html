@@ -7,18 +7,16 @@
         </div>
 
         <div class="title" [@animate]="{value:'*',params:{delay:'50ms',y:'25px'}}">
-            Bienvenido a Mosaic Gastos !
+            Bienvenido a PyMA Gastos !
         </div>
 
         <div class="description" [@animate]="{value:'*',params:{delay:'100ms',y:'25px'}}">
-            Coloque un email con estructura valida y cualquier caracter en el input de password
-            para habilitar el boton de LOGIN, el cual lo redirigirá a la raiz del sitio.
+            Coloque un email con estructura valida y cualquier caracter en el input de password para habilitar el boton de LOGIN, el cual lo redirigirá a la raiz del sitio.
         </div>
 
     </div>
 
-    <div id="login-form-wrapper" fusePerfectScrollbar
-         [@animate]="{value:'*',params:{delay:'300ms',x:'100%'}}">
+    <div id="login-form-wrapper" fusePerfectScrollbar [@animate]="{value:'*',params:{delay:'300ms',x:'100%'}}">
 
         <div id="login-form">
 
@@ -26,7 +24,7 @@
                 <img src="assets/images/7ideas/logo_7i.png" class="redondeado">
             </div>
 
-            <div class="title">LOGIN CON TU CUENTA</div>
+            <div class="title">Acceso</div>
 
             <form name="loginForm" [formGroup]="loginForm" novalidate>
 
@@ -35,10 +33,9 @@
                     <input matInput formControlName="email">
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
                     <mat-error *ngIf="loginForm.get('email').hasError('required')">
-                        Usuario es requerido
+                        El Usuario es requerido
                     </mat-error>
-                    <mat-error
-                        *ngIf="!loginForm.get('email').hasError('required') &&
+                    <mat-error *ngIf="!loginForm.get('email').hasError('required') &&
                                 loginForm.get('email').hasError('email')">
                         Por favor ingrese un usuario valido
                     </mat-error>
@@ -49,14 +46,12 @@
                     <input matInput type="password" formControlName="password">
                     <mat-icon matSuffix class="secondary-text">vpn_key</mat-icon>
                     <mat-error>
-                        El Password es requerido
+                        La Contraseña es requerida
                     </mat-error>
                 </mat-form-field>
 
-                <button mat-raised-button color="accent" class="submit-button" aria-label="LOGIN"
-                        (click)= "login()"
-                        [disabled]="loginForm.invalid">
-                    LOGIN
+                <button mat-raised-button color="accent" class="submit-button" aria-label="INGRESAR" (click)="login()" [disabled]="loginForm.invalid">
+                    INGRESAR
                 </button>
 
             </form>
