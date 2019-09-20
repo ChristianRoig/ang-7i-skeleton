@@ -62,13 +62,13 @@
             <mat-header-cell *matHeaderCellDef>Responsable</mat-header-cell>
             <mat-cell *matCellDef="let data">
                 <p class="text-truncate font-weight-600"
-                    *ngIf="data.legajoR == null">
+                    *ngIf="data.legajoResp == null">
                     Ninguno 
                 </p>
 
                 <p class="text-truncate font-weight-600" 
-                    *ngIf="data.legajoR !== null">
-                    {{data.legajoR}}
+                    *ngIf="data.legajoResp !== null">
+                    {{data.legajoResp}}
                 </p>
             </mat-cell>
         </ng-container>
@@ -78,13 +78,13 @@
             <mat-header-cell *matHeaderCellDef>Responsable Secundario</mat-header-cell>
             <mat-cell *matCellDef="let data">
                 <p class="text-truncate font-weight-600" 
-                    *ngIf="data.legajoS == null">
+                    *ngIf="data.legajoSup == null">
                     Ninguno
                 </p>
                 
                 <p class="text-truncate font-weight-600" 
-                    *ngIf="data.legajoS !== null">
-                    {{data.legajoS}}
+                    *ngIf="data.legajoSup !== null">
+                    {{data.legajoSup}}
                 </p>
             </mat-cell>
         </ng-container>

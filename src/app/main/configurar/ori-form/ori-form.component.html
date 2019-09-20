@@ -50,7 +50,7 @@
                 mat-button
                 color="accent"
                 class="save-button"
-                (click)="matDialogRef.close(['save',OrigenForm])"
+                (click)="onSubmit()"
                 [disabled]="OrigenForm.invalid"
                 aria-label="SAVE">
             Guardar

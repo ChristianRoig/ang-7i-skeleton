@@ -2,6 +2,7 @@ import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Origen } from '../origenes/origen.model';
+import { OrigenesService } from '../origenes.service';
 
 @Component({
     selector     : 'ori-form-dialog',
@@ -33,7 +34,8 @@ export class OrigenesFormDialogComponent
     constructor(
         public matDialogRef: MatDialogRef<OrigenesFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
-        private _formBuilder: FormBuilder,        
+        private _formBuilder: FormBuilder,
+        private _origenService: OrigenesService
     )
     {
 
@@ -77,6 +79,11 @@ export class OrigenesFormDialogComponent
 
     onSubmit(): void {
         console.log(this.OrigenForm);
+        
+        this.origen.legajoResp = this.OrigenForm.get('responsableR').value;
+        this.origen.legajoSup = this.OrigenForm.get('responsableS').value;
+
+        this._origenService.updateOrigen(this.origen);
         this.matDialogRef.close();
     }
  

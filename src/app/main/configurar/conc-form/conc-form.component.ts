@@ -114,7 +114,7 @@ export class ConceptosFormDialogComponent implements OnInit
      */
     onSubmit(): void {
         // console.log(this.ConceptoForm);
-        const concepto = new Concepto(this.ConceptoForm.getRawValue());        
+        let concepto = new Concepto(this.ConceptoForm.getRawValue());        
         this._conceptosService.updateConcepto(concepto);
         this.matDialogRef.close();
     }
