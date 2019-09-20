@@ -1,4 +1,4 @@
-<div class="lista">
+<div class="lista {{invocador}}">
     <mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}">
 
         <!-- Avatar Column -->
@@ -121,7 +121,7 @@
             </mat-cell>
         </ng-container>
 
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
         <mat-row *matRowDef="let data; columns: displayedColumns;" class="contact"
              [@animate]="{value:'*',params:{y:'100%'}}">
         </mat-row>
