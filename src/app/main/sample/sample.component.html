@@ -1,5 +1,18 @@
 <div class="page-layout blank p-24" fusePerfectScrollbar>
 
-    <h2>{{'SAMPLE.HELLO' | translate}}</h2>
+    <h2>Hola a todos</h2>
 
+    <button class="submit-button mat-stroked-button mat-accent" aria-label="Ingresar" (click)="auth.login()" *ngIf="!auth.loggedIn">Ingresar</button>
+    <button class="submit-button mat-stroked-button mat-warn" aria-label="SaliR" (click)="auth.logout()" *ngIf="auth.loggedIn">Salir</button>
+
+    <!--button mat-raised-button color="accent" (click)="auth.login()" *ngIf="!auth.loggedIn">Ingresar</button>
+    <button mat-stroked-button color="warn" (click)="auth.logout()" *ngIf="auth.loggedIn">Salir</button>
+
+
+    <button mat-stroked-button color="accent">Accent</button>
+    <button mat-stroked-button color="warn">Warn</button-->
+
+    <pre *ngIf="auth.userProfile$ | async as profile">
+        <code>{{ profile | json }}</code>
+    </pre>
 </div>

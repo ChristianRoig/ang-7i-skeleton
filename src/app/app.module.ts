@@ -18,6 +18,7 @@ import { AppComponent } from 'app/app.component';
 import { LayoutModule } from 'app/layout/layout.module';
 import { SampleModule } from 'app/main/sample/sample.module';
 import { Login2Module } from './main/authentication/login-2/login-2.module';
+import { CallbackComponent } from './main/authentication/callback/callback.component';
 
 const appRoutes: Routes = [
     {
@@ -28,7 +29,9 @@ const appRoutes: Routes = [
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        
+        CallbackComponent
     ],
     imports     : [
         BrowserModule,

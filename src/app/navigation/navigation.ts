@@ -3,13 +3,13 @@ import { FuseNavigation } from '@fuse/types';
 export const navigation: FuseNavigation[] = [
     {
         id       : 'applications',
-        title    : 'Applications',
+        title    : 'Aplicaciones',
         translate: 'NAV.APPLICATIONS',
         type     : 'group',
         children : [
             {
                 id       : 'sample',
-                title    : 'Sample',
+                title    : 'Ejemplo',
                 translate: 'NAV.SAMPLE.TITLE',
                 type     : 'item',
                 icon     : 'email',
@@ -23,7 +23,7 @@ export const navigation: FuseNavigation[] = [
             },
             {
                 id   : 'login-v2',
-                title: 'Login',
+                title: 'Ingresar',
                 type : 'item',
                 icon: 'lock',
                 url: '/auth/login-2'

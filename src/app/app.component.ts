@@ -16,6 +16,8 @@ import { locale as navigationEnglish } from 'app/navigation/i18n/en';
 import { locale as navigationSpanish } from 'app/navigation/i18n/es';
 import { locale as navigationTurkish } from 'app/navigation/i18n/tr';
 
+import { AuthService } from './main/authentication/services/auth.service';
+
 @Component({
     selector   : 'app',
     templateUrl: './app.component.html',
@@ -41,6 +43,8 @@ export class AppComponent implements OnInit, OnDestroy
      * @param {Platform} _platform
      * @param {TranslateService} _translateService
      */
+
+    
     constructor(
         @Inject(DOCUMENT) private document: any,
         private _fuseConfigService: FuseConfigService,
@@ -49,9 +53,14 @@ export class AppComponent implements OnInit, OnDestroy
         private _fuseSplashScreenService: FuseSplashScreenService,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _translateService: TranslateService,
-        private _platform: Platform
+        private _platform: Platform,
+
+        private auth: AuthService
     )
     {
+
+        this.auth.localAuthSetup();
+
         // Get default navigation
         this.navigation = navigation;
 
@@ -68,7 +77,7 @@ export class AppComponent implements OnInit, OnDestroy
         this._translateService.setDefaultLang('es');
 
         // Set the navigation translations
-        this._fuseTranslationLoaderService.loadTranslations(navigationSpanish, navigationEnglish, navigationTurkish);
+        this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationSpanish, navigationTurkish);
 
         // Use a language
         this._translateService.use('es');
