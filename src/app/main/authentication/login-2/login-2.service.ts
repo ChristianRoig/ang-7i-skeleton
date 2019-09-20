@@ -21,7 +21,7 @@ export class LoginService
     private info: any;
     private perfilLog: Perfil;
 
-    private rol: string;
+    private rol: string[] = [];
 
 
     private variable_auxiliar_para_test = '';
@@ -90,7 +90,7 @@ export class LoginService
         this.perfilLogOnChanged = new BehaviorSubject({});
         // this.datosOnChanged = new BehaviorSubject({});
 
-        this.rol = '';
+        this.rol = [];
         this._cookieService.deleteAll();
     }
     
@@ -203,7 +203,7 @@ export class LoginService
 
         if ((userLog) && (tokenLog)) {
 
-            if (this.rol === undefined || this.rol === '') {
+            if (this.rol === undefined || this.rol === []) {
                 this._setRol(tokenLog);
             }
 
@@ -217,7 +217,7 @@ export class LoginService
     /**
      * retorna el/los roles que tiene el usuario
      */
-    getRol(): string {
+    getRol(): string[] {
         this._setRol(this._cookieService.get(token));
         return this.rol;
     }
@@ -235,7 +235,7 @@ export class LoginService
             'Authorization': _token
         });
 
-        if (this.rol !== undefined && this.rol !== null && this.rol !== ''){
+        if (this.rol !== undefined && this.rol !== null && this.rol.length > 0){
             return;
         }
 
@@ -251,24 +251,24 @@ export class LoginService
 
         switch (this.variable_auxiliar_para_test) {
             case 'RRHH':
-                this.rol = 'RRHH';
+                this.rol.push('RRHH');
                 // console.log('RRHH');
                 break;
             case 'ResSector':
-                this.rol = 'ResSector';
+                this.rol.push('ResSector');
                 // console.log('ResSector');
                 break;
             case 'ResEquipo':
-                this.rol = 'ResEquipo';
+                this.rol.push('ResEquipo');
                 // console.log('ResEquipo');
                 break;
             case 'comun':
-                this.rol = 'comun';
+                this.rol.push('comun');
                 // console.log('comun');
                 break;
         
             default:
-                this.rol = 'RRHH';
+                this.rol.push('RRHH');
                 // console.log('RRHH');
                 break;
         }
