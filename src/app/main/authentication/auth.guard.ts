@@ -66,7 +66,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     }
 
     Roles.forEach( element => {
-      if (userRol === element){
+      if (userRol.indexOf(element) > -1){
         isMatch = true;
       }
     });
