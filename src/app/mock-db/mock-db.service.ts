@@ -34,16 +34,16 @@ export class MockDbService implements InMemoryDbService
             // 'perfil-FH0568' : Perfil.FH0568,
             // 'perfil-FH0569' : Perfil.FH0569,
 
-            'contactos': Contactos.allnomina, //default
-            'contactos-resDTO': Contactos.resDTO,            
-            'contactos-resSUC': Contactos.resSuc,
-            'contactos-resNOV': Contactos.resNOV,
-            'contactos-FC': Contactos.FC,
-            'contactos-FN': Contactos.FN,
-            'contactos-FH': Contactos.FH,
-            'contacts-user': Contactos.user,
-            'contactos-novEquipo': Contactos.novEquipo,
-            'contactos-novSector': Contactos.novSector,
+            // 'contactos': Contactos.allnomina, //default
+            // 'contactos-resDTO': Contactos.resDTO,            
+            // 'contactos-resSUC': Contactos.resSuc,
+            // 'contactos-resNOV': Contactos.resNOV,
+            // 'contactos-FC': Contactos.FC,
+            // 'contactos-FN': Contactos.FN,
+            // 'contactos-FH': Contactos.FH,
+            // 'contacts-user': Contactos.user,
+            // 'contactos-novEquipo': Contactos.novEquipo,
+            // 'contactos-novSector': Contactos.novSector,
             
             'texto'           : Novedades.texto,
 
@@ -69,24 +69,24 @@ export class MockDbService implements InMemoryDbService
             'novedades-FH0568': Novedades.FH0568,
             'novedades-FH0569': Novedades.FH0569,
 
-            'origenes'        : Origenes.origenes,
-            'tabla'           : Origenes.tabla,
+            // 'origenes'        : Origenes.origenes,
+            // 'tabla'           : Origenes.tabla,
             // 'conceptos'       : Conceptos.conceptos,
-            'sectores'        : Origenes.sectorCombo,
-            'tablaConceptos'  : Conceptos.tablaConceptos,
-            'rrhh'            : Conceptos.rrhh,
-            'externo'         : Conceptos.externo,    
+            // 'sectores'        : Origenes.sectorCombo,
+            // 'tablaConceptos'  : Conceptos.tablaConceptos,
+            // 'rrhh'            : Conceptos.rrhh,
+            // 'externo'         : Conceptos.externo,    
             
             
 
             // Combos
-            'combo_dep_suc'      : Combos.dep_suc,
-            'combo_ext_rrhh'     : Combos.ext_rrhh,
-            'combo_ext'          : Combos.ext,
-            'combo_rrhh'         : Combos.rrhh,            
-            'combo_cualitativo'  : Combos.cualitativo,
-            'combo_cuantitativo' : Combos.cuantitativo,
-            'combo_externa'      : Combos.externa,
+            // 'combo_dep_suc'      : Combos.dep_suc,
+            // 'combo_ext_rrhh'     : Combos.ext_rrhh,
+            // 'combo_ext'          : Combos.ext,
+            // 'combo_rrhh'         : Combos.rrhh,            
+            // 'combo_cualitativo'  : Combos.cualitativo,
+            // 'combo_cuantitativo' : Combos.cuantitativo,
+            // 'combo_externa'      : Combos.externa,
 
         };
     }
