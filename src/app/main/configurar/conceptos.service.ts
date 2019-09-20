@@ -130,17 +130,23 @@ export class ConceptosService implements Resolve<any>
                 // Por el momento hasta que el response no traiga el codigo lo ejecuto 
                 ///////////////////////////////////////////////////////
                 console.log('respuesta del upConcepto ' + res);
-                if (res == null) { this.getAllConceptos(); }                
-                ///////////////////////////////////////////////////////
-
-                
-                if (res.codigo === '1') {
-                    this._notiSnackbarService.openSnackBar('Se Actualizo correctamente el Concepto');
+                if (res == null) { 
                     this.getAllConceptos();
-                }
-                if (res.codigo === '0' || res.codigo === '-1') {
-                    this._notiSnackbarService.openSnackBar('No se pudo Actualizo el Concepto');
-                }
+                } else {
+                ///////////////////////////////////////////////////////
+                
+                    if (res.codigo === '1') {
+                        this._notiSnackbarService.openSnackBar('Se Actualizo correctamente el Concepto');
+                        this.getAllConceptos();
+                    }
+                    if (res.codigo === '0' || res.codigo === '-1') {
+                        this._notiSnackbarService.openSnackBar('No se pudo Actualizar el Concepto');
+                    }
+                    
+    ///////////////////////////////////////////////////////
+                } // eliminar cuando se elimine el == null
+    ///////////////////////////////////////////////////////
+                
 
                 
             },
