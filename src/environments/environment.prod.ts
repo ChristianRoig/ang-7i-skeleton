@@ -3,7 +3,7 @@ export const environment = {
     hmr       : false,
 
 
-    API_LOG        : 'http://server.sieteideas.com.ar:8080/fava-auth-svc/fava-auth-svc/login',
+    API_LOG        : 'http://server.sieteideas.com.ar:8080/fava-auth-svc/login',
     API            : 'http://server.sieteideas.com.ar:8080/ges-rrhh-svc/ges-rrhh-svc/',
 
     Cookie_User    : 'user', // Parametro que guarda el usuario logueado en la Cookie
