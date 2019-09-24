@@ -76,7 +76,7 @@
         "no-var-keyword": true,
         "object-literal-sort-keys": false,
         "one-line": false,
-        "prefer-const": true,
+        "prefer-const": false,
         "quotemark": [
             true,
             "single"
