@@ -7,7 +7,7 @@ export const environment = {
     hmr       : false,
 
     API_LOG        : 'http://server.sieteideas.com.ar:8080/fava-auth-svc/login',
-    API            : 'http://server.sieteideas.com.ar:8080/ges-rrhh-svc/ges-rrhh-svc/',
+    API            : 'http://server.sieteideas.com.ar:8080/ges-rrhh-svc/',
     // API: 'http://10.100.58.83:8083/ges-rrhh-svc/', // Tronquito - debug
     
     Cookie_User    : 'user', // Parametro que guarda el usuario logueado en la Cookie
