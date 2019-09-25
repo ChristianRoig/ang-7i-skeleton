@@ -10,7 +10,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 
 import { GastosService } from '../gastos.service';
-//import { GastoFormDialogComponent } from '../gastos-form/gastos-form.component';
+// import { GastoFormDialogComponent } from '../gastos-form/gastos-form.component';
 import { Gasto } from '../gasto.model';
 import { ContactsService } from 'app/main/contacts/contacts.service';
 import { GastoFormDialogComponent } from '../gastos-form/gastos-form.component';
@@ -38,12 +38,12 @@ export class GastoListComponent implements OnInit, OnDestroy
 
     gastos: Gasto[] = [];
     user: any;
-   // dataSource: FilesDataSource | null;
-   dataSource = new MatTableDataSource< Gasto | Group>([]);
-    displayedColumns = ['checkbox', 'avatar' ,'descripcion', 'proveedor', 'fecha', 'comprobante', 'estado', 'importe', 'buttons']; 
-    groupByColumn: string[] = ['periodo']
+    // dataSource: FilesDataSource | null;
+    dataSource = new MatTableDataSource< Gasto | Group>([]);
+    displayedColumns = ['checkbox', 'avatar', 'proveedor', 'fecha', 'descripcion', 'comprobante', 'estado', 'importe', 'buttons']; 
+    groupByColumn: string[] = ['periodo'];
 
-   //displayedColumns = ['checkbox', 'avatar', 'name', 'email', 'phone', 'jobTitle'];
+   // displayedColumns = ['checkbox', 'avatar', 'name', 'email', 'phone', 'jobTitle'];
     selectedContacts: any[];
     checkboxes: {};
     dialogRef: any;
@@ -113,7 +113,7 @@ export class GastoListComponent implements OnInit, OnDestroy
       }
 
       groupHeaderClick(row) {
-        row.expanded = !row.expanded
+        row.expanded = !row.expanded;
         this.dataSource.filter = performance.now().toString();  // hack to trigger filter refresh
       }
     
@@ -144,11 +144,11 @@ export class GastoListComponent implements OnInit, OnDestroy
     
         var subGroups = [];
         groups.forEach(group => {
-          let rowsInGroup = data.filter(row => group[currentColumn] === row[currentColumn])
+          let rowsInGroup = data.filter(row => group[currentColumn] === row[currentColumn]);
           let subGroup = this.getSublevel(rowsInGroup, level + 1, groupByColumns, group);
           subGroup.unshift(group);
           subGroups = subGroups.concat(subGroup);
-        })
+        });
         return subGroups;
       }
     
@@ -157,7 +157,7 @@ export class GastoListComponent implements OnInit, OnDestroy
         return a.filter(function (item) {
           var k = key(item);
           return seen.hasOwnProperty(k) ? false : (seen[k] = true);
-        })
+        });
       }
 
 

@@ -14,6 +14,10 @@ const API_URL = environment.API;
 @Injectable()
 export class ContactsService implements Resolve<any>
 {
+    public static readonly MODULO: string = 'Proveedores';
+    public static readonly CATEGORIA: string = 'de Gastos';
+    public static readonly ETIQUETA: string = '-Oficina-';
+
     onContactsChanged: BehaviorSubject<any>;
     onSelectedContactsChanged: BehaviorSubject<any>;
     onUserDataChanged: BehaviorSubject<any>;
@@ -21,10 +25,7 @@ export class ContactsService implements Resolve<any>
     onFilterChanged: Subject<any>;
 
     contacts: Contact[];
-    public static readonly MODULO: string = "Proveedores";
-    public static readonly CATEGORIA: string = "de Gastos";
-    public static readonly ETIQUETA: string = "-Oficina-";
-    httpOptions : any;
+    httpOptions: any;
 
     user: any;
     selectedContacts: string[] = [];
@@ -90,8 +91,9 @@ export class ContactsService implements Resolve<any>
             );
         }); 
     }
+
     filterContactos() {
-        let filtered : Contact[] = [];
+        let filtered: Contact[] = [];
         if (this.searchText && this.searchText !== '') {
             filtered = FuseUtils.filterArrayByString(this.contacts, this.searchText);
             this.onContactsChanged.next(filtered);
@@ -352,7 +354,7 @@ export class ContactsService implements Resolve<any>
         });
 
         let params = new HttpParams();
-        params = params.set("modulo", ContactsService.MODULO)
+        params = params.set('modulo', ContactsService.MODULO)
         
         return this._httpClient.get(url, { headers : httpHeaders, 
                                            params : params,
@@ -383,7 +385,7 @@ export class ContactsService implements Resolve<any>
 
 
         let params = {
-            "idContacto": contact.id,
+            'idContacto': contact.id,
         };
         options = {
             headers: new HttpHeaders({

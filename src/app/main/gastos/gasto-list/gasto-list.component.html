@@ -1,31 +1,19 @@
-
-<mat-table #table [dataSource]="dataSource"
-           [@animateStagger]="{value:'50'}">
+<mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}">
 
     <!-- Checkbox Column fxShow fxHide.lt-sm -->
-    <ng-container matColumnDef="checkbox" >
+    <ng-container matColumnDef="checkbox">
         <mat-header-cell *matHeaderCellDef fxShow fxHide.lt-sm></mat-header-cell>
         <mat-cell *matCellDef="let contact" fxShow fxHide.lt-sm>
-            <mat-checkbox [(ngModel)]="checkboxes[contact.id]" (ngModelChange)="onSelectedChange(contact.id)"
-                          (click)="$event.stopPropagation()">
+            <mat-checkbox [(ngModel)]="checkboxes[contact.id]" (ngModelChange)="onSelectedChange(contact.id)" (click)="$event.stopPropagation()">
             </mat-checkbox>
         </mat-cell>
     </ng-container>
 
     <!-- Avatar Column  fxShow fxHide.lt-sm-->
-    <ng-container matColumnDef="avatar"  >
+    <ng-container matColumnDef="avatar">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let gasto">
-            <img class="avatar" *ngIf="gasto.contacto_avatar" [alt]="gasto.contacto_corto"
-                 [src]="gasto.contacto_avatar"/>
-        </mat-cell>
-    </ng-container>
-
-    <!-- Descripcion Column -->
-    <ng-container matColumnDef="descripcion">
-        <mat-header-cell *matHeaderCellDef>Descripcion</mat-header-cell>
-        <mat-cell *matCellDef="let gasto">
-            <p class="text-truncate font-weight-600">{{gasto.descripcion}}</p>
+            <img class="avatar" *ngIf="gasto.contacto_avatar" [alt]="gasto.contacto_corto" [src]="gasto.contacto_avatar" />
         </mat-cell>
     </ng-container>
 
@@ -39,61 +27,68 @@
         </mat-cell>
     </ng-container>
 
-        <!-- Fecha Column -->
-        <ng-container matColumnDef="fecha">
-            <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Fecha</mat-header-cell>
-            <mat-cell *matCellDef="let gasto" fxHide fxShow.gt-md>
-                <p class="phone text-truncate">
-                    {{gasto.fecha | date:'dd/MM/yyyy' }}
-                </p>
-            </mat-cell>
-        </ng-container>
+    <!-- Fecha Column -->
+    <ng-container matColumnDef="fecha">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Fecha</mat-header-cell>
+        <mat-cell *matCellDef="let gasto" fxHide fxShow.gt-md>
+            <p class="phone text-truncate">
+                {{gasto.fecha | date:'dd/MM/yyyy' }}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Descripcion Column -->
+    <ng-container matColumnDef="descripcion">
+        <mat-header-cell *matHeaderCellDef>Descripcion</mat-header-cell>
+        <mat-cell *matCellDef="let gasto">
+            <p class="text-truncate font-weight-600">{{gasto.descripcion}}</p>
+        </mat-cell>
+    </ng-container>
 
     <!-- >Comprobante Column -->
     <ng-container matColumnDef="comprobante">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>comprobante</mat-header-cell>
         <mat-cell *matCellDef="let gasto" fxHide fxShow.gt-md>
-<!--             <p class="phone text-truncate">
+            <!--  <p class="phone text-truncate">
                 {{gasto.nombre}} - {{gasto.nro| slice:9:13}}  Mostrar si es fiscal
             </p> -->
             <p class="phone text-truncate">
-                {{gasto.comprobante}} - {{gasto.nro| slice:((gasto.nro.length) - 4)}} 
+                {{gasto.comprobante}} - {{gasto.nro| slice:((gasto.nro.length) - 4)}}
             </p>
         </mat-cell>
     </ng-container>
 
-        <!-- Estado Column -->
-        <ng-container matColumnDef="estado">
-            <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Estado</mat-header-cell>
-            <mat-cell *matCellDef="let gasto" fxHide fxShow.gt-md>
-                <p class="{{gasto.pago_estado}}">
-                    {{gasto.pago_estado}}
-                </p>
-            </mat-cell>
-        </ng-container>
+    <!-- Estado Column -->
+    <ng-container matColumnDef="estado">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Estado</mat-header-cell>
+        <mat-cell *matCellDef="let gasto" fxHide fxShow.gt-md>
+            <p class="{{gasto.pago_estado}}">
+                {{gasto.pago_estado}}
+            </p>
+        </mat-cell>
+    </ng-container>
 
     <!-- Importe Column -->
     <ng-container matColumnDef="importe">
-        <mat-header-cell *matHeaderCellDef >Importe</mat-header-cell>
-        <mat-cell *matCellDef="let gasto" >
-            <p class="text-truncate" style ="text-align: right" >
+        <mat-header-cell *matHeaderCellDef>Importe</mat-header-cell>
+        <mat-cell *matCellDef="let gasto">
+            <p class="text-truncate" style="text-align: right">
                 <b>{{ gasto.importe | currency }}</b>
             </p>
         </mat-cell>
     </ng-container>
 
     <!-- Buttons Column -->
-     <ng-container matColumnDef="buttons">
+    <ng-container matColumnDef="buttons">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let gasto">
             <div fxFlex="row" fxLayoutAlign="end center">
-<!--                 <button mat-icon-button (click)="$event.stopPropagation();toggleStar(contact.id)" aria-label="Toggle star">
+                <!--                 <button mat-icon-button (click)="$event.stopPropagation();toggleStar(contact.id)" aria-label="Toggle star">
                     <mat-icon class="amber-fg" *ngIf="user.starred.includes(contact.id)">star</mat-icon>
                     <mat-icon class="secondary-text" *ngIf="!user.starred.includes(contact.id)">star_border</mat-icon>
                 </button> -->
 
-                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
-                        (click)="$event.stopPropagation();">
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More" (click)="$event.stopPropagation();">
                     <mat-icon class="secondary-text">more_vert</mat-icon>
                 </button>
 
@@ -113,31 +108,26 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns" fxHide fxShow.gt-sm></mat-header-row>
-    <mat-row *matRowDef="let gasto; columns: displayedColumns;"
-             class="contact"
-             (click)="editContact(gasto)"
-             [ngClass]="{'accent-50':checkboxes[gasto.id]}"
-             matRipple
-             [@animate]="{value:'*',params:{y:'100%'}}">
+    <mat-row *matRowDef="let gasto; columns: displayedColumns;" class="contact" (click)="editContact(gasto)" [ngClass]="{'accent-50':checkboxes[gasto.id]}" matRipple [@animate]="{value:'*',params:{y:'100%'}}">
     </mat-row>
 
-      <!-- Group header -->
-      <ng-container matColumnDef="groupHeader">
-        <mat-cell  *matCellDef="let group">
-          <mat-icon *ngIf="group.expanded">expand_less</mat-icon>
-          <mat-icon *ngIf="!group.expanded">expand_more</mat-icon>
-                     <span class="periodGroup">{{group[groupByColumn[group.level-1]]}}</span>
+    <!-- Group header -->
+    <ng-container matColumnDef="groupHeader">
+        <mat-cell *matCellDef="let group">
+            <mat-icon *ngIf="group.expanded">expand_less</mat-icon>
+            <mat-icon *ngIf="!group.expanded">expand_more</mat-icon>
+            <span class="periodGroup">{{group[groupByColumn[group.level-1]]}}</span>
         </mat-cell>
-      </ng-container>
-    
-      <mat-row mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup" (click)="groupHeaderClick(row)"> </mat-row>
+    </ng-container>
+
+    <mat-row mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup" (click)="groupHeaderClick(row)"> </mat-row>
 
 </mat-table>
 
 
 <!--container-->
-<div class="">                    
+<div class="">
     <a mat-raised-button (click)="seeMore()" class="buttonSeeMore">
         <mat-icon class="mat-icon ng-tns-c33-11 material-icons mat-icon-no-color ng-star-inserted" role="img" aria-hidden="true">expand_more</mat-icon>Ver mas..
-    </a> 
- </div>
+    </a>
+</div>

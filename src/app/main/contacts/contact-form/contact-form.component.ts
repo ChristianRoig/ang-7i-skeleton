@@ -71,7 +71,7 @@ export class ContactsContactFormDialogComponent
             this._contactsService.crearRequestNewCodigoProveedor()
                 .subscribe((response: any) => {
                     this.contact.cod = response;
-                    this.contactForm.controls['cod'].setValue(this.contact.cod); //setea el cod que 
+                    this.contactForm.controls['cod'].setValue(this.contact.cod); // setea el cod que 
                 });
             /*             this._contactsService.getGastosByName(this.proveedor.nombre_corto).then((value) => {
                             this.gastos = value;
@@ -91,14 +91,14 @@ export class ContactsContactFormDialogComponent
     uploadImage(event): void {
         const fileList: FileList = event.target.files;
         if (fileList.length > 0) {
-            let fileReader = new FileReader();
-            let file = fileList[0];
+            const fileReader = new FileReader();
+            const file = fileList[0];
             fileReader.onload = (e) => {
                 console.log(fileReader.result);
-                let img = fileReader.result;
+                const img = fileReader.result;
                 this.contact.file_link = img.toString();
                 this.contactForm.controls['file_link'].setValue(img.toString());
-            }
+            };
             fileReader.readAsDataURL(file);
         }
     }
@@ -130,7 +130,6 @@ export class ContactsContactFormDialogComponent
             genero: [this.contact.genero],
             notas: [this.contact.notas],
             file_link: [this.contact.file_link],
-            predefinido: [this.contact.predefinido],
             estado: [this.contact.estado]
         });
     }

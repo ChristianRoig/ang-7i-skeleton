@@ -3,8 +3,7 @@
     <ng-container matColumnDef="checkbox">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md></mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
-            <mat-checkbox [(ngModel)]="checkboxes[contact.id]" (ngModelChange)="onSelectedChange(contact.id)"
-                (click)="$event.stopPropagation()">
+            <mat-checkbox [(ngModel)]="checkboxes[contact.id]" (ngModelChange)="onSelectedChange(contact.id)" (click)="$event.stopPropagation()">
             </mat-checkbox>
         </mat-cell>
     </ng-container>
@@ -13,8 +12,7 @@
     <ng-container matColumnDef="avatar">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let contact">
-            <img class="avatar" *ngIf="contact.file_link" [alt]="contact.nombre_corto" [src]="contact.file_link"
-                onError="this.src='assets/images/avatars/profile.jpg';" />
+            <img class="avatar" *ngIf="contact.file_link" [alt]="contact.nombre_corto" [src]="contact.file_link" onError="this.src='assets/images/avatars/profile.jpg';" />
         </mat-cell>
     </ng-container>
 
@@ -22,44 +20,55 @@
     <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
         <mat-cell *matCellDef="let contact">
-            <p class="text-truncate font-weight-600">{{contact.nombre_corto | titlecase}} </p>
+            <p class="text-truncate font-weight-600">{{contact.nombre_corto | titlecase}} <span style="color:dimgray">({{contact.nombre}}) </span></p>
         </mat-cell>
     </ng-container>
 
-    <!-- Email Column -->
-    <ng-container matColumnDef="email">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Correo</mat-header-cell>
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm>
-            <p class="email text-truncate">
-                {{contact.correo}}
+    <!-- Full Name Column -->
+    <ng-container matColumnDef="company">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-lg>Nombre Completo</mat-header-cell>
+        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-lg>
+            <p class="company text-truncate">{{contact.nombre}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- CUIT Column -->
+    <ng-container matColumnDef="cuit">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Cuit</mat-header-cell>
+        <mat-cell *matCellDef="let proveedor" fxHide fxShow.gt-sm>
+            <p class="text-truncate font-weight-600">{{proveedor.doc_nro}}
+                <span *ngIf="proveedor.cond_iva === 'Responsable Inscripto'">IVA</span>
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Address Column -->
+    <ng-container matColumnDef="address">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Domicilio</mat-header-cell>
+        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
+            <p class="address text-truncate">
+                {{contact.domicilio}}, {{contact.localidad}}
             </p>
         </mat-cell>
     </ng-container>
 
     <!-- Phone Column -->
     <ng-container matColumnDef="phone">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Telefono</mat-header-cell>
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-lg>Telefono</mat-header-cell>
+        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-lg>
             <p class="phone text-truncate">
                 {{contact.telefono}}
             </p>
         </mat-cell>
     </ng-container>
 
-    <!-- Company Column -->
-    <ng-container matColumnDef="company">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-lg>Nombre Completo</mat-header-cell>
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-lg>Correo</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-lg>
-            <p class="company text-truncate">
-                {{contact.nombre}}
+            <p class="email text-truncate">
+                {{contact.correo}}
             </p>
-        </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="cuit">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Cuit</mat-header-cell>
-        <mat-cell *matCellDef="let proveedor" fxHide fxShow.gt-md>
-            <p class="text-truncate font-weight-600">{{proveedor.doc_nro}}</p>
         </mat-cell>
     </ng-container>
 
@@ -73,13 +82,12 @@
                     <mat-icon class="secondary-text" *ngIf="!user.starred.includes(contact.id)">star_border</mat-icon>
                 </button> -->
 
-                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
-                    (click)="$event.stopPropagation();">
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More" (click)="$event.stopPropagation();">
                     <mat-icon class="secondary-text">more_vert</mat-icon>
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
-<!--                     <button mat-menu-item aria-label="addGasto" (click)="newGastoToProveedor(contact)">
+                    <!--                     <button mat-menu-item aria-label="addGasto" (click)="newGastoToProveedor(contact)">
                         <mat-icon>assignment</mat-icon>
                         <span>Agregar Gasto</span>
                     </button> -->
@@ -98,7 +106,6 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns" fxHide fxShow.gt-sm></mat-header-row>
-    <mat-row *matRowDef="let contact; columns: displayedColumns;" class="contact" (click)="editContact(contact)"
-        [ngClass]="{'accent-50':checkboxes[contact.id]}" matRipple [@animate]="{value:'*',params:{y:'100%'}}">
+    <mat-row *matRowDef="let contact; columns: displayedColumns;" class="contact" (click)="editContact(contact)" [ngClass]="{'accent-50':checkboxes[contact.id]}" matRipple [@animate]="{value:'*',params:{y:'100%'}}">
     </mat-row>
 </mat-table>

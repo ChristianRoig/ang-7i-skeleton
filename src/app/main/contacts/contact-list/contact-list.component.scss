@@ -1,24 +1,24 @@
 @import "src/@fuse/scss/fuse";
+@mixin end-flex {
+    display: flex;
+    justify-content: flex-end;
+}
 
 contacts-contact-list {
     display: flex;
     flex: 1 1 auto;
     width: 100%;
-
     .mat-table {
         width: 100%;
         background: transparent;
         box-shadow: none;
-
         .mat-column-checkbox {
             flex: 0 1 64px;
             padding-left: 18px;
         }
-
         .mat-column-avatar {
             flex: 0 1 64px;
         }
-
         .mat-column-buttons {
             flex: 0 1 80px;
         }
@@ -26,14 +26,21 @@ contacts-contact-list {
             position: relative;
             cursor: pointer;
             padding: 8px;
-
             .mat-cell {
                 min-width: 0;
-
+                &.mat-column-cuit {
+                    p {
+                        span {
+                            padding: 3px 5px;
+                            color: gray;
+                            border-radius: 3px;
+                            background-color: lightgrey;
+                        }
+                    }
+                }
                 &.mat-column-detail-button {
                     flex: 0 1 auto;
                     padding: 0 24px 0 0;
-
                     @include media-breakpoint('gt-md') {
                         display: none;
                     }
@@ -41,19 +48,15 @@ contacts-contact-list {
             }
         }
     }
-
     @include media-breakpoint('lt-md') {
         .mat-table {
- 
             .mat-column-buttons {
                 padding-right: 0px;
                 flex: 0 1 50px;
             }
             .mat-row {
-
                 .mat-cell {
                     min-width: 0;
-    
                     &.mat-column-avatar {
                         img {
                             &.avatar {

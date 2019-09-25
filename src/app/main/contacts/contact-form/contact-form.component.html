@@ -26,18 +26,8 @@
 
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Codigo</mat-label>
-                    <input name="cod" formControlName="cod" matInput>
-
-                </mat-form-field>
-            </div>
-
-
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Nombre Corto</mat-label>
-                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <input name="nombre_corto" (input)="NameOnChanges($event.target.value)" formControlName="nombre_corto" matInput required>
+                    <mat-label>CUIT</mat-label>
+                    <input name="cuit" formControlName="cuit" matInput>
                 </mat-form-field>
             </div>
 
@@ -46,38 +36,6 @@
                     <mat-label>Nombre Completo</mat-label>
                     <mat-icon matSuffix class="secondary-text">domain</mat-icon>
                     <input name="nombre" formControlName="nombre" matInput>
-                </mat-form-field>
-            </div>
-
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Correo</mat-label>
-                    <mat-icon matSuffix class="secondary-text">email</mat-icon>
-                    <input name="correo" formControlName="correo" matInput type="email">
-                </mat-form-field>
-            </div>
-
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Telefono</mat-label>
-                    <mat-icon matSuffix class="secondary-text">phone</mat-icon>
-                    <input formControlName="telefono" matInput>
-                </mat-form-field>
-            </div>
-
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Localidad</mat-label>
-                    <mat-icon matSuffix class="secondary-text">location_city</mat-icon>
-                    <input name="localidad" formControlName="localidad" matInput>
-                </mat-form-field>
-            </div>
-
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Domicilio</mat-label>
-                    <mat-icon matSuffix class="secondary-text">home</mat-icon>
-                    <input name="domicilio" formControlName="domicilio" matInput>
                 </mat-form-field>
             </div>
 
@@ -94,8 +52,50 @@
 
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>CUIT</mat-label>
-                    <input name="cuit" formControlName="cuit" matInput>
+                    <mat-label>Domicilio</mat-label>
+                    <mat-icon matSuffix class="secondary-text">home</mat-icon>
+                    <input name="domicilio" formControlName="domicilio" matInput>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Localidad</mat-label>
+                    <mat-icon matSuffix class="secondary-text">location_city</mat-icon>
+                    <input name="localidad" formControlName="localidad" matInput>
+                </mat-form-field>
+            </div>
+
+            <hr>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Telefono</mat-label>
+                    <mat-icon matSuffix class="secondary-text">phone</mat-icon>
+                    <input formControlName="telefono" matInput>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Correo</mat-label>
+                    <mat-icon matSuffix class="secondary-text">email</mat-icon>
+                    <input name="correo" formControlName="correo" matInput type="email">
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Codigo</mat-label>
+                    <input name="cod" formControlName="cod" matInput>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Nombre Corto</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="nombre_corto" (input)="NameOnChanges($event.target.value)" formControlName="nombre_corto" matInput required>
                 </mat-form-field>
             </div>
 

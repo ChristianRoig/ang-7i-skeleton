@@ -10,7 +10,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 import { ContactsContactFormDialogComponent } from 'app/main/contacts/contact-form/contact-form.component';
 
-import { ContactsService } from '../contacts.service'
+import { ContactsService } from '../contacts.service';
 import { Contact } from '../contact.model';
 
 @Component({
@@ -27,8 +27,8 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
     contacts: any;
     user: any;
     dataSource: any | null;
-    displayedColumns = ['checkbox', 'avatar', 'name', 'email', 'phone', 'company', 'cuit', 'buttons'];
-    //displayedColumns = ['checkbox', 'avatar', 'name', 'email', 'phone', 'jobTitle'];
+    displayedColumns = ['checkbox', 'avatar', 'name', 'company', 'cuit', 'address', 'email', 'phone', 'buttons'];
+    // displayedColumns = ['checkbox', 'avatar', 'name', 'email', 'phone', 'jobTitle'];
     selectedContacts: any[];
     checkboxes: {};
     dialogRef: any;

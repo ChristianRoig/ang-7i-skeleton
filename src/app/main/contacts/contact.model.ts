@@ -15,12 +15,10 @@ export class Contact {
     telefono: string;
     domicilio: string;
     localidad: string;
-    cond_iva: string
+    cond_iva: string;
     genero: string;
     notas: string;
     doc_nro: string;
-/*     activo: number;
- */    predefinido: number;
     estado: string;
 
     /**
@@ -47,8 +45,6 @@ export class Contact {
             this.genero = contact.genero || '';
             this.notas = contact.notas || '';
             this.doc_nro = contact.doc_nro;
-/*             this.activo = contact.activo || 1;
- */            this.predefinido = contact.predefinido || 0;
             this.estado = contact.estado || 'activo';
         }
     }
