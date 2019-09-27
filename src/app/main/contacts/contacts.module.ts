@@ -7,6 +7,7 @@ import {
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
+import { FusePipesModule } from '@fuse/pipes/pipes.module';
 
 import { ContactsComponent } from 'app/main/contacts/contacts.component';
 import { ContactsService } from 'app/main/contacts/contacts.service';
@@ -15,8 +16,7 @@ import { ContactsContactFormDialogComponent } from 'app/main/contacts/contact-fo
 import { ContactViewComponent } from './contact-view/contact-view.component';
 import { ContactGastosComponent } from './contact-view/tabs/contact-gastos/contact-gastos.component';
 import { ContactInfoComponent } from './contact-view/tabs/contact-info/contact-info.component';
-import { FileUploadComponent } from './contact-view/tabs/file-upload/file-upload.component';
-import { FusePipesModule } from '@fuse/pipes/pipes.module';
+import { PersonasImagenesComponent } from './contact-view/tabs/personas-imagenes/personas-imagenes.component';
 
 const routes: Routes = [
     {
@@ -43,7 +43,7 @@ const routes: Routes = [
         ContactViewComponent,
         ContactGastosComponent,
         ContactInfoComponent,
-        FileUploadComponent,
+        PersonasImagenesComponent,
         ContactsContactFormDialogComponent
     ],
     imports        : [

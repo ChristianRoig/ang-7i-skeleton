@@ -13,7 +13,7 @@ import { Contact } from 'app/main/contacts/contact.model';
 })
 export class ContactInfoComponent implements OnInit, OnDestroy
 {
-    @Input() proveedor : Contact;
+    @Input() proveedor: Contact;
     // Private
 
     /**
