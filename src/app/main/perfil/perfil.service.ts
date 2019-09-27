@@ -4,6 +4,7 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'environments/environment';
 import { CookieService } from 'ngx-cookie-service';
+import { Contact } from '../contacts/contact.model';
 
 const API_URL = environment.API;
 
@@ -58,15 +59,15 @@ export class PerfilService implements Resolve<any>
         return new Promise((resolve, reject) => {
 
             this.createRequestGetPerfil()
-                .subscribe((info: any) => {
-                    this.info = info;
+                .subscribe((info: any) => {                    
+                    this.info = new Contact(info);                                    
                     this.infoOnChanged.next(this.info);
                     resolve(this.info);
                 }, reject);
         });
     }
 
-    createRequestGetPerfil() {
+    createRequestGetPerfil(): any {
         let headers = new HttpHeaders();
         headers = headers.set('Authorization' , this.cookieService.get('tokenAuth'));
         return this._httpClient.get(API_URL + 'perfil', { headers : headers });

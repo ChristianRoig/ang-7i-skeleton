@@ -1,0 +1,158 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+
+        <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
+            <div class="container">
+                <img [src]="contact.file_link" class="avatar contact-avatar huge m-0" [alt]="contact.file_link" />
+                <div class="overlay">
+                    <button mat-button (click)="fileInput.click()" matTooltip="Elegir foto de Perfil">
+                        <mat-icon matSuffix class="secondary-text">camera_alt</mat-icon>
+                        <input #fileInput type="file" (change)="uploadImage($event)" name="avatar" style="display:none;">
+                    </button>
+                </div>
+            </div>
+            <div class="contact-name mt-8">{{contactName | titlecase}}</div>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content #dialogcontent fusePerfectScrollbar>
+        <form [formGroup]="contactForm">
+            <div class="p-24 pb-0 m-0">
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>CUIT</mat-label>
+                        <input name="cuit" formControlName="cuit" matInput required>
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>Nombre Completo</mat-label>
+                        <mat-icon matSuffix class="secondary-text">domain</mat-icon>
+                        <input name="nombre" formControlName="nombre" matInput required>
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>IVA</mat-label>
+                        <mat-select name="cond_iva" formControlName="cond_iva" [(value)]="contact.cond_iva" required>
+                            <mat-option *ngFor="let state of estados" [value]="state.value">
+                                {{state.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>Domicilio</mat-label>
+                        <mat-icon matSuffix class="secondary-text">home</mat-icon>
+                        <input name="domicilio" formControlName="domicilio" matInput required>
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>Localidad</mat-label>
+                        <mat-icon matSuffix class="secondary-text">location_city</mat-icon>
+                        <input name="localidad" formControlName="localidad" matInput required>
+                    </mat-form-field>
+                </div>
+            </div>            
+          
+            <div *ngIf="!verMas" class="vermas">
+                <div class="p-24 pb-0 m-0">
+                    <div fxLayout="row" fxLayoutAlign="start start">
+                        <mat-form-field appearance="outline" fxFlex>
+                            <mat-label>Telefono</mat-label>
+                            <mat-icon matSuffix class="secondary-text">phone</mat-icon>
+                            <input formControlName="telefono" matInput>
+                        </mat-form-field>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayoutAlign="start start">
+                        <mat-form-field appearance="outline" fxFlex>
+                            <mat-label>Correo</mat-label>
+                            <mat-icon matSuffix class="secondary-text">email</mat-icon>
+                            <input name="correo" formControlName="correo" matInput type="email">
+                        </mat-form-field>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayoutAlign="start start">
+                        <mat-form-field appearance="outline" fxFlex>
+                            <mat-label>Codigo</mat-label>
+                            <input name="cod" formControlName="cod" matInput>
+                        </mat-form-field>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayoutAlign="start start">
+                        <mat-form-field appearance="outline" fxFlex>
+                            <mat-label>Nombre Corto</mat-label>
+                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <input name="nombre_corto" (input)="NameOnChanges($event.target.value)" formControlName="nombre_corto" matInput>
+                        </mat-form-field>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayoutAlign="start start">
+                        <mat-form-field appearance="outline" fxFlex>
+                            <mat-label>Genero</mat-label>
+                            <mat-select name="genero" formControlName="genero" [(value)]="contact.genero">
+                                <mat-option *ngFor="let genero of generos" [value]="genero.value">
+                                    {{genero.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    
+                    <div fxLayout="row" class="textarea-wrapper" fxLayoutAlign="start start">
+                        <mat-form-field appearance="outline" fxFlex>
+                            <mat-label>Notas</mat-label>
+                            <textarea name="notas" formControlName="notas" matInput type="text" max-rows="4"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+            </div>            
+
+        </form>
+
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="m-0 p-16" style="display:flex; flex-direction:row; justify-content: space-between">
+
+        <div style="justify-content: flex-start; align-content: flex-start">
+
+            <div ngDefaultControl color="accent" [(ngModel)]="verMas">
+                <button color="accent" mat-button (click)="showMore()" *ngIf="verMas">
+                    Mas campos
+                </button>
+                <button mat-button color="accent" (click)="showMore()" *ngIf="!verMas">
+                    Menos campos
+                </button>
+            </div>
+        </div>
+
+        <div style="justify-content: flex-end; align-content: flex-end">
+
+
+            <button *ngIf="action === 'edit'" mat-button class="save-button" (click)="matDialogRef.close(['save',contactForm])"
+                [disabled]="contactForm.invalid" aria-label="GUARDAR">
+                Guardar
+            </button>
+        </div>
+    </div>
+
+
+
+
+    
+</div>
