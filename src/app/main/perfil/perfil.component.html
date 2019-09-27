@@ -4,16 +4,17 @@
     <div class="header p-24" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between end">
 
         <div class="user-info" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center">
-            <img class="profile-image avatar huge" src="assets/images/avatars/avatarM.png" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+            <img class="profile-image avatar huge" [src]="perfil.file_link"                          
+                [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+
             <div class="name" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
                 {{perfil.nombre}}
             </div>
         </div>
 
         <div class="actions" fxLayout="row" fxLayoutAlign="end center" [@animate]="{value:'*',params:{delay:'200ms'}}">
-            <button mat-raised-button color="accent" aria-label="Editar">Editar</button>
-            <!--           <button mat-raised-button color="error" aria-label="Eliminar">Eliminar</button>
- --></div>
+            <button mat-raised-button color="accent" (click)="editarPerfil()" aria-label="Editar">Editar</button>
+        </div>
 
     </div>
     <!-- / HEADER -->
@@ -27,7 +28,7 @@
                 <perfil-info></perfil-info>
             </mat-tab>
 
-            <mat-tab label="Preferencias">
+            <mat-tab label="Preferencias" *ngIf="false">
                 <perfil-preferencias></perfil-preferencias>
             </mat-tab>
 
