@@ -337,13 +337,13 @@ export class ContactsService implements Resolve<any>
         this.deselectContacts(); */
     }
 
-    crearRequestObtenerProveedores() {
+    crearRequestObtenerProveedores(): any {
         let url = API_URL + 'proveedores';
 
         return this._httpClient.get(url, this.httpOptions);
     }
 
-    crearRequestNewCodigoProveedor() {
+    crearRequestNewCodigoProveedor(): any {
 
         let method = 'siguientecodigo';
 
@@ -354,24 +354,24 @@ export class ContactsService implements Resolve<any>
         });
 
         let params = new HttpParams();
-        params = params.set('modulo', ContactsService.MODULO)
+        params = params.set('modulo', ContactsService.MODULO);
         
         return this._httpClient.get(url, { headers : httpHeaders, 
                                            params : params,
                                            responseType : 'text' }
-        ); //retorna un string
+        ); // retorna un string
     }
 
-    createRequestAddProveedor(contact: Contact) {
+    createRequestAddProveedor(contact: Contact): any {
 
-        let url = API_URL + 'proveedor'
+        let url = API_URL + 'proveedor';
 
         let body = JSON.stringify(contact);
 
         return this._httpClient.post(url, body, this.httpOptions);
     }
 
-    createRequestUpdateProveedor(contact: Contact) {
+    createRequestUpdateProveedor(contact: Contact): any {
 
         let url = API_URL + 'proveedor';
         let body = JSON.stringify(contact);
@@ -379,23 +379,20 @@ export class ContactsService implements Resolve<any>
         return this._httpClient.put(url, body, this.httpOptions);
     }
 
-    createRequestRemoveProveedor(contact: Contact) {
-
-        let options;
-
-
+    createRequestRemoveProveedor(contact: Contact): any {
         let params = {
             'idContacto': contact.id,
         };
-        options = {
+
+        let options = {
             headers: new HttpHeaders({
                 'Authorization': this.cookieService.get('tokenAuth') }),
             params : params
-        }
+        };
         
-        let url = API_URL + 'proveedor'
+        let url = API_URL + 'proveedor';
 
-        return this._httpClient.delete(url, options)
+        return this._httpClient.delete(url, options);
     }
 
 }

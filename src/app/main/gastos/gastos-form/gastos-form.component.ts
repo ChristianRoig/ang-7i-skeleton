@@ -31,20 +31,20 @@ export class GastoFormDialogComponent
         {value: 'Pendiente', viewValue: 'Pendiente'},
         {value: 'A Completar', viewValue: 'A Completar'}
       ];
-    pago_formas : Estado[] = [
+    pago_formas: Estado[] = [
         { value: 'Efectivo', viewValue: 'Efectivo'},
         { value: 'Bancaria', viewValue: 'Bancaria'},
         { value: 'Cheque', viewValue: 'Cheque'},
         { value: 'Tarjeta', viewValue: 'Tarjeta'},
         { value: 'Cta. Cte.', viewValue: 'Cta. Cte'},
         { value: 'Otra', viewValue: 'Otra'}
-    ]       
+    ];       
     copy: boolean;
-    gastos_contact : any[];
+    gastos_contact: any[];
     selected_gasto: Gasto;
     contactos: Contact[];
     date: Date;
-    verMas: boolean
+    verMas: boolean;
     @ViewChild('dialogcontent') target: ElementRef;
 
 
@@ -57,8 +57,8 @@ export class GastoFormDialogComponent
      * @param {FormBuilder} _formBuilder
      */
     constructor(
-        private contactsService : ContactsService,
-        private gastosService : GastosService, 
+        private contactsService: ContactsService,
+        private gastosService: GastosService, 
         public matDialogRef: MatDialogRef<GastoFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder
@@ -82,9 +82,9 @@ export class GastoFormDialogComponent
             this.date = new Date();
             this.gasto = new Gasto({});
             gastosService.initGasto(this.gasto);
-            this.contacto = _data.contact
+            this.contacto = _data.contact;
             this.gastoForm = this.createContactForm();
-            if(this.contacto) { // desde proveedor
+            if (this.contacto) { // desde proveedor
                 this.getLastestFacturas(); 
             }
         }
@@ -123,18 +123,18 @@ export class GastoFormDialogComponent
             notas : [this.gasto.notas],
             file_link : [this.gasto.file_link],
             orden : [this.gasto.orden],
-            pago_forma :[this.gasto.pago_forma]
+            pago_forma : [this.gasto.pago_forma]
 
 
         });
     }
 
-    selectionChange() : void {
+    selectionChange(): void {
         Object.assign(this.gasto, this.selected_gasto);
         this.gastoForm = this.createContactForm();
     }
 
-     getLastestFacturas() : void {
+     getLastestFacturas(): void {
         this.gastoForm.controls['contacto_corto'].setValue(this.contacto.nombre_corto);
          this.gastosService.getGastosByName(this.contacto.id).then((value) => {
             this.gastos_contact = value;
@@ -143,7 +143,7 @@ export class GastoFormDialogComponent
 
     }
 
-    selectionContactoChange(event) : void {   
+    selectionContactoChange(event): void {   
         this.contacto =  event.value;
         this.getLastestFacturas(); 
 
