@@ -1,0 +1,112 @@
+@import "src/@fuse/scss/fuse";
+
+.perfil-form-dialog {
+
+    @include media-breakpoint('xs') {
+        width: 100%;
+    }
+
+    @include media-breakpoint('gt-xs') {
+        width: 400px;
+    }
+
+    .mat-dialog-container {
+        padding: 0;
+
+        .mat-toolbar {
+            flex: 1 0 auto;
+            min-height: initial;
+
+/*              mat-toolbar-row {
+
+                img {
+
+                    &.avatar {
+                    //    background-color: white;
+
+                         -webkit-box-shadow: inset 0px 0px 109px -51px rgba(3,155,229,1);
+                        -moz-box-shadow: inset 0px 0px 109px -51px rgba(3,155,229,1);
+                        box-shadow: inset 0px 0px 109px -51px rgba(3,155,229,1); }
+                    }
+                } */
+            }
+        }
+
+
+        .toolbar-bottom {
+            height: auto;
+
+                .container {
+                position: relative;
+
+                &:hover .overlay {
+                    opacity: 0.5;
+                }
+            
+                .overlay {
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 0; 
+                   /* bottom: 0;  */
+                    left: 0;
+                    text-align: center;
+                   /*  right: 0;  */
+                    height: 100%;
+                    width: 100%;
+                    opacity: 0;
+                    transition: .3s ease;
+                    background-color: #e0e0e0;
+                
+                    button {
+/*                         color: white;                            
+                         margin : 0;*/
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        top: 50%;
+                        left: 50%;
+                        line-height: initial;
+                        transform: translate(-50%, -50%);
+                        
+                        .mat-icon{
+                            width: 50px;
+                            height: 50px;
+                            font-size: 50px;
+                        }
+                    }
+                }
+        }
+        }
+    }
+
+    .dialog-content-wrapper {
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        
+        .vermas {
+            background-color: #F8F8F8
+        }
+        
+        // mat-toolbar-row {
+
+        //     &.toolbar-bottom.py-16.mat-toolbar-row {
+        //         position: relative;
+
+        //         button {
+
+        //             &.edit-avatar {
+        //                 position: absolute;
+        //                 right: 145px;
+        //                 top: 80px;
+        //                 background-color: red;
+        //                 height: 34px;
+        //                 border-radius: 50%;
+        //                 min-width: 34px;
+        //                 padding: 0 0 0px 0;
+
+        //             }
+        //         }
+        //     }
+        // }
+    }
