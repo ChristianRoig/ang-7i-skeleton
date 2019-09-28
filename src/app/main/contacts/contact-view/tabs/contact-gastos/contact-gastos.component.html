@@ -1,12 +1,11 @@
-<mat-table #table [dataSource]="gastos"
-           [@animateStagger]="{value:'50'}">
+<mat-table #table [dataSource]="gastos" [@animateStagger]="{value:'50'}">
 
     <!-- Avatar Column  fxShow fxHide.lt-sm-->
-    <ng-container matColumnDef="avatar"  >
+    <ng-container matColumnDef="avatar">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let gasto">
-            <p class="comp {{gasto.comprobante }}">{{gasto.comprobante | nameToType }}</p> 
-         </mat-cell>
+            <p class="comp {{gasto.comprobante }}">{{gasto.comprobante | nameToType }}</p>
+        </mat-cell>
     </ng-container>
 
     <!-- Descripcion Column -->
@@ -17,19 +16,19 @@
         </mat-cell>
     </ng-container>
 
-        <!-- Fecha Column -->
-        <ng-container matColumnDef="fecha">
-            <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Fecha</mat-header-cell>
-            <mat-cell *matCellDef="let gasto" fxHide fxShow.gt-md>
-                <p class="phone text-truncate">
-                    {{gasto.fecha | date:'dd/MM/yyyy' }}
-                </p>
-            </mat-cell>
-        </ng-container>
+    <!-- Fecha Column -->
+    <ng-container matColumnDef="fecha">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Fecha</mat-header-cell>
+        <mat-cell *matCellDef="let gasto" fxHide fxShow.gt-md>
+            <p class="phone text-truncate">
+                {{gasto.fecha | date:'dd/MM/yyyy' }}
+            </p>
+        </mat-cell>
+    </ng-container>
 
     <!-- >Comprobante Column -->
     <ng-container matColumnDef="comprobante">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>comprobante</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Comprobante</mat-header-cell>
         <mat-cell *matCellDef="let gasto" fxHide fxShow.gt-md>
             <p class="phone text-truncate">
                 {{gasto.nombre}} - {{gasto.nro | slice:9:13}}
@@ -37,45 +36,44 @@
         </mat-cell>
     </ng-container>
 
-        <!-- Estado Column -->
-        <ng-container matColumnDef="estado">
-            <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Estado</mat-header-cell>
-            <mat-cell *matCellDef="let gasto" fxHide fxShow.gt-md>
-                <p class="{{gasto.pago_estado}}">
-                    {{gasto.pago_estado}}
-                </p>
-            </mat-cell>
-        </ng-container>
+    <!-- Estado Column -->
+    <ng-container matColumnDef="estado">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Estado</mat-header-cell>
+        <mat-cell *matCellDef="let gasto" fxHide fxShow.gt-md>
+            <p class="{{gasto.pago_estado}}">
+                {{gasto.pago_estado}}
+            </p>
+        </mat-cell>
+    </ng-container>
 
     <!-- Importe Column -->
     <ng-container matColumnDef="importe">
-        <mat-header-cell *matHeaderCellDef >Importe</mat-header-cell>
-        <mat-cell *matCellDef="let gasto" >
-            <p class="text-truncate" style ="text-align: right" >
+        <mat-header-cell *matHeaderCellDef>Importe</mat-header-cell>
+        <mat-cell *matCellDef="let gasto">
+            <p class="text-truncate" style="text-align: right">
                 <b>{{ gasto.importe | currency }}</b>
             </p>
         </mat-cell>
     </ng-container>
 
     <!-- Buttons Column -->
-     <ng-container matColumnDef="buttons">
+    <ng-container matColumnDef="buttons">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let gasto">
             <div fxFlex="row" fxLayoutAlign="end center">
-<!--                 <button mat-icon-button (click)="$event.stopPropagation();toggleStar(contact.id)" aria-label="Toggle star">
+                <!--                 <button mat-icon-button (click)="$event.stopPropagation();toggleStar(contact.id)" aria-label="Toggle star">
                     <mat-icon class="amber-fg" *ngIf="user.starred.includes(contact.id)">star</mat-icon>
                     <mat-icon class="secondary-text" *ngIf="!user.starred.includes(contact.id)">star_border</mat-icon>
                 </button> -->
 
-                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
-                        (click)="$event.stopPropagation();">
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More" (click)="$event.stopPropagation();">
                     <mat-icon class="secondary-text">more_vert</mat-icon>
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
-                    <button mat-menu-item aria-label="verGasto" (click)="verGasto(gasto)">
+                    <button mat-menu-item aria-label="edit" (click)="editContact(gasto)">
                         <mat-icon>assignment</mat-icon>
-                        <span>Ver Gasto</span>
+                        <span>Editar Gasto</span>
                     </button>
                     <button mat-menu-item aria-label="remove" (click)="deleteGasto(gasto)">
                         <mat-icon>delete</mat-icon>
@@ -88,11 +86,7 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns" fxHide fxShow.gt-sm></mat-header-row>
-    <mat-row *matRowDef="let gasto; columns: displayedColumns;"
-             class="contact"
-             (click)="editContact(gasto)"
-             matRipple
-             [@animate]="{value:'*',params:{y:'100%'}}">
+    <mat-row *matRowDef="let gasto; columns: displayedColumns;" class="contact" (click)="verGasto(gasto)" matRipple [@animate]="{value:'*',params:{y:'100%'}}">
     </mat-row>
 
 </mat-table>

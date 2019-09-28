@@ -1,1 +1,16 @@
-<img class="profile-image avatar huge" [src]="proveedor.file_link" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+<div id="photos-videos" class="p-24">
+    <div class="period">
+
+        <div class="period-title">
+            <span class="name">Logo</span>
+            <span class="info">(1 Imagen)</span>
+        </div>
+
+        <div class="period-media" fxLayout="row wrap">
+            <div class="media">
+                <img class="preview" [src]="proveedor.file_link">
+                <div class="title">{{proveedor.nombre_corto}}</div>
+            </div>
+        </div>
+    </div>
+</div>

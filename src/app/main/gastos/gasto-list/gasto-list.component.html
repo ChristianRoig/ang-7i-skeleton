@@ -47,7 +47,7 @@
 
     <!-- >Comprobante Column -->
     <ng-container matColumnDef="comprobante">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>comprobante</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Comprobante</mat-header-cell>
         <mat-cell *matCellDef="let gasto" fxHide fxShow.gt-md>
             <!--  <p class="phone text-truncate">
                 {{gasto.nombre}} - {{gasto.nro| slice:9:13}}  Mostrar si es fiscal
@@ -93,9 +93,9 @@
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
-                    <button mat-menu-item aria-label="verGasto" (click)="verGasto(gasto)">
+                    <button mat-menu-item aria-label="edit" (click)="editContact(gasto)">
                         <mat-icon>assignment</mat-icon>
-                        <span>Ver Gasto</span>
+                        <span>Editar Gasto</span>
                     </button>
                     <button mat-menu-item aria-label="remove" (click)="deleteGasto(gasto)">
                         <mat-icon>delete</mat-icon>
@@ -108,7 +108,7 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns" fxHide fxShow.gt-sm></mat-header-row>
-    <mat-row *matRowDef="let gasto; columns: displayedColumns;" class="contact" (click)="editContact(gasto)" [ngClass]="{'accent-50':checkboxes[gasto.id]}" matRipple [@animate]="{value:'*',params:{y:'100%'}}">
+    <mat-row *matRowDef="let gasto; columns: displayedColumns;" class="contact" (click)="verGasto(gasto)" [ngClass]="{'accent-50':checkboxes[gasto.id]}" matRipple [@animate]="{value:'*',params:{y:'100%'}}">
     </mat-row>
 
     <!-- Group header -->
