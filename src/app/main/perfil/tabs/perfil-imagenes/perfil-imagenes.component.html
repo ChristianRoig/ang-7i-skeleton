@@ -1,3 +1,10 @@
-<p>
-  perfil-imagenes works!
-</p>
+<div id="photos" class="p-24">
+
+    <div class="period-media" fxLayout="row wrap">
+      <div class="media" >
+        <img class="preview" [src]="info.file_link" title="Logo" onError="this.src='assets/images/avatars/profile.jpg';">
+        <div class="title">Imagen de Perfil</div>
+      </div>
+    </div>
+
+</div>
