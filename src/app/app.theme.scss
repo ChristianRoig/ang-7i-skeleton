@@ -83,6 +83,8 @@ $typography: mat-typography-config(
 @import "src/app/main/authentication/login-2/login-2.theme";
 @import "src/app/main/contacts/contacts.theme";
 @import "src/app/main/gastos/gastos.theme";
+@import "src/app/main/perfil/tabs/perfil-imagenes/perfil-imagenes.theme";
+@import "src/app/main/perfil/tabs/perfil-info/perfil-info.theme";
 
 // Define a mixin for easier access
 @mixin components-theme($theme) {
@@ -95,6 +97,9 @@ $typography: mat-typography-config(
     @include login-2-theme($theme); //Login
     @include contacts-theme($theme);
     @include gastos-theme($theme);
+
+    @include perfil-imagenes-theme($theme);
+    @include perfil-info-theme($theme);
 }
 
 // -----------------------------------------------------------------------------------------------------

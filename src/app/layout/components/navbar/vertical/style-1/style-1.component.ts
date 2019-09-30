@@ -7,6 +7,8 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
+import { PerfilService } from 'app/main/perfil/perfil.service';
+import { Contact } from 'app/main/contacts/contact.model';
 
 @Component({
     selector     : 'navbar-vertical-style-1',
@@ -18,6 +20,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
 {
     fuseConfig: any;
     navigation: any;
+    perfil: Contact;
 
     // Private
     private _fusePerfectScrollbar: FusePerfectScrollbarDirective;
@@ -35,11 +38,13 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
         private _fuseConfigService: FuseConfigService,
         private _fuseNavigationService: FuseNavigationService,
         private _fuseSidebarService: FuseSidebarService,
+        private _perfilService: PerfilService,
         private _router: Router
     )
     {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+        this.perfil = new Contact({});
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -128,6 +133,13 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
             .subscribe(() => {
                 this.navigation = this._fuseNavigationService.getCurrentNavigation();
             });
+
+        this._perfilService.infoOnChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+                .subscribe((data) => {
+                    this.perfil = data;
+                });
+        this._perfilService.getInfo();
     }
 
     /**

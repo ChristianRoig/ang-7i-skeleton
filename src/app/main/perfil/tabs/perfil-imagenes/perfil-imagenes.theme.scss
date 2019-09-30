@@ -1,0 +1,18 @@
+@mixin perfil-imagenes-theme($theme) {
+
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+
+    perfil-imagenes {
+        #photos {        
+            .period-media {
+                .media {
+                    .title {
+                        background: rgba(0, 0, 0, 0.54);
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+}
