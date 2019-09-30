@@ -9,7 +9,7 @@
 
         <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
             <div class="container">
-                <img [src]="contact.file_link" class="avatar contact-avatar huge m-0" [alt]="contact.file_link" />
+                <img [src]="contact.file_link" class="avatar contact-avatar huge m-0" [alt]="contact.file_link" onError="this.src='assets/images/avatars/profile.jpg';"/>
                 <div class="overlay">
                     <button mat-button (click)="fileInput.click()" matTooltip="Elegir foto de Perfil">
                         <mat-icon matSuffix class="secondary-text">camera_alt</mat-icon>
