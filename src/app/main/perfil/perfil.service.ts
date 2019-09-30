@@ -27,6 +27,8 @@ export class PerfilService implements Resolve<any>
     )
     {
         // Set the defaults
+        this.info = new Contact({});
+
         this.infoOnChanged = new BehaviorSubject({});
     }
 
@@ -57,8 +59,7 @@ export class PerfilService implements Resolve<any>
     getInfo(): Promise<any[]>
     {
         return new Promise((resolve, reject) => {
-
-            this.createRequestGetPerfil()
+            this._createRequestGetPerfil()
                 .subscribe((info: any) => {                    
                     this.info = new Contact(info);                                    
                     this.infoOnChanged.next(this.info);
@@ -67,9 +68,24 @@ export class PerfilService implements Resolve<any>
         });
     }
 
-    createRequestGetPerfil(): any {
+    private _createRequestGetPerfil(): any {
+        let token = this.cookieService.get('tokenAuth');
+        
+        // Fix, codigo para evitar la consulta a la api sin el token
+        if (token === '' || token === null || token === undefined){            
+            const respuesta = new Observable((observer) => {
+                observer.next(
+                    new Contact({})
+                );
+                observer.complete();
+            });
+                                    
+            return respuesta;
+        }
+        // Fix
+        
         let headers = new HttpHeaders();
-        headers = headers.set('Authorization' , this.cookieService.get('tokenAuth'));
+        headers = headers.set('Authorization' , token);
         return this._httpClient.get(API_URL + 'perfil', { headers : headers });
     }
 }
