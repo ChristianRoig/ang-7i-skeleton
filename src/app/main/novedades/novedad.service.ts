@@ -108,19 +108,19 @@ export class NovedadService implements Resolve<any>
      * exportarTXT()
      * Encargado de traer del backend, un string con las novedades por empresa.
      */
-    exportarTXT(): Promise<any> {
-        let url = API_URL;
+    exportarTXT(empresa: string, periodo: string): Promise<any> {
+        let url = API_URL + 'exportar?empresa=' + empresa + '&periodo=' + periodo;
 
         // Mock
-        url = 'api/texto';
+        // url = 'api/texto';        
 
         return new Promise((resolve, reject) => {
-            this._createRequest(url)
+            this._createRequestTypeText(url)
                 .subscribe((response: string) => {                    
                     if (response == null) {
                         response = '';
+                        this._notiSnackbarService.openSnackBar('Se Produjo un error');
                     }
-                    // console.log(response);
 
                     this.exportTXT = response;
 
@@ -414,6 +414,23 @@ export class NovedadService implements Resolve<any>
         });
 
         const options = { headers: httpHeaders };
+
+        return this._httpClient.get(url, options);
+    }
+
+    /**
+     * Crea el llamado a los servicios de back
+     * @param {string} url     
+     */
+    private _createRequestTypeText(url: string): Observable<any> | any {
+        const httpHeaders = new HttpHeaders({
+            'Authorization': this._loginService.getLocalToken()
+        });
+
+        const options = { 
+            headers: httpHeaders,
+            responseType: 'text' as 'text'
+        };
 
         return this._httpClient.get(url, options);
     }

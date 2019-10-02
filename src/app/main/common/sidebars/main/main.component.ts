@@ -52,10 +52,7 @@ export class ContactsMainSidebarComponent implements OnInit, OnDestroy
      * On init
      */
     ngOnInit(): void
-    {
-        // console.log('sidebars');
-        // console.log(this.isCheck);
-        
+    {       
         if (this.invocador === 'nomina') {
             this.filterBy = this._nominaService.filterBy || 'GrupoFava';      
             this.url = 'nomina';
@@ -89,18 +86,15 @@ export class ContactsMainSidebarComponent implements OnInit, OnDestroy
     changeFilter(filter): void
     {
         this.filterBy = filter;
-        // this._colaboradoresService.onFilterChanged.next(this.filterBy);
-
         console.log(this.filterBy);
         this.isFilter.emit(this.filterBy); // Lo emito para cambiar las columnas del componente
-      
     }
 
     changeCheck(): void {        
         this.isCheckSideBar.emit(this.isCheck);        
     }
 
-    exportar(): void{
+    exportar(): void{        
         this.dialogRefExportar = this._matDialog.open(ExportarTXTComponent, {
             panelClass: 'exportar-txt',
             data: {

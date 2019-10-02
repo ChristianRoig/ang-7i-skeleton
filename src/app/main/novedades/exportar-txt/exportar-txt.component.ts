@@ -50,14 +50,7 @@ export class ExportarTXTComponent implements OnInit
         this.empresa = _data.empresa || '-';
 
         this.periodo = _data.periodo || '';
-
-        if (this.periodo !== ''){
-            let aux = this.periodo.split('-');
-            if (aux.length > 1){
-                this.periodo = aux[1] + '-' + aux[0];
-            }
-        }
-        
+       
         this._unsubscribeAll = new Subject();
 
     }
@@ -69,7 +62,7 @@ export class ExportarTXTComponent implements OnInit
                 this.txt = data || '';
             });
 
-        this._novedadService.exportarTXT();
+        this._novedadService.exportarTXT(this.empresa , this.periodo);
     }   
 
     // -----------------------------------------------------------------------------------------------------
@@ -77,27 +70,22 @@ export class ExportarTXTComponent implements OnInit
     // -----------------------------------------------------------------------------------------------------
 
     saveFile(): void {
-        let blob = new Blob([this.txt], { type: 'text/plain;charset=utf-8' });
+        let blob = new Blob([this.txt], { type: 'text/plain;charset=utf-8', endings: 'native' });
+        let auxP;
 
-        let nombre = 'GesRH-Tango-' + this.periodo + '-' + this.empresa + '.txt';
+        if (this.periodo !== ''){
+            auxP = this.periodo.split('-');
+            if (auxP.length > 1){
+                auxP = auxP[1] + '-' + auxP[0];
+            }
+        }else{
+            auxP = '';
+        }
+
+        let nombre = 'GesRH-Tango-' + auxP + '-' + this.empresa + '.txt';
 
         FileSaver.saveAs(blob, nombre);
 
     }
 
-
-    // No funciona en firefox
-    // saveFile(): void {
-    //     // const aux = JSON.stringify(this.rank, null, '\t');
-    //     let aux = JSON.stringify(this.txt);
-    //     this.writeContents(this.txt, 'novedades' + '.txt', 'text/plain');
-    // }
-
-    // private writeContents(content, fileName, contentType): void {
-    //     let a = document.createElement('a');
-    //     let file = new Blob([content], { type: contentType });
-    //     a.href = URL.createObjectURL(file);
-    //     a.download = fileName;
-    //     a.click();
-    // }
 }
