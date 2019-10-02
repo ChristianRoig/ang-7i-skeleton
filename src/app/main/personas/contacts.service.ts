@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { FuseUtils } from '@fuse/utils';
 
-import { Contact } from 'app/main/contacts/contact.model';
+import { Contact } from 'app/main/personas/contact.model';
 import { environment } from 'environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 

@@ -8,7 +8,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
-import { ContactsContactFormDialogComponent } from 'app/main/contacts/contact-form/contact-form.component';
+import { ContactsContactFormDialogComponent } from 'app/main/personas/contact-form/contact-form.component';
 
 import { ContactsService } from '../contacts.service';
 import { Contact } from '../contact.model';

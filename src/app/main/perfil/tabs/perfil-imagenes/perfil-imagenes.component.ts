@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { PerfilService } from '../../perfil.service';
 import { takeUntil } from 'rxjs/operators';
-import { Contact } from 'app/main/contacts/contact.model';
+import { Contact } from 'app/main/personas/contact.model';
 
 @Component({
   selector: 'perfil-imagenes',

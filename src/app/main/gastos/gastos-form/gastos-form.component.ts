@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef,  } from '@angular/material';
 
 import { Gasto } from '../gasto.model';
-import { Contact } from 'app/main/contacts/contact.model';
-import { ContactsService } from 'app/main/contacts/contacts.service';
+import { Contact } from 'app/main/personas/contact.model';
+import { ContactsService } from 'app/main/personas/contacts.service';
 import { GastosService } from '../gastos.service';
 
 export interface Estado {

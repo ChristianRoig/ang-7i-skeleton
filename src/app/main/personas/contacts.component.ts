@@ -7,8 +7,8 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
-import { ContactsService } from 'app/main/contacts/contacts.service';
-import { ContactsContactFormDialogComponent } from 'app/main/contacts/contact-form/contact-form.component';
+import { ContactsService } from 'app/main/personas/contacts.service';
+import { ContactsContactFormDialogComponent } from 'app/main/personas/contact-form/contact-form.component';
 
 @Component({
     selector     : 'contacts',

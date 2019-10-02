@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { GastosService } from '../gastos.service';
 import { Gasto } from '../gasto.model';
-import { Contact } from 'app/main/contacts/contact.model';
-import { ContactsService } from 'app/main/contacts/contacts.service';
+import { Contact } from 'app/main/personas/contact.model';
+import { ContactsService } from 'app/main/personas/contacts.service';
 
 @Component({
   selector: 'gasto-view',

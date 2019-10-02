@@ -12,7 +12,7 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 import { GastosService } from '../gastos.service';
 // import { GastoFormDialogComponent } from '../gastos-form/gastos-form.component';
 import { Gasto } from '../gasto.model';
-import { ContactsService } from 'app/main/contacts/contacts.service';
+import { ContactsService } from 'app/main/personas/contacts.service';
 import { GastoFormDialogComponent } from '../gastos-form/gastos-form.component';
 
 export class Group {

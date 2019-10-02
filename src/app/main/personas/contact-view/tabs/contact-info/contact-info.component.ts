@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy, Input } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
 
-import { ContactsService } from 'app/main/contacts/contacts.service';
-import { Contact } from 'app/main/contacts/contact.model';
+import { ContactsService } from 'app/main/personas/contacts.service';
+import { Contact } from 'app/main/personas/contact.model';
 
 @Component({
   selector: 'contact-info',

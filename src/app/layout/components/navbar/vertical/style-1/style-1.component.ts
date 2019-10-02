@@ -8,7 +8,7 @@ import { FuseNavigationService } from '@fuse/components/navigation/navigation.se
 import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { PerfilService } from 'app/main/perfil/perfil.service';
-import { Contact } from 'app/main/contacts/contact.model';
+import { Contact } from 'app/main/personas/contact.model';
 
 @Component({
     selector     : 'navbar-vertical-style-1',

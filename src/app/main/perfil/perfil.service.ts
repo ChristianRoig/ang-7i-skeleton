@@ -4,7 +4,7 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'environments/environment';
 import { CookieService } from 'ngx-cookie-service';
-import { Contact } from '../contacts/contact.model';
+import { Contact } from '../personas/contact.model';
 
 const API_URL = environment.API;
 

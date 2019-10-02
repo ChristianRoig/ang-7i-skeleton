@@ -2,7 +2,7 @@ import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
-import { Contact } from 'app/main/contacts/contact.model';
+import { Contact } from 'app/main/personas/contact.model';
 import { ContactsService } from '../contacts.service';
 
 export interface Option {
