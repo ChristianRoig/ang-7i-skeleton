@@ -66,9 +66,12 @@ export class LoginService implements Resolve<any>
                 .subscribe((info: any) => {
                     this.info = info;
                     if (info != null) { // se logueo 
+                        let expirar = new Date();
+                        expirar.setHours(expirar.getHours() + 16);
+
                         this.token = info.token;
-                        this.username = info.username;
-                        this.cookieService.set('tokenAuth', this.token);
+                        this.username = info.username;                        
+                        this.cookieService.set('tokenAuth', this.token, expirar);
                         this._router.navigate(['/gastos']);
                     }
                     this.infoOnChanged.next(this.info);
