@@ -57,9 +57,7 @@ export class PerfilComponent implements OnInit {
            * Save
            */
           case 'save':
-
-            // this._contactsService.updateContact(formData.getRawValue());
-
+            this.perfilService.updatePerfil(formData.getRawValue());
             break;
         }
       });

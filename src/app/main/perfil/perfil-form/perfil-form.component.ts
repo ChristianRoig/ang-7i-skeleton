@@ -111,11 +111,12 @@ export class PerfilFormDialogComponent
             domicilio: [this.contact.domicilio],
             localidad: [this.contact.localidad],
             cond_iva: [this.contact.cond_iva],
-            cuit: [this.contact.doc_nro],
+            doc_nro: [this.contact.doc_nro],
             genero: [this.contact.genero],
             notas: [this.contact.notas],
             file_link: [this.contact.file_link],
-            estado: [this.contact.estado]
+            estado: [this.contact.estado],           
+            doc_tipo: [this.contact.doc_tipo]
         });
     }
 

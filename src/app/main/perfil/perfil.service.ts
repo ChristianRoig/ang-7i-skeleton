@@ -68,6 +68,26 @@ export class PerfilService implements Resolve<any>
         });
     }
 
+    updatePerfil(perfil: Contact): Promise<any> {
+        if ((perfil.file_link.indexOf('assets/images/avatars/empresa.png') > -1) || (perfil.file_link.indexOf('assets/images/avatars/avatarF.png') > -1) ||
+            (perfil.file_link.indexOf('assets/images/avatars/avatarM.png') > -1) || (perfil.file_link.indexOf('assets/images/avatars/profile.jpg') > -1)) {            
+            perfil.file_link = null;
+        }
+        
+        return new Promise(() => {
+            this._requestUpdate(perfil)
+                .subscribe(
+                    (response) => {
+                        console.log('response de update ' + response);
+                        this.getInfo();                  
+                    },
+                    (error) => {
+                        console.log('error en el update');
+                    }
+                );
+        });
+    }
+
     private _createRequestGetPerfil(): any {
         let token = this.cookieService.get('tokenAuth');
         
@@ -86,6 +106,20 @@ export class PerfilService implements Resolve<any>
         
         let headers = new HttpHeaders();
         headers = headers.set('Authorization' , token);
+        
         return this._httpClient.get(API_URL + 'perfil', { headers : headers });
+    }
+
+    private _requestUpdate(perfil: Contact): Observable<any> {
+        let token = this.cookieService.get('tokenAuth');
+        const url = API_URL + 'perfil';
+        let body = JSON.stringify(perfil);
+
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': token
+        });    
+        
+        return this._httpClient.put(url, body, { headers: headers });
     }
 }

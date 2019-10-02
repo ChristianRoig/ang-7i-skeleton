@@ -5,7 +5,8 @@
 
         <div class="user-info" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center">
             <img class="profile-image avatar huge" [src]="perfil.file_link"                          
-                [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}"
+                onError="this.src='assets/images/avatars/profile.jpg';">
 
             <div class="name" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
                 {{perfil.nombre}}
