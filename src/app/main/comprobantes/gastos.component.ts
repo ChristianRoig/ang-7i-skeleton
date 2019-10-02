@@ -7,7 +7,7 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
-import { GastosService } from 'app/main/gastos/gastos.service';
+import { GastosService } from 'app/main/comprobantes/gastos.service';
 import { GastoFormDialogComponent } from './gastos-form/gastos-form.component';
 /* import { GastoFormDialogComponent } from './gastos-form/gastos-form.component';
  */
@@ -20,10 +20,10 @@ import { GastoFormDialogComponent } from './gastos-form/gastos-form.component';
 })
 export class GastosComponent implements OnInit, OnDestroy
 {
-     dialogRef: any;
+    dialogRef: any;
     hasSelectedContacts: boolean;
     searchInput: FormControl;
-    title : string = "Gastos Fijos"
+    title: string = 'Gastos Fijos';
 
     // Private
     private _unsubscribeAll: Subject<any>;

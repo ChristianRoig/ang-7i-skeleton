@@ -7,7 +7,7 @@ import { ContactsContactFormDialogComponent } from 'app/main/personas/contact-fo
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { GastosService } from 'app/main/gastos/gastos.service';
+import { GastosService } from 'app/main/comprobantes/gastos.service';
 
 @Component({
   selector: 'contact-view',

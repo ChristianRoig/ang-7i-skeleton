@@ -5,7 +5,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { Gasto } from 'app/main/gastos/gasto.model';
+import { Gasto } from 'app/main/comprobantes/gasto.model';
 import { fuseAnimations } from '@fuse/animations';
 
  /* import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';

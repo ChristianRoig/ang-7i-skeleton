@@ -3,8 +3,8 @@ import { fuseAnimations } from '@fuse/animations';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { GastosService } from 'app/main/gastos/gastos.service';
-import { Gasto } from 'app/main/gastos/gasto.model';
+import { GastosService } from 'app/main/comprobantes/gastos.service';
+import { Gasto } from 'app/main/comprobantes/gasto.model';
 
 @Component({
   selector: 'gasto-info',
