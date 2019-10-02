@@ -59,7 +59,7 @@ export class Contact {
         }
     }
 
-    private defineAvatar(imagen: string): string {        
+    private defineAvatar(imagen: string): string {
         if (imagen !== null && imagen !== '' && imagen !== undefined){
             return imagen;
         }
@@ -68,12 +68,12 @@ export class Contact {
             return 'assets/images/avatars/empresa.png';
         }
                 
-        if (this.genero === 'mujer'){
+        if (this.genero.toLowerCase() === 'mujer'){
             return 'assets/images/avatars/avatarF.png';
         }
 
-        if (this.genero === 'hombre') {
-            return 'assets/images/avatars/avatarF.png';
+        if (this.genero.toLowerCase() === 'hombre') {
+            return 'assets/images/avatars/avatarM.png';
         }
 
         // Neutro o cualquier otra cosa
