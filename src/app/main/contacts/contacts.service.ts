@@ -257,6 +257,10 @@ export class ContactsService implements Resolve<any>
      * @returns {Promise<any>}
      */
     updateContact(contact: Contact): Promise<any> {
+        if ((contact.file_link.indexOf('assets/images/avatars/empresa.png') > -1) || (contact.file_link.indexOf('assets/images/avatars/avatarF.png') > -1) ||
+            (contact.file_link.indexOf('assets/images/avatars/avatarM.png') > -1) || (contact.file_link.indexOf('assets/images/avatars/profile.jpg') > -1)) {
+            contact.file_link = null;
+        }
         return new Promise((resolve, reject) => {
 
             this.createRequestUpdateProveedor(contact)
