@@ -21,6 +21,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
     fuseConfig: any;
     navigation: any;
     perfil: Contact;
+    imagen: string;
 
     // Private
     private _fusePerfectScrollbar: FusePerfectScrollbarDirective;
@@ -45,6 +46,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
         // Set the private defaults
         this._unsubscribeAll = new Subject();
         this.perfil = new Contact({});
+        this.imagen = 'assets/images/avatars/profile.jpg';
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -136,8 +138,9 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
 
         this._perfilService.infoOnChanged
             .pipe(takeUntil(this._unsubscribeAll))
-                .subscribe((data) => {
+                .subscribe((data: Contact) => {
                     this.perfil = data;
+                    this.imagen = data.file_link;
                 });
         this._perfilService.getInfo();
     }

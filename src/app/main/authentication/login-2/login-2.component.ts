@@ -47,8 +47,11 @@ export class Login2Component implements OnInit
         };
     }
 
-    login() : void {
-    this._loginService.login(this.loginForm.get('email').value, this.loginForm.get('password').value);
+    login(): void {
+        this._loginService.login(
+                                this.loginForm.get('email').value,
+                                this.loginForm.get('password').value
+                            );
     }
 
     // -----------------------------------------------------------------------------------------------------
