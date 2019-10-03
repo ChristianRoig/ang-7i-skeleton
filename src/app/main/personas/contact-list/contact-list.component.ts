@@ -10,7 +10,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 import { ContactsContactFormDialogComponent } from 'app/main/personas/contact-form/contact-form.component';
 
-import { ContactsService } from '../contacts.service';
+import { PersonasService } from '../personas.service';
 import { Contact } from '../contact.model';
 
 @Component({
@@ -40,11 +40,11 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
     /**
      * Constructor
      *
-     * @param {ContactsService} _contactsService
+     * @param {PersonasService} _personasService
      * @param {MatDialog} _matDialog
      */
     constructor(
-        private _contactsService: ContactsService,
+        private _personasService: PersonasService,
         public _matDialog: MatDialog,
         private router: Router
     ) {
@@ -60,9 +60,9 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.dataSource = new FilesDataSource(this._contactsService);
+        this.dataSource = new FilesDataSource(this._personasService);
 
-        this._contactsService.onContactsChanged
+        this._personasService.onContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(contacts => {
                 this.contacts = contacts;
@@ -72,7 +72,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
                 });
             });
 
-        /*         this._contactsService.onSelectedContactsChanged
+        /*         this._personasService.onSelectedContactsChanged
                     .pipe(takeUntil(this._unsubscribeAll))
                     .subscribe(selectedContacts => {
                         for ( const id in this.checkboxes )
@@ -87,16 +87,16 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
                         this.selectedContacts = selectedContacts;
                     });
         
-                this._contactsService.onUserDataChanged
+                this._personasService.onUserDataChanged
                     .pipe(takeUntil(this._unsubscribeAll))
                     .subscribe(user => {
                         this.user = user;
                     });
         
-                this._contactsService.onFilterChanged
+                this._personasService.onFilterChanged
                     .pipe(takeUntil(this._unsubscribeAll))
                     .subscribe(() => {
-                        this._contactsService.deselectContacts();
+                        this._personasService.deselectContacts();
                     }); */
     }
 
@@ -143,7 +143,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
                      */
                     case 'save':
 
-                        this._contactsService.updateContact(formData.getRawValue());
+                        this._personasService.updateContact(formData.getRawValue());
 
                         break;
                     /**
@@ -169,7 +169,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this._contactsService.deleteContact(contact);
+                this._personasService.deleteContact(contact);
             }
             this.confirmDialogRef = null;
         });
@@ -182,7 +182,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
      * @param contactId
      */
     onSelectedChange(contactId): void {
-        this._contactsService.toggleSelectedContact(contactId);
+        this._personasService.toggleSelectedContact(contactId);
     }
 
     /**
@@ -198,7 +198,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
             this.user.starred.push(contactId);
         }
 
-        //    this._contactsService.updateUserData(this.user);
+        //    this._personasService.updateUserData(this.user);
     }
 }
 
@@ -207,10 +207,10 @@ export class FilesDataSource extends DataSource<any>
     /**
      * Constructor
      *
-     * @param {ContactsService} _contactsService
+     * @param {PersonasService} _personasService
      */
     constructor(
-        private _contactsService: ContactsService
+        private _personasService: PersonasService
     ) {
         super();
     }
@@ -220,7 +220,7 @@ export class FilesDataSource extends DataSource<any>
      * @returns {Observable<any[]>}
      */
     connect(): Observable<any[]> {
-        return this._contactsService.onContactsChanged;
+        return this._personasService.onContactsChanged;
     }
 
     /**

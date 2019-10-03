@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { Contact } from 'app/main/personas/contact.model';
-import { ContactsService } from '../contacts.service';
+import { PersonasService } from '../personas.service';
 
 export interface Option {
     value: string;
@@ -51,7 +51,7 @@ export class ContactsContactFormDialogComponent
     constructor(
         public matDialogRef: MatDialogRef<ContactsContactFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
-        private _contactsService: ContactsService,
+        private _personasService: PersonasService,
         private _formBuilder: FormBuilder
     ) {
         // Set the defaults
@@ -66,14 +66,14 @@ export class ContactsContactFormDialogComponent
         else {
             this.dialogTitle = 'Nuevo Proveedor';
             this.contact = new Contact({});
-            this._contactsService.initContacto(this.contact);
+            this._personasService.initContacto(this.contact);
             this.contactForm = this.createContactForm();
-            this._contactsService.crearRequestNewCodigoProveedor()
+            this._personasService.crearRequestNewCodigoProveedor()
                 .subscribe((response: any) => {
                     this.contact.cod = response;
                     this.contactForm.controls['cod'].setValue(this.contact.cod); // setea el cod que 
                 });
-            /*             this._contactsService.getGastosByName(this.proveedor.nombre_corto).then((value) => {
+            /*             this._personasService.getGastosByName(this.proveedor.nombre_corto).then((value) => {
                             this.gastos = value;
                             });  */
         }

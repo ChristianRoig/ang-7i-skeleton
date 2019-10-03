@@ -7,7 +7,7 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
-import { ContactsService } from 'app/main/personas/contacts.service';
+import { PersonasService } from 'app/main/personas/personas.service';
 import { ContactsContactFormDialogComponent } from 'app/main/personas/contact-form/contact-form.component';
 
 @Component({
@@ -22,7 +22,8 @@ export class ContactsComponent implements OnInit, OnDestroy
     dialogRef: any;
     hasSelectedContacts: boolean;
     searchInput: FormControl;
-    title : string;
+    title: string;
+    entity: string;
 
 
     // Private
@@ -31,12 +32,12 @@ export class ContactsComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {ContactsService} _contactsService
+     * @param {PersonasService} _personasService
      * @param {FuseSidebarService} _fuseSidebarService
      * @param {MatDialog} _matDialog
      */
     constructor(
-        private _contactsService: ContactsService,
+        private _personasService: PersonasService,
         private _fuseSidebarService: FuseSidebarService,
         private _matDialog: MatDialog
     )
@@ -46,7 +47,8 @@ export class ContactsComponent implements OnInit, OnDestroy
 
         // Set the private defaults
        this._unsubscribeAll = new Subject();
-       this.title = 'Proveedores';
+       this.title  = PersonasService.MODULO; 
+       this.entity = PersonasService.ENTITY; 
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -58,7 +60,7 @@ export class ContactsComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-         this._contactsService.onSelectedContactsChanged
+         this._personasService.onSelectedContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedContacts => {
                 this.hasSelectedContacts = selectedContacts.length > 0;
@@ -71,7 +73,7 @@ export class ContactsComponent implements OnInit, OnDestroy
                 distinctUntilChanged()
             )
             .subscribe(searchText => {
-                this._contactsService.onSearchTextChanged.next(searchText);
+                this._personasService.onSearchTextChanged.next(searchText);
             }); 
     }
 
@@ -105,7 +107,7 @@ export class ContactsComponent implements OnInit, OnDestroy
                 if (!response) {
                     return;
                 }
-                this._contactsService.addContact(response.getRawValue());
+                this._personasService.addContact(response.getRawValue());
             });
     }
 

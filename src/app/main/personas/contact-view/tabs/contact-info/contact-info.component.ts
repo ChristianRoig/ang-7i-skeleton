@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy, Input } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
 
-import { ContactsService } from 'app/main/personas/contacts.service';
+import { PersonasService } from 'app/main/personas/personas.service';
 import { Contact } from 'app/main/personas/contact.model';
 
 @Component({
@@ -21,7 +21,7 @@ export class ContactInfoComponent implements OnInit, OnDestroy
      *
      */
     constructor(
-        private _contactService: ContactsService
+        private _contactService: PersonasService
     )
     {
 

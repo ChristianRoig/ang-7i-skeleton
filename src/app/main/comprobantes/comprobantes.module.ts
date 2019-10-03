@@ -14,7 +14,7 @@ import { GastosComponent } from './gastos.component';
 import { GastosService } from './gastos.service';
 import { GastoViewComponent } from './gasto-view/gasto-view.component';
 import { GastoInfoComponent } from './gasto-view/tabs/gasto-info/gasto-info.component';
-import { ContactsService } from '../personas/contacts.service';
+import { PersonasService } from '../personas/personas.service';
 import { GastoListComponent } from './gasto-list/gasto-list.component';
 import { GastoFormDialogComponent } from './gastos-form/gastos-form.component';
 
@@ -24,7 +24,7 @@ const routes: Routes = [
         component: GastosComponent,
         resolve  : {
             gastos: GastosService,
-            contacts: ContactsService
+            contacts: PersonasService
         }
     }, 
      {
@@ -32,7 +32,7 @@ const routes: Routes = [
         component : GastoViewComponent,
         resolve   : {
             gastos: GastosService,
-            contacts: ContactsService
+            contacts: PersonasService
         }
     } 
 ];

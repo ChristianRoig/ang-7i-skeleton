@@ -4,7 +4,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { GastosService } from '../gastos.service';
 import { Gasto } from '../gasto.model';
 import { Contact } from 'app/main/personas/contact.model';
-import { ContactsService } from 'app/main/personas/contacts.service';
+import { PersonasService } from 'app/main/personas/personas.service';
 
 @Component({
   selector: 'gasto-view',
@@ -19,7 +19,7 @@ export class GastoViewComponent implements OnInit {
   contacto : Contact
 
   constructor(private _gastosService: GastosService,
-    private _contactService : ContactsService,
+    private _contactService : PersonasService,
     private activatedRoute: ActivatedRoute) {
       this.activatedRoute.params.subscribe(params => {
         this.gasto = this._gastosService.getGasto(params['id'])

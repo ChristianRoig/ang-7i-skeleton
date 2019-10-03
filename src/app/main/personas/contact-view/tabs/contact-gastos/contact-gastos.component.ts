@@ -76,7 +76,7 @@ export class ContactGastosComponent implements OnInit, OnDestroy
      //       this.dataSource.filterPredicate = this.customFilterPredicate.bind(this);
     }
 
-/*         this._contactsService.onSelectedContactsChanged
+/*         this._personasService.onSelectedContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedContacts => {
                 for ( const id in this.checkboxes )
@@ -91,16 +91,16 @@ export class ContactGastosComponent implements OnInit, OnDestroy
                 this.selectedContacts = selectedContacts;
             });
 
-        this._contactsService.onUserDataChanged
+        this._personasService.onUserDataChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(user => {
                 this.user = user;
             });
 
-        this._contactsService.onFilterChanged
+        this._personasService.onFilterChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(() => {
-                this._contactsService.deselectContacts();
+                this._personasService.deselectContacts();
             }); */
     
 
@@ -146,7 +146,7 @@ export class ContactGastosComponent implements OnInit, OnDestroy
                      * /
                     case 'save':
 
-               //         this._contactsService.updateContact(formData.getRawValue());
+               //         this._personasService.updateContact(formData.getRawValue());
 
                         break;
                     /**
@@ -227,7 +227,7 @@ export class ContactGastosComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {ContactsService} _contactsService
+     * @param {PersonasService} _personasService
      * /
     constructor(
         private _gastosService: GastosService

@@ -12,11 +12,12 @@ import { CookieService } from 'ngx-cookie-service';
 const API_URL = environment.API;
 
 @Injectable()
-export class ContactsService implements Resolve<any>
+export class PersonasService implements Resolve<any>
 {
     public static readonly MODULO: string = 'Proveedores';
+    public static readonly ENTITY: string = 'Proveedor';
     public static readonly CATEGORIA: string = 'de Gastos';
-    public static readonly ETIQUETA: string = '-Oficina-';
+    public static readonly ETIQUETA:  string = '-Oficina-';
 
     onContactsChanged: BehaviorSubject<any>;
     onSelectedContactsChanged: BehaviorSubject<any>;
@@ -54,7 +55,7 @@ export class ContactsService implements Resolve<any>
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Authorization': cookieService.get('tokenAuth')
-            })}
+            })};
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -136,17 +137,17 @@ export class ContactsService implements Resolve<any>
     }
 
     initContacto(contact: Contact): void {
-        contact.modulo = ContactsService.MODULO;
-        contact.categoria = ContactsService.CATEGORIA;
-        contact.etiqueta = ContactsService.ETIQUETA;
+        contact.modulo = PersonasService.MODULO;
+        contact.categoria = PersonasService.CATEGORIA;
+        contact.etiqueta = PersonasService.ETIQUETA;
     }
 
     getContactoByName(id: string): Contact {
         let contact: Contact;
-        if (this.contacts.length == 0) {
+        if (this.contacts.length === 0) {
             this.getContacts();
         }
-        contact = this.contacts.find(contact => contact.id == id);
+        contact = this.contacts.find(contact => contact.id === id);
 
         return contact;
     }
@@ -267,7 +268,7 @@ export class ContactsService implements Resolve<any>
                 .subscribe(response => {
                     this.getContacts();
                     resolve(response);
-                },reject);
+                }, reject);
         });
     }
 
@@ -358,7 +359,7 @@ export class ContactsService implements Resolve<any>
         });
 
         let params = new HttpParams();
-        params = params.set('modulo', ContactsService.MODULO);
+        params = params.set('modulo', PersonasService.MODULO);
         
         return this._httpClient.get(url, { headers : httpHeaders, 
                                            params : params,

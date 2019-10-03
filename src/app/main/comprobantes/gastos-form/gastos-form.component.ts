@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef,  } from '@angular/material';
 
 import { Gasto } from '../gasto.model';
 import { Contact } from 'app/main/personas/contact.model';
-import { ContactsService } from 'app/main/personas/contacts.service';
+import { PersonasService } from 'app/main/personas/personas.service';
 import { GastosService } from '../gastos.service';
 
 export interface Estado {
@@ -57,7 +57,7 @@ export class GastoFormDialogComponent
      * @param {FormBuilder} _formBuilder
      */
     constructor(
-        private contactsService: ContactsService,
+        private contactsService: PersonasService,
         private gastosService: GastosService, 
         public matDialogRef: MatDialogRef<GastoFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,

@@ -1,8 +1,7 @@
 <div id="contacts" class="page-layout simple left-sidebar inner-sidebar inner-scroll">
 
     <!-- HEADER -->
-    <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-xs="row"
-        fxLayoutAlign.gt-xs="space-between center">
+    <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
 
         <!-- APP TITLE -->
         <div fxLayout="row" fxLayoutAlign="start center">
@@ -29,7 +28,7 @@
 
                 <div class="search" fxFlex fxHide fxShow.gt-md fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
-                    <input [formControl]="searchInput" placeholder="Buscar un proveedor">
+                    <input [formControl]="searchInput" placeholder="Buscar un {{entity}}">
                 </div>
 
             </div>
@@ -77,8 +76,7 @@
 </div>
 
 <!-- ADD CONTACT BUTTON -->
-<button mat-fab class="accent" id="add-contact-button" (click)="newContact()" aria-label="add contact"
-    [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+<button mat-fab class="accent" id="add-contact-button" (click)="newContact()" aria-label="add contact" [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
     <mat-icon>person_add</mat-icon>
 </button>
 <!-- / ADD CONTACT BUTTON -->

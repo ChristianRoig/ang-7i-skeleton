@@ -12,11 +12,6 @@ export const navigation: FuseNavigation[] = [
                 type: 'item',
                 icon: 'description',
                 url: '/gastos',
-                badge: {
-                    title: '8',
-                    bg: '#E54D03',
-                    fg: '#FFFFFF'
-                }
             },
             {
                 id       : 'personas',
@@ -24,11 +19,6 @@ export const navigation: FuseNavigation[] = [
                 type     : 'item',
                 icon     : 'group',
                 url      : '/proveedores',
-                badge    : {
-                    title    : '2',
-                    bg       : '#0068AD',
-                    fg       : '#FFFFFF'
-                }
             },
             {
                 id       : 'perfil',

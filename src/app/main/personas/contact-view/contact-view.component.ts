@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
-import { ContactsService } from '../contacts.service';
+import { PersonasService } from '../personas.service';
 import { Contact } from '../contact.model';
 import { ContactsContactFormDialogComponent } from 'app/main/personas/contact-form/contact-form.component';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
@@ -28,12 +28,12 @@ export class ContactViewComponent implements OnInit {
 
   constructor(
     public _matDialog: MatDialog,
-    private _contactsService: ContactsService,
+    private _personasService: PersonasService,
     private gastosService: GastosService,
     private activatedRoute: ActivatedRoute) {
       
       this.activatedRoute.params.subscribe(params => {
-        this.proveedor = this._contactsService.getProveedor(params['id']);
+        this.proveedor = this._personasService.getProveedor(params['id']);
         this.gastosService.getGastosByName(this.proveedor.id).then((value) => {
         this.gastos = value;
         }); 
@@ -68,7 +68,7 @@ export class ContactViewComponent implements OnInit {
                    */
                   case 'save':
 
-                      this._contactsService.updateContact(formData.getRawValue());
+                      this._personasService.updateContact(formData.getRawValue());
 
                       break;
                   /**
@@ -94,7 +94,7 @@ export class ContactViewComponent implements OnInit {
       this.confirmDialogRef.afterClosed().subscribe(result => {
           if ( result )
           {
-              this._contactsService.deleteContact(contact);
+              this._personasService.deleteContact(contact);
           }
           this.confirmDialogRef = null;
       });
