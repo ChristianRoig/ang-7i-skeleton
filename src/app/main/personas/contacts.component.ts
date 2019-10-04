@@ -19,8 +19,8 @@ import { ContactsContactFormDialogComponent } from 'app/main/personas/contact-fo
 })
 export class ContactsComponent implements OnInit, OnDestroy
 {
-    title: string;
-    entity: string;
+    titulo:  string;
+    entidad: string;
 
     hasSelectedContacts: boolean;
     dialogRef: any;
@@ -42,13 +42,14 @@ export class ContactsComponent implements OnInit, OnDestroy
         private _matDialog: MatDialog
     )
     {
+        this.titulo  = PersonasService.MODULO; 
+        this.entidad = PersonasService.ENTIDAD; 
+
         // Set the defaults
         this.searchInput = new FormControl('');
 
         // Set the private defaults
-       this._unsubscribeAll = new Subject();
-       this.title  = PersonasService.MODULO; 
-       this.entity = PersonasService.ENTITY; 
+        this._unsubscribeAll = new Subject();
     }
 
     // -----------------------------------------------------------------------------------------------------

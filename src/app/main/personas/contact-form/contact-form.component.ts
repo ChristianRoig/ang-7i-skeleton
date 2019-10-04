@@ -59,12 +59,12 @@ export class ContactsContactFormDialogComponent
 
 
         if (this.action === 'edit') {
-            this.dialogTitle = 'Editar '.concat(PersonasService.ENTITY);
+            this.dialogTitle = 'Editar '.concat(PersonasService.ENTIDAD);
             this.contact = _data.contact;
             this.contactForm = this.createContactForm();
         }
         else {
-            this.dialogTitle = 'Nuevo '.concat(PersonasService.ENTITY);
+            this.dialogTitle = 'Nuevo '.concat(PersonasService.ENTIDAD);
             this.contact = new Contact({});
             this._personasService.initContacto(this.contact);
             this.contactForm = this.createContactForm();

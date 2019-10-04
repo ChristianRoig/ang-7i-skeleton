@@ -36,6 +36,8 @@ export class GastoListComponent implements OnInit, OnDestroy
     @ViewChild('dialogContent')
     dialogContent: TemplateRef<any>;
 
+    entidad: string;
+    
     gastos: Gasto[] = [];
     user: any;
     // dataSource: FilesDataSource | null;
@@ -59,12 +61,13 @@ export class GastoListComponent implements OnInit, OnDestroy
      * @param {MatDialog} _matDialog
      */
     constructor(
-        private _personasService : PersonasService,
+        private _personasService: PersonasService,
         private _comprobantesService: ComprobantesService,
         public _matDialog: MatDialog,
         private router: Router
     )
     {
+        this.entidad = ComprobantesService.ENTIDAD; 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
         
@@ -161,7 +164,7 @@ export class GastoListComponent implements OnInit, OnDestroy
       }
 
 
-    seeMore() : void {
+    seeMore(): void {
       this._comprobantesService.obtenerMasComprobantes();
     }
 

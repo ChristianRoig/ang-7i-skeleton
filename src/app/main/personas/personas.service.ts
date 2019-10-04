@@ -15,7 +15,7 @@ const API_URL = environment.API;
 export class PersonasService implements Resolve<any>
 {
     public static readonly MODULO: string = 'Proveedores';
-    public static readonly ENTITY: string = 'Proveedor';
+    public static readonly ENTIDAD: string = 'Proveedor';
     public static readonly CATEGORIA: string = 'de Gastos';
     public static readonly ETIQUETA:  string = '-Oficina-';
 

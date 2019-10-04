@@ -70,7 +70,7 @@ export class GastoFormDialogComponent
         this.contactos = contactsService.getContactos(); 
         if ( this.action === 'edit' )
         {
-            this.dialogTitle = 'Editar Gasto';
+            this.dialogTitle = 'Editar '.concat(ComprobantesService.ENTIDAD);
             this.gasto = _data.gasto;
             this.contacto = _data.contact;
             this.gastoForm = this.createContactForm();
@@ -78,7 +78,7 @@ export class GastoFormDialogComponent
         }
         else
         {
-            this.dialogTitle = 'Nuevo Gasto';
+            this.dialogTitle = 'Nuevo '.concat(ComprobantesService.ENTIDAD);
             this.date = new Date();
             this.gasto = new Gasto({});
             gastosService.initGasto(this.gasto);

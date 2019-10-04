@@ -16,6 +16,12 @@ const API_URL: string = environment.API;
 @Injectable()
 export class ComprobantesService implements Resolve<any>
 {
+    public static readonly MODULO: string = 'Compras';
+    public static readonly TITULO:  string = 'Gastos';
+    public static readonly ENTIDAD: string = 'Gasto';
+    public static readonly CATEGORIA: string = 'Facturas';
+    public static readonly ETIQUETA: string = '-Oficina-';
+
     onGastosChanged: BehaviorSubject<any>;
     onSelectedGastosChanged: BehaviorSubject<any>;
     onUserDataChanged: BehaviorSubject<any>;    
@@ -31,18 +37,15 @@ export class ComprobantesService implements Resolve<any>
     searchText: string;
     filterBy: string;
 
-    index:number;
+    index: number;
     
     httpOptions: any;
-    public static readonly MODULO: string = "Compras";
-    public static readonly CATEGORIA: string = "Facturas";
-    public static readonly ETIQUETA: string = "-Oficina-";
     /**
      * Constructor
      *
      */
     constructor(
-        private http : HttpClient,
+        private http: HttpClient,
         private cookieService: CookieService
     )
     {      
@@ -59,7 +62,7 @@ export class ComprobantesService implements Resolve<any>
                 'Content-Type': 'application/json',
                 'Authorization': cookieService.get('tokenAuth')
             })
-        }
+        };
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -85,7 +88,7 @@ export class ComprobantesService implements Resolve<any>
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
                         this.filterGastos(searchText);
-                    })
+                    });
  
                     resolve();
 
@@ -110,13 +113,13 @@ export class ComprobantesService implements Resolve<any>
                             return new Gasto(gasto);
                         });   
                         this.onGastosChanged.next(this.gastos);  
-                        resolve(this.gastos)
+                        resolve(this.gastos);
 
                     }, reject);
             }); 
     }
 
-    filterGastos(text : string) {
+    filterGastos(text: string) {
         let filtered: Gasto[] = [];
         if (this.searchText && this.searchText !== '') {
             filtered = FuseUtils.filterArrayByString(this.gastos, this.searchText);
@@ -133,17 +136,17 @@ export class ComprobantesService implements Resolve<any>
         gasto.etiqueta = ComprobantesService.ETIQUETA;
     }
 
-    addGasto(gasto : Gasto): Promise<any> {
+    addGasto(gasto: Gasto): Promise<any> {
         return new Promise((resolve, reject) => {
 
             this.createRequestAddGasto(gasto)
-                .subscribe((response : any) => {
+                .subscribe((response: any) => {
                     this.getGastos();
                 });
         });
     } 
 
-    deleteGasto(gasto : Gasto): Promise<any> {
+    deleteGasto(gasto: Gasto): Promise<any> {
         return new Promise((resolve, reject) => {
 
             this.createRequestRemoveGasto(gasto)
@@ -154,9 +157,9 @@ export class ComprobantesService implements Resolve<any>
         });
     }
     
-    deleteContactList(gasto : Gasto): void {
+    deleteContactList(gasto: Gasto): void {
         const contactIndex = this.gastos.indexOf(gasto);
-        if(contactIndex != -1) {
+        if (contactIndex !== -1) {
             this.gastos.splice(contactIndex, 1);
             this.onGastosChanged.next(this.gastos);
         }
@@ -176,9 +179,9 @@ export class ComprobantesService implements Resolve<any>
         });
     }
 
-    createRequestAddGasto(gasto : Gasto): any {
+    createRequestAddGasto(gasto: Gasto): any {
         let url = API_URL + 'comprobante';
-        let request = JSON.stringify(gasto); //agrego un nuevo gasto. 
+        let request = JSON.stringify(gasto); // agrego un nuevo gasto. 
 
         return this.http.post(url, request, this.httpOptions);
     }
@@ -190,17 +193,17 @@ export class ComprobantesService implements Resolve<any>
         return this.http.put(url, request, this.httpOptions);
     }
 
-    createRequestRemoveGasto(gasto : Gasto): any {
+    createRequestRemoveGasto(gasto: Gasto): any {
         let url = API_URL + 'comprobante';
         let options; 
         let params = new HttpParams();
-        params = params.set("id", gasto.id );
+        params = params.set('id', gasto.id );
         options = {
             headers: new HttpHeaders({
                 'Authorization': this.cookieService.get('tokenAuth')
             }),
             params : params,
-        }
+        };
 
         return this.http.delete(url, { params : params });
     }
@@ -213,11 +216,11 @@ export class ComprobantesService implements Resolve<any>
     createRequestObtenerGastosConFiltro(): any {
 
         let body = {
-            "modulo"      : "Compras",
-            "categoria"   : "Facturas",
-            "etiqueta"    : "-Oficina-",
-            "pagina"      : this.index,
-        }
+            'modulo'      : 'Compras',
+            'categoria'   : 'Facturas',
+            'etiqueta'    : '-Oficina-',
+            'pagina'      : this.index,
+        };
         let url = API_URL + 'compras';
         return this.http.post(url, body, this.httpOptions); // post debido a que la cant de parametros para filtrar es mayor a 2.
     }
@@ -229,7 +232,7 @@ export class ComprobantesService implements Resolve<any>
          });
 
          let params = {
-             "proveedor": idProveedor
+             'proveedor': idProveedor
          };
 
          let options = {
@@ -242,25 +245,25 @@ export class ComprobantesService implements Resolve<any>
          return this.http.get(url, options);
     } 
     
-    getGasto(id: string) : Gasto {
+    getGasto(id: string): Gasto {
         let gasto: Gasto;
-        gasto = this.gastos.find(element =>  element.id == id  )
+        gasto = this.gastos.find(element =>  element.id == id  );
         return gasto;    
     }
 
-    obtenerMasComprobantes() : any {
+    obtenerMasComprobantes(): any {
         this.index = this.index + 1;
-        //let gastos : any = [];
+        // let gastos : any = [];
         return new Promise((resolve, reject) => {
             this.createRequestObtenerGastosConFiltro()
                 .subscribe((response: any) => {
-                    //gastos = response;
+                    // gastos = response;
                     let gastos = response.map(gasto => {
                         return new Gasto(gasto);
                     });
                     this.gastos = this.gastos.concat(gastos);
                     this.onGastosChanged.next(this.gastos);
-                    resolve(this.gastos)
+                    resolve(this.gastos);
 
                 }, reject);
         });
@@ -341,7 +344,7 @@ export class ComprobantesService implements Resolve<any>
      * @param contact
      * @returns {Promise<any>}
      */
-     updateContact(gasto : Gasto): Promise<any>
+     updateContact(gasto: Gasto): Promise<any>
     {
         return new Promise((resolve, reject) => {
                 this.createRequestUpdateGasto(gasto)

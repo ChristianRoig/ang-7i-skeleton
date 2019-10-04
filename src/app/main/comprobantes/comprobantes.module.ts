@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { CommonModule } from '@angular/common';
 
-import { RouterModule, Routes } from '@angular/router';
+// import { RouterModule, Routes } from '@angular/router';
 import { MatSelectModule, MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldModule, MatIconModule, 
          MatInputModule, MatMenuModule, MatRippleModule, MatTableModule, MatToolbarModule, MatTabsModule, MatDividerModule
 } from '@angular/material';
@@ -9,16 +9,18 @@ import { MatSelectModule, MatButtonModule, MatCheckboxModule, MatDatepickerModul
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 
-// import { GastoFormDialogComponent } from "./gastos-form/gastos-form.component";
+import { ComprobantesRoutingModule } from './comprobantes-routing.module';
+// import { ComprobantesService } from './comprobantes.service';
+// import { PersonasService } from '../personas/personas.service';
+
 import { GastosComponent } from './gastos.component';
-import { ComprobantesService } from './comprobantes.service';
-import { GastoViewComponent } from './gasto-view/gasto-view.component';
-import { GastoInfoComponent } from './gasto-view/tabs/gasto-info/gasto-info.component';
-import { PersonasService } from '../personas/personas.service';
 import { GastoListComponent } from './gasto-list/gasto-list.component';
 import { GastoFormDialogComponent } from './gastos-form/gastos-form.component';
+import { GastoViewComponent } from './gasto-view/gasto-view.component';
+// tabs
+import { GastoInfoComponent } from './gasto-view/tabs/gasto-info/gasto-info.component';
 
-const routes: Routes = [
+/* const routes: Routes = [
     {
         path     : 'gastos',
         component: GastosComponent,
@@ -35,7 +37,7 @@ const routes: Routes = [
             contacts: PersonasService
         }
     } 
-];
+]; */
 
 @NgModule({
     declarations   : [
@@ -46,7 +48,9 @@ const routes: Routes = [
         GastoInfoComponent 
     ],
     imports        : [
-        RouterModule.forChild(routes),
+        // RouterModule.forChild(routes),
+        CommonModule,
+        ComprobantesRoutingModule,
 
         MatButtonModule,
         MatCheckboxModule,
@@ -61,15 +65,14 @@ const routes: Routes = [
         MatSelectModule,
         MatTabsModule,
         MatDividerModule,
-        HttpModule,
 
         FuseSharedModule,
         FuseConfirmDialogModule,
         FuseSidebarModule
     ],
-    providers      : [
+    /* providers      : [
         ComprobantesService
-    ],
+    ], */
     entryComponents: [
         GastoFormDialogComponent
     ]

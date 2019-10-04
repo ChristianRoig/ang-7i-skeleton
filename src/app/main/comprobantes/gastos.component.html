@@ -1,8 +1,7 @@
 <div id="gastos" class="page-layout simple left-sidebar inner-sidebar inner-scroll">
 
     <!-- HEADER -->
-    <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-xs="row" 
-        fxLayoutAlign.gt-xs="space-between center">
+    <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
 
         <!-- APP TITLE -->
         <div fxLayout="row" fxLayoutAlign="start center">
@@ -15,7 +14,7 @@
                 <mat-icon class="logo-icon mr-16" fxHide fxShow.gt-sm [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">assignment
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-                    {{title}}
+                    {{titulo}}
                 </span>
             </div>
 
@@ -27,9 +26,9 @@
 
             <div class="search-wrapper mt-16 mt-sm-0">
 
-                <div class="search" fxFlex  fxHide fxShow.gt-md fxLayout="row" fxLayoutAlign="start center">
+                <div class="search" fxFlex fxHide fxShow.gt-md fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
-                    <input [formControl]="searchInput" placeholder="Buscar un gasto">
+                    <input [formControl]="searchInput" placeholder="Buscar un {{entidad}}">
                 </div>
 
             </div>
@@ -48,7 +47,7 @@
 
             <!-- CONTENT -->
             <div class="content">
-                 <gasto-list></gasto-list>
+                <gasto-list></gasto-list>
             </div>
             <!-- / CONTENT -->
 
@@ -61,8 +60,7 @@
 </div>
 
 <!-- ADD GASTO BUTTON -->
-<button mat-fab class="accent" id="add-gasto-button" (click)="newGasto()" aria-label="add gasto"
-        [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+<button mat-fab class="accent" id="add-gasto-button" (click)="newGasto()" aria-label="add gasto" [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
     <mat-icon>add</mat-icon>
 </button>
 <!-- / ADD GASTO BUTTON -->

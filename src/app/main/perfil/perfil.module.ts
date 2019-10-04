@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { MatButtonModule, MatDividerModule, MatIconModule, MatTabsModule, MatToolbarModule, MatFormFieldModule, 
+         MatSelectModule, MatInputModule } from '@angular/material';
+
+import { FuseSharedModule } from '@fuse/shared.module';
+
 import { PerfilRoutingModule } from './perfil-routing.module';
 import { PerfilComponent } from './perfil.component';
-
-import { MatButtonModule, MatDividerModule, MatIconModule, MatTabsModule, MatToolbarModule, MatFormFieldModule, MatSelectModule, MatInputModule } from '@angular/material';
-import { FuseSharedModule } from '@fuse/shared.module';
+// tabs
 import { PerfilInfoComponent } from './tabs/perfil-info/perfil-info.component';
 import { PerfilInfoLegComponent } from './tabs/perfil-info-leg/perfil-info.component';
 import { PerfilInfoSegComponent } from './tabs/perfil-info-seg/perfil-info.component';

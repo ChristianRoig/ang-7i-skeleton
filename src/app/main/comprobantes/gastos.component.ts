@@ -20,11 +20,13 @@ import { GastoFormDialogComponent } from './gastos-form/gastos-form.component';
 })
 export class GastosComponent implements OnInit, OnDestroy
 {
+    titulo: string;
+    entidad: string;
+
     dialogRef: any;
     hasSelectedContacts: boolean;
     searchInput: FormControl;
-    title: string = 'Gastos Fijos';
-
+    
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -41,11 +43,14 @@ export class GastosComponent implements OnInit, OnDestroy
         private _matDialog: MatDialog
     )
     {
+        this.titulo  = ComprobantesService.TITULO; 
+        this.entidad = ComprobantesService.ENTIDAD; 
+
         // Set the defaults
         this.searchInput = new FormControl('');
 
         // Set the private defaults
-       this._unsubscribeAll = new Subject();
+        this._unsubscribeAll = new Subject();
     }
 
     // -----------------------------------------------------------------------------------------------------
