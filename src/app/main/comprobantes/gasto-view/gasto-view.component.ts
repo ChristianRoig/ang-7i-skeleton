@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { ComprobantesService } from '../comprobantes.service';
 import { Gasto } from '../gasto.model';
-import { Contact } from 'app/main/personas/contact.model';
-import { PersonasService } from 'app/main/personas/personas.service';
+// import { Contact } from 'app/main/personas/contact.model';
+// import { PersonasService } from 'app/main/personas/personas.service';
 
 @Component({
   selector: 'gasto-view',
@@ -15,21 +15,32 @@ import { PersonasService } from 'app/main/personas/personas.service';
 })
 export class GastoViewComponent implements OnInit {
 
-  gasto : Gasto
-  contacto : Contact
+  gasto: Gasto;
+  imagen: string;
+  
+  // private contacto: Contact;
 
-  constructor(private _comprobantesService: ComprobantesService,
-    private _contactService : PersonasService,
-    private activatedRoute: ActivatedRoute) {
-      this.activatedRoute.params.subscribe(params => {
-        this.gasto = this._comprobantesService.getGasto(params['id'])
-        this.contacto = this._contactService.getContactos().find(element => element.id == this.gasto.contacto_id);
-      })
+  constructor(
+        private _comprobantesService: ComprobantesService,
+        // private _contactService: PersonasService,
+        private activatedRoute: ActivatedRoute) {                  
+          this.imagen = 'assets/images/avatars/profile.jpg';    
    }
 
-  ngOnInit() {
-  }
-
+  ngOnInit(): void {
+      this.activatedRoute.params.subscribe(params => {
+        this.gasto = this._comprobantesService.getGasto(params['id']);
   
+        // Esto esta re contra mal!! tendria que tener un join en el back que anide la imagen al gasto
+        // this.contacto = this._contactService.getContactos().find(element => element.id === this.gasto.contacto_id);
+  
+  
+  
+        // if (this.contacto) {
+        //   this.imagen = this.contacto.file_link;
+        // }
+  
+      });
+  }
 
 }
