@@ -7,7 +7,7 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
-import { GastosService } from 'app/main/comprobantes/gastos.service';
+import { ComprobantesService } from 'app/main/comprobantes/comprobantes.service';
 import { GastoFormDialogComponent } from './gastos-form/gastos-form.component';
 /* import { GastoFormDialogComponent } from './gastos-form/gastos-form.component';
  */
@@ -31,12 +31,12 @@ export class GastosComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {GastosService} _gastosService
+     * @param {ComprobantesService} _comprobantesService
      * @param {FuseSidebarService} _fuseSidebarService
      * @param {MatDialog} _matDialog
      */
     constructor(
-        private _gastosService: GastosService,
+        private _comprobantesService: ComprobantesService,
         private _fuseSidebarService: FuseSidebarService,
         private _matDialog: MatDialog
     )
@@ -57,7 +57,7 @@ export class GastosComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-         this._gastosService.onSelectedGastosChanged
+         this._comprobantesService.onSelectedGastosChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedContacts => {
                 this.hasSelectedContacts = selectedContacts.length > 0;
@@ -70,7 +70,7 @@ export class GastosComponent implements OnInit, OnDestroy
                 distinctUntilChanged()
             )
             .subscribe(searchText => {
-                this._gastosService.onSearchTextChanged.next(searchText);
+                this._comprobantesService.onSearchTextChanged.next(searchText);
             }); 
     }
 
@@ -107,7 +107,7 @@ export class GastosComponent implements OnInit, OnDestroy
                     return;
                 }
 
-                this._gastosService.addGasto(response.getRawValue());
+                this._comprobantesService.addGasto(response.getRawValue());
             }); 
     }
 

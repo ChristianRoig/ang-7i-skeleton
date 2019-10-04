@@ -11,7 +11,7 @@ import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 
 // import { GastoFormDialogComponent } from "./gastos-form/gastos-form.component";
 import { GastosComponent } from './gastos.component';
-import { GastosService } from './gastos.service';
+import { ComprobantesService } from './comprobantes.service';
 import { GastoViewComponent } from './gasto-view/gasto-view.component';
 import { GastoInfoComponent } from './gasto-view/tabs/gasto-info/gasto-info.component';
 import { PersonasService } from '../personas/personas.service';
@@ -23,7 +23,7 @@ const routes: Routes = [
         path     : 'gastos',
         component: GastosComponent,
         resolve  : {
-            gastos: GastosService,
+            gastos: ComprobantesService,
             contacts: PersonasService
         }
     }, 
@@ -31,7 +31,7 @@ const routes: Routes = [
         path      : 'gastos/:id',
         component : GastoViewComponent,
         resolve   : {
-            gastos: GastosService,
+            gastos: ComprobantesService,
             contacts: PersonasService
         }
     } 
@@ -68,7 +68,7 @@ const routes: Routes = [
         FuseSidebarModule
     ],
     providers      : [
-        GastosService
+        ComprobantesService
     ],
     entryComponents: [
         GastoFormDialogComponent

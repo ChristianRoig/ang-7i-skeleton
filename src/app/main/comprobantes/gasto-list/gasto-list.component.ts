@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 
-import { GastosService } from '../gastos.service';
+import { ComprobantesService } from '../comprobantes.service';
 // import { GastoFormDialogComponent } from '../gastos-form/gastos-form.component';
 import { Gasto } from '../gasto.model';
 import { PersonasService } from 'app/main/personas/personas.service';
@@ -55,12 +55,12 @@ export class GastoListComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {GastosService} _gastosService
+     * @param {ComprobantesService} _comprobantesService
      * @param {MatDialog} _matDialog
      */
     constructor(
         private _personasService : PersonasService,
-        private _gastosService: GastosService,
+        private _comprobantesService: ComprobantesService,
         public _matDialog: MatDialog,
         private router: Router
     )
@@ -73,7 +73,7 @@ export class GastoListComponent implements OnInit, OnDestroy
     }
 
     ngOnInit(): void {
-      this._gastosService.onGastosChanged
+      this._comprobantesService.onGastosChanged
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe(gastos => {
           this.gastos = gastos;
@@ -162,7 +162,7 @@ export class GastoListComponent implements OnInit, OnDestroy
 
 
     seeMore() : void {
-      this._gastosService.obtenerMasComprobantes();
+      this._comprobantesService.obtenerMasComprobantes();
     }
 
     /**
@@ -211,7 +211,7 @@ export class GastoListComponent implements OnInit, OnDestroy
                      */
                     case 'save':
 
-                        this._gastosService.updateContact(formData.getRawValue());
+                        this._comprobantesService.updateContact(formData.getRawValue());
 
                         break;
                     /**
@@ -240,7 +240,7 @@ export class GastoListComponent implements OnInit, OnDestroy
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if ( result )
             {
-                this._gastosService.deleteGasto(gasto);
+                this._comprobantesService.deleteGasto(gasto);
             }
             this.confirmDialogRef = null;
         });
@@ -259,7 +259,7 @@ export class GastoListComponent implements OnInit, OnDestroy
      */
     onSelectedChange(contactId): void
     {
-        this._gastosService.toggleSelectedContact(contactId);
+        this._comprobantesService.toggleSelectedContact(contactId);
     }
 
     /**
@@ -278,7 +278,7 @@ export class GastoListComponent implements OnInit, OnDestroy
             this.user.starred.push(contactId);
         }
 
-     //    this._gastosService.updateUserData(this.user);     
+     //    this._comprobantesService.updateUserData(this.user);     
     }
 
     isGroup(index, item): boolean{
@@ -295,7 +295,7 @@ export class FilesDataSource extends DataSource<any>
      * @param {PersonasService} _personasService
      */
     constructor(
-        private _gastosService: GastosService
+        private _comprobantesService: ComprobantesService
     )
     {
         super();
@@ -307,7 +307,7 @@ export class FilesDataSource extends DataSource<any>
      */
     connect(): Observable<any[]>
     {
-        return this._gastosService.onGastosChanged;
+        return this._comprobantesService.onGastosChanged;
     }
 
     /**

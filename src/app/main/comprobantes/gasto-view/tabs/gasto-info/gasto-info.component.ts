@@ -3,7 +3,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { GastosService } from 'app/main/comprobantes/gastos.service';
+import { ComprobantesService } from 'app/main/comprobantes/comprobantes.service';
 import { Gasto } from 'app/main/comprobantes/gasto.model';
 
 @Component({
@@ -25,7 +25,7 @@ export class GastoInfoComponent implements OnInit, OnDestroy
      *
      */
     constructor(
-        private _gastosService: GastosService
+        private _comprobantesService: ComprobantesService
     )
     {
       //  console.log("gasto:" + this.gasto.id)
@@ -42,7 +42,7 @@ export class GastoInfoComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        this._gastosService.infoOnChanged
+        this._comprobantesService.infoOnChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(info => {
                 this.info = info;

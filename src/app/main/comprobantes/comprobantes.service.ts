@@ -11,10 +11,10 @@ import { environment } from 'environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 
-const API_URL : string = environment.API;
+const API_URL: string = environment.API;
 
 @Injectable()
-export class GastosService implements Resolve<any>
+export class ComprobantesService implements Resolve<any>
 {
     onGastosChanged: BehaviorSubject<any>;
     onSelectedGastosChanged: BehaviorSubject<any>;
@@ -128,9 +128,9 @@ export class GastosService implements Resolve<any>
     }
     
     initGasto(gasto: Gasto): void {
-        gasto.modulo = GastosService.MODULO;
-        gasto.categoria = GastosService.CATEGORIA;
-        gasto.etiqueta = GastosService.ETIQUETA;
+        gasto.modulo = ComprobantesService.MODULO;
+        gasto.categoria = ComprobantesService.CATEGORIA;
+        gasto.etiqueta = ComprobantesService.ETIQUETA;
     }
 
     addGasto(gasto : Gasto): Promise<any> {

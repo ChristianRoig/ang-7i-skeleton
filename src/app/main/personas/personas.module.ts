@@ -11,12 +11,13 @@ import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 import { FusePipesModule } from '@fuse/pipes/pipes.module';
 
 import { PersonasRoutingModule } from './personas-routing.module';
-import { PersonasService } from 'app/main/personas/personas.service';
+// import { PersonasService } from 'app/main/personas/personas.service';
 
 import { ContactsComponent } from 'app/main/personas/contacts.component';
 import { ContactsContactListComponent } from 'app/main/personas/contact-list/contact-list.component';
 import { ContactsContactFormDialogComponent } from 'app/main/personas/contact-form/contact-form.component';
 import { ContactViewComponent } from './contact-view/contact-view.component';
+
 import { ContactGastosComponent } from './contact-view/tabs/contact-gastos/contact-gastos.component';
 import { ContactInfoComponent } from './contact-view/tabs/contact-info/contact-info.component';
 import { PersonasImagenesComponent } from './contact-view/tabs/personas-imagenes/personas-imagenes.component';

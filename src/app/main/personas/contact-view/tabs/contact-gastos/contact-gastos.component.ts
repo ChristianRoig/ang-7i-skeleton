@@ -10,7 +10,7 @@ import { fuseAnimations } from '@fuse/animations';
 
  /* import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
  */
-/* import { GastosService } from '../gastos.service';
+/* import { ComprobantesService } from '../gastos.service';
  *//* import { GastoFormDialogComponent } from '../gastos-form/gastos-form.component';
  */
 @Component({
@@ -35,11 +35,11 @@ export class ContactGastosComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {GastosService} _gastosService
+     * @param {ComprobantesService} _comprobantesService
      * @param {MatDialog} _matDialog
      */
     constructor(
-     //   private _gastosService: GastosService,
+     //   private _comprobantesService: ComprobantesService,
         public _matDialog: MatDialog,
         private router: Router
     )
@@ -62,7 +62,7 @@ export class ContactGastosComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-/*         this._gastosService.onContactsChanged
+/*         this._comprobantesService.onContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(gastos => {
                 this.gastos = gastos;
@@ -175,7 +175,7 @@ export class ContactGastosComponent implements OnInit, OnDestroy
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if ( result )
             {
-                this._gastosService.deleteContact(gasto);
+                this._comprobantesService.deleteContact(gasto);
             }
             this.confirmDialogRef = null;
         });
@@ -194,7 +194,7 @@ export class ContactGastosComponent implements OnInit, OnDestroy
      */
     onSelectedChange(contactId): void
     {
-/*         this._gastosService.toggleSelectedContact(contactId);
+/*         this._comprobantesService.toggleSelectedContact(contactId);
  */    }
 
     /**
@@ -213,7 +213,7 @@ export class ContactGastosComponent implements OnInit, OnDestroy
             this.user.starred.push(contactId);
         }
 
-         this._gastosService.updateUserData(this.user); */    
+         this._comprobantesService.updateUserData(this.user); */    
     }
 
 /*     isGroup(index, item): boolean{
@@ -230,7 +230,7 @@ export class ContactGastosComponent implements OnInit, OnDestroy
      * @param {PersonasService} _personasService
      * /
     constructor(
-        private _gastosService: GastosService
+        private _comprobantesService: ComprobantesService
     )
     {
         super();
@@ -242,7 +242,7 @@ export class ContactGastosComponent implements OnInit, OnDestroy
      * /
     connect(): Observable<any[]>
     {
-        return this._gastosService.onContactsChanged;
+        return this._comprobantesService.onContactsChanged;
     }
 
     /**

@@ -7,7 +7,7 @@ import { ContactsContactFormDialogComponent } from 'app/main/personas/contact-fo
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { GastosService } from 'app/main/comprobantes/gastos.service';
+import { ComprobantesService } from 'app/main/comprobantes/comprobantes.service';
 
 @Component({
   selector: 'contact-view',
@@ -29,12 +29,12 @@ export class ContactViewComponent implements OnInit {
   constructor(
     public _matDialog: MatDialog,
     private _personasService: PersonasService,
-    private gastosService: GastosService,
+    private _comprobantesService: ComprobantesService,
     private activatedRoute: ActivatedRoute) {
       
       this.activatedRoute.params.subscribe(params => {
         this.proveedor = this._personasService.getProveedor(params['id']);
-        this.gastosService.getGastosByName(this.proveedor.id).then((value) => {
+        this._comprobantesService.getGastosByName(this.proveedor.id).then((value) => {
         this.gastos = value;
         }); 
       });
@@ -89,7 +89,7 @@ export class ContactViewComponent implements OnInit {
           disableClose: false
       });
 
-      this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+      this.confirmDialogRef.componentInstance.confirmMessage = '¿Esta Seguro que desea ELIMINAR?';
 
       this.confirmDialogRef.afterClosed().subscribe(result => {
           if ( result )
