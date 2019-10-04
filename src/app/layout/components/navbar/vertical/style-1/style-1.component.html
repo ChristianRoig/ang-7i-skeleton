@@ -27,7 +27,7 @@
         <div class="h3 username">{{ perfil.nombre }}</div>
         <div class="h5 email hint-text mt-8">{{ perfil.correo }}</div>
         <div class="avatar-container" [ngClass]="fuseConfig.layout.navbar.primaryBackground">
-            <img class="avatar" [src]="perfil.file_link" onError="this.src='assets/images/avatars/profile.jpg';">
+            <img class="avatar" src="{{imagen}}" onError="this.src='assets/images/avatars/profile.jpg';">
         </div>
 
     </div>
