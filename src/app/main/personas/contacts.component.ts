@@ -19,12 +19,12 @@ import { ContactsContactFormDialogComponent } from 'app/main/personas/contact-fo
 })
 export class ContactsComponent implements OnInit, OnDestroy
 {
-    dialogRef: any;
-    hasSelectedContacts: boolean;
-    searchInput: FormControl;
     title: string;
     entity: string;
 
+    hasSelectedContacts: boolean;
+    dialogRef: any;
+    searchInput: FormControl;
 
     // Private
     private _unsubscribeAll: Subject<any>;

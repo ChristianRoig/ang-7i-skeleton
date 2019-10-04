@@ -93,15 +93,15 @@
                     </button>
                     <button mat-menu-item aria-label="view" (click)="viewContact(contact)">
                         <mat-icon>account_circle</mat-icon>
-                        <span>Ver Proveedor</span>
+                        <span>Ver {{entity}}</span>
                     </button> -->
                     <button mat-menu-item aria-label="edit" (click)="editContact(contact)">
                         <mat-icon>account_circle</mat-icon>
-                        <span>Editar Proveedor</span>
+                        <span>Editar {{entity}}</span>
                     </button>
                     <button mat-menu-item aria-label="remove" (click)="deleteContact(contact)">
                         <mat-icon>delete</mat-icon>
-                        <span>Eliminar Proveedor</span>
+                        <span>Eliminar {{entity}}</span>
                     </button>
                 </mat-menu>
             </div>

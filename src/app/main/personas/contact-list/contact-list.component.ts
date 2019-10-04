@@ -24,6 +24,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
     @ViewChild('dialogContent')
     dialogContent: TemplateRef<any>;
 
+    entity: string;
     contacts: any;
     user: any;
     dataSource: any | null;
@@ -48,6 +49,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
         public _matDialog: MatDialog,
         private router: Router
     ) {
+        this.entity = PersonasService.ENTITY; 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
     }

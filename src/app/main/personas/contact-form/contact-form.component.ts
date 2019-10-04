@@ -19,25 +19,25 @@ export interface Option {
 
 export class ContactsContactFormDialogComponent
 {
-    action: string;
-    contact: Contact;
     contactForm: FormGroup;
+    action: string;
     dialogTitle: string;
     contactName: string;
     copy: boolean = false;
+    contact: Contact;
 
     estados: Option[] = [
         { value: 'Responsable Inscripto', viewValue: 'Responsable Inscripto' },
-        { value: 'Monotributista', viewValue: 'Monotributista' },
+        { value: 'Monotributista',   viewValue: 'Monotributista' },
         { value: 'Consumidor Final', viewValue: 'Consumidor Final' },
         { value: 'Exento', viewValue: 'Exento' },
-        { value: 'Otra', viewValue: 'Otra' }
+        { value: 'Otra',   viewValue: 'Otra' }
     ];
 
     generos: Option[] = [
-        { value: 'Neutro', viewValue: 'Neutro' },
-        { value: 'Hombre', viewValue: 'Hombre' },
-        { value: 'Mujer', viewValue: 'Mujer' },
+        { value: 'Neutro',  viewValue: 'Neutro' },
+        { value: 'Hombre',  viewValue: 'Hombre' },
+        { value: 'Mujer',   viewValue: 'Mujer' },
         { value: 'Empresa', viewValue: 'Empresa' },
     ];
 
@@ -59,12 +59,12 @@ export class ContactsContactFormDialogComponent
 
 
         if (this.action === 'edit') {
-            this.dialogTitle = 'Editar Proveedor';
+            this.dialogTitle = 'Editar '.concat(PersonasService.ENTITY);
             this.contact = _data.contact;
             this.contactForm = this.createContactForm();
         }
         else {
-            this.dialogTitle = 'Nuevo Proveedor';
+            this.dialogTitle = 'Nuevo '.concat(PersonasService.ENTITY);
             this.contact = new Contact({});
             this._personasService.initContacto(this.contact);
             this.contactForm = this.createContactForm();

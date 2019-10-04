@@ -22,9 +22,6 @@ const routes: Routes = [
     }
 ];
 
-export const routeName:   String = 'Proveedores';
-export const routeEntity: String = 'Proveedor';
-
 @NgModule({
   imports:   [RouterModule.forChild(routes)],
   exports:   [RouterModule],
