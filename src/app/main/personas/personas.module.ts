@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { RouterModule, Routes } from '@angular/router';
 
 import {
     MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldModule, MatIconModule, MatInputModule, MatMenuModule, 
@@ -12,7 +11,6 @@ import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 import { FusePipesModule } from '@fuse/pipes/pipes.module';
 
 import { PersonasRoutingModule } from './personas-routing.module';
-// import { PersonasService } from 'app/main/personas/personas.service';
 
 import { ContactsComponent } from 'app/main/personas/contacts.component';
 import { ContactsContactListComponent } from 'app/main/personas/contact-list/contact-list.component';
@@ -22,24 +20,6 @@ import { ContactViewComponent } from './contact-view/contact-view.component';
 import { ContactGastosComponent } from './contact-view/tabs/contact-gastos/contact-gastos.component';
 import { ContactInfoComponent } from './contact-view/tabs/contact-info/contact-info.component';
 import { PersonasImagenesComponent } from './contact-view/tabs/personas-imagenes/personas-imagenes.component';
-
-/* const routes: Routes = [
-    {
-        path: 'proveedores',
-        component: ContactsComponent,
-        resolve: {
-            contacts: PersonasService
-        }
-    },
-    {
-        path: 'proveedores/:id',
-        component: ContactViewComponent,
-        resolve: {
-            contacts: PersonasService
-        }
-    }
-]; */
-
 
 @NgModule({
     declarations   : [
@@ -52,7 +32,6 @@ import { PersonasImagenesComponent } from './contact-view/tabs/personas-imagenes
         ContactsContactFormDialogComponent
     ],
     imports        : [
-        // RouterModule.forChild(routes),
         CommonModule,
         PersonasRoutingModule,
     
@@ -75,9 +54,6 @@ import { PersonasImagenesComponent } from './contact-view/tabs/personas-imagenes
         FuseSidebarModule,
         FusePipesModule
     ],
-    /* providers      : [
-        PersonasService
-    ], */
     entryComponents: [
         ContactsContactFormDialogComponent
     ]
