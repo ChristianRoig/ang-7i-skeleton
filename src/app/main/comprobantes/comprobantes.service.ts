@@ -170,10 +170,15 @@ export class ComprobantesService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this.createRequestGastosByProveedor(proveedor)
                 .subscribe((response: any) => {
-                    gastos = response;
-                    gastos = gastos.map(gasto => {
+
+                    if (response == null){
+                        response = [];
+                    }
+
+                    gastos = response.map(gasto => {
                         return new Gasto(gasto);
                     });
+                    
                     resolve(gastos);
                 }, reject);
         });
