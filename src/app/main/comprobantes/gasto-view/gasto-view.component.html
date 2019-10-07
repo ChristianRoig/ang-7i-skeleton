@@ -4,7 +4,9 @@
     <div class="header p-24" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between end">
 
         <div class="user-info" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center">
-            <img class="profile-image avatar huge" [src]="contacto.file_link" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+            <!-- <img class="profile-image avatar huge" src="{{imagen}}" 
+            onError="this.src='assets/images/avatars/profile.jpg';"
+            [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}"> -->
             <div class="name" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
                 {{gasto.contacto_corto}} ({{gasto.descripcion}})
             </div>

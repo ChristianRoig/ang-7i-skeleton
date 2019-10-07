@@ -1,49 +1,54 @@
 <div id="about" class="p-24" fxLayout="row wrap">
 
-  <div class="about-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65">
+    <div class="about-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65">
 
-      <div class="profile-box info-box general" fxLayout="column">
+        <div class="profile-box info-box general" fxLayout="column">
 
-          <header class="accent">
-              <div class="title">Información General</div>
-          </header>
+            <header class="accent">
+                <div class="title">Información General</div>
+            </header>
 
-          <div class="content">
-              <div class="info-line">
-                  <div class="title">Nombre Completo*</div>
-                  <div class="info">{{info.nombre}}</div>
-              </div>
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Nombre</div>
+                    <div class="info">{{ info.nombre_corto |titlecase }} ({{ info.nombre | titlecase }})</div>
+                </div>
 
-              <div class="info-line">
-                  <div class="title">Nombre Corto</div>
-                  <div class="info">{{info.nombre_corto}}</div>
-              </div>
+                <div class="info-line">
+                    <div class="title">Cuit</div>
+                    <div class="info">{{info.doc_nro}} ({{info.cond_iva}})</div>
+                </div>
 
-              <div class="info-line">
-                <div class="title">Telefono</div>
-                <div class="info">{{info.telefono}}</div>
-              </div>
+                <div class="info-line">
+                    <div class="title">Direccion</div>
+                    <div class="info">{{info.domicilio}} , {{info.localidad}}</div>
+                </div>
 
-              <div class="info-line">
-                <div class="title">Correo</div>
-                <div class="info">{{info.correo}}</div>
-              </div>
+                <div class="info-line">
+                    <div class="title">Etiqueta</div>
+                    <div class="info">{{info.etiqueta}}</div>
+                </div>
+            </div>
 
-              <div class="info-line">
-                <div class="title">Domicilio</div>
-                <div class="info">Av. Colon 1266, Mar del Plata</div>
-              </div>
+        </div>
 
-              <!--div class="info-line"> 
-                  <div class="title">Etiquetas*</div>
-                  <div class="info location" fxLayout="row" fxLayoutAlign="start center"
-                       *ngFor="let location of about.general.locations">
-                      <span>Clientes</span>
-                      <mat-icon class="s-16 ml-4">location_on</mat-icon>
-                  </div>
-              </div-->
+        <div class="profile-box info-box general" fxLayout="column">
 
-          </div>
+            <header class="accent">
+                <div class="title">Datos de Contacto</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Email</div>
+                    <div class="info">{{info.correo}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Telefono</div>
+                    <div class="info">{{info.telefono}}</div>
+                </div>
+            </div>
 
         </div>
 
