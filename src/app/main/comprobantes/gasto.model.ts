@@ -23,6 +23,10 @@ export class Gasto
     comprobante: any;
     pago_forma: string;
 
+    // valores que vienen de un join con el usuario
+    contacto_avatar: string;
+    genero: string;
+
      /**
      * Constructor
      *
@@ -49,5 +53,31 @@ export class Gasto
       this.orden = gasto.orden || 0;
       this.comprobante = gasto.comprobante || '';
       this.pago_forma = gasto.pago_forma || '';
+      
+      this.genero = gasto.genero || '';
+      this.contacto_avatar = this.defineAvatar(gasto.contacto_avatar);
     }
+
+
+    private defineAvatar(imagen: string): string {
+      if (imagen !== null && imagen !== '' && imagen !== undefined) {
+        return imagen;
+      }
+  
+      if (this.genero.toLowerCase() === 'empresa') {
+        return 'assets/images/avatars/empresa.png';
+      }
+  
+      if (this.genero.toLowerCase() === 'mujer') {
+        return 'assets/images/avatars/avatarF.png';
+      }
+  
+      if (this.genero.toLowerCase() === 'hombre') {
+        return 'assets/images/avatars/avatarM.png';
+      }
+  
+      // Neutro o cualquier otra cosa
+      return 'assets/images/avatars/profile.jpg';
+    }
+
   }
