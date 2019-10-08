@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'environments/environment';
 import { CookieService } from 'ngx-cookie-service';
@@ -24,6 +24,8 @@ export class PerfilService implements Resolve<any>
     constructor(
         private cookieService: CookieService,
         private _httpClient: HttpClient
+
+        , private _router: Router // Borrar este funcionamiento cuando se implemente el auth.guard
     )
     {
         // Set the defaults
@@ -99,7 +101,11 @@ export class PerfilService implements Resolve<any>
                 );
                 observer.complete();
             });
-                                    
+
+            
+            this._router.navigate(['/auth/login-2']); // rajar esto cuando se implemente el auth.guard
+            
+            
             return respuesta;
         }
         // Fix
