@@ -5,7 +5,7 @@ import { PersonasService } from 'app/main/personas/personas.service';
 import { ContactsComponent } from 'app/main/personas/contacts.component';
 import { ContactViewComponent } from './contact-view/contact-view.component';
 
-export const crudRoute: string = 'proveedores';
+export const crudRoute: string = 'clientes';
 const routes: Routes = [
     {
         path: crudRoute,

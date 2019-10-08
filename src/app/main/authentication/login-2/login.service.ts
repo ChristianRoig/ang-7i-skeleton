@@ -6,7 +6,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'environments/environment';
 
 const API_URL: string = environment.API;
-const DEFAULT_ROUTE: string = '/gastos';
+const DEFAULT_ROUTE: string = '/facturacion';
 
 @Injectable()
 export class LoginService implements Resolve<any>

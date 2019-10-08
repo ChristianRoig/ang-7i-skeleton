@@ -7,7 +7,7 @@ import { PersonasService } from '../personas/personas.service';
 import { GastosComponent } from './gastos.component';
 import { GastoViewComponent } from './gasto-view/gasto-view.component';
 
-export const crudRoute: string = 'gastos';
+export const crudRoute: string = 'facturacion';
 const routes: Routes = [
     {
         path     : crudRoute,

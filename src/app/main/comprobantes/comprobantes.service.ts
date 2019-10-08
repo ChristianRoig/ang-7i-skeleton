@@ -12,15 +12,15 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 
 // const API_URL: string = environment.API;
-const LIST_URL = environment.API.concat('compras');     // Get
+const LIST_URL = environment.API.concat('facturas');     // Get
 const CRUD_URL = environment.API.concat('comprobante');  // Put, Post y Delete
 
 @Injectable()
 export class ComprobantesService implements Resolve<any>
 {
-    public static readonly TITULO:  string = 'Gastos';
-    public static readonly ENTIDAD: string = 'Gasto';
-    public static readonly ROL_PERSONA: string = 'Proveedor';
+    public static readonly TITULO:  string = 'Facturacion';
+    public static readonly ENTIDAD: string = 'Factura';
+    public static readonly ROL_PERSONA: string = 'Cliente';
 
     public static readonly MODULO: string = 'Compras';
     public static readonly CATEGORIA: string = 'Facturas';

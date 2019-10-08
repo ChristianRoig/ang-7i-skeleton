@@ -8,17 +8,17 @@ export const navigation: FuseNavigation[] = [
         children : [
             {
                 id: 'comprobantes',
-                title: 'Gastos',
+                title: 'Facturacion',
                 type: 'item',
                 icon: 'description',
-                url: '/gastos',
+                url: '/facturacion',
             },
             {
                 id       : 'personas',
-                title    : 'Proveedores',
+                title    : 'Clientes',
                 type     : 'item',
                 icon     : 'group',
-                url      : '/proveedores',
+                url      : '/clientes',
             },
             {
                 id       : 'perfil',

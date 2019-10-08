@@ -20,6 +20,7 @@ import { LayoutModule } from 'app/layout/layout.module';
 import { Login2Module } from './main/authentication/login-2/login-2.module';
 import { MockDbService } from './mock-db/mock-db.service';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+
 import { PerfilModule } from './main/perfil/perfil.module';
 import { PersonasModule } from './main/personas/personas.module';
 import { ComprobantesModule } from './main/comprobantes/comprobantes.module';
