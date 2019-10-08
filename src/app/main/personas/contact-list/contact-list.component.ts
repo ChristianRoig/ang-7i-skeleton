@@ -11,6 +11,7 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 import { ContactsContactFormDialogComponent } from 'app/main/personas/contact-form/contact-form.component';
 
 import { PersonasService } from '../personas.service';
+import { crudRoute } from '../personas-routing.module';
 import { Contact } from '../contact.model';
 
 @Component({
@@ -112,8 +113,8 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
-    viewContact(contact: Contact) {
-        this.router.navigate(['/proveedores', contact.id]);
+    viewContact(contact: Contact): void {
+        this.router.navigate(['/' + crudRoute, contact.id]);
     }
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods

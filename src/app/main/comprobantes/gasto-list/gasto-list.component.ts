@@ -13,6 +13,7 @@ import { ComprobantesService } from '../comprobantes.service';
 // import { GastoFormDialogComponent } from '../gastos-form/gastos-form.component';
 import { Gasto } from '../gasto.model';
 import { PersonasService } from 'app/main/personas/personas.service';
+import { crudRoute } from '../comprobantes-routing.module';
 import { GastoFormDialogComponent } from '../gastos-form/gastos-form.component';
 
 export class Group {
@@ -262,7 +263,7 @@ export class GastoListComponent implements OnInit, OnDestroy
 
     verGasto(gasto: Gasto): void
     {
-      this.router.navigate(['/gastos',gasto.id]);
+      this.router.navigate(['/' + crudRoute, gasto.id]);
     }
 
     /**

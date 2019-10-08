@@ -7,9 +7,10 @@ import { PersonasService } from '../personas/personas.service';
 import { GastosComponent } from './gastos.component';
 import { GastoViewComponent } from './gasto-view/gasto-view.component';
 
+export const crudRoute: string = 'gastos';
 const routes: Routes = [
     {
-        path     : 'gastos',
+        path     : crudRoute,
         component: GastosComponent,
         resolve  : {
             gastos: ComprobantesService,
@@ -17,7 +18,7 @@ const routes: Routes = [
         }
     }, 
      {
-        path      : 'gastos/:id',
+        path      : crudRoute + '/:id',
         component : GastoViewComponent,
         resolve   : {
             gastos: ComprobantesService,
