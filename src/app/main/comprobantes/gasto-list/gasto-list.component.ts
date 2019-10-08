@@ -37,6 +37,7 @@ export class GastoListComponent implements OnInit, OnDestroy
     dialogContent: TemplateRef<any>;
 
     entidad: string;
+    rolPersona: string;
     
     gastos: Gasto[] = [];
     user: any;
@@ -67,8 +68,10 @@ export class GastoListComponent implements OnInit, OnDestroy
         private router: Router
     )
     {
-        this.entidad = ComprobantesService.ENTIDAD; 
-        // Set the private defaults
+      this.entidad    = ComprobantesService.ENTIDAD; 
+      this.rolPersona = ComprobantesService.ROL_PERSONA; 
+
+      // Set the private defaults
         this._unsubscribeAll = new Subject();
         
 /*         this.dataSource.data = this.addGroups(Gastos.gastos, this.groupByColumn);
@@ -96,20 +99,25 @@ export class GastoListComponent implements OnInit, OnDestroy
       getDataRowVisible(data: Gasto): boolean {
         const groupRows = this.dataSource.data.filter(
           row => {
-            if (!(row instanceof Group)) return false;
+            if (!(row instanceof Group)) 
+                { return false; }
             
             let match = true;
             this.groupByColumn.forEach(
               column => {
-                if (!row[column] || !data[column] || row[column] !== data[column]) match = false;
+                if (!row[column] || !data[column] || row[column] !== data[column]) 
+                    { match = false; }
               }
             );
             return match;
           }
         );
     
-        if (groupRows.length === 0) return true;
-        if (groupRows.length > 1) throw "Data row is in more than one group!";
+        if (groupRows.length === 0) 
+            { return true; }
+        if (groupRows.length > 1) 
+            { throw "Data row is in more than one group!"; }
+
         const parent = <Group>groupRows[0];  // </Group> (Fix syntax coloring)
     
         return parent.visible && parent.expanded;
@@ -127,8 +135,9 @@ export class GastoListComponent implements OnInit, OnDestroy
 
       getSublevel(data: any[], level: number, groupByColumns: string[], parent: Group): any[] {
         // Recursive function, stop when there are no more levels. 
-        if (level >= groupByColumns.length)
+        if (level >= groupByColumns.length) {
           return data;
+        }
     
         var groups = this.uniqueBy(
           data.map(
@@ -136,8 +145,9 @@ export class GastoListComponent implements OnInit, OnDestroy
               var result = new Group();
               result.level = level + 1;
               result.parent = parent;
-              for (var i = 0; i <= level; i++)
+              for (var i = 0; i <= level; i++) {
                 result[groupByColumns[i]] = row[groupByColumns[i]];
+              }
               return result;
             }
           ),

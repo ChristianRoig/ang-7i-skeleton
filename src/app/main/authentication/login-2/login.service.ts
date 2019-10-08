@@ -6,6 +6,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'environments/environment';
 
 const API_URL: string = environment.API;
+const DEFAULT_ROUTE: string = '/gastos';
 
 @Injectable()
 export class LoginService implements Resolve<any>
@@ -72,7 +73,7 @@ export class LoginService implements Resolve<any>
                         this.token = info.token;
                         this.username = info.username;                        
                         this.cookieService.set('tokenAuth', this.token, expirar);
-                        this._router.navigate(['/gastos']);
+                        this._router.navigate([DEFAULT_ROUTE]);
                     }
                     this.infoOnChanged.next(this.info);
                 }, reject);

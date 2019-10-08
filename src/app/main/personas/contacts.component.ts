@@ -42,7 +42,7 @@ export class ContactsComponent implements OnInit, OnDestroy
         private _matDialog: MatDialog
     )
     {
-        this.titulo  = PersonasService.MODULO; 
+        this.titulo  = PersonasService.TITULO; 
         this.entidad = PersonasService.ENTIDAD; 
 
         // Set the defaults

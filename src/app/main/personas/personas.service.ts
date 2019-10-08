@@ -10,12 +10,15 @@ import { environment } from 'environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 
 const API_URL = environment.API;
+const LIST_URL = environment.API.concat('clientes');   // Get
+const CRUD_URL = environment.API.concat('cliente');  // Put, Post y Delete
 
 @Injectable()
 export class PersonasService implements Resolve<any>
 {
-    public static readonly MODULO: string = 'Proveedores';
-    public static readonly ENTIDAD: string = 'Proveedor';
+    public static readonly MODULO: string = 'Clientes';
+    public static readonly TITULO:  string = 'Clientes';
+    public static readonly ENTIDAD: string = 'Cliente';
     public static readonly CATEGORIA: string = 'de Gastos';
     public static readonly ETIQUETA:  string = '-Oficina-';
 
@@ -93,7 +96,7 @@ export class PersonasService implements Resolve<any>
         }); 
     }
 
-    filterContactos() {
+    filterContactos(): void {
         let filtered: Contact[] = [];
         if (this.searchText && this.searchText !== '') {
             filtered = FuseUtils.filterArrayByString(this.contacts, this.searchText);
@@ -343,9 +346,9 @@ export class PersonasService implements Resolve<any>
     }
 
     crearRequestObtenerProveedores(): any {
-        let url = API_URL + 'proveedores';
+        // let url = API_URL + 'proveedores';
 
-        return this._httpClient.get(url, this.httpOptions);
+        return this._httpClient.get(LIST_URL, this.httpOptions);
     }
 
     crearRequestNewCodigoProveedor(): any {
@@ -369,22 +372,22 @@ export class PersonasService implements Resolve<any>
 
     createRequestAddProveedor(contact: Contact): any {
 
-        let url = API_URL + 'proveedor';
-
+        // let url = API_URL + 'proveedor';
         let body = JSON.stringify(contact);
 
-        return this._httpClient.post(url, body, this.httpOptions);
+        return this._httpClient.post(CRUD_URL, body, this.httpOptions);
     }
 
     createRequestUpdateProveedor(contact: Contact): any {
 
-        let url = API_URL + 'proveedor';
+        // let url = API_URL + 'proveedor';
         let body = JSON.stringify(contact);
 
-        return this._httpClient.put(url, body, this.httpOptions);
+        return this._httpClient.put(CRUD_URL, body, this.httpOptions);
     }
 
     createRequestRemoveProveedor(contact: Contact): any {
+        // let url = API_URL + 'proveedor';
         let params = {
             'idContacto': contact.id,
         };
@@ -395,9 +398,8 @@ export class PersonasService implements Resolve<any>
             params : params
         };
         
-        let url = API_URL + 'proveedor';
 
-        return this._httpClient.delete(url, options);
+        return this._httpClient.delete(CRUD_URL, options);
     }
 
 }
