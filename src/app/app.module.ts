@@ -26,6 +26,9 @@ import { ComprobantesModule } from './main/comprobantes/comprobantes.module';
 
 const appRoutes: Routes = [
     {
+        path: '', redirectTo: 'perfil', pathMatch: 'full'
+    },    
+    {
         path      : '**',
         redirectTo: 'auth/login-2'
     }
