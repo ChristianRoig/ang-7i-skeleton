@@ -11,14 +11,18 @@ import { environment } from 'environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 
-const API_URL: string = environment.API;
+// const API_URL: string = environment.API;
+const LIST_URL = environment.API.concat('compras');     // Get
+const CRUD_URL = environment.API.concat('comprobante');  // Put, Post y Delete
 
 @Injectable()
 export class ComprobantesService implements Resolve<any>
 {
-    public static readonly MODULO: string = 'Compras';
     public static readonly TITULO:  string = 'Gastos';
     public static readonly ENTIDAD: string = 'Gasto';
+    public static readonly ROL_PERSONA: string = 'Proveedor';
+
+    public static readonly MODULO: string = 'Compras';
     public static readonly CATEGORIA: string = 'Facturas';
     public static readonly ETIQUETA: string = '-Oficina-';
 
@@ -119,7 +123,7 @@ export class ComprobantesService implements Resolve<any>
             }); 
     }
 
-    filterGastos(text: string) {
+    filterGastos(text: string): void {
         let filtered: Gasto[] = [];
         if (this.searchText && this.searchText !== '') {
             filtered = FuseUtils.filterArrayByString(this.gastos, this.searchText);
@@ -180,21 +184,24 @@ export class ComprobantesService implements Resolve<any>
     }
 
     createRequestAddGasto(gasto: Gasto): any {
-        let url = API_URL + 'comprobante';
+
+        //let url = API_URL + 'comprobante';
         let request = JSON.stringify(gasto); // agrego un nuevo gasto. 
 
-        return this.http.post(url, request, this.httpOptions);
+        return this.http.post(CRUD_URL, request, this.httpOptions);
     }
 
     createRequestUpdateGasto(gasto: Gasto): any {
-        let url = API_URL + 'comprobante';
+
+        //let url = API_URL + 'comprobante';
         let request = JSON.stringify(gasto);
 
-        return this.http.put(url, request, this.httpOptions);
+        return this.http.put(CRUD_URL, request, this.httpOptions);
     }
 
     createRequestRemoveGasto(gasto: Gasto): any {
-        let url = API_URL + 'comprobante';
+
+        //let url = API_URL + 'comprobante';
         let options; 
         let params = new HttpParams();
         params = params.set('id', gasto.id );
@@ -205,27 +212,33 @@ export class ComprobantesService implements Resolve<any>
             params : params,
         };
 
-        return this.http.delete(url, { params : params });
+        return this.http.delete(CRUD_URL, { params : params });
     }
 
     createRequestObtenerGastos(): any {
-        let url = API_URL + 'compras';
-        return this.http.get(url, this.httpOptions); // post debido a que la cant de parametros para filtrar es mayor a 2.
+
+        // let url = API_URL + 'compras';
+
+        return this.http.get(LIST_URL, this.httpOptions); 
     }
 
     createRequestObtenerGastosConFiltro(): any {
 
+        // let url = API_URL + 'compras';
+
         let body = {
-            'modulo'      : 'Compras',
+            'modulo'      : 'Ventas',
             'categoria'   : 'Facturas',
             'etiqueta'    : '-Oficina-',
             'pagina'      : this.index,
         };
-        let url = API_URL + 'compras';
-        return this.http.post(url, body, this.httpOptions); // post debido a que la cant de parametros para filtrar es mayor a 2.
+
+        return this.http.post(LIST_URL, body, this.httpOptions); // post debido a que la cant de parametros para filtrar es mayor a 2.
     }
 
      createRequestGastosByProveedor( idProveedor: string): any {
+
+         // let url = API_URL + 'compras';
 
          let httpHeaders = new HttpHeaders({
              'Authorization': this.cookieService.get('tokenAuth')
@@ -240,9 +253,7 @@ export class ComprobantesService implements Resolve<any>
              params : params
          };
 
-         let url = API_URL + 'compras';
-
-         return this.http.get(url, options);
+         return this.http.get(LIST_URL, options);
     } 
     
     getGasto(id: string): Gasto {

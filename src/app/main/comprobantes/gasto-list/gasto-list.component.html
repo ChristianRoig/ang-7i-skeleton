@@ -19,7 +19,7 @@
 
     <!-- Proveedor Column -->
     <ng-container matColumnDef="proveedor">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Proveedor</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>{{rolPersona}}</mat-header-cell>
         <mat-cell *matCellDef="let gasto" fxHide fxShow.gt-sm>
             <p class="email text-truncate">
                 {{gasto.contacto_corto}}
