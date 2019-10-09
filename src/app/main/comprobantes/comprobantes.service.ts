@@ -232,7 +232,7 @@ export class ComprobantesService implements Resolve<any>
         // let url = API_URL + 'compras';
 
         let body = {
-            'modulo'      : 'Ventas',
+            'modulo'      : 'Compras',
             'categoria'   : 'Facturas',
             'etiqueta'    : '-Oficina-',
             'pagina'      : this.index,

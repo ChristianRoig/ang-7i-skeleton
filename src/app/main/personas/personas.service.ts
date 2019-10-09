@@ -10,15 +10,15 @@ import { environment } from 'environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 
 const API_URL = environment.API;
-const LIST_URL = environment.API.concat('clientes');   // Get
-const CRUD_URL = environment.API.concat('cliente');  // Put, Post y Delete
+const LIST_URL = environment.API.concat('proveedores');   // Get
+const CRUD_URL = environment.API.concat('proveedor');  // Put, Post y Delete
 
 @Injectable()
 export class PersonasService implements Resolve<any>
 {
-    public static readonly MODULO: string = 'Clientes';
-    public static readonly TITULO:  string = 'Clientes';
-    public static readonly ENTIDAD: string = 'Cliente';
+    public static readonly MODULO: string = 'Proveedores';
+    public static readonly TITULO:  string = 'Proveedores';
+    public static readonly ENTIDAD: string = 'Proveedor';
     public static readonly CATEGORIA: string = 'de Gastos';
     public static readonly ETIQUETA:  string = '-Oficina-';
 
