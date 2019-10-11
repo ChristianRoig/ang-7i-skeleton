@@ -8,8 +8,8 @@ import { Gasto } from 'app/main/comprobantes/gasto.model';
 
 @Component({
   selector: 'tab-impuestos',
-  templateUrl: './gasto-info.component.html',
-  styleUrls: ['./gasto-info.component.scss'],
+  templateUrl: './tab-impuestos.component.html',
+  styleUrls: ['./tab-impuestos.component.scss'],
   encapsulation: ViewEncapsulation.None,
   animations   : fuseAnimations
 })
