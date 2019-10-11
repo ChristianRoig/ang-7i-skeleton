@@ -16,6 +16,7 @@ import { GastoFormDialogComponent } from './gastos-form/gastos-form.component';
 import { GastoViewComponent } from './gasto-view/gasto-view.component';
 // tabs
 import { GastoInfoComponent } from './gasto-view/tabs/gasto-info/gasto-info.component';
+import { TabImpuestosComponent } from './gasto-view/tabs/tab-impuestos/tab-impuestos.component';
 
 @NgModule({
     declarations   : [
@@ -23,7 +24,8 @@ import { GastoInfoComponent } from './gasto-view/tabs/gasto-info/gasto-info.comp
         GastoListComponent,
         GastoFormDialogComponent,
         GastoViewComponent,
-        GastoInfoComponent 
+        GastoInfoComponent,
+        TabImpuestosComponent
     ],
     imports        : [
         CommonModule,
