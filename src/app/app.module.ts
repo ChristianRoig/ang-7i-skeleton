@@ -24,6 +24,8 @@ import { PerfilModule } from './main/perfil/perfil.module';
 import { PersonasModule } from './main/personas/personas.module';
 import { ComprobantesModule } from './main/comprobantes/comprobantes.module';
 
+
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 const appRoutes: Routes = [
     {
         path: '', redirectTo: 'perfil', pathMatch: 'full'
@@ -43,14 +45,13 @@ const appRoutes: Routes = [
         BrowserAnimationsModule,
         HttpClientModule,
         RouterModule.forRoot(appRoutes, {useHash: true }),
-
         TranslateModule.forRoot(),
-
+        
         InMemoryWebApiModule.forRoot(MockDbService, {
             delay             : 0,
             passThruUnknownUrl: true
         }),
-
+                
         // Material moment date module
         MatMomentDateModule,
 
@@ -70,7 +71,11 @@ const appRoutes: Routes = [
         Login2Module,
         PerfilModule,
         PersonasModule,
-        ComprobantesModule
+        ComprobantesModule,
+
+        // PDF
+        PdfViewerModule
+
     ],
     bootstrap   : [
         AppComponent

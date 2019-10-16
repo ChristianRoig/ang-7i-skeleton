@@ -16,6 +16,11 @@ import { GastoFormDialogComponent } from './gastos-form/gastos-form.component';
 import { GastoViewComponent } from './gasto-view/gasto-view.component';
 // tabs
 import { GastoInfoComponent } from './gasto-view/tabs/gasto-info/gasto-info.component';
+import { GastoPdfComponent } from './gasto-view/tabs/gasto-pdf/gasto-pdf.component';
+import { FacturaComponent } from 'app/comprobantes/factura/factura.component';
+
+
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
     declarations   : [
@@ -23,12 +28,13 @@ import { GastoInfoComponent } from './gasto-view/tabs/gasto-info/gasto-info.comp
         GastoListComponent,
         GastoFormDialogComponent,
         GastoViewComponent,
-        GastoInfoComponent 
+        GastoInfoComponent,
+        GastoPdfComponent,
+        FacturaComponent
     ],
     imports        : [
         CommonModule,
         ComprobantesRoutingModule,
-
         MatButtonModule,
         MatCheckboxModule,
         MatDatepickerModule,
@@ -46,9 +52,10 @@ import { GastoInfoComponent } from './gasto-view/tabs/gasto-info/gasto-info.comp
         FuseSharedModule,
         FuseConfirmDialogModule,
         FuseSidebarModule
+        , PdfViewerModule
     ],
     entryComponents: [
-        GastoFormDialogComponent
+        GastoFormDialogComponent        
     ]
 })
 export class ComprobantesModule
