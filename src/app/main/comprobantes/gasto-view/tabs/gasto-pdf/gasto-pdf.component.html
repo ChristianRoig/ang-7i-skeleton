@@ -1,0 +1,24 @@
+
+
+<div class="container p-24">
+  <div class="botonera">
+
+    <button mat-raised-button color="accent" (click)="fileInput.click()" id="cargar" matTooltip="cargar archivo">Cargar Archivo
+      <input #fileInput type="file" name="upload" accept=".pdf, .jpg, .png" (change)="cargarArchivo($event)"/>
+    </button>
+  
+  </div>
+  <div class="view">
+    
+    <img *ngIf="pdfSrc == null" class="preview" [src]="img || default" alt="comprobante" onError="this.src='assets/images/avatars/profile.jpg';">
+
+    <!--  -->
+    <pdf-viewer *ngIf="pdfSrc != null" [src]="pdfSrc" [show-all]="true" [render-text]="true"
+      [original-size]="false"
+      [autoresize]="true"      
+      [external-link-target]="'blank'" (error)="onError($event)" (on-progress)="onProgress($event)" (after-load-complete)="enviarArchivo()" >
+    </pdf-viewer>
+
+  </div>
+
+</div>

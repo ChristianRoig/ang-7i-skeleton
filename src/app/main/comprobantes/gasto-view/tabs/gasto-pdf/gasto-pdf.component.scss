@@ -1,0 +1,42 @@
+@import "src/@fuse/scss/fuse";
+
+app-gasto-pdf {   
+
+    .container {
+        .botonera {
+            display: flex;
+            place-content: center flex-end;
+            align-items: center;
+         
+            #cargar {
+                display: inline-block;
+
+                input {
+                    display: none;
+                }
+            }
+        }
+        
+        .view {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0 0 0;
+
+            .preview {
+                width: 100%;
+                height: 100%;
+                display: block;
+                max-width: 500px;
+                max-height: 500px;
+            } 
+            
+            pdf-viewer {                
+                width: 100%;
+                height: 100%;
+                display: block;
+            }
+        }
+    }
+    
+}
