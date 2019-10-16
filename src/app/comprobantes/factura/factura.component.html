@@ -1,0 +1,52 @@
+<button mat-raised-button (click)="descargarPDF()">descargar</button>
+
+<div id="comprobante" #comprobante>
+  <div class="espacio" >
+    <div class="header-factura">
+
+      <div class="tipo_cod">        
+          <span>{{tipo_factura}}</span>
+          <p>Cod. {{cod_factura}}</p>
+      </div>
+      <div class="linea"></div>
+      <div class="header-datos">
+        <ul>
+          <li class="tipo">{{tipo}}</li>
+          <li class="nro">Nro: {{nro}}</li>
+          <li class="fecha">fecha: {{fecha}}</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="data-cliente">
+      <div class="col1">
+        <ul>
+          <li>Cliente: {{Cliente}}</li>
+          <li>Domicilio: {{Domicilio}}</li>
+          <li>Cond. frente al IVA: {{CondIVA}}</li>
+        </ul>
+      </div>
+      <div class="col2">
+        <ul>
+          <li>CUIT: {{CUIT}}</li>
+          <li>Localidad: {{Localidad}}</li>
+          <li>Condicion de Venta: {{CondicionVenta}}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="desc-factura">
+      
+    </div>
+
+    <div class="footer-factura">
+      <div class="afip">
+        <svg #barcode id="barcode"></svg>
+      </div>
+      <div class="data">
+
+      </div>
+    </div>
+  </div>
+</div>

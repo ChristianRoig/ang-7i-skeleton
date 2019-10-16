@@ -1,0 +1,181 @@
+$hoja-ancho: 1240px; // A4 https://www.tamanosdepapel.com/a-tamanos-en-pixeles.htm
+$hoja-alto: 1754px; // A4 https://www.tamanosdepapel.com/a-tamanos-en-pixeles.htm
+
+// $h: 1500px;
+// $w-base: 1240px;
+
+$ptb: 64px;
+$plr: 88px;
+$tamaño: 80px;
+$gris: #cccccc;
+
+@mixin bordes-negros { // @include bordes-negros;
+    // border: 1px solid black;
+    border: 1px solid transparent;
+}
+
+@mixin borde-inferior {
+    border-bottom: 1px solid $gris;
+}
+
+#comprobante {
+    width: $hoja-ancho; // A4
+    height: $hoja-alto; // A4
+
+    margin: 24px;
+    padding: 16px;
+    overflow: auto;
+    
+    .espacio {
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+        padding: $ptb $plr;
+
+        border: 2px solid transparent;
+        box-shadow: inset 0 0 0 12px rgba(0,0,0,.37);
+        box-shadow: 0 4px 5px -2px rgba(0,0,0,.2), 0 7px 10px 1px rgba(0,0,0,.14), 0 2px 16px 1px rgba(0,0,0,.12);
+
+        .header-factura {      
+            width: 100%;
+            height: 185.5px;
+            position: relative;
+            background-size: 100%;
+            @include bordes-negros;
+            @include borde-inferior; // otro modelo
+
+            background-repeat: no-repeat;
+            background-image: url(assets/images/7ideas/demo7i.png);
+            
+            .tipo_cod {
+                position: absolute;
+                text-align: center;            
+
+                width: $tamaño;
+                height: $tamaño;
+                
+                left:0;
+                right:0;
+                top: -1px;
+                margin-left: auto;
+                margin-right: auto;
+
+                @include bordes-negros;
+                background-color: $gris;
+
+                span {
+                    font-size: 45px;
+                    font-weight: bold;
+                }
+
+                p {
+                    margin: 0;
+                }
+            }
+
+            .linea {
+                width: 50%;
+                height: 185.5px - 1;
+                
+                // border-right: 1px solid black;
+                border-right: 1px solid $gris;
+            }
+
+            .header-datos {
+                position: absolute;
+                top: 0;
+                right: 0;
+                
+                min-width: 42.5%;
+                min-height: 75%;
+                
+                border: 1px solid red;
+                ul {
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+
+                    li {
+                        margin: 5px 0;
+                        font-size: 18px;
+                        
+                        &.tipo {
+                            font-size: 38px;
+                            font-weight: bold;
+                        }
+
+                        &.nro{
+
+                        }
+
+                        &.fecha{
+
+                        }
+
+                    }
+                }
+            }
+        }
+        
+        .data-cliente {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-bottom: 1px solid $gris;
+
+            .col1, .col2 {
+                width: 50%;
+
+                ul {
+                    list-style: none;
+
+                    li {
+                        font-size: 18px;
+                        margin-bottom: 5px;
+                    }
+                }
+            }
+        }
+
+        .desc-factura {
+            widows: 100%;
+            min-height: 150px;
+            margin: 5px 0;
+            background-color: red;
+        }
+
+        .footer-factura {
+            widows: 100%;
+            min-height: 150px;
+            margin: 5px 0;
+            border: 1px solid blue;
+
+            .afip{
+                
+            }
+
+            .data{
+
+            }
+
+        }
+    }
+
+    @media only screen and (max-width: 1024px) {
+        width: $hoja-ancho - 100px;
+    }
+
+    @media only screen and (max-width: 920px) {
+        width: $hoja-ancho - 250px;
+    }
+
+    @media only screen and (max-width: 768px) {
+        width: $hoja-ancho - 540px;
+    }
+
+    @media only screen and (max-width: 640px) {        
+        width: 100%;
+    }
+}
+
