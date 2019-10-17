@@ -5,6 +5,8 @@ import { fuseAnimations } from '@fuse/animations';
 import { LoginService } from './login-2.service';
 import { Subject } from 'rxjs/internal/Subject';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
+import { ErrorService } from '../../errors/error.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -29,18 +31,26 @@ export class Login2Component implements OnInit, OnDestroy
     
     /**
      * Constructor
-     *
-     * @param {FuseConfigService} _fuseConfigService
-     * @param {FormBuilder} _formBuilder
-     * @param {LoginService} _logonService
+     * 
+     * @param {FuseConfigService} _fuseConfigService 
+     * @param {FormBuilder} _formBuilder 
+     * @param {LoginService} _loginService 
+     * @param {ErrorService} _errorService 
+     * @param {Router} _router 
      */
     constructor(
         // private router: Router,
         private _fuseConfigService: FuseConfigService,
         private _formBuilder: FormBuilder,
-        private _loginService: LoginService
+        private _loginService: LoginService,
+        private _errorService: ErrorService,
+        private _router: Router
     )
     {
+        if (!this._errorService.isBrowserCompatible()) {
+            this._router.navigate(['/error']); 
+        }
+
         // Configure the layout
         this._fuseConfigService.config = {
             layout: {
@@ -70,7 +80,7 @@ export class Login2Component implements OnInit, OnDestroy
      * On init
      */
     ngOnInit(): void
-    {
+    {  
         this.loginForm = this._formBuilder.group({
             email: ['admin', [Validators.required]], // , Validators.email
             password: ['admin', Validators.required]

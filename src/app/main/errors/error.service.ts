@@ -21,6 +21,9 @@ import { Router } from '@angular/router';
 const errorDefault = 404;
 const mensajeDefault = 'Lo sentimos, no podemos encontrar la página que estás buscando.';
 
+const errorIncompatible = 0;
+const navIncompatible = 'Lo sentimos, este navegador no es compatible con el sistema, debe acceder con Firefox o Chrome.';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -43,7 +46,12 @@ export class ErrorService {
     this.updateErrorCodeSubject = new BehaviorSubject<number>(0);
 
     this.updateMessageSubject.next(mensajeDefault);
-    this.updateErrorCodeSubject.next(errorDefault); 
+    this.updateErrorCodeSubject.next(errorDefault);
+
+    if (!this.isBrowserCompatible()){
+      this.updateMessageSubject.next(navIncompatible);
+      this.updateErrorCodeSubject.next(errorIncompatible);    
+    }
 
   }
 
@@ -120,5 +128,59 @@ export class ErrorService {
     }
   }
 
+  /**
+   * isBrowserCompatible
+   * 
+   * Determina si el navegador es considerado compatible o no
+   *
+   */
+  isBrowserCompatible(): boolean {
+    let browser = this._browserDetect();
+    // console.log(browser);
+    // console.log(browser.toLowerCase());
+    // console.log(browser.toLowerCase().indexOf('ie'));
+    // console.log(browser.toLowerCase().indexOf('edge'));
 
+
+    if ((browser.toLowerCase().indexOf('ie') > -1) || (browser.toLowerCase().indexOf('edge') > -1)) {
+      console.log('navegador no compatible');
+      
+      return false;
+    }
+
+    return true;
+  }
+
+
+
+  /**
+   * browserDetect
+   * 
+   * Se encarga de determinar el navegador que se esta utilizando.
+   * 
+   */
+  private _browserDetect(): string {
+    let ua = navigator.userAgent, tem,
+      M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+
+    if (/trident/i.test(M[1])) {
+      tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
+      return 'IE ' + (tem[1] || '');
+    }
+
+    if (M[1] === 'Chrome') {
+      tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
+      if (tem != null) { 
+        return tem.slice(1).join(' ').replace('OPR', 'Opera');
+      }
+    }
+
+    M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
+
+    if ((tem = ua.match(/version\/(\d+)/i)) != null){
+      M.splice(1, 1, tem[1]);
+    }
+
+    return M.join(' ');
+  }
 }

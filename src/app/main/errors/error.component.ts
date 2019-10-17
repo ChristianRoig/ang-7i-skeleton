@@ -3,7 +3,7 @@ import { ErrorService } from './error.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { LoginService } from '../authentication/login-2/login-2.service';
-import { Router } from '@angular/router';
+import { FuseConfigService } from '@fuse/services/config.service';
 
 @Component({
     selector     : 'error',
@@ -21,18 +21,32 @@ export class ErrorComponent implements OnInit, OnDestroy
     /**
      * Constructor
      */
-    constructor(private _errorService: ErrorService,
-                private _loginService: LoginService,
-                private _router: Router
-                ){
+    constructor(private _errorService: ErrorService, private _loginService: LoginService,
+                private _fuseConfigService: FuseConfigService){
         this._unsubscribeAll = new Subject();
     }
 
     ngOnInit(): void {
 
-        // if (!(this._loginService.isSetLog())){
-        //     this._router.navigate(['/auth/login-2']);
-        // }
+        if (!(this._loginService.isSetLog())){
+            // Configure the layout
+            this._fuseConfigService.config = {
+                layout: {
+                    navbar: {
+                        hidden: true
+                    },
+                    toolbar: {
+                        hidden: true
+                    },
+                    footer: {
+                        hidden: true
+                    },
+                    sidepanel: {
+                        hidden: true
+                    }
+                }
+            };
+        }
 
 
         this._errorService.updateErrorCodeSubject
