@@ -97,13 +97,13 @@ export class FuseNavigationComponent implements OnInit
                     this._fuseNavigationService.updateNavigationItem('nov-sector', {
                         hidden: false
                     });
-                    this._fuseNavigationService.updateNavigationItem('control_de_novedades', {
-                        hidden: false
-                    });
                     this._fuseNavigationService.updateNavigationItem('origenes', {
                         hidden: false
                     });
                     this._fuseNavigationService.updateNavigationItem('conceptos', {
+                        hidden: false
+                    });
+                    this._fuseNavigationService.updateNavigationItem('AreaRRHH', {
                         hidden: false
                     });
 
@@ -118,15 +118,16 @@ export class FuseNavigationComponent implements OnInit
                     this._fuseNavigationService.updateNavigationItem('nov-sector', {
                         hidden: false
                     });
-                    this._fuseNavigationService.updateNavigationItem('control_de_novedades', {
-                        hidden: true
-                    });
                     this._fuseNavigationService.updateNavigationItem('origenes', {
                         hidden: true
                     });
                     this._fuseNavigationService.updateNavigationItem('conceptos', {
                         hidden: true
                     });
+                    this._fuseNavigationService.updateNavigationItem('AreaRRHH', {
+                        hidden: true
+                    });
+
                     break;
                 case 'ResEquipo':
                     this._fuseNavigationService.updateNavigationItem('nov-equipo', {
@@ -138,13 +139,13 @@ export class FuseNavigationComponent implements OnInit
                     this._fuseNavigationService.updateNavigationItem('nov-sector', {
                         hidden: true
                     });
-                    this._fuseNavigationService.updateNavigationItem('control_de_novedades', {
-                        hidden: true
-                    });
                     this._fuseNavigationService.updateNavigationItem('origenes', {
                         hidden: true
                     });
                     this._fuseNavigationService.updateNavigationItem('conceptos', {
+                        hidden: true
+                    });
+                    this._fuseNavigationService.updateNavigationItem('AreaRRHH', {
                         hidden: true
                     });
 
@@ -159,13 +160,13 @@ export class FuseNavigationComponent implements OnInit
                     this._fuseNavigationService.updateNavigationItem('nov-sector', {
                         hidden: true
                     });
-                    this._fuseNavigationService.updateNavigationItem('control_de_novedades', {
-                        hidden: true
-                    });
                     this._fuseNavigationService.updateNavigationItem('origenes', {
                         hidden: true
                     });
                     this._fuseNavigationService.updateNavigationItem('conceptos', {
+                        hidden: true
+                    });
+                    this._fuseNavigationService.updateNavigationItem('AreaRRHH', {
                         hidden: true
                     });
 

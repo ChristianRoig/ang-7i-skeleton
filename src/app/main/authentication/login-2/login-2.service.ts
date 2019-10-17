@@ -33,6 +33,7 @@ export class LoginService
 
     infoOnChanged: BehaviorSubject<any>;
     perfilLogOnChanged: BehaviorSubject<any>;
+    rolOnChanged: BehaviorSubject<any>;
 
     /**
      * Constructor
@@ -53,6 +54,7 @@ export class LoginService
 
         this.infoOnChanged = new BehaviorSubject({});
         this.perfilLogOnChanged = new BehaviorSubject({});
+        this.rolOnChanged = new BehaviorSubject({});
 
         // this.datosOnChanged = new BehaviorSubject({});
 
@@ -88,6 +90,7 @@ export class LoginService
     logout(): void{
         this.infoOnChanged = new BehaviorSubject({});
         this.perfilLogOnChanged = new BehaviorSubject({});
+        this.rolOnChanged = new BehaviorSubject({});
         // this.datosOnChanged = new BehaviorSubject({});
 
         this.rol = [];
@@ -243,9 +246,9 @@ export class LoginService
         // ahi se establece que cosas se ven y cuales no
         // posibles roles
         // RRHH es dios
-        // ResSector: NovxSector, legajo, Nomina
-        // ResEquipo: Equipo, NovxEquipo, legajo, Nomina
-        // comun: this._obtenerLegajo, nomina
+        // ResSector: NovxSector, legajo
+        // ResEquipo: Equipo, NovxEquipo, legajo
+        // comun: this._obtenerLegajo,
 
         // console.log(this.variable_auxiliar_para_test);
 
@@ -273,7 +276,8 @@ export class LoginService
                 break;
         }
 
-
+        this.rolOnChanged.next(this.rol);
+        
         // const url = API_LOG + 'roles';
 
         // return this._httpClient.get(url, {

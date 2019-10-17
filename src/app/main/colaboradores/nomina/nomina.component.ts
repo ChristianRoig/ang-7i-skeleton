@@ -20,7 +20,8 @@ import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 })
 export class NominaComponent implements OnInit, OnDestroy 
 {    
-    columnas = ['avatar', 'docket', 'name', 'departament', 'buttons'];
+    // columnas = ['avatar', 'docket', 'name', 'departament', 'buttons'];
+    columnas = ['avatar', 'docket', 'name', 'departament'];
 
     hasCheckNomina = false;
 

@@ -15,7 +15,7 @@
             <div fxLayout="row" fxLayoutAlign="start start">
                 <button (click)="fileInput.click()" mat-raised-button color="accent" class="submit-button" aria-label="Importar">
                     <mat-icon>archive</mat-icon>
-                    <span>Importar</span>
+                    <span>Importar CSV</span>
                     <input #fileInput type="file" accept=".csv" (change)="uploadFile($event)" name="file" style="display:none;" />                    
                 </button>
             </div>

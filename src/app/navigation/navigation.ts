@@ -81,9 +81,10 @@ export const navigation: FuseNavigation[] = [
 
 
     {
-        id       : 'RRHH',
+        id       : 'AreaRRHH',
         title    : 'Area de RRHH',
         type     : 'group',
+        hidden   : true,
         children: [
             {
                 id: 'nomina',
@@ -103,7 +104,6 @@ export const navigation: FuseNavigation[] = [
                 type: 'item',
                 icon: 'beenhere',
                 url: '/novedades/control/',
-                hidden: true
             }
         ]
     },

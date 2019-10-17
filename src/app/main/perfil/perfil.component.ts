@@ -22,6 +22,9 @@ export class PerfilComponent implements OnInit, OnDestroy {
   
   info: any;  
   param: any;
+  private roles: any = [];
+
+  isHide: boolean = false;
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -58,6 +61,22 @@ export class PerfilComponent implements OnInit, OnDestroy {
 
         this.info = info;
       });
+
+    this._loginService.rolOnChanged
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((data) => {
+        if (data == null) {
+          data = [];
+        }
+
+        this.roles = data;        
+
+        if (this.roles.indexOf('RRHH') > -1) {          
+          this.isHide = true;
+        }
+
+      });
+
   }
 
   /**

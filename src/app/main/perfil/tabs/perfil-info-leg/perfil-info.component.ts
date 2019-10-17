@@ -14,6 +14,7 @@ import { takeUntil } from 'rxjs/operators';
 export class PerfilInfoLegComponent implements OnInit, OnDestroy
 {
     @Input() info: any;
+    @Input() isHide: boolean;
 
     // Private
     // private _unsubscribeAll: Subject<any>;

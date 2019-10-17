@@ -18,12 +18,13 @@ const routes: Routes = [
     { path: 'nomina', redirectTo: 'nomina/FavaHnos', },
     {
         path: 'nomina',
+        data: { roles: ['RRHH'] },
         canActivate: [AuthGuard],
         children: [
-            {    path: 'GrupoFava',  canActivateChild: [AuthGuard], component: NominaComponent, resolve: { colaboradores: NominaService } },
-            {    path: 'FavaCard',   canActivateChild: [AuthGuard], component: NominaComponent, resolve: { colaboradores: NominaService } },
-            {    path: 'FavaNet',    canActivateChild: [AuthGuard], component: NominaComponent, resolve: { colaboradores: NominaService } },
-            {    path: 'FavaHnos',   canActivateChild: [AuthGuard], component: NominaComponent, resolve: { colaboradores: NominaService } },
+            {    path: 'GrupoFava', canActivateChild: [AuthGuard], component: NominaComponent, resolve: { colaboradores: NominaService } },
+            {    path: 'FavaCard',  canActivateChild: [AuthGuard], component: NominaComponent, resolve: { colaboradores: NominaService } },
+            {    path: 'FavaNet',   canActivateChild: [AuthGuard], component: NominaComponent, resolve: { colaboradores: NominaService } },
+            {    path: 'FavaHnos',  canActivateChild: [AuthGuard], component: NominaComponent, resolve: { colaboradores: NominaService } },
             // {    path: 'departamentos',       component: NominaComponent, resolve: { colaboradores: NominaService }    },
             // {    path: 'sucursales',       component: NominaComponent, resolve: { colaboradores: NominaService }    },
             // {    path: 'externos',       component: NominaComponent, resolve: { colaboradores: NominaService }    },

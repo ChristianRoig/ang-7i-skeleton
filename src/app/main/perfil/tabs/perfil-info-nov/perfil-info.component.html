@@ -5,7 +5,7 @@
       <div class="profile-box info-box general" fxLayout="column">
 
           <header class="accent">
-              <div class="title">Novedades de Equipo</div>
+              <div class="title">Historial de Novedades de Equipo</div>
           </header>
           <div class="content" *ngIf="novedadesEq.length > 0">      
             <mat-table #table [dataSource]="dataSourceEq" [@animateStagger]="{value:'50'}">
@@ -37,14 +37,14 @@
           </div>
           
           <div class="content" *ngIf='novedadesEq.length == 0'>
-            <h2>No hay Novedades de esta persona</h2>
+            <h2>No hay Novedades</h2>
           </div>
       </div>
 
       <div class="profile-box info-box general" fxLayout="column">
       
         <header class="accent">
-          <div class="title">Novedades Externas</div>
+          <div class="title">Historial de Novedades Externas</div>
         </header>
         <div class="content" *ngIf="novedadesEx.length > 0">
           <mat-table #table [dataSource]="dataSourceEx" [@animateStagger]="{value:'50'}">

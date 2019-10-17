@@ -84,7 +84,7 @@
         <ng-container matColumnDef="estado">
             <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
             <mat-cell *matCellDef="let data">                        
-                <button mat-button class="button-status" aria-label="TEST" (click)="cambiarEstado(data)">
+                <button mat-button class="button-status" aria-label="TEST" aria-label="Cambiar Estado" title="Cambiar Estado" (click)="cambiarEstado(data)">
                     <p class="status {{data.estado}} text-truncate">
                         {{data.estado}}
                     </p>
