@@ -12,7 +12,7 @@ export const navigation: FuseNavigation[] = [
                 title: 'Login',
                 type : 'item',
                 icon: 'lock',
-                url: '/auth/login-2'
+                url: '/auth/login'
             },
             {
                 id: 'logout',
