@@ -22,19 +22,19 @@
 
         <mat-tab-group dynamicHeight="true">
 
+            <mat-tab label={{comprobantesTabName}}>
+                <contact-gastos [gastos]="gastos"></contact-gastos>
+            </mat-tab>
+
             <mat-tab label="Datos Básicos">
                 <contact-info [proveedor]="proveedor"></contact-info>
             </mat-tab>
 
-            <mat-tab label="Comprobantes">
-                <contact-gastos [gastos]="gastos"></contact-gastos>
-            </mat-tab>
-
-            <mat-tab label="Logo o Foto">
+            <!--mat-tab label="Logo o Foto">
                 <personas-imagenes [proveedor]="proveedor"></personas-imagenes>
             </mat-tab>
 
-            <!-- <mat-tab label="Preferencias">
+            <mat-tab label="Preferencias">
                 <contact-preferencias></contact-preferencias>
             </mat-tab> -->
 

@@ -26,6 +26,8 @@ export class ContactViewComponent implements OnInit {
   proveedor: Contact;
   gastos: any;
 
+  comprobantesTabName: String = 'Gastos';
+
   constructor(
     public _matDialog: MatDialog,
     private _personasService: PersonasService,
