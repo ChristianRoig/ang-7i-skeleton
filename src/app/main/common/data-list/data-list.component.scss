@@ -66,6 +66,8 @@ data-list-colaboradores, data-list-novedades {
 
             .mat-column-buttons {
                 flex: 0 1 80px;
+                padding-right: 18px;
+                justify-content: center;
             }
 
             .mat-header-cell, .mat-cell {
@@ -147,10 +149,10 @@ data-list-colaboradores, data-list-novedades {
                         }
                     }
 
-                    &:last-of-type {
-                        padding-right: 18px;
-                        justify-content: center;
-                    }
+                    // &:last-of-type {
+                    //     padding-right: 18px;
+                    //     justify-content: center;
+                    // }
                 }
             }
         }
