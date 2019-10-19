@@ -32,32 +32,6 @@
         <div class="profile-box info-box general" fxLayout="column">
 
             <header class="accent">
-                <div class="title">Comprobante: {{gasto.comprobante}} #{{gasto.nro}}</div>
-            </header>
-
-            <div class="content">
-                <div class="info-line">
-                    <div class="title">Comprobante</div>
-                    <div class="info">{{gasto.comprobante}} {{gasto.nro}}</div>
-                </div>
-
-                <div class="info-line">
-                    <div class="title">Fecha de emisión o vencimiento</div>
-                    <div class="info">{{gasto.fecha | date:'dd/MM/yyyy'}}</div>
-                </div>
-
-                <div class="info-line">
-                    <div class="title">Etiqueta</div>
-                    <div class="info">{{gasto.etiqueta}}</div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="profile-box info-box general" fxLayout="column">
-
-            <header class="accent">
                 <div class="title">Resumen - {{gasto.descripcion}}</div>
             </header>
 
@@ -68,13 +42,8 @@
                 </div>
 
                 <div class="info-line">
-                    <div class="title">Estado y Forma de Pago</div>
-                    <div class="info">{{gasto.pago_estado}} ({{gasto.pago_forma}})</div>
-                </div>
-
-                <div class="info-line">
-                    <div class="title">Importe</div>
-                    <div class="info">{{gasto.importe}}</div>
+                    <div class="title">Forma de Pago</div>
+                    <div class="info">{{gasto.pago_forma}}</div>
                 </div>
 
             </div>
@@ -105,6 +74,26 @@
                 <div class="info-line">
                     <div class="title">Etiqueta</div>
                     <div class="info">{{gasto.etiqueta}}</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="profile-box info-box general" fxLayout="column">
+
+            <header class="accent">
+                <div class="title">$ {{gasto.importe}}</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Estado</div>
+                    <div class="info">{{gasto.pago_estado}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Importe</div>
+                    <div class="info">{{gasto.importe}}</div>
                 </div>
             </div>
 

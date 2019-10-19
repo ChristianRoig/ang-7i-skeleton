@@ -16,7 +16,7 @@ import { Gasto } from 'app/main/comprobantes/gasto.model';
 export class GastoInfoComponent implements OnInit, OnDestroy
 {
     info: any;
-    @Input() gasto : Gasto;
+    @Input() gasto: Gasto;
     // Private
     private _unsubscribeAll: Subject<any>;
 
