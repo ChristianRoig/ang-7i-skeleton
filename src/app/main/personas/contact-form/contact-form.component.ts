@@ -1,4 +1,4 @@
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
@@ -25,6 +25,7 @@ export class ContactsContactFormDialogComponent
     contactName: string;
     copy: boolean = false;
     contact: Contact;
+    verMas: boolean;
 
     estados: Option[] = [
         { value: 'Responsable Inscripto', viewValue: 'Responsable Inscripto' },
@@ -41,6 +42,8 @@ export class ContactsContactFormDialogComponent
         { value: 'Empresa', viewValue: 'Empresa' },
     ];
 
+    @ViewChild('dialogcontent') target: ElementRef;
+    
     /**
      * Constructor
      *
@@ -56,7 +59,7 @@ export class ContactsContactFormDialogComponent
     ) {
         // Set the defaults
         this.action = _data.action;
-
+        this.verMas = true;
 
         if (this.action === 'edit') {
             this.dialogTitle = 'Editar '.concat(PersonasService.ENTIDAD);
@@ -133,5 +136,12 @@ export class ContactsContactFormDialogComponent
             estado: [this.contact.estado],
             doc_tipo: [this.contact.doc_tipo]
         });
+    }
+
+    showMore(): void {
+        this.verMas = !this.verMas;
+        setTimeout(() => {
+            this.target.nativeElement.scrollTop = this.target.nativeElement.scrollHeight;  //
+        }, 280);
     }
 }

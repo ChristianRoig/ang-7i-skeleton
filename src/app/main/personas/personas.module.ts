@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import {
     MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldModule, MatIconModule, MatInputModule, MatMenuModule, 
-    MatRippleModule, MatTableModule, MatToolbarModule, MatSelectModule, MatTabsModule, MatTooltipModule
+    MatRippleModule, MatTableModule, MatToolbarModule, MatSelectModule, MatTabsModule, MatTooltipModule, MatDividerModule
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -48,6 +48,7 @@ import { PersonasImagenesComponent } from './contact-view/tabs/personas-imagenes
         MatSelectModule,
         MatTabsModule,
         MatTooltipModule,
+        MatDividerModule,
 
         FuseSharedModule,
         FuseConfirmDialogModule,
