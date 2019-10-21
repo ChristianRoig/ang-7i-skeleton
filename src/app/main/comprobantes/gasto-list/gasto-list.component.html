@@ -95,7 +95,11 @@
                 <mat-menu #moreMenu="matMenu">
                     <button mat-menu-item aria-label="edit" (click)="editContact(gasto)">
                         <mat-icon>assignment</mat-icon>
-                        <span>Editar {{entidad}}</span>
+                        <span>Modificar {{entidad}}</span>
+                    </button>
+                    <button mat-menu-item aria-label="edit" (click)="editContact(gasto)">
+                        <mat-icon>assignment</mat-icon>
+                        <span>Modificar impuestos</span>
                     </button>
                     <button mat-menu-item aria-label="remove" (click)="deleteGasto(gasto)">
                         <mat-icon>delete</mat-icon>
