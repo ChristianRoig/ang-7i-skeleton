@@ -8,7 +8,7 @@ export const environment = {
     
     API: 'http://server7:8080/mosaic-svc/',
     // API: 'http://server.sieteideas.com.ar:8080/mosaic-svc/',
-    // API: 'http://10.100.58.83:8082/'
+    // API: 'http://10.100.58.83:8082/' // Tronquito
     // API: 'http://localhost:8082/'
 };
 
