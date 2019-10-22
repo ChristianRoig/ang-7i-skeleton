@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewEncapsulation, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { PersonasService } from '../personas.service';
 import { Contact } from '../contact.model';
@@ -8,6 +8,8 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { ComprobantesService } from 'app/main/comprobantes/comprobantes.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'contact-view',
@@ -18,31 +20,46 @@ import { ComprobantesService } from 'app/main/comprobantes/comprobantes.service'
 })
 export class ContactViewComponent implements OnInit {
 
-  @ViewChild('dialogContent')
-  dialogContent: TemplateRef<any>;
-  dialogRef: any;
-  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    @ViewChild('dialogContent')
+    dialogContent: TemplateRef<any>;
+    dialogRef: any;
+    confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    
+    proveedor: Contact;
+    gastos: any;
+    
+    comprobantesTabName: String = 'Gastos';
 
-  proveedor: Contact;
-  gastos: any;
+    private _unsubscribeAll: Subject<any>;
 
-  comprobantesTabName: String = 'Gastos';
-
-  constructor(
-    public _matDialog: MatDialog,
-    private _personasService: PersonasService,
-    private _comprobantesService: ComprobantesService,
-    private activatedRoute: ActivatedRoute) {
-      
-      this.activatedRoute.params.subscribe(params => {
-        this.proveedor = this._personasService.getProveedor(params['id']);
-        this._comprobantesService.getGastosByName(this.proveedor.id).then((value) => {
-        this.gastos = value;
-        }); 
-      });
-   }
+    constructor(public _matDialog: MatDialog, private router: Router, private _personasService: PersonasService,
+                private _comprobantesService: ComprobantesService, private activatedRoute: ActivatedRoute) {
+        this._unsubscribeAll = new Subject();
+    }
 
   ngOnInit(): void {
+    this._personasService.onProveedorChanged
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe(data => {
+            
+            if (data == null) {
+                this.proveedor = new Contact({}); // lo inicializo para que no de error al querer cargar los datos                
+                this.router.navigate(['/proveedores']);
+            }else{
+                this.proveedor = data;
+            }
+        });
+
+    this._comprobantesService.onGastosChanged
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe(data => {
+            if (data == null) {
+                this.gastos = [];
+            }else{            
+                this.gastos = data;                  
+            }
+          });
+
   }
 
   editContact(): void
@@ -78,14 +95,14 @@ export class ContactViewComponent implements OnInit {
                    */
                   case 'delete':
 
-                      this.deleteContact(this.proveedor);
+                      this.deleteContact();
 
                       break;
               }
           });
   }
 
-  deleteContact(contact): void
+  deleteContact(): void
   {
       this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
           disableClose: false
@@ -96,7 +113,8 @@ export class ContactViewComponent implements OnInit {
       this.confirmDialogRef.afterClosed().subscribe(result => {
           if ( result )
           {
-              this._personasService.deleteContact(contact);
+              this._personasService.deleteContact(this.proveedor);
+              this.router.navigate(['/proveedores']);
           }
           this.confirmDialogRef = null;
       });

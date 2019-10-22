@@ -1,4 +1,4 @@
-import { Component, Inject, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
+import { Component, Inject, ViewEncapsulation, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
@@ -17,7 +17,7 @@ export interface Option {
     encapsulation: ViewEncapsulation.None
 })
 
-export class ContactsContactFormDialogComponent
+export class ContactsContactFormDialogComponent implements OnInit
 {
     contactForm: FormGroup;
     action: string;
@@ -67,18 +67,14 @@ export class ContactsContactFormDialogComponent
             this.contactForm = this.createContactForm();
         }
         else {
-            this.dialogTitle = 'Nuevo '.concat(PersonasService.ENTIDAD);
-            this.contact = new Contact({});
-            this._personasService.initContacto(this.contact);
+            this.dialogTitle = 'Nuevo '.concat(PersonasService.ENTIDAD);            
+            this.contact = this._personasService.initContacto(new Contact({}));
             this.contactForm = this.createContactForm();
             this._personasService.crearRequestNewCodigoProveedor()
                 .subscribe((response: any) => {
                     this.contact.cod = response;
                     this.contactForm.controls['cod'].setValue(this.contact.cod); // setea el cod que 
                 });
-            /*             this._personasService.getGastosByName(this.proveedor.nombre_corto).then((value) => {
-                            this.gastos = value;
-                            });  */
         }
 
     }

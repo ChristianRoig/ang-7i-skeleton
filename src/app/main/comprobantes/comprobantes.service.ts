@@ -26,17 +26,20 @@ export class ComprobantesService implements Resolve<any>
     public static readonly CATEGORIA: string = 'Facturas';
     public static readonly ETIQUETA: string = '-Oficina-';
 
-    onGastosChanged: BehaviorSubject<any>;
     onSelectedGastosChanged: BehaviorSubject<any>;
-    onUserDataChanged: BehaviorSubject<any>;    
+    selectedGastos: string[] = [];
+
+    onGastosChanged: BehaviorSubject<any>;
+    gastos: Gasto[] = [];
+    
+    onGastoChanged: BehaviorSubject<any>;
+    gasto: Gasto = new Gasto({});
+
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>; 
 
-    gastos: Gasto[] = [];
     infoOnChanged = new BehaviorSubject({});
     info: any;
-    user: any;    
-    selectedGastos: string[] = [];
 
     searchText: string;
     filterBy: string;
@@ -44,17 +47,16 @@ export class ComprobantesService implements Resolve<any>
     index: number;
     
     httpOptions: any;
+
     /**
      * Constructor
      *
      */
-    constructor(
-        private http: HttpClient,
-        private cookieService: CookieService
-    )
-    {      
+    constructor(private http: HttpClient, private cookieService: CookieService){      
         // Set the defaults
         this.onGastosChanged = new BehaviorSubject([]);
+        this.onGastoChanged = new BehaviorSubject([]);
+
         this.onSelectedGastosChanged = new BehaviorSubject([]);
 /*      this.onUserDataChanged = new BehaviorSubject([]);*/        
         this.onSearchTextChanged = new Subject();
@@ -80,9 +82,23 @@ export class ComprobantesService implements Resolve<any>
      * @param {RouterStateSnapshot} state
      * @returns {Observable<any> | Promise<any> | any}
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
-    {
-         return new Promise((resolve, reject) => {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any{
+        
+        if ((state.url.indexOf('/proveedores/') > -1) && (route.params['id'])){            
+            return new Promise((resolve, reject) => {
+
+                Promise.all([
+                    this.getGastosByProveedor(route.params['id']),
+                ]).then(
+                    ([files]) => {
+                        resolve();
+                    },
+                    reject
+                );
+            }); 
+        }
+
+        return new Promise((resolve, reject) => {
 
             Promise.all([
                 this.getGastos(),
@@ -91,7 +107,7 @@ export class ComprobantesService implements Resolve<any>
 
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
-                        this.filterGastos(searchText);
+                        this.filterGastos();
                     });
  
                     resolve();
@@ -102,111 +118,111 @@ export class ComprobantesService implements Resolve<any>
         }); 
     }
 
-    getGastos(): Promise<any>
-    {
+    /**
+     * getGastos
+     * 
+     * Encargado de traer los gastos x pagina
+     * 
+     */
+    getGastos(): Promise<any>{
          return new Promise((resolve, reject) => {
-             this.createRequestObtenerGastosConFiltro()
+             this.createRequestObtenerGastosConFiltro() // pagina es lo que se envia 
                     .subscribe((response: any) => {
-                        this.gastos = response;
  
-/*                         if ( this.searchText && this.searchText !== '' )
-                        {
-                            this.gastos = FuseUtils.filterArrayByString(this.gastos, this.searchText);
-                        }  */
-                         this.gastos = this.gastos.map(gasto => {                            
+                        if (response == null){ // Fix en caso de null
+                            response = [];
+                        }
+     
+                        this.gastos = response.map(gasto => {                            
                             return new Gasto(gasto);
-                        });   
+                        });
+
                         this.onGastosChanged.next(this.gastos);  
+                        
                         resolve(this.gastos);
 
                     }, reject);
             }); 
     }
-
-    filterGastos(text: string): void {
-        let filtered: Gasto[] = [];
-        if (this.searchText && this.searchText !== '') {
-            filtered = FuseUtils.filterArrayByString(this.gastos, this.searchText);
-            this.onGastosChanged.next(filtered);  
-        }
-        else{
-            this.onGastosChanged.next(this.gastos);
-        } 
-    }
     
-    initGasto(gasto: Gasto): void {
-        gasto.modulo = ComprobantesService.MODULO;
-        gasto.categoria = ComprobantesService.CATEGORIA;
-        gasto.etiqueta = ComprobantesService.ETIQUETA;
-    }
-
-    addGasto(gasto: Gasto): Promise<any> {
+    /**
+     * Encargado de traer del backen los gastos de un proveedor determinado
+     * @param idProveedor 
+     */
+    getGastosByProveedor(idProveedor: string): Promise<any> {
         return new Promise((resolve, reject) => {
-
-            this.createRequestAddGasto(gasto)
-                .subscribe((response: any) => {
-                    this.getGastos();
-                });
-        });
-    } 
-
-    deleteGasto(gasto: Gasto): Promise<any> {
-        return new Promise((resolve, reject) => {
-
-            this.createRequestRemoveGasto(gasto)
-                .subscribe(response => {
-                    this.deleteContactList(gasto);
-                    resolve(response);
-                });
-        });
-    }
-    
-    deleteContactList(gasto: Gasto): void {
-        const contactIndex = this.gastos.indexOf(gasto);
-        if (contactIndex !== -1) {
-            this.gastos.splice(contactIndex, 1);
-            this.onGastosChanged.next(this.gastos);
-        }
-    }
-
-    getGastosByName(proveedor: string): Promise<any> {
-        let gastos: any[] = [];
-        return new Promise((resolve, reject) => {
-            this.createRequestGastosByProveedor(proveedor)
+            this.createRequestGastosByProveedor(idProveedor)
                 .subscribe((response: any) => {
 
                     if (response == null){
                         response = [];
                     }
 
-                    gastos = response.map(gasto => {
+                    this.gastos = response.map(gasto => {
                         return new Gasto(gasto);
                     });
                     
-                    resolve(gastos);
+                    this.onGastosChanged.next(this.gastos);
+
+                    resolve(this.gastos);
                 }, reject);
         });
     }
 
-    createRequestAddGasto(gasto: Gasto): any {
+    /**
+     * Inicializa valores al gasto
+     * @param gasto 
+     */
+    initGasto(gasto: Gasto): Gasto {
+        gasto.categoria = ComprobantesService.CATEGORIA;
+        gasto.etiqueta = ComprobantesService.ETIQUETA;
+        gasto.modulo = ComprobantesService.MODULO;
 
-        //let url = API_URL + 'comprobante';
+        return gasto;
+    }
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Metodos Privados
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * filtra los gastos dependiendo del texto
+     */
+    private filterGastos(): void {
+        let filtered: Gasto[] = [];
+        if (this.searchText && this.searchText !== '') {
+            filtered = FuseUtils.filterArrayByString(this.gastos, this.searchText);
+            this.onGastosChanged.next(filtered);
+        }
+        else {
+            this.onGastosChanged.next(this.gastos);
+        }
+    }
+
+
+
+
+
+
+    ///////////////////////////////////////////////////////////////////////
+    // createRequest
+    ///////////////////////////////////////////////////////////////////////
+
+    private createRequestAddGasto(gasto: Gasto): any {
         let request = JSON.stringify(gasto); // agrego un nuevo gasto. 
 
         return this.http.post(CRUD_URL, request, this.httpOptions);
     }
 
-    createRequestUpdateGasto(gasto: Gasto): any {
-
-        //let url = API_URL + 'comprobante';
+    private createRequestUpdateGasto(gasto: Gasto): any {
         let request = JSON.stringify(gasto);
 
         return this.http.put(CRUD_URL, request, this.httpOptions);
     }
 
-    createRequestRemoveGasto(gasto: Gasto): any {
-
-        //let url = API_URL + 'comprobante';
+    private createRequestRemoveGasto(gasto: Gasto): any {
         let options; 
         let params = new HttpParams();
         params = params.set('id', gasto.id );
@@ -220,17 +236,11 @@ export class ComprobantesService implements Resolve<any>
         return this.http.delete(CRUD_URL, { params : params });
     }
 
-    createRequestObtenerGastos(): any {
-
-        // let url = API_URL + 'compras';
-
+    private createRequestObtenerGastos(): any {
         return this.http.get(LIST_URL, this.httpOptions); 
     }
 
-    createRequestObtenerGastosConFiltro(): any {
-
-        // let url = API_URL + 'compras';
-
+    private createRequestObtenerGastosConFiltro(): any {
         let body = {
             'modulo'      : 'Compras',
             'categoria'   : 'Facturas',
@@ -241,25 +251,58 @@ export class ComprobantesService implements Resolve<any>
         return this.http.post(LIST_URL, body, this.httpOptions); // post debido a que la cant de parametros para filtrar es mayor a 2.
     }
 
-     createRequestGastosByProveedor( idProveedor: string): any {
+    private createRequestGastosByProveedor( idProveedor: string): any {
+        let httpHeaders = new HttpHeaders({
+            'Authorization': this.cookieService.get('tokenAuth')
+        });
 
-         // let url = API_URL + 'compras';
+        let params = {
+            'proveedor': idProveedor
+        };
 
-         let httpHeaders = new HttpHeaders({
-             'Authorization': this.cookieService.get('tokenAuth')
-         });
+        let options = {
+            headers: httpHeaders,
+            params : params
+        };
 
-         let params = {
-             'proveedor': idProveedor
-         };
+        return this.http.get(LIST_URL, options);
+    }
 
-         let options = {
-             headers: httpHeaders,
-             params : params
-         };
 
-         return this.http.get(LIST_URL, options);
-    } 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// De aca para abajo hay que revisar TODO 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+
+    addGasto(gasto: Gasto): Promise<any> {
+        return new Promise((resolve, reject) => {
+
+            this.createRequestAddGasto(gasto)
+                .subscribe((response: any) => {
+                    this.getGastos();
+                });
+        });
+    }
+
+    deleteGasto(gasto: Gasto): Promise<any> {
+        return new Promise((resolve, reject) => {
+
+            this.createRequestRemoveGasto(gasto)
+                .subscribe(response => {
+                    this.deleteContactList(gasto);
+                    resolve(response);
+                });
+        });
+    }
+
+    deleteContactList(gasto: Gasto): void {
+        const contactIndex = this.gastos.indexOf(gasto);
+        if (contactIndex !== -1) {
+            this.gastos.splice(contactIndex, 1);
+            this.onGastosChanged.next(this.gastos);
+        }
+    }
     
     getGasto(id: string): Gasto {
         let gasto: Gasto;
@@ -269,16 +312,22 @@ export class ComprobantesService implements Resolve<any>
 
     obtenerMasComprobantes(): any {
         this.index = this.index + 1;
-        // let gastos : any = [];
+        
         return new Promise((resolve, reject) => {
             this.createRequestObtenerGastosConFiltro()
-                .subscribe((response: any) => {
-                    // gastos = response;
+                .subscribe((response: any) => {                    
+        
+                    if (response == null){
+                        response = null;
+                    }
+
                     let gastos = response.map(gasto => {
                         return new Gasto(gasto);
                     });
+
                     this.gastos = this.gastos.concat(gastos);
                     this.onGastosChanged.next(this.gastos);
+
                     resolve(this.gastos);
 
                 }, reject);
@@ -360,7 +409,7 @@ export class ComprobantesService implements Resolve<any>
      * @param contact
      * @returns {Promise<any>}
      */
-     updateContact(gasto: Gasto): Promise<any>
+    updateContact(gasto: Gasto): Promise<any>
     {
         return new Promise((resolve, reject) => {
                 this.createRequestUpdateGasto(gasto)

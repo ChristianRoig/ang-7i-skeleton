@@ -33,7 +33,7 @@ export class Contact {
      */
     constructor(contact) {
         {
-            this.id = contact.id || FuseUtils.generateGUID();
+            this.id = contact.id || null;
             this.cod = contact.cod || '';
             this.propietario = contact.propietario;
             this.modulo = contact.modulo || '';

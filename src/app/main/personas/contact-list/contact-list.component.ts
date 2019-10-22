@@ -168,7 +168,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
             disableClose: false
         });
 
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+        this.confirmDialogRef.componentInstance.confirmMessage = '¿Esta Seguro que desea ELIMINAR?';
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {

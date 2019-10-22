@@ -11,7 +11,7 @@
         </div>
         <div class="actions" fxLayout="row" fxLayoutAlign="end center" [@animate]="{value:'*',params:{delay:'200ms'}}">
             <button mat-raised-button color="accent" (click)="editContact()" aria-label="Editar">Editar</button>
-            <button mat-raised-button color="error" aria-label="Eliminar">Eliminar</button>
+            <button mat-raised-button color="error"  (click)="deleteContact()" aria-label="Eliminar">Eliminar</button>
         </div>
 
     </div>

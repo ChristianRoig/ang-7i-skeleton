@@ -6,6 +6,8 @@ import { Gasto } from '../gasto.model';
 import { Contact } from 'app/main/personas/contact.model';
 import { PersonasService } from 'app/main/personas/personas.service';
 import { ComprobantesService } from '../comprobantes.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 export interface Estado {
     value: string;
@@ -30,7 +32,7 @@ export class GastoFormDialogComponent
         {value: 'Pagado', viewValue: 'Pagado'},
         {value: 'Pendiente', viewValue: 'Pendiente'},
         {value: 'A Completar', viewValue: 'A Completar'}
-      ];
+    ];
     pago_formas: Estado[] = [
         { value: 'Efectivo', viewValue: 'Efectivo'},
         { value: 'Bancaria', viewValue: 'Bancaria'},
@@ -48,6 +50,7 @@ export class GastoFormDialogComponent
     @ViewChild('dialogcontent') target: ElementRef;
 
 
+    private _unsubscribeAll: Subject<any>;
 
     /**
      * Constructor
@@ -62,8 +65,9 @@ export class GastoFormDialogComponent
         public matDialogRef: MatDialogRef<GastoFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder
-    )
-    {
+    ){
+        this._unsubscribeAll = new Subject();
+        
         this.verMas = true;
         // Set the defaults
         this.action = _data.action;
@@ -80,8 +84,7 @@ export class GastoFormDialogComponent
         {
             this.dialogTitle = 'Nuevo '.concat(ComprobantesService.ENTIDAD);
             this.date = new Date();
-            this.gasto = new Gasto({});
-            gastosService.initGasto(this.gasto);
+            this.gasto = gastosService.initGasto(new Gasto({}));
             this.contacto = _data.contact;
             this.gastoForm = this.createContactForm();
             if (this.contacto) { // desde proveedor
@@ -134,11 +137,21 @@ export class GastoFormDialogComponent
         this.gastoForm = this.createContactForm();
     }
 
-     getLastestFacturas(): void {
+    getLastestFacturas(): void {
         this.gastoForm.controls['contacto_corto'].setValue(this.contacto.nombre_corto);
-         this.gastosService.getGastosByName(this.contacto.id).then((value) => {
-            this.gastos_contact = value;
-        });
+
+
+        this.gastosService.onGastosChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(data => {
+
+                if (data == null) {
+                    this.gastos_contact = [];
+                } else {
+                    this.gastos_contact = data;
+                }
+            });
+
         this.gastoForm.controls['proveedor'].setValue(this.contacto);
 
     }
