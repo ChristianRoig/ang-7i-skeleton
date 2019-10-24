@@ -74,6 +74,7 @@ export class PersonasService implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
     {        
+        // console.log(state);
         if (route.params['id']) {
             return new Promise((resolve, reject) => {
                 Promise.all([
@@ -113,7 +114,7 @@ export class PersonasService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this.crearRequestObtenerProveedores()
                 .subscribe((response: any) => {
-
+                    // console.log('s.g.proveedores');
                     if (response == null) { // fix en caso de null
                         response = [];
                     }
@@ -136,7 +137,7 @@ export class PersonasService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this.crearRequestObtenerProveedor(id)
                 .subscribe((response: any) => {
-
+                    // console.log('s.g.proveedor');
                     if (response != null) {
                         response = new Contact(response);
                     }
@@ -161,6 +162,64 @@ export class PersonasService implements Resolve<any>
         return contact;
     }
 
+    /**
+     * Encargado de enviar al backend un nuevo proveedor
+     * @param contact 
+     */
+    addContact(contact: Contact): Promise<any> {
+        if ((contact.file_link.indexOf('assets/images/avatars/empresa.png') > -1) || (contact.file_link.indexOf('assets/images/avatars/avatarF.png') > -1) ||
+            (contact.file_link.indexOf('assets/images/avatars/avatarM.png') > -1) || (contact.file_link.indexOf('assets/images/avatars/profile.jpg') > -1)) {
+            contact.file_link = null;
+        }
+
+        return new Promise((resolve, reject) => {
+
+            this.createRequestAddProveedor(contact)
+                .subscribe(response => {
+                    this.getProveedores();
+                   // resolve(response);
+                });
+        });
+    }
+
+    /**
+     * Encargado de enviar al backend los datos para actualizar un proveedor
+     *
+     * @param contact
+     * @returns {Promise<any>}
+     */
+    updateContact(contact: Contact): Promise<any> {
+        if ((contact.file_link.indexOf('assets/images/avatars/empresa.png') > -1) || (contact.file_link.indexOf('assets/images/avatars/avatarF.png') > -1) ||
+            (contact.file_link.indexOf('assets/images/avatars/avatarM.png') > -1) || (contact.file_link.indexOf('assets/images/avatars/profile.jpg') > -1)) {
+            contact.file_link = null;
+        }
+        return new Promise((resolve, reject) => {
+
+            this.createRequestUpdateProveedor(contact)
+                .subscribe(response => {
+                    this.getProveedores();
+                    resolve(response);
+                }, reject);
+        });
+    }
+
+    /**
+     * Delete contact from backend
+     * 
+     * @param contact 
+     */
+    deleteContact(contact: Contact): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.createRequestRemoveProveedor(contact)
+                .subscribe(response => {
+
+                    // cuando este lo del response se va a poder realizar de mejor manera
+
+                    this.deleteContactList(contact);
+                    resolve(response);
+                });
+        });
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Metodos Privados
@@ -180,6 +239,19 @@ export class PersonasService implements Resolve<any>
         }
     }
 
+    /**
+     * Delete contact from list
+     *
+     * @param contact
+     */
+    private deleteContactList(contact: Contact): void {
+        const contactIndex = this.contacts.indexOf(contact);
+
+        if (contactIndex > -1){
+            this.contacts.splice(contactIndex, 1);
+            this.onContactsChanged.next(this.contacts);
+        }        
+    }
 
 
 
@@ -249,43 +321,28 @@ export class PersonasService implements Resolve<any>
     /**
      * Devuelvo las lista de contacts y si es 0 fuerzo que se cargue
      */
-    getContactos(): Contact[] {
-    console.log(this.contacts);
+    // getContactos(): Contact[] {   
 
-        if (this.contacts.length === 0) {
-            this.getProveedores();
-        }
+    //     if (this.contacts.length === 0) {
+    //         this.getProveedores();
+    //     }
 
-        return this.contacts;
-    }
+    //     return this.contacts;
+    // }
 
     
 
-    getContactoByName(id: string): Contact {
-        let contact: Contact = new Contact({});
-        if (this.contacts.length === 0) {
-            this.getProveedores();
-        }
-        contact = this.contacts.find(contact => contact.id === id);
+    // getContactoByName(id: string): Contact {
+    //     let contact: Contact = new Contact({});
+    //     if (this.contacts.length === 0) {
+    //         this.getProveedores();
+    //     }
+    //     contact = this.contacts.find(contact => contact.id === id);
 
-        return contact;
-    }
+    //     return contact;
+    // }
 
-    addContact(contact: Contact): Promise<any> {
-        if ((contact.file_link.indexOf('assets/images/avatars/empresa.png') > -1) || (contact.file_link.indexOf('assets/images/avatars/avatarF.png') > -1) ||
-            (contact.file_link.indexOf('assets/images/avatars/avatarM.png') > -1) || (contact.file_link.indexOf('assets/images/avatars/profile.jpg') > -1)) {
-            contact.file_link = null;
-        }
-
-        return new Promise((resolve, reject) => {
-
-            this.createRequestAddProveedor(contact)
-                .subscribe(response => {
-                    this.getProveedores();
-                   // resolve(response);
-                });
-        });
-    } 
+    
 
     /**
      * Toggle selected contact by id
@@ -357,26 +414,7 @@ export class PersonasService implements Resolve<any>
     */
     }
 
-    /**
-     * Update contact
-     *
-     * @param contact
-     * @returns {Promise<any>}
-     */
-    updateContact(contact: Contact): Promise<any> {
-        if ((contact.file_link.indexOf('assets/images/avatars/empresa.png') > -1) || (contact.file_link.indexOf('assets/images/avatars/avatarF.png') > -1) ||
-            (contact.file_link.indexOf('assets/images/avatars/avatarM.png') > -1) || (contact.file_link.indexOf('assets/images/avatars/profile.jpg') > -1)) {
-            contact.file_link = null;
-        }
-        return new Promise((resolve, reject) => {
-
-            this.createRequestUpdateProveedor(contact)
-                .subscribe(response => {
-                    this.getProveedores();
-                    resolve(response);
-                }, reject);
-        });
-    }
+    
 
     /**
      * Delete contact from list
@@ -407,34 +445,5 @@ export class PersonasService implements Resolve<any>
         // Trigger the next event
         this.onSelectedContactsChanged.next(this.selectedContacts); */
     }
-
-    /**
-     * Delete contact
-     *
-     * @param contact
-     */
-    deleteContactList(contact: Contact): void {
-        const contactIndex = this.contacts.indexOf(contact);
-        this.contacts.splice(contactIndex, 1);
-        this.onContactsChanged.next(this.contacts);
-    }
-
-    /**
-     * Delete contact from backend
-     * 
-     * @param contact 
-     */
-    deleteContact(contact: Contact): Promise<any> {
-        return new Promise((resolve, reject) => {
-
-            this.createRequestRemoveProveedor(contact)
-                .subscribe(response => {                    
-                    this.deleteContactList(contact);
-                    resolve(response);
-                });
-        });
-    }
-
-    
 
 }
