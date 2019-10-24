@@ -93,85 +93,83 @@ export class GastoListComponent implements OnInit, OnDestroy
     }
 
     customFilterPredicate(data: Gasto | Group, filter: string): boolean {
-        return (data instanceof Group) ? data.visible : this.getDataRowVisible(data);
-      }
+      return (data instanceof Group) ? data.visible : this.getDataRowVisible(data);
+    }
 
-      getDataRowVisible(data: Gasto): boolean {
-        const groupRows = this.dataSource.data.filter(
-          row => {
-            if (!(row instanceof Group)) 
-                { return false; }
-            
-            let match = true;
-            this.groupByColumn.forEach(
-              column => {
-                if (!row[column] || !data[column] || row[column] !== data[column]) 
-                    { match = false; }
-              }
-            );
-            return match;
-          }
-        );
-    
-        if (groupRows.length === 0) 
-            { return true; }
-        if (groupRows.length > 1) 
-            { throw "Data row is in more than one group!"; }
-
-        const parent = <Group>groupRows[0];  // </Group> (Fix syntax coloring)
-    
-        return parent.visible && parent.expanded;
-      }
-
-      groupHeaderClick(row) {
-        row.expanded = !row.expanded;
-        this.dataSource.filter = performance.now().toString();  // hack to trigger filter refresh
-      }
-    
-      addGroups(data: any[], groupByColumns: string[]): any[] {
-        var rootGroup = new Group();
-        return this.getSublevel(data, 0, groupByColumns, rootGroup);
-      }
-
-      getSublevel(data: any[], level: number, groupByColumns: string[], parent: Group): any[] {
-        // Recursive function, stop when there are no more levels. 
-        if (level >= groupByColumns.length) {
-          return data;
-        }
-    
-        var groups = this.uniqueBy(
-          data.map(
-            row => {
-              var result = new Group();
-              result.level = level + 1;
-              result.parent = parent;
-              for (var i = 0; i <= level; i++) {
-                result[groupByColumns[i]] = row[groupByColumns[i]];
-              }
-              return result;
+    getDataRowVisible(data: Gasto): boolean {
+      const groupRows = this.dataSource.data.filter(
+        row => {
+          if (!(row instanceof Group)) 
+              { return false; }
+          
+          let match = true;
+          this.groupByColumn.forEach(
+            column => {
+              if (!row[column] || !data[column] || row[column] !== data[column]) 
+                  { match = false; }
             }
-          ),
-          JSON.stringify);
+          );
+          return match;
+        }
+      );
     
-        const currentColumn = groupByColumns[level];
+      if (groupRows.length === 0) { return true; }
+      if (groupRows.length > 1) { throw 'Data row is in more than one group!'; }
+
+      const parent = <Group>groupRows[0];  // </Group> (Fix syntax coloring)
     
-        var subGroups = [];
-        groups.forEach(group => {
-          let rowsInGroup = data.filter(row => group[currentColumn] === row[currentColumn]);
-          let subGroup = this.getSublevel(rowsInGroup, level + 1, groupByColumns, group);
-          subGroup.unshift(group);
-          subGroups = subGroups.concat(subGroup);
-        });
-        return subGroups;
+      return parent.visible && parent.expanded;
+    }
+
+    groupHeaderClick(row) {
+      row.expanded = !row.expanded;
+      this.dataSource.filter = performance.now().toString();  // hack to trigger filter refresh
+    }
+    
+    addGroups(data: any[], groupByColumns: string[]): any[] {
+      var rootGroup = new Group();
+      return this.getSublevel(data, 0, groupByColumns, rootGroup);
+    }
+
+    getSublevel(data: any[], level: number, groupByColumns: string[], parent: Group): any[] {
+      // Recursive function, stop when there are no more levels. 
+      if (level >= groupByColumns.length) {
+        return data;
       }
+  
+      var groups = this.uniqueBy(
+        data.map(
+          row => {
+            var result = new Group();
+            result.level = level + 1;
+            result.parent = parent;
+            for (var i = 0; i <= level; i++) {
+              result[groupByColumns[i]] = row[groupByColumns[i]];
+            }
+            return result;
+          }
+        ),
+        JSON.stringify);
+  
+      const currentColumn = groupByColumns[level];
     
-      uniqueBy(a, key) {
-        var seen = {};
-        return a.filter(function (item) {
-          var k = key(item);
-          return seen.hasOwnProperty(k) ? false : (seen[k] = true);
-        });
-      }
+      var subGroups = [];
+      groups.forEach(group => {
+        let rowsInGroup = data.filter(row => group[currentColumn] === row[currentColumn]);
+        let subGroup = this.getSublevel(rowsInGroup, level + 1, groupByColumns, group);
+        subGroup.unshift(group);
+        subGroups = subGroups.concat(subGroup);
+      });
+      return subGroups;
+    }
+    
+    uniqueBy(a, key) {
+      var seen = {};
+      return a.filter(function (item) {
+        var k = key(item);
+        return seen.hasOwnProperty(k) ? false : (seen[k] = true);
+      });
+    }
 
 
     seeMore(): void {
@@ -197,15 +195,13 @@ export class GastoListComponent implements OnInit, OnDestroy
      *
      * @param contact
      */
-     editContact(gasto: Gasto): void
-    {
-        let contacto = this._personasService.getContactoByName(gasto.contacto_id);
+    editGasto(gasto: Gasto): void{
         this.dialogRef = this._matDialog.open(GastoFormDialogComponent, {
             panelClass: 'gasto-form-dialog',
             data      : {
                 action : 'edit',
                 gasto: gasto,
-                contact : contacto
+                // contact : contacto
             }
         });
 

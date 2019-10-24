@@ -142,8 +142,15 @@
                 Agregar
             </button>
 
+            <button *ngIf="true" mat-button color="accent" class=""
+                (click)="ver()" aria-label="test">
+                ver Form
+            </button>
+
             <button *ngIf="action === 'edit'" mat-button color="accent" class="save-button" (click)="matDialogRef.close(['save',gastoForm])" [disabled]="gastoForm.invalid" aria-label="GUARDAR">
                 Guardar
             </button>
+
+
         </div>
     </div>

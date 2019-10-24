@@ -12,6 +12,7 @@ export class Gasto
     fecha: Date;
     contacto_id: string;
     contacto_corto: string;
+    contacto_nomb: string;
     descripcion: string;  
     pago_estado: string;
     importe: number;
@@ -43,6 +44,7 @@ export class Gasto
       this.fecha = gasto.fecha || null;
       this.contacto_id = gasto.contacto_id || 0;
       this.contacto_corto = gasto.contacto_corto || '';
+      this.contacto_nomb = gasto.contacto_nomb || '';      
       this.descripcion = gasto.descripcion || '';
       this.pago_estado = gasto.pago_estado;
       this.importe = gasto.importe || 0;

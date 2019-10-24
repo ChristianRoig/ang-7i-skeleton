@@ -61,7 +61,7 @@ export class ComprobantesService implements Resolve<any>
 /*      this.onUserDataChanged = new BehaviorSubject([]);*/        
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
-        this.index = 1;
+        this.index = 0;
 
         this.httpOptions = {
             headers: new HttpHeaders({
@@ -128,6 +128,7 @@ export class ComprobantesService implements Resolve<any>
          return new Promise((resolve, reject) => {
              this.createRequestObtenerGastosConFiltro() // pagina es lo que se envia 
                     .subscribe((response: any) => {
+                        console.log(response);
  
                         if (response == null){ // Fix en caso de null
                             response = [];
@@ -276,6 +277,8 @@ export class ComprobantesService implements Resolve<any>
     
 
     addGasto(gasto: Gasto): Promise<any> {
+
+        console.log(gasto);
         return new Promise((resolve, reject) => {
 
             this.createRequestAddGasto(gasto)

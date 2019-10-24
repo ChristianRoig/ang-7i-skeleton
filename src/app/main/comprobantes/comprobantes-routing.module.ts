@@ -5,13 +5,15 @@ import { GastosComponent } from './gastos.component';
 import { GastoViewComponent } from './gasto-view/gasto-view.component';
 
 import { ComprobantesService } from './comprobantes.service';
+import { PersonasService } from '../personas/personas.service';
 
 const routes: Routes = [
     {
         path     : 'gastos',
         component: GastosComponent,
         resolve  : {
-            gastos: ComprobantesService            
+            gastos: ComprobantesService,
+            personas: PersonasService            
         }
     }, 
      {

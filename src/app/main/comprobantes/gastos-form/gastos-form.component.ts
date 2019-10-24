@@ -8,6 +8,7 @@ import { PersonasService } from 'app/main/personas/personas.service';
 import { ComprobantesService } from '../comprobantes.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { FuseUtils } from '@fuse/utils';
 
 export interface Estado {
     value: string;
@@ -68,29 +69,69 @@ export class GastoFormDialogComponent
     ){
         this._unsubscribeAll = new Subject();
         
+        this.gastosService.onGastosChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(data => {
+                if (data == null) {
+                    this.gastos_contact = [];
+                } else {
+                    this.gastos_contact = data;
+                }
+            });
+
+        this.contacto = new Contact({});
+
         this.verMas = true;
         // Set the defaults
         this.action = _data.action;
-        this.contactos = contactsService.getContactos(); 
-        if ( this.action === 'edit' )
-        {
+        
+        this.contactsService.onContactsChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(data => {
+
+                if (data == null) {
+                    this.contactos = [];
+                } else {
+                    this.contactos = data;
+                }
+            });
+
+
+        if ( this.action === 'edit' ){
             this.dialogTitle = 'Editar '.concat(ComprobantesService.ENTIDAD);
             this.gasto = _data.gasto;
-            this.contacto = _data.contact;
-            this.gastoForm = this.createContactForm();
-            this.getLastestFacturas(); 
+
+            console.log('cantidad ' + this.contactos.length);
+
+            this.contactos.forEach(element => {
+                if (element.id === this.gasto.contacto_id){
+                    console.log('es igual');
+                    this.contacto = element;
+                }
+            });
+            
+            if (this.contacto.id === null){
+                console.log('no lo encontro');
+                this.contacto.id = this.gasto.contacto_id;
+                this.contacto.nombre = this.gasto.contacto_nomb;
+                this.contacto.nombre_corto = this.gasto.contacto_corto;
+
+                this.contactos.push(this.contacto);
+            }
+
+                       
         }
-        else
-        {
+        else{
             this.dialogTitle = 'Nuevo '.concat(ComprobantesService.ENTIDAD);
             this.date = new Date();
             this.gasto = gastosService.initGasto(new Gasto({}));
+                        
             this.contacto = _data.contact;
-            this.gastoForm = this.createContactForm();
-            if (this.contacto) { // desde proveedor
-                this.getLastestFacturas(); 
-            }
         }
+
+        this.gastoForm = this.createContactForm(); 
+
+        
     }
 
 
@@ -108,7 +149,6 @@ export class GastoFormDialogComponent
     {
         return this._formBuilder.group({
 
-            contacto_corto : [this.gasto.contacto_corto],
             descripcion : [this.gasto.descripcion], 
             comprobante : [this.gasto.comprobante],
             nro : [this.gasto.nro],
@@ -122,13 +162,15 @@ export class GastoFormDialogComponent
             categoria : [this.gasto.categoria],
             etiqueta : [this.gasto.etiqueta],
             nombre : [this.gasto.nombre],
-            contacto_id : [this.gasto.contacto_id],
             notas : [this.gasto.notas],
             file_link : [this.gasto.file_link],
             orden : [this.gasto.orden],
-            pago_forma : [this.gasto.pago_forma]
-
-
+            pago_forma : [this.gasto.pago_forma],
+            rubro: [this.gasto.rubro],
+            periodo: [this.gasto.periodo],           
+            contacto_id : [this.gasto.contacto_id],
+            contacto_corto : [this.gasto.contacto_corto],
+            contacto_nomb: [this.gasto.contacto_nomb],            
         });
     }
 
@@ -137,29 +179,12 @@ export class GastoFormDialogComponent
         this.gastoForm = this.createContactForm();
     }
 
-    getLastestFacturas(): void {
+    selectionContactoChange(event): void {
+        this.contacto = event.value;
+        this.gastoForm.controls['contacto_id'].setValue(this.contacto.id);
         this.gastoForm.controls['contacto_corto'].setValue(this.contacto.nombre_corto);
-
-
-        this.gastosService.onGastosChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(data => {
-
-                if (data == null) {
-                    this.gastos_contact = [];
-                } else {
-                    this.gastos_contact = data;
-                }
-            });
-
+        this.gastoForm.controls['contacto_nomb'].setValue(this.contacto.nombre);
         this.gastoForm.controls['proveedor'].setValue(this.contacto);
-
-    }
-
-    selectionContactoChange(event): void {   
-        this.contacto =  event.value;
-        this.getLastestFacturas(); 
-
     }
 
     showMore(): void {
@@ -168,4 +193,9 @@ export class GastoFormDialogComponent
             this.target.nativeElement.scrollTop = this.target.nativeElement.scrollHeight;  //
         }, 280);        
     }
+    
+    ver(): void {
+        console.log(this.gastoForm);
+    }
+
 }
