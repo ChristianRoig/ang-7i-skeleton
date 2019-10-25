@@ -14,12 +14,10 @@ import { Gasto } from '../gasto.model';
 export class GastoViewComponent implements OnInit {
 
   gasto: Gasto;
-  imagen: string;
+  imagen: string = 'assets/images/avatars/profile.jpg';
 
-  constructor( private _comprobantesService: ComprobantesService,        
-               private activatedRoute: ActivatedRoute) {                  
-        this.imagen = 'assets/images/avatars/profile.jpg';    
-   }
+  constructor( private _comprobantesService: ComprobantesService, private activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
       this.activatedRoute.params.subscribe(params => {

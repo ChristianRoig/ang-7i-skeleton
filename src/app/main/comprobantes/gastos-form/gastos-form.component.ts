@@ -100,12 +100,10 @@ export class GastoFormDialogComponent
         if ( this.action === 'edit' ){
             this.dialogTitle = 'Editar '.concat(ComprobantesService.ENTIDAD);
             this.gasto = _data.gasto;
-
-            console.log('cantidad ' + this.contactos.length);
-
             this.contactos.forEach(element => {
-                if (element.id === this.gasto.contacto_id){
-                    console.log('es igual');
+                
+                // tslint:disable-next-line: triple-equals
+                if (element.id == this.gasto.contacto_id){ // no poner ===
                     this.contacto = element;
                 }
             });

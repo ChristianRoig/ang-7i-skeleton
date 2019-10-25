@@ -9,6 +9,7 @@ import { CookieService } from 'ngx-cookie-service';
 
 import { environment } from 'environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Contact } from '../personas/contact.model';
 
 
 // const API_URL: string = environment.API;
@@ -31,15 +32,19 @@ export class ComprobantesService implements Resolve<any>
 
     onGastosChanged: BehaviorSubject<any>;
     gastos: Gasto[] = [];
+
+    onGastosProveedorChanged: BehaviorSubject<any>;
+    gastosProveedor: Gasto[] = [];
+
     
-    onGastoChanged: BehaviorSubject<any>;
-    gasto: Gasto = new Gasto({});
+    // onGastoChanged: BehaviorSubject<any>;
+    // gasto: Gasto = new Gasto({});
 
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>; 
 
-    infoOnChanged = new BehaviorSubject({});
-    info: any;
+    // infoOnChanged = new BehaviorSubject({});
+    // info: any;
 
     searchText: string;
     filterBy: string;
@@ -55,10 +60,15 @@ export class ComprobantesService implements Resolve<any>
     constructor(private http: HttpClient, private cookieService: CookieService){      
         // Set the defaults
         this.onGastosChanged = new BehaviorSubject([]);
-        this.onGastoChanged = new BehaviorSubject([]);
+        this.onGastosProveedorChanged = new BehaviorSubject([]);
 
+
+        
         this.onSelectedGastosChanged = new BehaviorSubject([]);
-/*      this.onUserDataChanged = new BehaviorSubject([]);*/        
+        // this.onGastoChanged = new BehaviorSubject([]);
+        
+
+
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
         this.index = 0;
@@ -84,24 +94,26 @@ export class ComprobantesService implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any{
         
-        if ((state.url.indexOf('/proveedores/') > -1) && (route.params['id'])){            
-            return new Promise((resolve, reject) => {
+        // if ((state.url.indexOf('/proveedores/') > -1) && (route.params['id'])){            
+        //     return new Promise((resolve, reject) => {
 
-                Promise.all([
-                    this.getGastosByProveedor(route.params['id']),
-                ]).then(
-                    ([files]) => {
-                        resolve();
-                    },
-                    reject
-                );
-            }); 
-        }
+        //         Promise.all([
+        //             this.getGastosByProveedor(route.params['id']),
+        //         ]).then(
+        //             ([files]) => {
+        //                 resolve();
+        //             },
+        //             reject
+        //         );
+        //     }); 
+        // }
 
         return new Promise((resolve, reject) => {
 
             Promise.all([
                 this.getGastos(),
+                this._pasaMano(route, state)
+
             ]).then(
                 ([files]) => {
 
@@ -128,7 +140,7 @@ export class ComprobantesService implements Resolve<any>
          return new Promise((resolve, reject) => {
              this.createRequestObtenerGastosConFiltro() // pagina es lo que se envia 
                     .subscribe((response: any) => {
-                        console.log(response);
+                        // console.log(response);
  
                         if (response == null){ // Fix en caso de null
                             response = [];
@@ -159,13 +171,13 @@ export class ComprobantesService implements Resolve<any>
                         response = [];
                     }
 
-                    this.gastos = response.map(gasto => {
+                    this.gastosProveedor = response.map(gasto => {
                         return new Gasto(gasto);
                     });
                     
-                    this.onGastosChanged.next(this.gastos);
+                    this.onGastosProveedorChanged.next(this.gastosProveedor);
 
-                    resolve(this.gastos);
+                    resolve(this.gastosProveedor);
                 }, reject);
         });
     }
@@ -182,11 +194,108 @@ export class ComprobantesService implements Resolve<any>
         return gasto;
     }
 
+    /**
+     * Envia un gasto al backend para guardar
+     * @param gasto 
+     */
+    addGasto(gasto: Gasto): Promise<any> {
+        // console.log(gasto);
+        return new Promise((resolve, reject) => {
+
+            this.createRequestAddGasto(gasto)
+                .subscribe((response: any) => {
+                    this.getGastos();
+                });
+        });
+    }
+
+    /**
+     * 
+     * @param gasto 
+     * @param proveedor 
+     */
+    deleteGasto(gasto: Gasto, proveedor?: Contact): Promise<any> {
+        return new Promise((resolve, reject) => {
+
+            this.createRequestRemoveGasto(gasto)
+                .subscribe(response => {
+                    // this.deleteContactList(gasto);
+                    
+                    if (proveedor){
+                        this.getGastosByProveedor(proveedor.id);
+                    }
+                    
+                    this.getGastos();
+
+
+                    resolve(response);
+                });
+        });
+    }
+
+    /**
+     * Update contact
+     *
+     * @param contact
+     * @returns {Promise<any>}
+     */
+    updateContact(gasto: Gasto, proveedor?: Contact): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.createRequestUpdateGasto(gasto)
+                .subscribe(response => {
+
+                    if (proveedor) {
+                        this.getGastosByProveedor(proveedor.id);
+                    }
+
+                    
+                    this.getGastos();
+
+
+                    // resolve(response);
+                });
+        });
+    } 
+
+    /**
+     * Realiza llamado al back para traer mas comprobantes
+     */
+    obtenerMasComprobantes(): any {
+        this.index = this.index + 1;
+
+        return new Promise((resolve, reject) => {
+            this.createRequestObtenerGastosConFiltro()
+                .subscribe((response: any) => {
+
+                    if (response == null) {
+                        response = [];
+                    }
+
+                    let gastos = response.map(gasto => {
+                        return new Gasto(gasto);
+                    });
+
+                    this.gastos = this.gastos.concat(gastos);
+                    this.onGastosChanged.next(this.gastos);
+
+                    resolve(this.gastos);
+
+                }, reject);
+        });
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Metodos Privados
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // No es posible poner el if dentro del Promise.all([...])
+    // https://i.imgur.com/MYt0BFt.jpg?noredirect
+    private _pasaMano(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): void { 
+        if ((state.url.indexOf('/proveedores/') > -1) && (route.params['id'])) {
+            this.getGastosByProveedor(route.params['id']);
+        }
+    }
 
     /**
      * filtra los gastos dependiendo del texto
@@ -203,7 +312,26 @@ export class ComprobantesService implements Resolve<any>
     }
 
 
+    private deleteContactList(gasto: Gasto): void {
+        let contactIndex = this.gastos.indexOf(gasto);
+        console.log(contactIndex);
+        if (contactIndex !== -1) {
+            this.gastos.splice(contactIndex, 1);
 
+            console.log('eliminado de gastos');
+            this.onGastosChanged.next(this.gastos);
+        }
+
+        contactIndex = this.gastosProveedor.indexOf(gasto);
+        console.log(contactIndex);
+        if (contactIndex !== -1) {
+            console.log(this.gastosProveedor);
+            this.gastosProveedor.splice(contactIndex, 1);
+            console.log(this.gastosProveedor);
+            console.log('eliminado de gastosProveedor');
+            this.onGastosProveedorChanged.next(this.gastosProveedor);
+        }
+    }
 
 
 
@@ -211,8 +339,12 @@ export class ComprobantesService implements Resolve<any>
     // createRequest
     ///////////////////////////////////////////////////////////////////////
 
+    private createRequestObtenerGastos(): any {
+        return this.http.get(LIST_URL, this.httpOptions);
+    }
+
     private createRequestAddGasto(gasto: Gasto): any {
-        let request = JSON.stringify(gasto); // agrego un nuevo gasto. 
+        let request = JSON.stringify(gasto); 
 
         return this.http.post(CRUD_URL, request, this.httpOptions);
     }
@@ -224,21 +356,18 @@ export class ComprobantesService implements Resolve<any>
     }
 
     private createRequestRemoveGasto(gasto: Gasto): any {
-        let options; 
-        let params = new HttpParams();
-        params = params.set('id', gasto.id );
-        options = {
+        let params = {
+            'id': gasto.id,
+        };
+
+        let options = {
             headers: new HttpHeaders({
                 'Authorization': this.cookieService.get('tokenAuth')
             }),
             params : params,
         };
 
-        return this.http.delete(CRUD_URL, { params : params });
-    }
-
-    private createRequestObtenerGastos(): any {
-        return this.http.get(LIST_URL, this.httpOptions); 
+        return this.http.delete(CRUD_URL, options);
     }
 
     private createRequestObtenerGastosConFiltro(): any {
@@ -276,66 +405,12 @@ export class ComprobantesService implements Resolve<any>
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
 
-    addGasto(gasto: Gasto): Promise<any> {
-
-        console.log(gasto);
-        return new Promise((resolve, reject) => {
-
-            this.createRequestAddGasto(gasto)
-                .subscribe((response: any) => {
-                    this.getGastos();
-                });
-        });
-    }
-
-    deleteGasto(gasto: Gasto): Promise<any> {
-        return new Promise((resolve, reject) => {
-
-            this.createRequestRemoveGasto(gasto)
-                .subscribe(response => {
-                    this.deleteContactList(gasto);
-                    resolve(response);
-                });
-        });
-    }
-
-    deleteContactList(gasto: Gasto): void {
-        const contactIndex = this.gastos.indexOf(gasto);
-        if (contactIndex !== -1) {
-            this.gastos.splice(contactIndex, 1);
-            this.onGastosChanged.next(this.gastos);
-        }
-    }
-    
     getGasto(id: string): Gasto {
         let gasto: Gasto;
         gasto = this.gastos.find(element =>  element.id == id  );
         return gasto;    
     }
 
-    obtenerMasComprobantes(): any {
-        this.index = this.index + 1;
-        
-        return new Promise((resolve, reject) => {
-            this.createRequestObtenerGastosConFiltro()
-                .subscribe((response: any) => {                    
-        
-                    if (response == null){
-                        response = null;
-                    }
-
-                    let gastos = response.map(gasto => {
-                        return new Gasto(gasto);
-                    });
-
-                    this.gastos = this.gastos.concat(gastos);
-                    this.onGastosChanged.next(this.gastos);
-
-                    resolve(this.gastos);
-
-                }, reject);
-        });
-    }
 
     /**
      * Toggle selected contact by id
@@ -344,28 +419,28 @@ export class ComprobantesService implements Resolve<any>
      */
     toggleSelectedContact(id): void
     {
-         // First, check if we already have that contact as selected...
-        if ( this.selectedGastos.length > 0 )
-        {
-            const index = this.selectedGastos.indexOf(id);
+        // First, check if we already have that contact as selected...
+        // if ( this.selectedGastos.length > 0 )
+        // {
+        //     const index = this.selectedGastos.indexOf(id);
 
-            if ( index !== -1 )
-            {
-                this.selectedGastos.splice(index, 1);
+        //     if ( index !== -1 )
+        //     {
+        //         this.selectedGastos.splice(index, 1);
 
-                // Trigger the next event
-                this.onSelectedGastosChanged.next(this.selectedGastos);
+        //         // Trigger the next event
+        //         this.onSelectedGastosChanged.next(this.selectedGastos);
 
-                // Return
-                return;
-            }
-        } 
+        //         // Return
+        //         return;
+        //     }
+        // } 
 
         // If we don't have it, push as selected
-        this.selectedGastos.push(id);
+        // this.selectedGastos.push(id);
 
         // Trigger the next event
-        this.onSelectedGastosChanged.next(this.selectedGastos);
+        // this.onSelectedGastosChanged.next(this.selectedGastos);
     }
 
     /**
@@ -373,14 +448,14 @@ export class ComprobantesService implements Resolve<any>
      */
     toggleSelectAll(): void
     {
-         if ( this.selectedGastos.length > 0 )
-        {
-            this.deselectGastos();
-        }
-        else
-        {
-            this.selectGastos();
-        } 
+        // if ( this.selectedGastos.length > 0 )
+        // {
+        //     this.deselectGastos();
+        // }
+        // else
+        // {
+        //     this.selectGastos();
+        // } 
     }
 
     /**
@@ -391,48 +466,32 @@ export class ComprobantesService implements Resolve<any>
      */
     selectGastos(filterParameter?, filterValue?): void
     {
-        this.selectedGastos = [];
+        // this.selectedGastos = [];
 
         // If there is no filter, select all contacts
-        if ( filterParameter === undefined || filterValue === undefined )
-        {
-            this.selectedGastos = [];
-            this.gastos.map(contact => {
-                this.selectedGastos.push(contact.id);
-            });
-        }
+        // if ( filterParameter === undefined || filterValue === undefined )
+        // {
+        //     this.selectedGastos = [];
+        //     this.gastos.map(contact => {
+        //         this.selectedGastos.push(contact.id);
+        //     });
+        // }
 
         // Trigger the next event
-        this.onSelectedGastosChanged.next(this.selectedGastos);
+        // this.onSelectedGastosChanged.next(this.selectedGastos);
     }
 
-    /**
-     * Update contact
-     *
-     * @param contact
-     * @returns {Promise<any>}
-     */
-    updateContact(gasto: Gasto): Promise<any>
-    {
-        return new Promise((resolve, reject) => {
-                this.createRequestUpdateGasto(gasto)
-                .subscribe(response => {
-                    this.getGastos();
-               //     resolve(response);
-                });
-        });
-    } 
-
+    
 
     /**
      * Deselect contacts
      */
     deselectGastos(): void
     {
-         this.selectedGastos = [];
+        // this.selectedGastos = [];
 
         // Trigger the next event
-        this.onSelectedGastosChanged.next(this.selectedGastos); 
+        // this.onSelectedGastosChanged.next(this.selectedGastos); 
     }
 
     /**
@@ -440,15 +499,15 @@ export class ComprobantesService implements Resolve<any>
      */
     deleteSelectedGastos(): void
     {
-         for ( const contactId of this.selectedGastos )
-        {
-            const contact = this.gastos.find(_contact => {
-                return _contact.id === contactId;
-            });
-            const contactIndex = this.gastos.indexOf(contact);
-            this.gastos.splice(contactIndex, 1);
-        }
-        this.onGastosChanged.next(this.gastos);
-        this.deselectGastos(); 
+        // for ( const contactId of this.selectedGastos )
+        // {
+        //     const contact = this.gastos.find(_contact => {
+        //         return _contact.id === contactId;
+        //     });
+        //     const contactIndex = this.gastos.indexOf(contact);
+        //     this.gastos.splice(contactIndex, 1);
+        // }
+        // this.onGastosChanged.next(this.gastos);
+        // this.deselectGastos(); 
     }
 }

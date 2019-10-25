@@ -74,22 +74,11 @@ export class PersonasService implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
     {        
-        // console.log(state);
-        if (route.params['id']) {
-            return new Promise((resolve, reject) => {
-                Promise.all([
-                    this.getProveedor(route.params['id']),
-                ]).then(
-                    ([files]) => {
-                        resolve();
-                    },
-                    reject
-                );
-            }); 
-        }
-        
+
         return new Promise((resolve, reject) => {
             Promise.all([
+                this.getProveedor(route.params['id']),
+
                 this.getProveedores(), 
             ]).then(
                 ([files]) => {
@@ -133,7 +122,11 @@ export class PersonasService implements Resolve<any>
      * Encargado de traer un proveedor en particular 
      * @param id 
      */
-    getProveedor(id: string): Promise<any> {
+    getProveedor(id: string): Promise<any> {        
+        if (!(id)){            
+            return null;
+        }
+
         return new Promise((resolve, reject) => {
             this.crearRequestObtenerProveedor(id)
                 .subscribe((response: any) => {

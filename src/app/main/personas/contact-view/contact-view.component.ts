@@ -26,7 +26,6 @@ export class ContactViewComponent implements OnInit {
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     
     proveedor: Contact;
-    gastos: any;
     
     comprobantesTabName: String = 'Gastos';
 
@@ -50,20 +49,9 @@ export class ContactViewComponent implements OnInit {
             }
         });
 
-    this._comprobantesService.onGastosChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(data => {
-            if (data == null) {
-                this.gastos = [];
-            }else{            
-                this.gastos = data;                  
-            }
-          });
-
   }
 
-  editContact(): void
-  {
+  editContact(): void{
       this.dialogRef = this._matDialog.open(ContactsContactFormDialogComponent, {
           panelClass: 'contact-form-dialog',
           data      : {
@@ -102,8 +90,7 @@ export class ContactViewComponent implements OnInit {
           });
   }
 
-  deleteContact(): void
-  {
+  deleteContact(): void{
       this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
           disableClose: false
       });

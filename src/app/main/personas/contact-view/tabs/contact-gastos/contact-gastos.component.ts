@@ -7,12 +7,11 @@ import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Gasto } from 'app/main/comprobantes/gasto.model';
 import { fuseAnimations } from '@fuse/animations';
+import { GastoFormDialogComponent } from 'app/main/comprobantes/gastos-form/gastos-form.component';
+import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
+import { ComprobantesService } from 'app/main/comprobantes/comprobantes.service';
 
- /* import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
- */
-/* import { ComprobantesService } from '../gastos.service';
- *//* import { GastoFormDialogComponent } from '../gastos-form/gastos-form.component';
- */
+
 @Component({
     selector     : 'contact-gastos',
     templateUrl  : './contact-gastos.component.html',
@@ -22,15 +21,18 @@ import { fuseAnimations } from '@fuse/animations';
 })
 export class ContactGastosComponent implements OnInit, OnDestroy
 {
-    @Input() gastos: any;
-   // dataSource: FilesDataSource | null;
-  // dataSource = new MatTableDataSource<Gasto>([]);
+    // @Input() gastos: any;
+
+    gastos: any;
+
+    @Input() proveedor: any;
     displayedColumns = ['avatar', 'descripcion', 'fecha', 'comprobante', 'estado', 'importe', 'buttons'];
 
-   // displayedColumns = ['checkbox', 'avatar', 'name', 'email', 'phone', 'jobTitle'];
-  //  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-
-    // Private
+   
+    dialogRef: any;
+    confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+  
+    private _unsubscribeAll: Subject<any>;
 
     /**
      * Constructor
@@ -38,78 +40,51 @@ export class ContactGastosComponent implements OnInit, OnDestroy
      * @param {ComprobantesService} _comprobantesService
      * @param {MatDialog} _matDialog
      */
-    constructor(
-     //   private _comprobantesService: ComprobantesService,
-        public _matDialog: MatDialog,
-        private router: Router
-    )
-    {
-        // Set the private defaults
-/*         this.dataSource.data = this.addGroups(Gastos.gastos, this.groupByColumn);
-        this.dataSource.filterPredicate = this.customFilterPredicate.bind(this); */
+    constructor(private _comprobantesService: ComprobantesService, public _matDialog: MatDialog, private router: Router){
+        this._unsubscribeAll = new Subject();
     }
-
-
-
-     
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
 
     /**
      * On init
      */
-    ngOnInit(): void
-    {
-/*         this._comprobantesService.onContactsChanged
+    ngOnInit(): void{ 
+
+        this._comprobantesService.onGastosProveedorChanged
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(gastos => {
-                this.gastos = gastos;
-                this.checkboxes = {};
-                 gastos.map(gasto => {
-                    this.checkboxes[gasto.id] = false;
-                }); 
-            }); */
-    //        this.dataSource.data = this.gastos
-     //       console.log(this.dataSource.data);
-     //       this.dataSource.filterPredicate = this.customFilterPredicate.bind(this);
+            .subscribe(data => {
+                console.log(data);
+                if (data == null) {
+                    this.gastos = [];
+                } else {
+                    console.log(data);
+                    this.gastos = data;
+
+                }
+            });
+
+
+        // this._personasService.onSelectedContactsChanged
+        //     .pipe(takeUntil(this._unsubscribeAll))
+        //     .subscribe(selectedContacts => {
+        //         for (const id in this.checkboxes) {
+        //             if (!this.checkboxes.hasOwnProperty(id)) {
+        //                 continue;
+        //             }
+
+        //             this.checkboxes[id] = selectedContacts.includes(id);
+        //         }
+        //         this.selectedContacts = selectedContacts;
+        //     });
     }
 
-/*         this._personasService.onSelectedContactsChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(selectedContacts => {
-                for ( const id in this.checkboxes )
-                {
-                    if ( !this.checkboxes.hasOwnProperty(id) )
-                    {
-                        continue;
-                    }
-
-                    this.checkboxes[id] = selectedContacts.includes(id);
-                }
-                this.selectedContacts = selectedContacts;
-            });
-
-        this._personasService.onUserDataChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(user => {
-                this.user = user;
-            });
-
-        this._personasService.onFilterChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(() => {
-                this._personasService.deselectContacts();
-            }); */
-    
 
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void{
         // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -121,70 +96,63 @@ export class ContactGastosComponent implements OnInit, OnDestroy
      *
      * @param contact
      */
-    editContact(gasto): void
-    {
-/*         this.dialogRef = this._matDialog.open(GastoFormDialogComponent, {
+    editGasto(gasto): void{
+        this.dialogRef = this._matDialog.open(GastoFormDialogComponent, {
             panelClass: 'gasto-form-dialog',
-            data      : {
+            data: {
+                action: 'edit',
                 gasto: gasto,
-                action : 'edit'
             }
         });
 
         this.dialogRef.afterClosed()
             .subscribe(response => {
-                if ( !response )
-                {
+                if (!response) {
                     return;
                 }
                 const actionType: string = response[0];
                 const formData: FormGroup = response[1];
-                switch ( actionType )
-                {
+                switch (actionType) {
                     /**
                      * Save
-                     * /
+                     */
                     case 'save':
 
-               //         this._personasService.updateContact(formData.getRawValue());
+                        this._comprobantesService.updateContact(formData.getRawValue(), this.proveedor);
 
                         break;
                     /**
                      * Delete
-                     * /
+                     */
                     case 'delete':
 
                         this.deleteGasto(gasto);
 
                         break;
                 }
-            }); */
+            });
     }
 
     /**
      * Delete Contact
      */
-    deleteGasto(gasto): void
-    {
- /*        this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
+    deleteGasto(gasto): void{
+        this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
             disableClose: false
         });
 
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+        this.confirmDialogRef.componentInstance.confirmMessage = '¿Esta Seguro que desea eliminar el comprobante?';
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
-            if ( result )
-            {
-                this._comprobantesService.deleteContact(gasto);
+            if (result) {
+                this._comprobantesService.deleteGasto(gasto, this.proveedor);
             }
             this.confirmDialogRef = null;
         });
- */
     }
 
-     verGasto(gasto: Gasto): void
-    {
-      this.router.navigate(['/gastos', gasto.id]);
+    verGasto(gasto: Gasto): void{
+        this.router.navigate(['/gastos', gasto.id]);
     } 
 
     /**
@@ -194,8 +162,8 @@ export class ContactGastosComponent implements OnInit, OnDestroy
      */
     onSelectedChange(contactId): void
     {
-/*         this._comprobantesService.toggleSelectedContact(contactId);
- */    }
+    /*         this._comprobantesService.toggleSelectedContact(contactId);    */
+    }
 
     /**
      * Toggle star

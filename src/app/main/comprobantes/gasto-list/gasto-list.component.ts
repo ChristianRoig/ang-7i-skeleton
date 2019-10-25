@@ -238,13 +238,12 @@ export class GastoListComponent implements OnInit, OnDestroy
     /**
      * Delete Contact
      */
-    deleteGasto(gasto): void
-    {
+    deleteGasto(gasto): void{
         this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
             disableClose: false
         });
 
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+        this.confirmDialogRef.componentInstance.confirmMessage = '¿Esta Seguro que desea eliminar el comprobante?';
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if ( result )
@@ -256,9 +255,8 @@ export class GastoListComponent implements OnInit, OnDestroy
 
     }
 
-    verGasto(gasto: Gasto): void
-    {
-      this.router.navigate(['/gastos',gasto.id]);
+    verGasto(gasto: Gasto): void{
+      this.router.navigate(['/gastos', gasto.id]);
     }
 
     /**
@@ -292,7 +290,7 @@ export class GastoListComponent implements OnInit, OnDestroy
 
     isGroup(index, item): boolean{
         return item.level;
-      }
+    }
 
 }
 

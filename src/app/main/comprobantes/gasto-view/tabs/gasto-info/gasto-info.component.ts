@@ -42,11 +42,11 @@ export class GastoInfoComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        this._comprobantesService.infoOnChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(info => {
-                this.info = info;
-            });
+        // this._comprobantesService.infoOnChanged
+        //     .pipe(takeUntil(this._unsubscribeAll))
+        //     .subscribe(info => {
+        //         this.info = info;
+        //     });
     }
 
     /**
