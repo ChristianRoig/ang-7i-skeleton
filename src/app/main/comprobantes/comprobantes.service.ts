@@ -35,42 +35,32 @@ export class ComprobantesService implements Resolve<any>
 
     onGastosProveedorChanged: BehaviorSubject<any>;
     gastosProveedor: Gasto[] = [];
-
     
-    // onGastoChanged: BehaviorSubject<any>;
-    // gasto: Gasto = new Gasto({});
+    onGastoChanged: BehaviorSubject<any>;
+    gasto: Gasto = new Gasto({});
 
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>; 
 
-    // infoOnChanged = new BehaviorSubject({});
-    // info: any;
-
     searchText: string;
-    filterBy: string;
-
-    index: number;
-    
     httpOptions: any;
+    filterBy: string;
+    index: number;    
 
     /**
      * Constructor
-     *
      */
     constructor(private http: HttpClient, private cookieService: CookieService){      
         // Set the defaults
+        
         this.onGastosChanged = new BehaviorSubject([]);
         this.onGastosProveedorChanged = new BehaviorSubject([]);
-
-
-        
+        this.onGastoChanged = new BehaviorSubject([]);
+                        
         this.onSelectedGastosChanged = new BehaviorSubject([]);
-        // this.onGastoChanged = new BehaviorSubject([]);
-        
-
-
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
+
         this.index = 0;
 
         this.httpOptions = {
@@ -93,26 +83,13 @@ export class ComprobantesService implements Resolve<any>
      * @returns {Observable<any> | Promise<any> | any}
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any{
-        
-        // if ((state.url.indexOf('/proveedores/') > -1) && (route.params['id'])){            
-        //     return new Promise((resolve, reject) => {
-
-        //         Promise.all([
-        //             this.getGastosByProveedor(route.params['id']),
-        //         ]).then(
-        //             ([files]) => {
-        //                 resolve();
-        //             },
-        //             reject
-        //         );
-        //     }); 
-        // }
-
+              
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getGastos(),
-                this._pasaMano(route, state)
+
+                this._pasaMano(route, state),
+                this._pasaMano2(route, state)
 
             ]).then(
                 ([files]) => {
@@ -130,6 +107,19 @@ export class ComprobantesService implements Resolve<any>
         }); 
     }
 
+
+    /**
+     * Inicializa valores al gasto
+     * @param gasto 
+     */
+    initGasto(gasto: Gasto): Gasto {
+        gasto.categoria = ComprobantesService.CATEGORIA;
+        gasto.etiqueta = ComprobantesService.ETIQUETA;
+        gasto.modulo = ComprobantesService.MODULO;
+
+        return gasto;
+    }
+
     /**
      * getGastos
      * 
@@ -140,8 +130,6 @@ export class ComprobantesService implements Resolve<any>
          return new Promise((resolve, reject) => {
              this.createRequestObtenerGastosConFiltro() // pagina es lo que se envia 
                     .subscribe((response: any) => {
-                        // console.log(response);
- 
                         if (response == null){ // Fix en caso de null
                             response = [];
                         }
@@ -183,23 +171,10 @@ export class ComprobantesService implements Resolve<any>
     }
 
     /**
-     * Inicializa valores al gasto
-     * @param gasto 
-     */
-    initGasto(gasto: Gasto): Gasto {
-        gasto.categoria = ComprobantesService.CATEGORIA;
-        gasto.etiqueta = ComprobantesService.ETIQUETA;
-        gasto.modulo = ComprobantesService.MODULO;
-
-        return gasto;
-    }
-
-    /**
      * Envia un gasto al backend para guardar
      * @param gasto 
      */
     addGasto(gasto: Gasto): Promise<any> {
-        // console.log(gasto);
         return new Promise((resolve, reject) => {
 
             this.createRequestAddGasto(gasto)
@@ -210,7 +185,7 @@ export class ComprobantesService implements Resolve<any>
     }
 
     /**
-     * 
+     * Envia la peticion al back para eliminar un gasto en particular
      * @param gasto 
      * @param proveedor 
      */
@@ -234,7 +209,7 @@ export class ComprobantesService implements Resolve<any>
     }
 
     /**
-     * Update contact
+     * Envia al backend un gasto para que sea actualizado
      *
      * @param contact
      * @returns {Promise<any>}
@@ -271,11 +246,11 @@ export class ComprobantesService implements Resolve<any>
                         response = [];
                     }
 
-                    let gastos = response.map(gasto => {
+                    let _gastos = response.map(gasto => {
                         return new Gasto(gasto);
                     });
 
-                    this.gastos = this.gastos.concat(gastos);
+                    this.gastos = this.gastos.concat(_gastos);
                     this.onGastosChanged.next(this.gastos);
 
                     resolve(this.gastos);
@@ -284,16 +259,25 @@ export class ComprobantesService implements Resolve<any>
         });
     }
 
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Metodos Privados
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
 
     // No es posible poner el if dentro del Promise.all([...])
     // https://i.imgur.com/MYt0BFt.jpg?noredirect
-    private _pasaMano(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): void { 
+
+    // Pasa Mano para Traer Gastos de un Proveedor 
+    private _pasaMano2(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): void { 
         if ((state.url.indexOf('/proveedores/') > -1) && (route.params['id'])) {
             this.getGastosByProveedor(route.params['id']);
+        }
+    }
+
+    // Pasa Mano para Traer o No los Gastos
+    private _pasaMano(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): void {       
+        // tslint:disable-next-line: triple-equals
+        if (this.gastos.length == 0){
+            this.getGastos();
         }
     }
 
@@ -404,7 +388,7 @@ export class ComprobantesService implements Resolve<any>
 // De aca para abajo hay que revisar TODO 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-
+    // Esto se tiene que cambiar por un servicio en el backend 
     getGasto(id: string): Gasto {
         let gasto: Gasto;
         gasto = this.gastos.find(element =>  element.id == id  );
@@ -480,8 +464,6 @@ export class ComprobantesService implements Resolve<any>
         // Trigger the next event
         // this.onSelectedGastosChanged.next(this.selectedGastos);
     }
-
-    
 
     /**
      * Deselect contacts
