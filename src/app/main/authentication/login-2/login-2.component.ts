@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
 import { LoginService } from './login-2.service';
-import { Subject } from 'rxjs/internal/Subject';
-import { takeUntil } from 'rxjs/internal/operators/takeUntil';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ErrorService } from '../../errors/error.service';
 import { Router } from '@angular/router';
 
@@ -27,7 +27,7 @@ export class Login2Component implements OnInit, OnDestroy
 
 
     // Private
-    private _unsubscribeAll: Subject<any>;
+    protected _unsubscribeAll: Subject<any>;
     
     /**
      * Constructor
@@ -82,14 +82,13 @@ export class Login2Component implements OnInit, OnDestroy
     ngOnInit(): void
     {  
         this.loginForm = this._formBuilder.group({
-            email: ['admin', [Validators.required]], // , Validators.email
-            password: ['admin', Validators.required]
+            email: ['macchiavello.florencia', [Validators.required]], // , Validators.email
+            password: ['P@ssword', Validators.required]
         });
 
         this._loginService.infoOnChanged
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(info => {
-
+            .subscribe(info => {                
                 if (info){
                     this.info = info;                    
 
@@ -117,10 +116,8 @@ export class Login2Component implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
-    onSubmit(): void{       
-        // console.log("usuario " + this.loginForm.get('email').value + " password " + this.loginForm.get('password').value);
-        this._loginService.login(this.loginForm.get('email').value, this.loginForm.get('password').value); 
- 
+    onSubmit(): void{        
+        this._loginService.login(this.loginForm.get('email').value, this.loginForm.get('password').value);
     }
 
 }

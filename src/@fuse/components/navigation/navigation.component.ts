@@ -79,15 +79,26 @@ export class FuseNavigationComponent implements OnInit
 
 
     private _visualizarSegunRol(): void {
-        let rol = this._loginService.getRol();
-        
-        if (!(rol)) {
-            return;
-        }
+        this._loginService.rolOnChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+                .subscribe(
+                    (respu: []) => {
+                        if (respu == null) {
+                            respu = [];
+                        }
 
-        rol.forEach(element => {
+                        this.switchByRol(respu);
+                    },
+                    (error: any) => {
+                        console.log(error);
+                        this.switchByRol([]);      
+                    });
+    }
+
+    private switchByRol(roles): void {
+        roles.forEach(element => {
             switch (element) {
-                case 'RRHH':
+                case 'rrhh':
                     this._fuseNavigationService.updateNavigationItem('equipo', {
                         hidden: false
                     });
@@ -108,7 +119,7 @@ export class FuseNavigationComponent implements OnInit
                     });
 
                     break;
-                case 'ResSector':
+                case 'res_sector':
                     this._fuseNavigationService.updateNavigationItem('equipo', {
                         hidden: true
                     });
@@ -129,7 +140,7 @@ export class FuseNavigationComponent implements OnInit
                     });
 
                     break;
-                case 'ResEquipo':
+                case 'res_equipo':
                     this._fuseNavigationService.updateNavigationItem('nov-equipo', {
                         hidden: false
                     });
@@ -172,14 +183,30 @@ export class FuseNavigationComponent implements OnInit
 
                     break;
 
-                default:
+                default: // 'comun'
+                    this._fuseNavigationService.updateNavigationItem('equipo', {
+                        hidden: true
+                    });
+                    this._fuseNavigationService.updateNavigationItem('nov-equipo', {
+                        hidden: true
+                    });
+                    this._fuseNavigationService.updateNavigationItem('nov-sector', {
+                        hidden: true
+                    });
+                    this._fuseNavigationService.updateNavigationItem('origenes', {
+                        hidden: true
+                    });
+                    this._fuseNavigationService.updateNavigationItem('conceptos', {
+                        hidden: true
+                    });
+                    this._fuseNavigationService.updateNavigationItem('AreaRRHH', {
+                        hidden: true
+                    });
+
                     break;
             }
 
         });
-
-
-      
 
     }
 }

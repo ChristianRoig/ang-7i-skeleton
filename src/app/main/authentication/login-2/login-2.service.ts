@@ -23,14 +23,6 @@ export class LoginService
 
     private rol: string[] = [];
 
-
-    private variable_auxiliar_para_test = '';
-
-
-
-    // private datos: any;
-    // datosOnChanged: BehaviorSubject<any>;
-
     infoOnChanged: BehaviorSubject<any>;
     perfilLogOnChanged: BehaviorSubject<any>;
     rolOnChanged: BehaviorSubject<any>;
@@ -42,21 +34,12 @@ export class LoginService
      * @param {CookieService} _cookieService
      * @param {Router} _router
      */
-    constructor(
-        private _httpClient: HttpClient,
-        private _cookieService: CookieService,
-        private _router: Router,
-
-        private _fuseNavigationService: FuseNavigationService
-
-    ) {
+    constructor( private _router: Router, private _httpClient: HttpClient, private _cookieService: CookieService, private _fuseNavigationService: FuseNavigationService) {
         // Set the defaults
 
-        this.infoOnChanged = new BehaviorSubject({});
-        this.perfilLogOnChanged = new BehaviorSubject({});
-        this.rolOnChanged = new BehaviorSubject({});
-
-        // this.datosOnChanged = new BehaviorSubject({});
+        this.infoOnChanged = new BehaviorSubject([]);
+        this.perfilLogOnChanged = new BehaviorSubject([]);
+        this.rolOnChanged = new BehaviorSubject([]);
 
         this.init();
     }
@@ -72,8 +55,7 @@ export class LoginService
         //     hidden: true
         // });  
 
-        const userLog = this._cookieService.get(user);       
-        // const datos = this._cookieService.get('datos');
+        const userLog = this._cookieService.get(user);        
 
         if (userLog){
             this.perfilLog = new Perfil(JSON.parse(userLog));            
@@ -81,19 +63,18 @@ export class LoginService
             this.perfilLog = new Perfil({});        
         }
 
-        this.perfilLogOnChanged.next(this.perfilLog);  
+        this.rolOnChanged.next([]);
+        this.perfilLogOnChanged.next(this.perfilLog);
     }
 
     /**
      * Metodo para cerra la sesion
      */
     logout(): void{
-        this.infoOnChanged = new BehaviorSubject({});
-        this.perfilLogOnChanged = new BehaviorSubject({});
-        this.rolOnChanged = new BehaviorSubject({});
-        // this.datosOnChanged = new BehaviorSubject({});
+        this.infoOnChanged.next(new ResponseLogin({}));
+        this.perfilLogOnChanged.next(new Perfil({}));
+        this.rolOnChanged.next([]);    
 
-        this.rol = [];
         this._cookieService.deleteAll();
     }
     
@@ -106,63 +87,59 @@ export class LoginService
         this.logout();
 
         return new Promise(() => {
-
-            this.variable_auxiliar_para_test = password;
-            password = 'admin';
-
-
-            this._createRequest(username, password)
+            this._obtenerLogin(username, password)
                 .subscribe(
                     (info: ResponseLogin) => {
                         info = new ResponseLogin(info);                                 
                         
                         if (info.token != null){
-                            let expirar = new Date();
-
-                            expirar.setHours(expirar.getHours() + 16);
-                            // expirar.setMinutes(expirar.getMinutes() + 2);
-
-                            this._cookieService.set(token, info.token, expirar);
 
                             this._obtenerLegajo(info.token)
                                 .subscribe(
-                                    (res) => {
-
-                                        this._obtenerPerfilLog(res, info.token)
+                                    (legajo) => {
+                                        this._obtenerPerfilLog(legajo, info.token)
                                             .subscribe(
                                                 (perf) => {
-                                                    perf = new Perfil(perf);
-                                                    this.perfilLog = perf;
 
-                                                    this._cookieService.set(user, JSON.stringify(perf), expirar);
+                                                    if (perf == null){                                                        
+                                                        this._defineError();                                     
+                                                    }else{
+                                                        
+                                                        this._obtenerRoles(info.token)
+                                                            .subscribe(
+                                                                (roles: any) => {
+                                                                    if (roles == null) {
+                                                                        roles = [];
+                                                                    }                                        
+                                                                    this._trabajoLogueo(info, perf, roles);                                                                    
+                                                                },
+                                                                (err: any) => {
+                                                                    console.log(err);
+                                                                    this._defineError();
+                                                                });
+                                                    }
                                                     
-                                                    this.info = info;
-                                                    this.infoOnChanged.next(this.info);
-                                                    this.perfilLogOnChanged.next(this.perfilLog);
-
-// Todo Bien ;)
-                                                    this._setRol(info.token);
-
-
-                                                    this._router.navigate(['/legajo']);  
-
                                                 },
                                                 (err) => {
+                                                    console.log(err);
                                                     this._defineError();
                                                 }
                                             );
                                     },
                                     (err) => {
+                                        console.log(err);
                                         this._defineError();
                                     }
                                 );
                                                         
                         }else{
+                            console.log('token invalido');
                             this._defineError();
                         }   
                                                
                     }, 
                     (err) => {
+                        console.log(err);
                         this._defineError();
                     }
                 );
@@ -204,12 +181,7 @@ export class LoginService
         const userLog = this._cookieService.get(user);
         const tokenLog = this._cookieService.get(token);
 
-        if ((userLog) && (tokenLog)) {
-
-            if (this.rol === undefined || this.rol === []) {
-                this._setRol(tokenLog);
-            }
-
+        if ((userLog) && (tokenLog)) {                      
             return true;
         } else {
             this.logout();
@@ -220,78 +192,83 @@ export class LoginService
     /**
      * retorna el/los roles que tiene el usuario
      */
-    getRol(): string[] {
-        this._setRol(this._cookieService.get(token));
-        return this.rol;
+    getRol(): any {    
+        const httpHeaders = new HttpHeaders({
+            'Authorization': this.getLocalToken()
+        });
+
+        const url = API + 'getRoles';
+
+        if (this.rol.length > 0){
+            return new Promise((resolve, reject) => {
+                resolve(this.rol);
+            });
+        }else{            
+            return this._httpClient.get(url, {
+                headers: httpHeaders,
+            }).toPromise();
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Private methods
     // -----------------------------------------------------------------------------------------------------
 
+    private _trabajoLogueo(info: ResponseLogin, perf: Perfil, roles: []): void{
+        let expirar = new Date();
+        expirar.setHours(expirar.getHours() + 16);
+        
+        this.rol = roles;
+        this.info = info;
+        this.perfilLog = new Perfil(perf);
+                
+        this._cookieService.set(token, info.token, expirar);
+        this._cookieService.set(user, JSON.stringify(perf), expirar);
+
+        this.rolOnChanged.next(this.rol);
+        this.infoOnChanged.next(this.info);
+        this.perfilLogOnChanged.next(this.perfilLog);
+
+        this._router.navigate(['/legajo']);
+    }
+
     /**
      * Setea el / los roles del usuario mediante el token
      * @param _token 
      */
-    private _setRol(_token: string): Observable<any> | any {
+    private _obtenerRoles(_token: string): Observable<any> | any {
+
+        if (!(_token)) {
+            console.log('token invalido');
+            const respuesta = new Observable((observer) => {      
+                observer.next([]);
+                observer.complete();
+            });
+        
+            return respuesta;
+        }
+
         const httpHeaders = new HttpHeaders({
             'Authorization': _token
         });
 
-        if (this.rol !== undefined && this.rol !== null && this.rol.length > 0){
-            return;
-        }
+        const url = API + 'getRoles';
 
-        // esto tiene que estar definido en el navigation.component.ts 
-        // ahi se establece que cosas se ven y cuales no
-        // posibles roles
-        // RRHH es dios
-        // ResSector: NovxSector, legajo
-        // ResEquipo: Equipo, NovxEquipo, legajo
-        // comun: this._obtenerLegajo,
-
-        // console.log(this.variable_auxiliar_para_test);
-
-        switch (this.variable_auxiliar_para_test) {
-            case 'RRHH':
-                this.rol.push('RRHH');
-                // console.log('RRHH');
-                break;
-            case 'ResSector':
-                this.rol.push('ResSector');
-                // console.log('ResSector');
-                break;
-            case 'ResEquipo':
-                this.rol.push('ResEquipo');
-                // console.log('ResEquipo');
-                break;
-            case 'comun':
-                this.rol.push('comun');
-                // console.log('comun');
-                break;
-        
-            default:
-                this.rol.push('RRHH');
-                // console.log('RRHH');
-                break;
-        }
-
-        this.rolOnChanged.next(this.rol);
-        
-        // const url = API_LOG + 'roles';
-
-        // return this._httpClient.get(url, {
-        //     headers: httpHeaders,
-        //     responseType: 'text'
-        // });
+        return this._httpClient.get(url, {
+            headers: httpHeaders,            
+        });      
+      
     }
 
     /**
      * setea en caso de error
      */
     private _defineError(): void {
+        this.rol = [];
         this.info = 'error';
         this.perfilLog = new Perfil({});
+
+        this.rolOnChanged.next(this.rol);
         this.infoOnChanged.next(this.info);
         this.perfilLogOnChanged.next(this.perfilLog);
     }
@@ -302,7 +279,7 @@ export class LoginService
      * @param {string} username
      * @param {string} password
      */
-    private _createRequest(username: string, password: string): Observable<any> | any {
+    private _obtenerLogin(username: string, password: string): Observable<any> | any {
         // Mock
         // const respuesta = new Observable((observer) => {      
         //     observer.next({'legajo': 'FN0051', 'tokenAuth' : 'MyPrettyToken'});
@@ -374,8 +351,7 @@ export class ResponseLogin {
     * @param responseLogin
     */
     constructor( responseLogin ){
-        this.token = responseLogin.token || null;
-        // this.colaborador = responseLogin.colaborador ? new Perfil(responseLogin.colaborador) : null;
+        this.token = responseLogin.token || null;        
         this.username = responseLogin.username || null;
     }
 }

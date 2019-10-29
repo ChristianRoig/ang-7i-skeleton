@@ -17,7 +17,7 @@ import { AuthGuard } from 'app/main/authentication/auth.guard';
 const routes: Routes = [
     {
         path     : 'conceptos',
-        data: { roles: ['RRHH'] },
+        data: { roles: ['rrhh'] },
         canActivate: [AuthGuard],
         component: ConceptosComponent,
         resolve  : {            

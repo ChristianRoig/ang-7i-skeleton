@@ -18,7 +18,7 @@ const routes: Routes = [
     { path: 'nomina', redirectTo: 'nomina/FavaHnos', },
     {
         path: 'nomina',
-        data: { roles: ['RRHH'] },
+        data: { roles: ['rrhh'] },
         canActivate: [AuthGuard],
         children: [
             {    path: 'GrupoFava', canActivateChild: [AuthGuard], component: NominaComponent, resolve: { colaboradores: NominaService } },

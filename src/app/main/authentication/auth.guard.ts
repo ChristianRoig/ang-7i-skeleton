@@ -1,32 +1,40 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router, CanActivateChild } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { LoginService } from './login-2/login-2.service';
 import { ErrorService } from '../errors/error.service';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router, CanActivateChild } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanActivateChild {
 
-  constructor(  private _loginService: LoginService,
-                private _errorService: ErrorService,
-                private _router: Router){}
+  constructor( private _loginService: LoginService, private _errorService: ErrorService, private _router: Router){}
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-  
-    if (this._loginService.isSetLog()){
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {  
+    if (this._loginService.isSetLog()) {
+      return new Promise((resolve, reject) => {
+        this._loginService.getRol().then((userRol: any) => {
+          this._loginService.rolOnChanged.next(userRol);
+          resolve(this._youPassOrNot(next, userRol));
+        });
+      });      
+    }
 
+    this._router.navigate(['/auth/login']);
 
-      //////////////////////////////////////////////////////////////////////////////////////////////////////////
-      // Comentar para no validar el ROL
-      //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    return false;
 
+  }
+
+  canActivateChild(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    return this.canActivate(next, state);
+  }
+
+  private _youPassOrNot(next: ActivatedRouteSnapshot, userRol: string[]): boolean{
       let roles = next.data['roles'] as Array<string>;
 
-      if (!(this._roleMatch(roles))) {
+      if (!(this._roleMatch(roles, userRol))) {
         let componente = '';
 
         next.url.forEach(element => {
@@ -37,29 +45,11 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         return false;
       }
 
-      //////////////////////////////////////////////////////////////////////////////////////////////////////////
-
       return true;
-
-    }
-    
-    this._router.navigate(['/auth/login']);      
-    
-    return false;
-
   }
 
-  canActivateChild(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
-    return this.canActivate(next, state);
-
-  }
-
-  private _roleMatch(Roles: string[]): boolean {
-    let isMatch = false;
-    let userRol = this._loginService.getRol();
+  private _roleMatch(Roles: string[], userRol: string[]): boolean {
+    let isMatch = false;    
 
     if (Roles == null){
       return true;

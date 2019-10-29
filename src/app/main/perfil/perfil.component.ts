@@ -64,14 +64,14 @@ export class PerfilComponent implements OnInit, OnDestroy {
 
     this._loginService.rolOnChanged
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((data) => {
+      .subscribe((data) => {        
         if (data == null) {
           data = [];
         }
 
         this.roles = data;        
 
-        if (this.roles.indexOf('RRHH') > -1) {          
+        if (this.roles.indexOf('rrhh') > -1) {          
           this.isHide = true;
         }
 

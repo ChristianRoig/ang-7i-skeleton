@@ -5,6 +5,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 
 import { Login2Component } from 'app/main/authentication/login-2/login-2.component';
 import { Login2RoutingModule } from './login-2.routing.module';
+import { LoginService } from './login-2.service';
 
 @NgModule({
     declarations: [Login2Component],
@@ -18,6 +19,9 @@ import { Login2RoutingModule } from './login-2.routing.module';
         MatInputModule,
 
         FuseSharedModule
+    ],
+    providers: [
+        LoginService
     ]
 })
 export class Login2Module {}

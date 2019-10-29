@@ -20,25 +20,25 @@ const routes: Routes = [
     { path: 'novedades/control', redirectTo: 'novedades/control/FavaHnos' },
 
     { path: 'novedades/control/GrupoFava',
-      data: { roles: ['RRHH'] },
+      data: { roles: ['rrhh'] },
       canActivate: [AuthGuard],
       component: ControlNovedadesComponent, 
       resolve: { combos: CombosService, novedades: NovedadService }
     },
     { path: 'novedades/control/FavaCard', 
-      data: { roles: ['RRHH'] },
+      data: { roles: ['rrhh'] },
       canActivate: [AuthGuard],
       component: ControlNovedadesComponent, 
       resolve: { combos: CombosService, novedades: NovedadService }
     },
     { path: 'novedades/control/FavaNet',  
-      data: { roles: ['RRHH'] },
+      data: { roles: ['rrhh'] },
       canActivate: [AuthGuard],
       component: ControlNovedadesComponent, 
       resolve: { combos: CombosService, novedades: NovedadService }
     },
     { path: 'novedades/control/FavaHnos', 
-      data: { roles: ['RRHH'] },
+      data: { roles: ['rrhh'] },
       canActivate: [AuthGuard],
       component: ControlNovedadesComponent, 
       resolve: { combos: CombosService, novedades: NovedadService }

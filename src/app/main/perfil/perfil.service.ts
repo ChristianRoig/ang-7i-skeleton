@@ -92,6 +92,11 @@ export class PerfilService implements Resolve<any>
         }else {            
             this._createRequest(user)
                 .subscribe((info: Perfil) => {
+                    
+                    if (info == null){
+                        info = new Perfil({});
+                        this._errorService.errorHandler('', 'No se encontro la página para el perfil de ' + user, 404);
+                    }
 
                     this.info = new Perfil(info);
                     this.infoOnChanged.next(this.info);
