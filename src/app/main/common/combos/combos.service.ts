@@ -501,9 +501,11 @@ export class CombosService implements Resolve<any>
         for (let index = 0; index <= 12; index++) {      
             today.setMonth(today.getMonth() - index);
 
+            // 'valor': today.toLocaleDateString('latn-ES', opt), // no le gusta a firefox
+            
             arrPeriodo.push(new Combo({
                 'codigo': this._to2digit(today.getMonth() + 1) + '-' + today.getFullYear(),
-                'valor': today.toLocaleDateString('latn-ES', opt),
+                'valor': today.toLocaleDateString('es-ES', opt),                
             }));
 
             today.setMonth(today.getMonth() + index);
