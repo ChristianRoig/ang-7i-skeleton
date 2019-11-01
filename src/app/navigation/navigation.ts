@@ -42,11 +42,11 @@ export const navigation: FuseNavigation[] = [
                 type: 'item',
                 icon: 'person_pin',
                 url: '/equipo/',
-                badge: {
-                    title: '16',
-                    bg: '#825e5a',
-                    fg: '#FFFFFF'
-                },
+                // badge: {
+                //     title: '16',
+                //     bg: '#825e5a',
+                //     fg: '#FFFFFF'
+                // },
                 hidden: true
             },
             {
@@ -55,11 +55,11 @@ export const navigation: FuseNavigation[] = [
                 type: 'item',
                 icon: 'assignment_ind',
                 url: '/novedades/equipos/',
-                badge: {
-                    title: '8',
-                    bg: '#9158e2',
-                    fg: '#FFFFFF'
-                },
+                // badge: {
+                //     title: '8',
+                //     bg: '#9158e2',
+                //     fg: '#FFFFFF'
+                // },
                 hidden: true
             },
             {
@@ -68,11 +68,11 @@ export const navigation: FuseNavigation[] = [
                 type: 'item',
                 icon: 'assignment_late',
                 url: '/novedades/sectores/',
-                badge: {
-                    title: '23',
-                    bg: '#8ebdaf',
-                    fg: '#FFFFFF'
-                },
+                // badge: {
+                //     title: '23',
+                //     bg: '#8ebdaf',
+                //     fg: '#FFFFFF'
+                // },
                 hidden: true
             },
         ]
@@ -92,11 +92,11 @@ export const navigation: FuseNavigation[] = [
                 type: 'item',
                 icon: 'group',
                 url: '/nomina/',
-                badge: {
-                    title: '550',
-                    bg: '#09D261',
-                    fg: '#FFFFFF'
-                }
+                // badge: {
+                //     title: '550',
+                //     bg: '#09D261',
+                //     fg: '#FFFFFF'
+                // }
             },
             {
                 id: 'control_de_novedades',
