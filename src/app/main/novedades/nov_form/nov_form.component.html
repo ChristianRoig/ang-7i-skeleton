@@ -37,8 +37,17 @@
                 </mat-form-field>
             </div>                      
 
+
             <!-- Descripcion - Visible solo con xSector -->
-            <div fxLayout="row" fxLayoutAlign="start start" *ngIf="invocador == 'sector'">
+            <div fxLayout="row" fxLayoutAlign="start start" *ngIf="invocador == 'sector' && conceptosXOrigen.length == 1">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Descripcion</mat-label>
+                    <input matInput placeholder="" formControlName="descripcion" name="descripcion">
+                </mat-form-field>
+            </div>
+
+            <!-- Descripcion - Visible solo con xSector -->
+            <div fxLayout="row" fxLayoutAlign="start start" *ngIf="invocador == 'sector' && conceptosXOrigen.length !== 1">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Descripcion</mat-label>
                     <mat-select formControlName="descripcion" name="descripcion" required (selectionChange)="setearCodNovedad($event,'xSector')">
@@ -92,7 +101,7 @@
             <div fxLayout="row" fxLayoutAlign="start start" *ngIf="hideshow && invocador != 'sector'">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Importe / Cantidad</mat-label>                    
-                    <input name="importe" matInput formControlName="importe"  required>
+                    <input name="importe" matInput formControlName="importe" required>
                 </mat-form-field>
             </div>          
 

@@ -69,14 +69,29 @@
             </mat-cell>
         </ng-container>
 
-        
-        <!-- Monto (importe) Column -->
-        <ng-container matColumnDef="monto">
-            <mat-header-cell *matHeaderCellDef>Importe</mat-header-cell>
+        <!-- Tipo Column -->
+        <ng-container matColumnDef="tipo">
+            <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
             <mat-cell *matCellDef="let data">
-                <p class="monto text-truncate" *ngIf="data.importe">
-                    {{data.importe}}
+                <p class="tipo text-truncate" *ngIf="data.tipo">
+                    {{data.tipo}}
                 </p>
+            </mat-cell>
+        </ng-container>
+
+        <!-- Monto (importe/Cantidad) Column -->
+        <ng-container matColumnDef="monto">
+            <mat-header-cell *matHeaderCellDef>Importe/Cantidad</mat-header-cell>
+            <mat-cell *matCellDef="let data">
+  
+                <p class="monto text-truncate" *ngIf="data.tipo != 'Cualitativa'">
+                    {{ formatValue(data.importe | number) }}
+                </p>                
+
+                <p class="monto text-truncate" *ngIf="data.tipo == 'Cualitativa'">
+                    -
+                </p>
+
             </mat-cell>
         </ng-container>
 

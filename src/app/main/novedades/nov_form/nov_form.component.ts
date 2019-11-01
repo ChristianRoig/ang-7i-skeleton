@@ -46,6 +46,9 @@ export class NovedadFormDialogComponent
     private origen: string;
     private periodo: string;
     private periodos: [];        
+
+    private seleccionado: any = '';
+
     // /Datos
     
     novXForm: FormGroup;
@@ -86,11 +89,10 @@ export class NovedadFormDialogComponent
         this.colaborador = new Perfil(_data.perfil || {});
         this.invocador = _data.invocador || '';
         
-        
         if (this.invocador !== '' && this.invocador !== undefined && this.invocador === 'equipo'){
             // Pregunto solo por 'equipo', '' y undefined, mas que nada para no romper el manejo
             // existente que se realiza en el servicio de novedades, el cual saca de la url el invocador, el equipo no ocupa ser registrado 
-            console.log('Invocador del form: ' + this.invocador);
+            // console.log('Invocador del form: ' + this.invocador);
             this._novedadService.OnInvocadorChanged.next(this.invocador);
         }
         
@@ -127,6 +129,11 @@ export class NovedadFormDialogComponent
                         this.conceptosXOrigen = data;
                     }else{
                         this.conceptosXOrigen = resFiltrado;
+
+                        if (resFiltrado.length == 1){
+                            this.seleccionado = resFiltrado;
+                        }
+
                     }
 
                 });
@@ -141,7 +148,7 @@ export class NovedadFormDialogComponent
             this.dialogTitle = 'Nueva Novedad';                  
         }
 
-        this.novXForm = this.createForm();
+        this.novXForm = this.createForm();        
     }
 
    
@@ -164,7 +171,7 @@ export class NovedadFormDialogComponent
      * Encargado de invocar el servicio una vez terminado de relizar los cambios en la novedad
      */
     onSubmit(): void {
-        console.log(this.novXForm);
+        // console.log(this.novXForm);
 
         const novedad = new Novedad(this.novXForm.getRawValue());
 
@@ -290,7 +297,7 @@ export class NovedadFormDialogComponent
 
         }else {
             const hoy = new Date;
-
+            
             if (this.invocador === 'equipo') {                                                
                 return this._formBuilder.group({
                     idNovedad: null,
@@ -320,6 +327,18 @@ export class NovedadFormDialogComponent
                 const aux: any[] = FuseUtils.filterArrayByString(this.periodos, this.periodo);
                 const pSelect = (aux.length > 0) ? aux[0].cod : '';
 
+                let auxTipo: any = '';
+                let auxDescripcion: any = '';
+                if (this.seleccionado !== '') {
+
+                    // console.log(this.seleccionado);
+
+                    if (this.seleccionado.length == 1) {
+                        auxTipo = this.seleccionado[0].valor3 || '';
+                        auxDescripcion = this.seleccionado[0].valor || '';
+                    }
+                }
+
                 return this._formBuilder.group({
                     idNovedad: null,
                     codNovedad: '',
@@ -334,14 +353,14 @@ export class NovedadFormDialogComponent
 
                     ///////////////////
 
-                    tipo: (this.invocador === 'sector') ? '' : (this.hideshow) ? 'Cuantitativa' : 'Cualitativa',
+                    tipo: (this.invocador === 'sector') ? auxTipo : (this.hideshow) ? 'Cuantitativa' : 'Cualitativa',
                     legajo: '',
                     periodo: new FormControl({ value: pSelect, disabled: true }),
                     fechaDesde: '',
                     fechaHasta: '',
                     importe: '0',
                     estado: 'CONFIRMAR',
-                    descripcion: '',
+                    descripcion: auxDescripcion,
                 });
             }
 

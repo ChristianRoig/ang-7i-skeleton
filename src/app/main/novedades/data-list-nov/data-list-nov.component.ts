@@ -91,6 +91,14 @@ export class DataListNovedadComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
 
     /**
+     * Transforma un valor numerico cambiando las ',' por '.' y los '.' por ','
+     * @param {string} data 
+     */
+    formatValue(data: string): string{
+        return data.replace(/\,/gi, '@').replace(/\./gi, ',').replace(/\@/gi, '.');
+    }
+
+    /**
      * borrarNovedad()
      * Se encarga de borrar una novedad
      * @param novedad 

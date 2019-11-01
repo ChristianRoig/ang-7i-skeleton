@@ -31,7 +31,8 @@ export class NovEquiposComponent implements OnInit, OnDestroy
 
     @Input() hasCheck = true;
 
-    columnas = ['avatar', 'name', 'docket', 'departament', 'concepto', 'monto',  'buttons'];
+    columnas = ['avatar', 'name', 'docket', 'departament', 'concepto', 'monto', 'buttons'];
+    // columnas = ['avatar', 'name', 'docket', 'departament', 'concepto', 'tipo', 'monto',  'buttons'];
 
     listOrigenes = [];
 
