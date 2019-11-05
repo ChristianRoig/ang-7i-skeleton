@@ -98,7 +98,7 @@ export class OrigenesService implements Resolve<any>
                         if (response == null) {
                             response = [];
                         }
-                        console.log(response);
+
                         this.origenes = response;
 
                         this.origenes = this.origenes.map(o => {
