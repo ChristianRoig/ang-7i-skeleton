@@ -18,17 +18,18 @@ export class NovedadService implements Resolve<any>
     filterBy = '';
     filterPeriodo = '';
 
-    private searchText = '';
-    private novedades: Novedad[] = [];
     private invocador = '';
-
     private exportTXT = '';
+    private searchText = '';
+    private resultadoImportar = '';
+    private novedades: Novedad[] = [];
 
-    onExportTXTChanged: Subject<any>;
+    onResultadoImportarChanged: BehaviorSubject<any>;
     onNovedadesChanged: BehaviorSubject<any>;
-    onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
     OnInvocadorChanged: Subject<any>;
+    onExportTXTChanged: Subject<any>;
+    onSearchTextChanged: Subject<any>;
     onfilterPeriodoChanged: Subject<any>;
 
     
@@ -45,13 +46,14 @@ export class NovedadService implements Resolve<any>
         private _loginService: LoginService,
         private _notiSnackbarService: NotificacionSnackbarService,
     ) {
-        // Set the defaults
+        // Set the defaults        
+        this.onResultadoImportarChanged = new BehaviorSubject([]);
         this.onNovedadesChanged = new BehaviorSubject([]);
-        this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
         this.OnInvocadorChanged = new Subject();           
-        this.onfilterPeriodoChanged = new Subject();
         this.onExportTXTChanged = new Subject();
+        this.onSearchTextChanged = new Subject();
+        this.onfilterPeriodoChanged = new Subject();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -336,22 +338,24 @@ export class NovedadService implements Resolve<any>
      * @param {string} contenido
      * @returns {string} resultado
      */
-    importar(origen: string, periodo: string, contenido: string): string {
-        let resultado = '';
-        this._createRequestXImportar(origen, periodo, contenido)
-            .subscribe((response: any) => {               
-                resultado = response;
-                            
-                this.getNovedades(); // Forzar la actualizacion
-            },
-            (err) => { 
-                console.log(err);
-                resultado = 'Error de Sistema';
-            }
-        );
-
-        return resultado;
-    }
+    importar(origen: string, periodo: string, contenido: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._createRequestXImportar(origen, periodo, contenido)
+                .subscribe((response: any) => {
+                    this.resultadoImportar = response;
+                    this.onResultadoImportarChanged.next(this.resultadoImportar);
+                    resolve(this.resultadoImportar);
+                    this.getNovedades(); // Forzar la actualizacion
+                },
+                    (err) => {
+                        console.log(err);
+                        this.resultadoImportar = 'Error de Sistema';
+                        this.onResultadoImportarChanged.next(this.resultadoImportar);
+                        resolve(this.resultadoImportar);
+                    }
+                );
+        });
+   }
 
 
     // -----------------------------------------------------------------------------------------------------

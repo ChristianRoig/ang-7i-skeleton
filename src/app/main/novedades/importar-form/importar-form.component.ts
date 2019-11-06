@@ -2,6 +2,8 @@ import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { NovedadService } from '../novedad.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -19,6 +21,7 @@ export class ImportarFormDialogComponent
 
     private periodo = '';
     private origen = '';
+    private _unsubscribeAll: Subject<any>;
 
     respuesta = '';
     /**
@@ -38,8 +41,15 @@ export class ImportarFormDialogComponent
         this.dialogTitle = 'Importar Novedades Externas';
         this.periodo = _data.periodo || '';
         this.origen = _data.origen || '';
-
+        this._unsubscribeAll = new Subject();
         this.ImportarForm = this.createImportarForm();
+
+
+        this._novedadService.onResultadoImportarChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(data => {
+                this.respuesta = data;
+            });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -80,7 +90,7 @@ export class ImportarFormDialogComponent
         // console.log(this.ImportarForm.controls['texto'].value);
 
         // this.respuesta = 'Novedades importadas: 112 de 114. Errores: 2. Chekcsum = 14.253,15'; // Mock
-        this.respuesta = this._novedadService.importar(
+        this._novedadService.importar(
             this.origen,
             this.periodo,
             this.ImportarForm.controls['texto'].value

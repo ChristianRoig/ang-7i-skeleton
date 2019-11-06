@@ -81,10 +81,12 @@ export class EquipoService implements Resolve<any>
                     });
 
                     this._combosService.onComboOrigenDep_SucChanged.pipe(takeUntil(this._unsubscribeAll))
-                        .subscribe(data => {
-                            this.ComboOrigenes = data;
-                            this._defineFilter(route);
-                            this.getColaboradores();                            
+                        .subscribe((data: []) => {                    
+                            if (this.ComboOrigenes.length !== data.length){
+                                this.ComboOrigenes = data;
+                                this._defineFilter(route);
+                                this.getColaboradores();
+                            }                            
                         });
                         
 
@@ -154,7 +156,7 @@ export class EquipoService implements Resolve<any>
     getColaboradores(): Promise<any>{
         if (this.ComboOrigenes.length === 0) { return; }
 
-        if (this.filterBy === '' || this.filterBy === ' '){ // Fix para no hacer una consulta sin sentido
+        if (this.filterBy === '' || this.filterBy === ' '){ // Fix para no hacer una consulta sin sentido            
             this.colaboradores = [];
             this.onColaboradoresChanged.next(this.colaboradores);
             return;
@@ -168,7 +170,7 @@ export class EquipoService implements Resolve<any>
                         if (response == null) {
                             response = [];
                         }
-    
+
                         this.colaboradores = response;
         
                         this.colaboradores = this.colaboradores.map(contact => {
