@@ -185,6 +185,15 @@ export class NovEquiposComponent implements OnInit, OnDestroy
         });
     }
 
+    /**
+     * Toggle sidebar open
+     *
+     * @param key
+     */
+    toggleSidebarOpen(key): void {
+        this._fuseSidebarService.getSidebar(key).toggleOpen();
+    }
+
     // -----------------------------------------------------------------------------------------------------
     // @ Private methods
     // -----------------------------------------------------------------------------------------------------

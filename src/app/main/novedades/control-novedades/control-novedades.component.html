@@ -1,4 +1,4 @@
-<div id="control-novedades" class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+<div id="control-novedades" class="page-layout simple left-sidebar inner-sidebar inner-scroll general">
 
     <!-- HEADER -->
     <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start"
@@ -7,11 +7,10 @@
         <!-- APP TITLE -->
         <div fxLayout="row" fxLayoutAlign="start center" class="titulo">
 
-            <button mat-icon-button class="sidebar-toggle mr-12" fxHide.gt-sm
-                    (click)="toggleSidebar('general-main-sidebar')">
+            <button mat-icon-button class="navbar-toggle-button" (click)="toggleSidebar('navbar')" fxHide.gt-md>
                 <mat-icon>menu</mat-icon>
             </button>
-
+            
             <div class="logo" fxLayout="row" fxLayoutAlign="start center">
                 <mat-icon class="logo-icon mr-16"
                           [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">beenhere
@@ -21,29 +20,37 @@
                 </span>
             </div>
 
-            <div fxLayout="row" class="periodo">
+            <button mat-icon-button class="sidebar-toggle mr-12" fxHide.gt-sm (click)="toggleSidebar('general-main-sidebar')">
+                <mat-icon>filter_list</mat-icon>
+            </button>
             
-                <div class="selected-filter">{{periodoSelect}}</div>
-            
-                <button mat-icon-button class="project-selector" [matMenuTriggerFor]="projectsMenuPeriodo"
-                    aria-label="selector periodo">
-                    <mat-icon>more_horiz</mat-icon>
-                </button>
-            
-                <mat-menu #projectsMenuPeriodo="matMenu">
-                    <button mat-menu-item *ngFor="let elemento of periodos" (click)="filtrarXPeriodo(elemento)">
-                        <span>{{elemento.valor}}</span>
-                    </button>
-                </mat-menu>
-            </div>
+            <div fxLayout="row" class="filtros">
 
+                <div fxLayout="row" class="periodo">
+                
+                    <div class="selected-filter">{{periodoSelect | titlecase}}</div>
+                
+                    <button mat-icon-button class="project-selector" [matMenuTriggerFor]="projectsMenuPeriodo"
+                        aria-label="selector periodo">
+                        <mat-icon>more_horiz</mat-icon>
+                    </button>
+                
+                    <mat-menu #projectsMenuPeriodo="matMenu">
+                        <button mat-menu-item *ngFor="let elemento of periodos" (click)="filtrarXPeriodo(elemento)">
+                            <span>{{elemento.valor}}</span>
+                        </button>
+                    </mat-menu>
+                </div>
+
+            </div>
+            
         </div>
         <!-- / APP TITLE -->
 
         <!-- SEARCH -->
-        <div class="ml-sm-32" fxLayout="row" fxLayoutAlign="center center" fxFlex>
+        <div class="ml-sm-32 search-box" fxLayout="row" fxLayoutAlign="center center" fxFlex>
 
-            <div class="search-wrapper mt-16 mt-sm-0">
+            <div class="search-wrapper">
 
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
@@ -75,7 +82,7 @@
         <!-- / SIDEBAR -->
 
         <!-- CENTER pr-sm-92-->
-        <div class="center p-24 pb-56 " fusePerfectScrollbar>
+        <div class="center" fusePerfectScrollbar>
 
             <!-- CONTENT -->
             <div class="content">

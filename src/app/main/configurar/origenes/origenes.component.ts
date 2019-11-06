@@ -59,12 +59,6 @@ export class OrigenesComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        // this._origenesService.onOrigenesChanged
-        //     .pipe(takeUntil(this._unsubscribeAll))
-        //     .subscribe(data => {           
-        //         this.listOrigenes = data;
-        //     });
-
         this.searchInput.valueChanges
             .pipe(
                 takeUntil(this._unsubscribeAll),
@@ -86,4 +80,13 @@ export class OrigenesComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
+
+    /**
+     * Toggle sidebar open
+     *
+     * @param key
+     */
+    toggleSidebarOpen(key): void {
+        this._fuseSidebarService.getSidebar(key).toggleOpen();
+    }
 }

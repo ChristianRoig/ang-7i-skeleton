@@ -27,7 +27,7 @@ export class Perfil { // de Colaborador
     
     // No vienen en el response por el momento
     img: string;
-    cantNovedades: number;
+    cantNovedadesUltimoMes: number;
     estado: string;
 
     // Para el Filtro de Responsable NOV 
@@ -68,13 +68,16 @@ export class Perfil { // de Colaborador
             this.img = perfil.img || 'assets/images/avatars/avatarM.png';
         }  
 
-        this.cantNovedades = Math.floor(Math.random() * 6);
-        this.estado = perfil.estado || this._getEstadoRandom();        
+        this.cantNovedadesUltimoMes = perfil.cantNovedadesUltimoMes || '0';
+        
+        
+        this.estado = perfil.estado || '';
+        
         this.sector = perfil.sector || '';
         
     }
 
-    private _getEstadoRandom(): string{        
+    private _getEstadoRandom(): string{ // Eliminar
         const status = [
             'nuevo',
             'eliminado',

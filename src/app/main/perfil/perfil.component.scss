@@ -9,6 +9,23 @@
         background: url('/assets/images/backgrounds/dark-material-bg.jpg') no-repeat 0 45%;
         background-size: cover;
 
+        .navbar-toggle-button {
+            color: white;
+            position: absolute;
+            margin: 12px 12px;
+            top: 0;
+            left: 0;
+        }
+
+        .user-info {
+            @include media-breakpoint('xs') {
+                img {
+                    margin: 0;
+                }
+            }
+
+        }
+        
         .profile-image {
             margin-right: 24px;
 

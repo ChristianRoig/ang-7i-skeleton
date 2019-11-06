@@ -4,6 +4,10 @@
   <div class="header p-24" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
        fxLayoutAlign.gt-sm="space-between end">
 
+      <button mat-icon-button class="navbar-toggle-button" (click)="toggleSidebarOpen('navbar')" fxHide.gt-md>
+        <mat-icon>menu</mat-icon>
+      </button>
+
       <div class="user-info" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
            fxLayoutAlign.gt-sm="start center">
           <img class="profile-image avatar huge" src="{{ info.img }}"

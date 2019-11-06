@@ -10,6 +10,7 @@ import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Perfil } from './perfil.model';
 import { LoginService } from '../authentication/login-2/login-2.service';
+import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 @Component({
   selector: 'perfil',
@@ -32,6 +33,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
   constructor(
     private _fuseTranslationLoaderService: FuseTranslationLoaderService,
     private _profileService: PerfilService,
+    private _fuseSidebarService: FuseSidebarService,
     private _loginService: LoginService,    
     private _activeRouter: ActivatedRoute,
     private _router: Router
@@ -88,4 +90,12 @@ export class PerfilComponent implements OnInit, OnDestroy {
     this._unsubscribeAll.complete();
   }
 
+  /**
+   * Toggle sidebar open
+   *
+   * @param key
+   */
+  toggleSidebarOpen(key): void {
+    this._fuseSidebarService.getSidebar(key).toggleOpen();
+  }
 }

@@ -1,17 +1,11 @@
 @import "src/@fuse/scss/fuse";
 
- .general, #contacts, #control-novedades {
-
+.general, #contacts, #control-novedades, #nomina, #novEquipo, #sector, #origenes, #conceptos, #equipo {
     .header {
+        height: 140px;
+        min-height: 140px;
+        max-height: 140px;
         flex-flow: row wrap;
-
-        .equipoFilter, .sectoresFilter, .novequipoFilter, .periodo {
-            margin: 18.5px 0 -18.5px 0;
-        }
-
-        .periodo {
-            margin-left: 10px;
-        }
 
         .selected-filter {
             background: rgba(0, 0, 0, 0.12);
@@ -31,101 +25,208 @@
             mat-icon {
                 color: #FFFFFF;
             }
-        }
+        }                
 
-        .search-wrapper {
-            width: 100%;
-            max-width: 480px;
-            border-radius: 28px;
-            overflow: hidden;
-            @include mat-elevation(1);
-
-            .search {
+        .search-box {            
+            .search-wrapper {
                 width: 100%;
-                height: 48px;
-                line-height: 48px;
-                padding: 0 18px;
+                max-width: 480px;
+                border-radius: 28px;
+                overflow: hidden;
+                @include mat-elevation(1);
 
-                input {
+                .search {
                     width: 100%;
                     height: 48px;
-                    min-height: 48px;
-                    max-height: 48px;
-                    padding: 0 16px;
-                    border: none;
-                    outline: none;
+                    line-height: 48px;
+                    padding: 0 18px;
+
+                    input {
+                        width: 100%;
+                        height: 48px;
+                        min-height: 48px;
+                        max-height: 48px;
+                        padding: 0 16px;
+                        border: none;
+                        outline: none;
+                    }
+                }
+            }
+        }        
+
+        .titulo {                        
+            .logo {
+                width: 100%;
+            }
+
+            .filtros {
+                position: absolute;
+                top: 100px;
+
+                .equipoFilter, .sectoresFilter, .novequipoFilter, .periodo {
+                    margin: 0 8px 0 0;                    
+
+                    .selected-filter {
+                        width: max-content;
+                    }
+                    
                 }
             }
         }
-
-
-        .titulo {
-            flex-flow: row wrap;
-        
-            .logo {
-                width: 100%;
-                margin-top: 10px;
-            }
-
-            // .selector {
-            //     width: 150px;    
-            //     margin-top: 10px;
-            //     color: white;
-                
-            //     &.equipo {
-            //         width: 240px;
-            //     }
-
-            //     .mat-form-field-wrapper {
-            //         padding: 0;
-            //     }
-
-            //     .mat-form-field-appearance-outline .mat-form-field-outline {
-            //         color: white;
-            //     }
-
-            //     .mat-form-field-flex {
-            //         .mat-form-field-infix {
-            //             padding: 0.6em 0 0.9em 0;
-
-            //             .mat-select-trigger {
-            //                 .mat-select-arrow-wrapper{ 
-            //                     .mat-select-arrow{
-            //                         color: white;
-            //                     }
-            //                 }
-            //             }
-
-            //             .mat-form-field-label-wrapper{
-            //                 label {
-            //                     color: white;
-            //                 }
-            //             }
-            //         }
-            //     }
-                
-                
-            // }
-        }
-        
     }
 
     .content {
         overflow: hidden;
 
-        .sidebar {
+        .center {            
+            padding: 24px 24px 56px 24px;
+        }
 
+        .sidebar {
             &:not(.locked-open) {
                 background: white;
+            }
+        }
+    }
+
+    @include media-breakpoint('xs') {
+        .header {
+            flex-direction: row !important;
+            position: relative;
+            height: 120px;
+            min-height: 120px;
+            max-height: 120px;
+        
+            .titulo {
+                width: 100%;                
+
+                .logo {
+                    margin: 0;
+
+                    .logo-icon {
+                        display: none;
+                    }
+
+                    .logo-text {
+                        font-size: 18px;
+                    }
+                }
+            }
+            
+            .search-box {
+                top: 130px;
+                position: absolute;
+                width: calc(100% - 32px);
+            }
+        }
+
+        .content {
+            .center {
+                padding: 70px 24px 56px 24px;
+            }
+        }
+    }
+}
+
+#novEquipo, #sector, #equipo, #control-novedades{
+    @include media-breakpoint('xs') {
+        .header {
+            .titulo {
+                .filtros {
+                    top: 90px;
+                }
+            }
+
+            .selected-filter, .project-selector.mat-icon-button {
+                height: 30px;
+                font-size: 16px;
+                padding: 4px 8px;
+                line-height: 24px;
+            }
+        }
+    }
+
+    @include media-breakpoint('xss') { // 360
+        .header {
+            place-content: baseline flex-start !important;
+
+            .titulo {
+                .filtros {                    
+
+                    .periodo {
+                        top: -35px;
+                        position: absolute;
+
+                        .selected-filter {
+                            border-radius: 8px 0 0 8px;
+                        }
+                        
+                        .project-selector.mat-icon-button {
+                            border-radius: 0 8px 8px 0;
+                        }
+                    }
+
+                    .sectoresFilter, .novequipoFilter {                                 
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+#equipo {
+    @include media-breakpoint('xs') {
+        .header {
+            place-content: center space-between !important;
+        }
+    }
+}
+
+#sector {
+    @include media-breakpoint('xs') {
+        .header {
+            .search-box {        
+                .search-wrapper {
+                    margin-right: 112px; 
+                }
+            }
+        }
+
+        .content {
+            .center {
+                padding: 10px 24px 56px 24px;
             }
         }
     }
 }
 
 #control-novedades {
-    .header {
-        .periodo {
-            margin-left: 0;
+    @include media-breakpoint('xss') { // 360
+        .header {
+            place-content: center space-between !important;
+
+            .titulo {
+                .filtros {               
+
+                    .periodo {
+                        top: 0;
+                        position: absolute;
+
+                        .selected-filter {
+                            border-radius: 8px 0 0 0;
+                        }
+                        
+                        .project-selector.mat-icon-button {
+                            border-radius: 0 8px 0 0;
+                        }
+                    }
+
+                    .sectoresFilter, .novequipoFilter {                                 
+
+                    }
+                }
+            }
         }
     }
 }
@@ -134,19 +235,12 @@
     max-height: 400px;
 }
 
-
 #addNovedadButton {
     position: absolute;
     bottom: 12px;
     right: 12px;
     padding: 0;
     z-index: 99;
-
-    @include media-breakpoint('xs') {
-        position: sticky;
-        top: calc(100vh - 120px);
-        bottom: auto;
-    }
 }
 
 .container-addnovedad-delete {
@@ -156,12 +250,15 @@
 
     #importarButton,
     #DeleteButton {
-        // width: 40px;
-        // height: 40px;
-        margin: 12px 24px 0 0;
+        margin: 12px 16px 0 0;
         
         .mat-button-wrapper{
             padding: 0;
+        }
+
+        @include media-breakpoint('xs') {
+            width: 45px;
+            height: 45px;
         }
     }
 

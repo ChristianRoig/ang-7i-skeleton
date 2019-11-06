@@ -73,8 +73,8 @@
         <ng-container matColumnDef="novedades">
             <mat-header-cell *matHeaderCellDef>Novedades</mat-header-cell>
             <mat-cell *matCellDef="let data">
-                <p class="novedades text-truncate" *ngIf="data.cantNovedades">
-                    {{data.cantNovedades}}
+                <p class="novedades text-truncate" *ngIf="data.cantNovedadesUltimoMes">
+                    {{data.cantNovedadesUltimoMes}}
                 </p>
             </mat-cell>
         </ng-container>

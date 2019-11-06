@@ -16,6 +16,12 @@
         .mat-toolbar {
             flex: 1 0 auto;
             min-height: initial;
+
+            .mat-toolbar-row {
+                @include media-breakpoint('lt-md') {        
+                    white-space: normal;
+                }
+            }
         }
 
         .toolbar-bottom {

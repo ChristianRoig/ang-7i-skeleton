@@ -85,4 +85,13 @@ export class ConceptosComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
+    /**
+     * Toggle sidebar open
+     *
+     * @param key
+     */
+    toggleSidebarOpen(key): void {
+        this._fuseSidebarService.getSidebar(key).toggleOpen();
+    }
+
 }
