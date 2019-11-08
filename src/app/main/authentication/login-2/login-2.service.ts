@@ -90,53 +90,56 @@ export class LoginService
             this._obtenerLogin(username, password)
                 .subscribe(
                     (info: ResponseLogin) => {
-                        info = new ResponseLogin(info);                                 
-                        
-                        if (info.token != null){
-
-                            this._obtenerLegajo(info.token)
-                                .subscribe(
-                                    (legajo) => {
-                                        this._obtenerPerfilLog(legajo, info.token)
-                                            .subscribe(
-                                                (perf) => {
-
-                                                    if (perf == null){                                                        
-                                                        this._defineError();                                     
-                                                    }else{
-                                                        
-                                                        this._obtenerRoles(info.token)
-                                                            .subscribe(
-                                                                (roles: any) => {
-                                                                    if (roles == null) {
-                                                                        roles = [];
-                                                                    }                                        
-                                                                    this._trabajoLogueo(info, perf, roles);                                                                    
-                                                                },
-                                                                (err: any) => {
-                                                                    console.log(err);
-                                                                    this._defineError();
-                                                                });
-                                                    }
-                                                    
-                                                },
-                                                (err) => {
-                                                    console.log(err);
-                                                    this._defineError();
-                                                }
-                                            );
-                                    },
-                                    (err) => {
-                                        console.log(err);
-                                        this._defineError();
-                                    }
-                                );
-                                                        
-                        }else{
-                            console.log('token invalido');
+                        if (info == null){
                             this._defineError();
-                        }   
-                                               
+                        }else {
+                            info = new ResponseLogin(info);
+
+                            if (info.token != null) {
+
+                                this._obtenerLegajo(info.token)
+                                    .subscribe(
+                                        (legajo) => {
+                                            this._obtenerPerfilLog(legajo, info.token)
+                                                .subscribe(
+                                                    (perf) => {
+
+                                                        if (perf == null) {
+                                                            this._defineError();
+                                                        } else {
+
+                                                            this._obtenerRoles(info.token)
+                                                                .subscribe(
+                                                                    (roles: any) => {
+                                                                        if (roles == null) {
+                                                                            roles = [];
+                                                                        }
+                                                                        this._trabajoLogueo(info, perf, roles);
+                                                                    },
+                                                                    (err: any) => {
+                                                                        console.log(err);
+                                                                        this._defineError();
+                                                                    });
+                                                        }
+
+                                                    },
+                                                    (err) => {
+                                                        console.log(err);
+                                                        this._defineError();
+                                                    }
+                                                );
+                                        },
+                                        (err) => {
+                                            console.log(err);
+                                            this._defineError();
+                                        }
+                                    );
+
+                            } else {
+                                console.log('token invalido');
+                                this._defineError();
+                            }   
+                        }                                                               
                     }, 
                     (err) => {
                         console.log(err);
