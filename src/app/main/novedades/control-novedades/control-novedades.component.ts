@@ -13,6 +13,8 @@ import { DataSource } from '@angular/cdk/table';
 import { FuseUtils } from '@fuse/utils';
 import { CombosService } from '../../common/combos/combos.service';
 
+import { fromEvent } from 'rxjs';
+
 @Component({
     selector     : 'control-novedades',
     templateUrl  : './control-novedades.component.html',
@@ -22,10 +24,10 @@ import { CombosService } from '../../common/combos/combos.service';
 })
 export class ControlNovedadesComponent implements OnInit, OnDestroy 
 {
-    
-    // columnas = ['avatar', 'docket', 'name', 'departament', 'buttons'];
+    columnasDesktop = ['avatar', 'name', 'docket', 'origen', 'concepto', 'monto', 'buttons'];
+    columnasMobile = ['avatar', 'name', 'concepto', 'monto', 'buttons'];
 
-    columnas = ['avatar', 'name', 'docket', 'origen', 'concepto', 'monto', 'buttons'];
+    columnas = this.columnasDesktop;
 
     hasCheckNomina = false;
 
@@ -73,6 +75,15 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
     }
 
     ngOnInit(): void {
+
+        this._defineColumns(window.innerWidth);
+
+        fromEvent(window, 'resize')
+            .subscribe((e: any) => {
+                // console.log(e.target.innerWidth);
+                this._defineColumns(e.target.innerWidth);
+            });
+
         this.dataSource = new FilesDataSource(this._novedadService);
             
         // Combo de Periodos
@@ -173,6 +184,18 @@ export class ControlNovedadesComponent implements OnInit, OnDestroy
             this.periodoSelect = (this.periodos.length !== 0) ? this.periodos[0].valor : ''; // El primero siempre es el Actual
             this.periodoSelectCod = (this.periodos.length !== 0) ? this.periodos[0].cod : '';
             this._novedadService.onfilterPeriodoChanged.next((this.periodos.length !== 0) ? this.periodos[0].cod : '');
+        }
+    }
+
+    /**
+     * Encargado de definir que columnas se van a mostrar dependiendo de la resolucion de la pantalla
+     * @param width
+     */
+    private _defineColumns(width: number): void {
+        if (width <= 599) {
+            this.columnas = this.columnasMobile;
+        } else {
+            this.columnas = this.columnasDesktop;
         }
     }
 

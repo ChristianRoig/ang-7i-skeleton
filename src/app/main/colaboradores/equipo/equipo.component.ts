@@ -12,6 +12,7 @@ import { DataSource } from '@angular/cdk/table';
 import { FuseUtils } from '@fuse/utils';
 import { CombosService } from '../../common/combos/combos.service';
 
+import { fromEvent } from 'rxjs';
 
 @Component({
     selector     : 'equipo',
@@ -28,7 +29,10 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
 
     @Input() hasCheck = true;
 
-    columnas = ['avatar', 'name', 'docket', 'departament', 'email', 'novedades', 'buttons'];
+    columnasDesktop = ['avatar', 'name', 'docket', 'departament', 'email', 'novedades', 'buttons'];
+    columnasMobile = ['avatar', 'name', 'novedades', 'buttons'];
+    
+    columnas = this.columnasDesktop;
 
     placeholder = 'Buscar por nombre legajo departamento email o novedades';
 
@@ -78,7 +82,15 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
      * On init
      */
     ngOnInit(): void
-    {
+    {     
+        this._defineColumns(window.innerWidth);
+
+        fromEvent(window, 'resize')
+            .subscribe((e: any) => {
+                // console.log(e.target.innerWidth);
+                this._defineColumns(e.target.innerWidth);
+            });
+
         this._activeRouter.params.subscribe(params => {
             this.seleccionado = params.equipo;
         });
@@ -155,6 +167,18 @@ export class ColaboradoresComponent implements OnInit, OnDestroy
 
         if ((this.seleccionado === '' || this.seleccionado == null ) && (aux.length > 0)) {            
             this._router.navigate(['equipo/' + aux[0].cod]);
+        }
+    }
+
+    /**
+     * Encargado de definir que columnas se van a mostrar dependiendo de la resolucion de la pantalla
+     * @param width 
+     */
+    private _defineColumns(width: number): void {
+        if (width <= 599){
+            this.columnas = this.columnasMobile;
+        }else{
+            this.columnas = this.columnasDesktop;
         }
     }
 }

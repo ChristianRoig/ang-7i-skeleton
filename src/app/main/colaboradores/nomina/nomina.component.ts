@@ -11,6 +11,8 @@ import { NominaService } from './nomina.service';
 import { DataSource } from '@angular/cdk/table';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
+import { fromEvent } from 'rxjs';
+
 @Component({
     selector     : 'nomina',
     templateUrl  : './nomina.component.html',
@@ -20,8 +22,11 @@ import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 })
 export class NominaComponent implements OnInit, OnDestroy 
 {    
-    // columnas = ['avatar', 'docket', 'name', 'departament', 'buttons'];
-    columnas = ['avatar', 'docket', 'name', 'departament'];
+
+    columnasDesktop = ['avatar', 'docket', 'name', 'departament'];
+    columnasMobile = ['avatar', 'docket', 'name'];
+
+    columnas = this.columnasDesktop;
 
     hasCheckNomina = false;
 
@@ -66,6 +71,14 @@ export class NominaComponent implements OnInit, OnDestroy
 
     ngOnInit(): void {
         
+        this._defineColumns(window.innerWidth);
+
+        fromEvent(window, 'resize')
+            .subscribe((e: any) => {
+                // console.log(e.target.innerWidth);
+                this._defineColumns(e.target.innerWidth);
+            });
+
         this.dataSource = new FilesDataSource(this._nominaService);
 
         this.searchInput.valueChanges
@@ -129,6 +142,22 @@ export class NominaComponent implements OnInit, OnDestroy
                 break;
         }
 
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+    * Encargado de definir que columnas se van a mostrar dependiendo de la resolucion de la pantalla
+    * @param width
+    */
+    private _defineColumns(width: number): void {
+        if (width <= 599) {
+            this.columnas = this.columnasMobile;
+        } else {
+            this.columnas = this.columnasDesktop;
+        }
     }
 
 }

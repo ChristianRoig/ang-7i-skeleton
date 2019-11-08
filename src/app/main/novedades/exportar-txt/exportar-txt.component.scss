@@ -5,10 +5,14 @@
     width: 500px;
 
     @include media-breakpoint('xs') {
+        max-width: 100%;
+        min-width: 100%;
         width: 100%;
     }
 
-    @include media-breakpoint('gt-xs') {        
+    @include media-breakpoint('gt-xs') {
+        max-width: 100%;
+        min-width: 100%;
         width: auto;
     }
 

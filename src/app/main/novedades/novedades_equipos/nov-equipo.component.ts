@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
@@ -31,8 +31,10 @@ export class NovEquiposComponent implements OnInit, OnDestroy
 
     @Input() hasCheck = true;
 
-    columnas = ['avatar', 'name', 'docket', 'departament', 'concepto', 'monto', 'buttons'];
-    // columnas = ['avatar', 'name', 'docket', 'departament', 'concepto', 'tipo', 'monto',  'buttons'];
+    columnasDesktop = ['avatar', 'name', 'docket', 'departament', 'concepto', 'monto', 'buttons'];
+    columnasMobile = ['avatar', 'name', 'concepto', 'monto', 'buttons'];
+
+    columnas = this.columnasDesktop;
 
     listOrigenes = [];
 
@@ -91,6 +93,14 @@ export class NovEquiposComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+        this._defineColumns(window.innerWidth);
+
+        fromEvent(window, 'resize')
+            .subscribe((e: any) => {
+                // console.log(e.target.innerWidth);
+                this._defineColumns(e.target.innerWidth);
+            });
+
         this._activeRouter.params.subscribe(params => {           
             this.seleccionado = params.filtro;
         });    
@@ -225,6 +235,17 @@ export class NovEquiposComponent implements OnInit, OnDestroy
         }
     }
 
+    /**
+    * Encargado de definir que columnas se van a mostrar dependiendo de la resolucion de la pantalla
+    * @param width
+    */
+    private _defineColumns(width: number): void {
+        if (width <= 599) {
+            this.columnas = this.columnasMobile;
+        } else {
+            this.columnas = this.columnasDesktop;
+        }
+    }
 }
 
 

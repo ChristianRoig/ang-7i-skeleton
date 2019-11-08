@@ -122,7 +122,16 @@
 
         .content {
             .center {
-                padding: 70px 24px 56px 24px;
+                padding: 70px 0 56px 0;
+            }
+        }
+    }
+
+    @include media-breakpoint('lt-aux') {
+        .content {
+            .center {
+                padding-right: 0;
+                padding-left: 0;
             }
         }
     }
@@ -146,7 +155,7 @@
         }
     }
 
-    @include media-breakpoint('xss') { // 360
+    @include media-breakpoint('xss') { // 420
         .header {
             place-content: baseline flex-start !important;
 
@@ -195,7 +204,7 @@
 
         .content {
             .center {
-                padding: 10px 24px 56px 24px;
+                padding-top: 10px;
             }
         }
     }

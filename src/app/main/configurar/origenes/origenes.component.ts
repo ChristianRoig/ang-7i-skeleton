@@ -7,6 +7,8 @@ import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { OrigenesService } from 'app/main/configurar/origenes.service';
 import { debounceTime, takeUntil, distinctUntilChanged } from 'rxjs/operators';
 
+import { fromEvent } from 'rxjs';
+
 @Component({
     selector     : 'origenes',
     templateUrl: './origenes.component.html',
@@ -18,10 +20,13 @@ export class OrigenesComponent implements OnInit, OnDestroy
 {
     dialogRef: any;
 
-    searchInput: FormControl;
-
-    columnas = ['cod', 'nombre', 'tipo', 'responsableR', 'responsableS', 'buttons'];
+    searchInput: FormControl;    
     
+    columnasDesktop = ['cod', 'nombre', 'tipo', 'responsableR', 'responsableS', 'buttons'];
+    columnasMobile = ['nombre', 'responsableR', 'responsableS', 'buttons'];
+
+    columnas = this.columnasDesktop;
+
     placeholder = 'Buscar por codigo, nombre, tipo o responsable';
 
     componente = 'origenes';
@@ -59,6 +64,14 @@ export class OrigenesComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+        this._defineColumns(window.innerWidth);
+
+        fromEvent(window, 'resize')
+            .subscribe((e: any) => {
+                // console.log(e.target.innerWidth);
+                this._defineColumns(e.target.innerWidth);
+            });
+
         this.searchInput.valueChanges
             .pipe(
                 takeUntil(this._unsubscribeAll),
@@ -88,5 +101,21 @@ export class OrigenesComponent implements OnInit, OnDestroy
      */
     toggleSidebarOpen(key): void {
         this._fuseSidebarService.getSidebar(key).toggleOpen();
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Encargado de definir que columnas se van a mostrar dependiendo de la resolucion de la pantalla
+     * @param width
+     */
+    private _defineColumns(width: number): void {
+        if (width <= 599) {
+            this.columnas = this.columnasMobile;
+        } else {
+            this.columnas = this.columnasDesktop;
+        }
     }
 }

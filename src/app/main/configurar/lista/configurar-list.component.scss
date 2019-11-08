@@ -18,32 +18,22 @@ configurar-list {
             mat-header-row {
                 padding: 8px;
 
-                mat-header-cell{
+                mat-header-cell {
                     font-size: 15px;
                     font-weight: bold;
-
-                    &:last-of-type {
-                        padding-right: 18px;
-                    }
                 }
             }
-          
-            .mat-column-avatar {
-                flex: 0 1 78px;
-                padding-left: 18px;
-                padding-right: 18px;
+            .mat-column-responsableR, .mat-column-responsableS {
+                justify-content: center;
+
+                p {
+                    text-align: center;
+                }
             }
 
             .mat-column-buttons {
                 flex: 0 1 80px;
             }
-
-            .mat-header-cell, .mat-cell {
-                &.mat-column-novedades {
-                    flex: 0 1 10%;
-                }
-            }
-
 
             .mat-row {
                 position: relative;
@@ -52,19 +42,42 @@ configurar-list {
 
                 .mat-cell {
                     min-width: 0;
-
-                    &.mat-column-buttons {
-                        button {
-                       
-                        }
-                    }
-
-                    p {
-                    
-                    }
-
                 }
             }
         }
-    }    
+    }
+    
+    @include media-breakpoint('lt-aux') {
+        .lista {
+            .mat-table {
+
+                mat-header-row mat-header-cell, mat-row mat-cell {
+                    &:first-of-type {
+                        padding-left: 10px;
+                    }
+
+                    &:last-of-type {
+                        padding-right: 10px; 
+                    }
+                }        
+
+                .mat-column-buttons {
+                    justify-content: center;
+                }
+
+                .mat-column-responsableS {
+                    text-align: center;
+                }
+
+                .mat-column-buttons {
+                    flex: 0 1 50px;
+                }
+
+                .mat-column-cod {
+                    flex: 0.5;
+                }
+
+            }
+        }
+    }
 }

@@ -14,6 +14,8 @@ import { ImportarFormDialogComponent } from '../importar-form/importar-form.comp
 import { GeneralConfirmDialogComponent } from 'app/main/common/general-confirm-dialog/general_confirm_dialog.component';
 import { CombosService } from 'app/main/common/combos/combos.service';
 
+import { fromEvent } from 'rxjs';
+
 @Component({
     selector     : 'sector',
     templateUrl  : './novedades.component.html',
@@ -28,9 +30,11 @@ export class NovedadesComponent implements OnInit, OnDestroy
     searchInput: FormControl;
 
     @Input() hasCheck = true;
+    
+    columnasDesktop = ['avatar', 'name', 'docket', 'sector', 'concepto', 'monto', 'buttons'];
+    columnasMobile = ['avatar', 'name', 'concepto', 'monto', 'buttons'];
 
-    columnas = ['avatar', 'name', 'docket', 'sector', 'concepto', 'monto', 'buttons'];
-    // columnas = ['avatar', 'name', 'docket', 'sector', 'concepto', 'tipo', 'monto', 'buttons'];
+    columnas = this.columnasDesktop;
     
     placeholder = 'Buscar por nombre legajo sector concepto o monto';
 
@@ -90,6 +94,14 @@ export class NovedadesComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+
+        this._defineColumns(window.innerWidth);
+
+        fromEvent(window, 'resize')
+            .subscribe((e: any) => {
+                // console.log(e.target.innerWidth);
+                this._defineColumns(e.target.innerWidth);
+            });
 
         this._activeRouter.params.subscribe(params => {
             this.seleccionado = params.filtro;
@@ -277,6 +289,18 @@ export class NovedadesComponent implements OnInit, OnDestroy
         if ((this.seleccionado === '' || this.seleccionado == null) && (aux.length > 0)) {
             this._router.navigate(['novedades/sectores/' + aux[0].cod]);
         }        
+    }
+
+    /**
+     * Encargado de definir que columnas se van a mostrar dependiendo de la resolucion de la pantalla
+     * @param width
+     */
+    private _defineColumns(width: number): void {
+        if (width <= 599) {
+            this.columnas = this.columnasMobile;
+        } else {
+            this.columnas = this.columnasDesktop;
+        }
     }
 }
 

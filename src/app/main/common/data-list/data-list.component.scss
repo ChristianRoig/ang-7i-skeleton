@@ -21,8 +21,6 @@ data-list-colaboradores, data-list-novedades {
     }
 
     .lista {
-        // display: flex;
-        // flex: 1 1 auto;
         width: 100%;
         max-height: 700px;
         overflow: auto;
@@ -47,12 +45,9 @@ data-list-colaboradores, data-list-novedades {
                 mat-header-cell{
                     font-size: 15px;
                     font-weight: bold;
-
-                    &:last-of-type {
-                        padding-right: 18px;
-                    }
                 }
             }
+
             .mat-column-checkbox {
                 flex: 0 1 64px;
                 padding-left: 18px;
@@ -70,12 +65,18 @@ data-list-colaboradores, data-list-novedades {
                 justify-content: center;
             }
 
-            .mat-header-cell, .mat-cell {
-                &.mat-column-novedades {
-                    flex: 0 1 10%;
-                }
+            .mat-column-novedades {
+                flex: 0 1 15%;
+                justify-content: center;
             }
 
+            .mat-column-monto {
+                justify-content: center;
+
+                p {
+                    text-align: center;
+                }
+            }
 
             .mat-row {
                 position: relative;
@@ -125,7 +126,6 @@ data-list-colaboradores, data-list-novedades {
                             color: white;
                             text-transform: uppercase;
                       
-
                             &.modificado, &.CONFIRMAR {
                                 background-color: #ff9800;
                             }
@@ -136,26 +136,60 @@ data-list-colaboradores, data-list-novedades {
 
                             &.eliminado, &.ELIMINADO {
                                 background-color: #b71c1c;
-                            }
-
-                            
+                            }                            
                         }
+
                         &.novedades {
                             background-color: #e53935;
-                            color: white;
-                            padding: 5px 10px;
                             border-radius: 50%;
                             font-weight: bold;
+                            color: white;
+
+                            width: 30px;
+                            height: 30px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            
+                            // padding: 5px 10px;
                         }
                     }
-
-                    // &:last-of-type {
-                    //     padding-right: 18px;
-                    //     justify-content: center;
-                    // }
                 }
             }
         }
     }
     
+
+    @include media-breakpoint('lt-aux') {
+        .lista {
+            .mat-table {
+                
+                .mat-header-cell, .mat-cell {
+
+                    &.mat-column-docket, &.mat-column-departament, &.mat-column-email, &.mat-column-concepto {
+                        justify-content: center;
+                    }
+
+                    &.mat-column-avatar {   
+                        flex: 0 1 60px;  
+                        padding-left: 10px;
+                        padding-right: 10px;
+                    }
+
+                    &.mat-column-buttons {
+                        flex: 0 1 40px;
+                        padding-right: 10px;
+                    }
+
+                    &.mat-column-monto {
+                        flex: 0 1 20%;
+                    }
+
+                    &.mat-column-novedades {
+                        flex: 1;                    
+                    }
+                }                
+            }
+        }
+    }
 }

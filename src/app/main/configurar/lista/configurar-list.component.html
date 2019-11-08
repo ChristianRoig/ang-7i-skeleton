@@ -11,7 +11,7 @@
 
         <!-- Codigo Column -->
         <ng-container matColumnDef="cod" *ngIf="invocador === 'conceptos'">
-            <mat-header-cell *matHeaderCellDef>Codigo de la novedad</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Codigo</mat-header-cell>
             <mat-cell *matCellDef="let data">
                 <p class="text-truncate font-weight-600">{{data.codNov}}</p>
             </mat-cell>
@@ -27,7 +27,7 @@
 
         <!-- Descripcion Column -->
         <ng-container matColumnDef="descripcion">
-            <mat-header-cell *matHeaderCellDef>descripcion</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Descripcion</mat-header-cell>
             <mat-cell *matCellDef="let data">
                 <p class="text-truncate font-weight-600">{{data.descripcion | titlecase}}</p>
             </mat-cell>
@@ -75,7 +75,7 @@
 
         <!-- Responsable Secundario Column -->
         <ng-container matColumnDef="responsableS">
-            <mat-header-cell *matHeaderCellDef>Responsable Secundario</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef><p>Responsable Secundario</p></mat-header-cell>
             <mat-cell *matCellDef="let data">
                 <p class="text-truncate font-weight-600" 
                     *ngIf="data.legajoSup == null">

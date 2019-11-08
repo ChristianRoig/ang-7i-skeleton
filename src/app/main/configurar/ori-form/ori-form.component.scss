@@ -3,10 +3,12 @@
 .editar-ori-dialog {
 
     @include media-breakpoint('xs') {
+        max-width: 100% !important;
         width: 100%;
     }
 
     @include media-breakpoint('gt-xs') {
+        max-width: 100% !important;
         width: 400px;
     }
 
