@@ -1,4 +1,4 @@
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
@@ -34,7 +34,7 @@ export const dia_mes_año = {
         { provide: MAT_DATE_FORMATS, useValue: dia_mes_año },
     ],
 }) 
-export class NovedadFormDialogComponent
+export class NovedadFormDialogComponent implements OnDestroy
 {   
     
     // Datos de _data
@@ -112,12 +112,6 @@ export class NovedadFormDialogComponent
                 this.cualitativos = data;
             });
 
-
-        // if (this.invocador === 'equipo') {
-        //     this.colaborador = new Perfil(_data.perfil || {});
-        // }
-
-
         if (this.invocador === 'sector'){
             // Combo Cualitativos
             this._combosService.onComboConceptoExternaRRHHChanged
@@ -180,7 +174,7 @@ export class NovedadFormDialogComponent
         }
 
         if (this.action === 'new') {
-            this._novedadService.addNovedad(novedad);
+            this._novedadService.addNovedad(novedad, this.invocador);
         }
 
         this.matDialogRef.close();
@@ -366,6 +360,15 @@ export class NovedadFormDialogComponent
 
         }
 
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

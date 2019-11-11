@@ -88,10 +88,6 @@ export class ConfigurarListComponent implements OnInit, OnDestroy
                 });
         }
 
-
-
-        
-
     }
 
     /**

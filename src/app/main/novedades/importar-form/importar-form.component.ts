@@ -1,4 +1,4 @@
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { NovedadService } from '../novedad.service';
@@ -13,7 +13,7 @@ import { takeUntil } from 'rxjs/operators';
     encapsulation: ViewEncapsulation.None,
    
 }) 
-export class ImportarFormDialogComponent
+export class ImportarFormDialogComponent implements OnInit, OnDestroy
 {   
     // action: string;
     ImportarForm: FormGroup;
@@ -43,13 +43,6 @@ export class ImportarFormDialogComponent
         this.origen = _data.origen || '';
         this._unsubscribeAll = new Subject();
         this.ImportarForm = this.createImportarForm();
-
-
-        this._novedadService.onResultadoImportarChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(data => {
-                this.respuesta = data;
-            });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -99,4 +92,24 @@ export class ImportarFormDialogComponent
         // this.matDialogRef.close();
     }
     
+
+    /**
+     * On init
+     */
+    ngOnInit(): void {
+        this._novedadService.onResultadoImportarChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(data => {
+                this.respuesta = data;
+            });
+    }   
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
 }

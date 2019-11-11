@@ -17,7 +17,7 @@ import { Subject } from 'rxjs';
     
     ],
 }) 
-export class ConceptosFormDialogComponent implements OnInit
+export class ConceptosFormDialogComponent implements OnInit, OnDestroy
 {
     action: string;    
 
@@ -72,6 +72,9 @@ export class ConceptosFormDialogComponent implements OnInit
     }
 
 
+    /**
+     * On init
+     */
     ngOnInit(): void {
         this.origenesRRHH = this._combosService.getCombo('rrhh');
         this._combosService.onComboOrigenRRHHChanged
@@ -87,6 +90,16 @@ export class ConceptosFormDialogComponent implements OnInit
                 this.origenesExterno = data;                
             });
     }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods

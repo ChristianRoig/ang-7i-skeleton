@@ -78,7 +78,7 @@ export class OrigenesFormDialogComponent
     }
 
     onSubmit(): void {
-        console.log(this.OrigenForm);
+        // console.log(this.OrigenForm);
         
         this.origen.legajoResp = this.OrigenForm.get('responsableR').value;
         this.origen.legajoSup = this.OrigenForm.get('responsableS').value;

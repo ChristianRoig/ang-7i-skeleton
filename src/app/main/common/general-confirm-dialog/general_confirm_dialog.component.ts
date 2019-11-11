@@ -1,9 +1,5 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { FuseUtils } from '@fuse/utils';
-
-
-
 
 @Component({
     selector     : 'general-confirm-dialog',

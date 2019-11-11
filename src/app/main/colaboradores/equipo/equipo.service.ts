@@ -44,7 +44,7 @@ export class EquipoService implements Resolve<any>
         this.onColaboradoresChanged = new BehaviorSubject([]);        
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();         
-        // this.onComboOrigenesChanged = new Subject();         
+        
 
         this._unsubscribeAll = new Subject();
     }
@@ -106,6 +106,72 @@ export class EquipoService implements Resolve<any>
     }
 
     /**
+     * getColaboradores()
+     * Conecta con el Backend para traer un conjunto de colaboradores segun los filtros
+     * @returns {Promise<any>}
+     */
+    getColaboradores(): Promise<any> {
+        if (this.ComboOrigenes.length === 0) { return; }
+
+        if (this.filterBy === '' || this.filterBy === ' ') { // Fix para no hacer una consulta sin sentido            
+            this.colaboradores = [];
+            this.onColaboradoresChanged.next(this.colaboradores);
+            return;
+        }
+
+        const url = API_URL + 'colaboradores?departamento=' + this.filterBy;
+
+        return new Promise((resolve, reject) => {
+            this._createRequest(url)
+                .subscribe((response: Perfil[]) => {
+                    if (response == null) {
+                        response = [];
+                    }
+
+                    this.colaboradores = response.map(contact => {
+                        return new Perfil(contact);
+                    });
+
+                    this.onColaboradoresChanged.next(this.colaboradores);
+
+                    resolve(this.colaboradores);
+
+                }, reject);
+            }
+        );
+
+    }
+
+    /**
+     * Encargado de sumar 1 al registro de cantNovedadesUltimoMes de un colaborador, si es que existe.
+     * @param {string} legajo
+     */
+    updateContador(legajo: string): void {
+        if (this.colaboradores.length > 0){
+            let i = 0;            
+            let cortar: boolean = false;
+                    
+            while ((i < this.colaboradores.length) && (cortar == false)){
+                if (this.colaboradores[i].legajo == legajo){
+                    
+                    console.log(this.colaboradores[i].cantNovedadesUltimoMes);
+                    this.colaboradores[i].cantNovedadesUltimoMes++;
+                    console.log(this.colaboradores[i].cantNovedadesUltimoMes);
+                    
+                    cortar = true;   
+                }
+
+                i++;
+            }
+
+        }
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
      * _defineFilter()
      * Define el filtro segun la url del componente que invoco al servicio
      * @param {ActivatedRouteSnapshot} _r
@@ -147,46 +213,6 @@ export class EquipoService implements Resolve<any>
         if (this.ComboOrigenes.length !== 0) { return; }
         this.ComboOrigenes = this._combosService.getCombo('dep-suc');        
     }
-
-    /**
-     * getColaboradores()
-     * Conecta con el Backend para traer un conjunto de colaboradores segun los filtros
-     * @returns {Promise<any>}
-     */
-    getColaboradores(): Promise<any>{
-        if (this.ComboOrigenes.length === 0) { return; }
-
-        if (this.filterBy === '' || this.filterBy === ' '){ // Fix para no hacer una consulta sin sentido            
-            this.colaboradores = [];
-            this.onColaboradoresChanged.next(this.colaboradores);
-            return;
-        }
-
-        const url = API_URL + 'colaboradores?departamento=' + this.filterBy;
-
-        return new Promise((resolve, reject) => {
-                this._createRequest(url)
-                    .subscribe((response: Perfil[]) => {
-                        if (response == null) {
-                            response = [];
-                        }
-
-                        this.colaboradores = response;
-        
-                        this.colaboradores = this.colaboradores.map(contact => {
-                            return new Perfil(contact);
-                        });
-        
-                        this.onColaboradoresChanged.next(this.colaboradores); 
-        
-                        resolve(this.colaboradores);
-    
-                }, reject);
-            }
-        ); 
-
-    }
-
 
     /**
      * Crea el llamado a los servicios de back

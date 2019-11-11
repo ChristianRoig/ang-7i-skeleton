@@ -8,6 +8,7 @@ import { ErrorService } from 'app/main/errors/error.service';
 import { LoginService } from 'app/main/authentication/login-2/login-2.service';
 import { Novedad } from './novedad.model';
 import { NotificacionSnackbarService } from '../common/notificacion.snackbar.service';
+import { EquipoService } from '../colaboradores/equipo/equipo.service';
 
 const API_URL: string = environment.API;
 
@@ -45,6 +46,7 @@ export class NovedadService implements Resolve<any>
         private _errorService: ErrorService,
         private _loginService: LoginService,
         private _notiSnackbarService: NotificacionSnackbarService,
+        private _equipoService: EquipoService
     ) {
         // Set the defaults        
         this.onResultadoImportarChanged = new BehaviorSubject([]);
@@ -237,14 +239,16 @@ export class NovedadService implements Resolve<any>
 
         this._httpClient.delete(url, options).subscribe(
             (res: any) => { 
-                // if (res.codigo === '1') {
-                //     this._notiSnackbarService.openSnackBar('Se Elimino la Novedad Correctamente');
-                //     this.getNovedades();
-                // }
+                if (res.codigo === '1') {
+                    this._notiSnackbarService.openSnackBar('Se Eliminaron Todas las Novedades Correctamente');
+                    
+                    this.novedades = [];
+                    this.onNovedadesChanged.next(this.novedades);
+                }
                 if (res.codigo === '0' || res.codigo === '-1') {
                     this._notiSnackbarService.openSnackBar('No se pudieron eliminar todas las Novedades');
                 }
-                this.getNovedades();
+                // this.getNovedades();
             },
             (err) => {
                 // this._errorService.errorHandler(err);
@@ -274,9 +278,6 @@ export class NovedadService implements Resolve<any>
 
         this._httpClient.put(url, nov, options).subscribe(
             (res: any) => {                
-                // if (this.invocador !== 'equipo') {                    
-                //     this.getNovedades();
-                // }
                 if (res.codigo === '1') {
                     this._notiSnackbarService.openSnackBar('Se actualizo la Novedad correctamente');
                     this.getNovedades();
@@ -296,7 +297,7 @@ export class NovedadService implements Resolve<any>
      * Se encarga de enviar al backend una novedad para que sea guardada
      * @param {Novedad} nov 
      */
-    addNovedad(nov: Novedad): void {
+    addNovedad(nov: Novedad, auxInvocador?: string): void {
         nov.periodo = this._tratamientoDate(nov.periodo);
         nov.legajo = nov.legajo.toUpperCase();
 
@@ -313,9 +314,18 @@ export class NovedadService implements Resolve<any>
                 if (res.codigo === '1') {
                     this._notiSnackbarService.openSnackBar('Se agrego la Novedad correctamente');                    
 
+                    if (auxInvocador){
+                        this.invocador = auxInvocador;                        
+                    }
+
                     if (this.invocador !== 'equipo') {
                         this.getNovedades();
+                    }else{
+                        // En caso de que la novedad sea cargada desde equipo y fue un exito se busca y se suma 1 a las cantidades
+                        // console.log(nov.legajo);
+                        this._equipoService.updateContador(nov.legajo);
                     }
+
                 }
                 if (res.codigo === '0' || res.codigo === '-1') {
                     this._notiSnackbarService.openSnackBar('No se pudo agregar la Novedad');

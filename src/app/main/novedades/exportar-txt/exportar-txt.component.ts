@@ -1,4 +1,4 @@
-import { Component, Inject, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, Inject, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { NovedadService } from '../novedad.service';
 import { Subject } from 'rxjs';
@@ -20,7 +20,7 @@ import * as FileSaver from 'file-saver';
     encapsulation: ViewEncapsulation.None,
    
 }) 
-export class ExportarTXTComponent implements OnInit
+export class ExportarTXTComponent implements OnInit, OnDestroy
 {
     
     dialogTitle: string;
@@ -55,6 +55,9 @@ export class ExportarTXTComponent implements OnInit
 
     }
 
+    /**
+     * On init
+     */
     ngOnInit(): void {
         this._novedadService.onExportTXTChanged
             .pipe(takeUntil(this._unsubscribeAll))
@@ -64,6 +67,15 @@ export class ExportarTXTComponent implements OnInit
 
         this._novedadService.exportarTXT(this.empresa , this.periodo);
     }   
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
